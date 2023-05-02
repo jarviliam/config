@@ -9,7 +9,7 @@ in
     ./starship
     ./git
     # ./nvim
-    ./tmux
+    # ./tmux
   ];
 
   options.my-home = {
@@ -29,12 +29,12 @@ in
         PAGER = "bat";
       };
 
-      packages = with pkgs; [import (./packages.nix)
+      packages = with pkgs; [ import (./packages.nix) ];
     };
 
     programs.direnv = {
-        enable = true;
-        nix-direnv.enable = true;
+      enable = true;
+      nix-direnv.enable = true;
     };
 
     programs.nix-index.enable = true;
