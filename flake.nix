@@ -20,7 +20,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
-  outputs = { self, nixpkgs, darwin, home-manager, ivar-nixpkgs-yabai-5_0_1, ... }@inputs:
+  outputs = inputs@{ self, nixpkgs, darwin, home-manager, ivar-nixpkgs-yabai-5_0_1, nix-index-database, ... }:
     let
       inherit (darwin.lib) darwinSystem;
       commonDarwinConfig = [
@@ -34,7 +34,7 @@
           system = "aarch64-darwin";
           modules = commonDarwinConfig ++ [
             ({ pkgs, ... }: {
-              networking.hostname = "IITPC22-0029";
+              # networking.hostname = "IITPC22-0029";
               nixpkgs.overlays = with inputs; [
                 # TODO: Move back to official pkg once this is merged
                 #       https://github.com/NixOS/nixpkgs/pull/203504
@@ -45,7 +45,8 @@
               users.users.liam-work.home = "/Users/liam.jarvis";
               home-manager = {
                 useGlobalPkgs = true;
-                users.liam-work = [ import (./.+ "/common/home.nix") ];
+                useUserPackages = true;
+                users.liam-work = import (./. + "/hosts/workbook/home.nix");
                 sharedModules = [ nix-index-database.hmModules.nix-index ];
               };
             })
