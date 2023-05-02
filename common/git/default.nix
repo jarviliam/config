@@ -10,23 +10,20 @@
       today = "!git log --author = Liam - -oneline - -since=\"midnight\"";
     };
     extraConfig = {
-    advice = {
-            statusHints = true;
-            };
+      advice = {
+        statusHints = true;
+      };
       init.defaultBranch = "master";
       credential.helper = "store";
       core.editor = "nvim";
-      ignores = [
-        # macOS
-        ".DS_Store"
-        "._*"
-        ".Spotlight-V100"
-        ".Trashes"
-
-        # Windows
-        "Thumbs.db"
-        "Desktop.ini"
-      ];
     };
+    ignores = [
+      ".DS_Store"
+      "._*"
+      ".Spotlight-V100"
+      ".Trashes"
+      "Thumbs.db"
+      "Desktop.ini"
+    ];
   };
 }

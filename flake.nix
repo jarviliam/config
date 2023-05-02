@@ -22,7 +22,7 @@
   };
   outputs = inputs@{ self, nixpkgs, darwin, home-manager, ivar-nixpkgs-yabai-5_0_1, nix-index-database, ... }:
     let
-      inherit (darwin.lib) darwinSystem;
+
       commonDarwinConfig = [
         ./darwin
         home-manager.darwinModules.home-manager
@@ -30,11 +30,13 @@
     in
     {
       darwinConfigurations = {
-        workbook = darwinSystem {
+        workbook = darwin.lib.darwinSystem {
           system = "aarch64-darwin";
+          # nixpkgs.config.allowUnfree = true;
           modules = commonDarwinConfig ++ [
             ({ pkgs, ... }: {
               # networking.hostname = "IITPC22-0029";
+              nixpkgs.config.allowUnfree = true;
               nixpkgs.overlays = with inputs; [
                 # TODO: Move back to official pkg once this is merged
                 #       https://github.com/NixOS/nixpkgs/pull/203504

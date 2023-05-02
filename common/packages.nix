@@ -1,5 +1,4 @@
-{ pkgs }:
-
+{ pkgs, cfg }:
 with pkgs; [
   awscli2
   bat
@@ -37,16 +36,16 @@ with pkgs; [
   wget
   yq
   zip
-  ] ++ optionals cfg.isWork [
+] ++ optionals cfg.isWork [
   docker
   docker-compose
   slack
   insomnia
-  ] ++ optionals cfg.includeFonts [
-nerdfonts
+] ++ optionals cfg.includeFonts [
+  nerdfonts
   noto-fonts
   noto-fonts-emoji
-  ]
- ++ optionals (!cfg.useNeovim) [
-        vim
-      ];
+]
+++ optionals (!cfg.useNeovim) [
+  vim
+]
