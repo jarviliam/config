@@ -27,8 +27,22 @@
         ./darwin
         home-manager.darwinModules.home-manager
       ];
+      nixosModules = { user, host }: with inputs; [
+        (./. + "/hosts/${host}/configuration.nix")
+        home-manager.nixosModules.home-manager
+      ];
     in
     {
+      nixosConfigurations = {
+        nixtop = nixpkgs.lib.nixosSystem
+          {
+            system = "x86_64-linux";
+            modules = nixosModules {
+              user = "liam";
+              host = "nixtop";
+            };
+          };
+      };
       darwinConfigurations = {
         workbook = darwin.lib.darwinSystem {
           system = "aarch64-darwin";
