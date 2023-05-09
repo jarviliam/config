@@ -22,7 +22,6 @@
   };
   outputs = inputs@{ self, nixpkgs, darwin, home-manager, ivar-nixpkgs-yabai-5_0_1, nix-index-database, ... }:
     let
-
       commonDarwinConfig = [
         ./darwin
         home-manager.darwinModules.home-manager
