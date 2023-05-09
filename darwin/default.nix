@@ -22,7 +22,7 @@ let in
     };
   };
   services.nix-daemon.enable = true;
-  fonts.fontDir.enable = true;
+  fonts.fontDir.enable = false;
   fonts.fonts = with pkgs; [
     etBook
     fira-code

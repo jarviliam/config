@@ -57,11 +57,11 @@
                   yabai-5_0_1 = (import ivar-nixpkgs-yabai-5_0_1 { inherit system; }).yabai;
                 })
               ];
-              users.users.liam-work.home = "/Users/liam.jarvis";
+              users.users."liam.jarvis".home = "/Users/liam.jarvis";
               home-manager = {
                 useGlobalPkgs = true;
                 useUserPackages = true;
-                users.liam-work = import (./. + "/hosts/workbook/home.nix");
+                users."liam.jarvis" = import (./. + "/hosts/workbook/home.nix");
                 sharedModules = [ nix-index-database.hmModules.nix-index ];
               };
             })

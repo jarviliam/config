@@ -19,8 +19,6 @@
       "FelixKratz/formulae" # sketchybar
     ];
     casks = [
-      "zoom"
-      "google-chrome"
       "vlc" # media player
     ];
     brews = [
@@ -28,8 +26,7 @@
       "tfenv"
       "kubebuilder" # generating k8s controller
       "lima" # docker alternative
-      "skhd" # keybinding manager
-      # "yabai" # tiling window manager
+      # "skhd" # keybinding manager
       "sketchybar" # macos bar alternative
       "ifstat" # network
     ];

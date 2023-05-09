@@ -8,6 +8,7 @@ in
     ./zsh
     ./starship
     ./git
+    ./wezterm
     # ./nvim
     # ./tmux
   ];
@@ -20,8 +21,6 @@ in
   };
 
   config = {
-    # Home Manager needs a bit of information about you and the
-    # paths it should manage.
     home = {
       sessionVariables = {
         EDITOR = "nvim";
@@ -80,7 +79,9 @@ in
         vim
       ];
     };
-
+    programs.bat = {
+      enable = true;
+    };
     programs.direnv = {
       enable = true;
       nix-direnv.enable = true;
