@@ -6,7 +6,8 @@
     enableCompletion = true;
     enableSyntaxHighlighting = true;
     enableAutosuggestions = true;
-    dotDir = "~/.config/zsh";
+    defaultKeymap = "viins";
+    # dotDir = "~/.config/zsh";
     historySubstringSearch.enable = true;
     history = {
       expireDuplicatesFirst = true;
@@ -84,17 +85,44 @@
       {
         name = "fast-syntax-highlighting";
         file = "fast-syntax-highlighting.plugin.zsh";
-        src = "${pkgs.zsh-fast-syntax-highlighting}/share/zsh/site-functions";
+        src = pkgs.fetchFromGitHub {
+          owner = "zdharma-continuum";
+          repo = "fast-syntax-highlighting";
+          rev = "v1.55";
+          sha256 = "0na6b5b46k4473c53mv1wkb009i6b592gxpjq94bdnlz1kkcqwg6";
+        };
       }
       {
         name = "zsh-nix-shell";
         file = "nix-shell.plugin.zsh";
-        src = "${pkgs.zsh-nix-shell}/share/zsh-nix-shell";
+        src = pkgs.fetchFromGitHub {
+          owner = "chisui";
+          repo = "zsh-nix-shell";
+          rev = "v0.6.0";
+          sha256 = "0na6b5b46k4473c53mv1wkb009i6b592gxpjq94bdnlz1kkcqwg6";
+        };
+      }
+      {
+        name = "zsh-vi-mode";
+        file = "zsh-vi-mode.plugin.zsh";
+        src = pkgs.fetchFromGitHub {
+          owner = "jeffreytse";
+          repo = "zsh-vi-mode";
+          rev = "v0.9.0";
+          sha256 = "0na6b5b46k4473c53mv1wkb009i6b592gxpjq94bdnlz1kkcqwg6";
+        };
       }
       {
         name = "forgit";
         file = "forgit.plugin.zsh";
-        src = "${pkgs.zsh-forgit}/share/forgit";
+        src = pkgs.fetchFromGitHub
+          {
+            owner = "wfxr";
+            repo = "forgit";
+            rev = "23.05.0";
+            sha256 = "oBPN8ehz00cDIs6mmGfCBzuDQMLG5z3G6KetJ1FK7e8=";
+            # src = "${pkgs.zsh-forgit}/share/forgit";
+          };
       }
     ];
     sessionVariables = {
@@ -102,5 +130,13 @@
       EDITOR = "nvim";
       VISUAL = "nvim";
     };
+  };
+  programs.zoxide = {
+    enable = true;
+    enableZshIntegration = true;
+  };
+  programs.exa = {
+    enable = true;
+    enableAliases = true;
   };
 }

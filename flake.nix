@@ -48,11 +48,8 @@
           # nixpkgs.config.allowUnfree = true;
           modules = commonDarwinConfig ++ [
             ({ pkgs, ... }: {
-              # networking.hostname = "IITPC22-0029";
               nixpkgs.config.allowUnfree = true;
               nixpkgs.overlays = with inputs; [
-                # TODO: Move back to official pkg once this is merged
-                #       https://github.com/NixOS/nixpkgs/pull/203504
                 (self: super: {
                   yabai-5_0_1 = (import ivar-nixpkgs-yabai-5_0_1 { inherit system; }).yabai;
                 })

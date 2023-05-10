@@ -1,7 +1,7 @@
 { config, pkgs, nixpkgs, ... }:
 let in
 {
-  imports = [ ./homebrew ];
+  imports = [ ./homebrew ./yabai.nix ./skhd.nix ];
   # Setup user, packages, programs
   nix = {
     package = pkgs.nixUnstable;
@@ -31,8 +31,6 @@ let in
     roboto
     roboto-mono
   ];
-  services.skhd.enable = true;
-  services.skhd.skhdConfig = builtins.readFile ./skhd.conf;
   system.keyboard = {
     enableKeyMapping = true;
   };
@@ -59,10 +57,6 @@ let in
 
     NSGlobalDomain._HIHideMenuBar = true;
   };
-  programs.zsh = {
-    enable = true;
-    enableCompletion = false;
-    promptInit = "";
-  };
+  programs.zsh.enable = true;
 }
 

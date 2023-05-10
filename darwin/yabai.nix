@@ -1,8 +1,8 @@
-{config,pkgs,...}:
+{ config, pkgs, ... }:
 {
-services.yabai = {
+  services.yabai = {
     enable = true;
-    package = pkgs.yabai-5_0_1;
+    package = pkgs.yabai;
     enableScriptingAddition = true;
     config = {
       window_border = "on";
@@ -46,4 +46,4 @@ services.yabai = {
       yabai -m signal --add event=window_destroyed action="sketchybar --trigger windows_on_spaces"
     '';
   };
-    }
+}

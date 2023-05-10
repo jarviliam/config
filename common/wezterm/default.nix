@@ -135,6 +135,7 @@
 
                   local Tab = {}
 
+              local palette = Theme.palette
                   local function get_process(tab)
                     local process_icons = {
                       ["docker"] = {
@@ -298,7 +299,43 @@
               }
             end
 
-            return {
+      Tab.setup()
+      return {
+        font = wezterm.font_with_fallback({ "JetBrains Mono" }),
+        font_size = 11,
+        front_end = "OpenGL",
+        underline_thickness = "200%",
+        underline_position = "-3pt",
+        enable_wayland = false,
+        pane_focus_follows_mouse = false,
+        warn_about_missing_glyphs = false,
+        show_update_window = false,
+        check_for_updates = false,
+        -- line_height = 1.3,
+        window_decorations = "RESIZE",
+        window_close_confirmation = "NeverPrompt",
+        window_padding = {
+          left = 0,
+          right = 0,
+          top = 0,
+          bottom = 0,
+        },
+        initial_cols = 110,
+        initial_rows = 25,
+        inactive_pane_hsb = {
+          saturation = 1.0,
+          brightness = wezterm.GLOBAL.is_dark and 0.90 or 0.95,
+        },
+        enable_scroll_bar = false,
+        tab_bar_at_bottom = true,
+        use_fancy_tab_bar = false,
+        show_new_tab_button_in_tab_bar = false,
+        window_background_opacity = 1.0,
+        tab_max_width = 50,
+        hide_tab_bar_if_only_one_tab = true,
+        disable_default_key_bindings = false,
+        colors = Theme.colors,
+        keys = {
               split_nav("move", "h"),
               split_nav("move", "j"),
               split_nav("move", "k"),
@@ -370,44 +407,7 @@
               { key = "7",   mods = "ALT",        action = wezterm.action({ ActivateTab = 6 }) },
               { key = "8",   mods = "ALT",        action = wezterm.action({ ActivateTab = 7 }) },
               { key = "9",   mods = "ALT",        action = wezterm.action({ ActivateTab = 8 }) },
-            }
-            Tab.setup()
-      return {
-        font = wezterm.font_with_fallback({ "JetBrains Mono" }),
-        font_size = 11,
-        front_end = "OpenGL",
-        underline_thickness = "200%",
-        underline_position = "-3pt",
-        enable_wayland = false,
-        pane_focus_follows_mouse = false,
-        warn_about_missing_glyphs = false,
-        show_update_window = false,
-        check_for_updates = false,
-        -- line_height = 1.3,
-        window_decorations = "RESIZE",
-        window_close_confirmation = "NeverPrompt",
-        window_padding = {
-          left = 0,
-          right = 0,
-          top = 0,
-          bottom = 0,
-        },
-        initial_cols = 110,
-        initial_rows = 25,
-        inactive_pane_hsb = {
-          saturation = 1.0,
-          brightness = wezterm.GLOBAL.is_dark and 0.90 or 0.95,
-        },
-        enable_scroll_bar = false,
-        tab_bar_at_bottom = true,
-        use_fancy_tab_bar = false,
-        show_new_tab_button_in_tab_bar = false,
-        window_background_opacity = 1.0,
-        tab_max_width = 50,
-        hide_tab_bar_if_only_one_tab = true,
-        disable_default_key_bindings = false,
-        colors = Theme.colors,
-        keys = Keys,
+            },
         hyperlink_rules = {
           {
             regex = "\\b\\w+://[\\w.-]+:[0-9]{2,15}\\S*\\b",
