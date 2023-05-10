@@ -14,7 +14,6 @@
       url = "github:Mic92/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    ivar-nixpkgs-yabai-5_0_1.url = "github:IvarWithoutBones/nixpkgs?rev=161530fa3434ea801419a8ca33dcd97ffb8e6fee";
     nur = {
       url = "github:nix-community/NUR";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -22,6 +21,9 @@
   };
   outputs = inputs@{ self, nixpkgs, darwin, home-manager, ivar-nixpkgs-yabai-5_0_1, nix-index-database, ... }:
     let
+      lib = import ./lib.nix {
+        inherit nixpkgs;
+      };
       commonDarwinConfig = [
         ./darwin
         home-manager.darwinModules.home-manager

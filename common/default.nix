@@ -40,6 +40,7 @@ in
         gcc
         gh
         go
+        gotools
         gopls
         home-manager
         htop
@@ -47,7 +48,6 @@ in
         jetbrains-mono
         jq
         killall
-        # skhd
         neofetch
         neovim
         nodePackages.npm
@@ -55,11 +55,16 @@ in
         openssh
         python311
         python311Packages.virtualenv
+        python311Packages.pip
+        pre-commit
+        poetry
+        black
+        isort
+        nodePackages_latest.pyright
         ripgrep
         terraform-ls
         tflint
         tree
-        # tmux
         unrar
         unzip
         wget
@@ -69,6 +74,7 @@ in
         docker
         docker-compose
         slack
+        gettext
         # insomnia
       ] ++ optionals cfg.includeFonts [
         nerdfonts
