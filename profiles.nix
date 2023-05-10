@@ -14,7 +14,10 @@
           ./home-manager/packages.nix
           ./home-manager/modules/git.nix
           ./home-manager/modules/zsh.nix
+          ./home-manager/modules/bat.nix
           ./home-manager/modules/fzf.nix
+          ./home-manager/modules/tmux.nix
+          ./home-manager/modules/wezterm.nix
         ];
 
         extraConfig = {
