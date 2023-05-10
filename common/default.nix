@@ -10,7 +10,7 @@ in
     ./git
     ./wezterm
     # ./nvim
-    # ./tmux
+    ./tmux
   ];
 
   options.my-home = {
@@ -59,7 +59,7 @@ in
         terraform-ls
         tflint
         tree
-        tmux
+        # tmux
         unrar
         unzip
         wget

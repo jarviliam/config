@@ -19,30 +19,20 @@
     ];
 
     extraConfig = ''
-        set-option -sa terminal-overrides ',xterm-256color:RGB'
       set -g status on
       set -g destroy-unattached on
-      set -g default-terminal "tmux-256color"
-      set -ga terminal-overrides ",xterm-256color:Tc"
-      set -g mouse on
-      set -g focus-events on
-      set -g history-limit 3000
-      set -g history-file ~/.tmux_history
       set -g monitor-activity off
       set -g visual-activity off
-      set -g base-index 1
-      set -g pane-base-index 1
       set -g -w automatic-rename on
       set -g renumber-windows on
       set -g bell-action none
       set -g status-position top
       set -g status-interval 5
-      set -g window-status-separator ' '
-      set -g prefix C-Space
-      bind C-Space send-prefix
+      # set -g prefix C-Space
+      # bind C-Space send-prefix
 
-      unbind-key n
-      unbind-key "c"
+      # unbind-key n
+      # unbind-key "c"
 
       set -g @fzf-url-bind 'x'
       bind-key -n M-n new-window -c "#{pane_current_path}"

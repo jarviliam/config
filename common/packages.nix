@@ -25,6 +25,8 @@ with pkgs; [
   openssh
   python311
   python311Packages.virtualenv
+  poetry
+  nodePackages_latest.pyright
   ripgrep
   tfenv
   terraform-ls
