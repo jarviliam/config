@@ -39,6 +39,7 @@
     python311
     python311Packages.virtualenv
     python311Packages.pip
+    codespell
     pre-commit
     poetry
     black
