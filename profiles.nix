@@ -1,9 +1,14 @@
 { self, nixpkgs, lib }: rec {
   liam =
     let
-      username = "liam"; in
+      username = "liam.jarvis"; in
     {
       inherit username;
+
+      commonSpecialArgs =
+        {
+          inherit username nixpkgs;
+        };
       modules = [ ./modules/nix.nix ];
 
       home-manager = {
@@ -27,11 +32,12 @@
     };
   liam-linux = liam // { };
   liam-work = liam // {
+    username = "liam.jarvis";
     modules = [ ./modules/darwin ./modules/darwin/yabai ./modules/darwin/skhd ] ++ liam.modules;
 
     home-manager = liam.home-manager // {
-      enable = true;
-      modules = [ ] ++ liam.home-manager.modules;
+      modules = liam.home-manager.modules;
     };
+    commonSpecialArgs = liam.commonSpecialArgs;
   };
 }

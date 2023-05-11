@@ -9,6 +9,9 @@
       git branch -vv | awk '/: gone]/{print $1}' | xargs git branch -D; }; f";
       today = "!git log --author = Liam - -oneline - -since=\"midnight\"";
     };
+    delta = {
+      enable = true;
+    };
     extraConfig = {
       advice = {
         statusHints = true;

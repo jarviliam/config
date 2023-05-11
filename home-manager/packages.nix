@@ -12,21 +12,71 @@
     ripgrep
     htop
     unar
-    python3
+    jetbrains-mono
+    neovim
     file
-    feh
+    nodePackages.npm
+    neofetch
+    nodejs
+    openssh
+    ripgrep
     jq
+    yq
     killall
     fd
     nix-prefetch-git
     comma
     manix
-    binutils
-    act
-    element-desktop
-    hexyl
-    pcalc
-    cargo-flamegraph
-    exa
+  ] ++ [
+    docker
+    docker-compose
+    slack
+    gettext
+    terraform-ls
+    tflint
+  ] ++ [
+    # Python
+    python311
+    python311Packages.virtualenv
+    python311Packages.pip
+    pre-commit
+    poetry
+    black
+    isort
+    nodePackages_latest.pyright
+
+    # Node
+
+    # Go
+    go
+    gotools
+    gopls
+
+    yaml-language-server # YAML
+    nodePackages.typescript-language-server # Typescript/javascript
+    nodePackages.vscode-langservers-extracted # JSON/HTML
+
+    sumneko-lua-language-server # Lua
+    cmake-language-server # CMake
+
+    # C/C++
+    clang-tools
+    clang
+
+    # Bash
+    shellcheck
+    nodePackages.bash-language-server
+
+    # Nix
+    rnix-lsp
+    nixpkgs-fmt
+    statix
+
+    # Rust
+    cargo
+    rustfmt
+    rustc
+    clippy
+    rust-analyzer
   ];
 }

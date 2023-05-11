@@ -7,7 +7,6 @@
     enableSyntaxHighlighting = true;
     enableAutosuggestions = true;
     defaultKeymap = "viins";
-    # dotDir = "~/.config/zsh";
     historySubstringSearch.enable = true;
     history = {
       expireDuplicatesFirst = true;

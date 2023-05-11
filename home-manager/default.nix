@@ -15,9 +15,11 @@
     }
   '';
 
+  home.sessionVariables = {
+    EDITOR = "nvim";
+    PAGER = "bat";
+  };
   programs = {
-    command-not-found.enable = true;
-
     direnv = {
       enable = true;
       nix-direnv.enable = true;
