@@ -1,9 +1,19 @@
-{ nixpkgs, home-manager, darwin, nix-index-database, ... }@inputs:
+{ nixpkgs, home-manager, darwin, flake-utils, nix-index-database, ... }@inputs:
 let inherit (nixpkgs) lib;
 in
 rec {
   inherit (lib) optional optionals optionalAttrs;
   isDarwin = system: lib.hasSuffix "darwin" system;
+  pkgsWithOverlay = system: overlay: import nixpkgs {
+    overlays = [ overlay ];
+    inherit system;
+  };
+
+  packagesFromOverlay = overlay: {
+    inherit (flake-utils.lib.eachSystem lib.platforms.all (system: {
+      packages = pkgsWithOverlay system overlay;
+    })) packages;
+  }.packages;
 
   createSystem = profile: { system, modules ? [ ], home-manager ? { }, commonSpecialArgs ? { }, specialArgs ? { }, extraConfig ? { }, ... }:
     let

@@ -14,56 +14,42 @@
       url = "github:Mic92/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nur = {
-      url = "github:nix-community/NUR";
+    nixvim = {
+      url = "github:pta2002/nixvim";
+      # url = "path:/Users/liam.jarvis/Coding/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nur = {
+      url = "github:nix-community/NUR";
+    };
+    nil-language-server.url = "github:oxalica/nil";
   };
-  outputs = { self, nixpkgs, darwin, home-manager, nix-index-database, ... }:
+  outputs = { self, nixpkgs, flake-utils, darwin, home-manager, nix-index-database, nil-language-server, nixvim, ... }:
     let
       lib = import ./lib.nix {
-        inherit nixpkgs home-manager darwin nix-index-database;
+        inherit nixpkgs home-manager darwin flake-utils nix-index-database;
       };
       profiles = import ./profiles.nix
         {
-          inherit self nixpkgs lib;
+          inherit self nixpkgs lib nixvim;
         };
-      # commonDarwinConfig = [
-      #   ./darwin
-      #   home-manager.darwinModules.home-manager
-      # ];
-      # nixosModules = { user, host }: with inputs; [
-      #   (./. + "/hosts/${host}/configuration.nix")
-      #   home-manager.nixosModules.home-manager
-      # ];
     in
     {
+      packages = lib.packagesFromOverlay self.overlays.default;
       inherit lib;
+      overlays.default = final: prev:
+         {
+          nil-language-server = nil-language-server.packages.aarch64-darwin.nil;
+        };
       nixosConfigurations = {
-        # nixtop = nixpkgs.lib.nixosSystem
-        #   {
-        #     system = "x86_64-linux";
-        #     modules = nixosModules {
-        #       user = "liam";
-        #       host = "nixtop";
-        #     };
-        #   };
+        nixtop = lib.createSystem profiles.liam-linux {
+          system = "x86_64-linux";
+          hostname = "nixtop";
+        };
       };
       darwinConfigurations = {
         workbook = lib.createSystem profiles.liam-work {
           system = "aarch64-darwin";
-          # modules = commonDarwinConfig ++ [
-          #   ({ pkgs, ... }: {
-          #     nixpkgs.config.allowUnfree = true;
-          #     users.users."liam.jarvis".home = "/Users/liam.jarvis";
-          #     home-manager = {
-          #       useGlobalPkgs = true;
-          #       useUserPackages = true;
-          #       users."liam.jarvis" = import (./. + "/hosts/workbook/home.nix");
-          #       sharedModules = [ nix-index-database.hmModules.nix-index ];
-          #     };
-          #   })
-          # ];
         };
       };
     };

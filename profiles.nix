@@ -1,4 +1,4 @@
-{ self, nixpkgs, lib }: rec {
+{ self, nixpkgs, lib, nixvim }: rec {
   liam =
     let
       username = "liam.jarvis"; in
@@ -7,7 +7,7 @@
 
       commonSpecialArgs =
         {
-          inherit username nixpkgs;
+          inherit username nixpkgs nixvim;
         };
       modules = [ ./modules/nix.nix ];
 
@@ -23,14 +23,26 @@
           ./home-manager/modules/fzf.nix
           ./home-manager/modules/tmux.nix
           ./home-manager/modules/wezterm.nix
+          ./home-manager/modules/nvim
         ];
 
         extraConfig = {
           home.stateVersion = "23.05";
         };
       };
+      extraConfig = {
+        nixpkgs.overlays = [ self.overlays.default ];
+      };
     };
-  liam-linux = liam // { };
+  liam-linux = liam // {
+    username = "liam";
+    modules = [ ./modules/linux/system.nix ] ++ liam.modules;
+    home-manager = liam.home-manager // {
+      modules = liam.home-manager.modules;
+    };
+    commonSpecialArgs = liam.commonSpecialArgs;
+  };
+
   liam-work = liam // {
     username = "liam.jarvis";
     modules = [ ./modules/darwin ./modules/darwin/yabai ./modules/darwin/skhd ] ++ liam.modules;

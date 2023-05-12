@@ -34,6 +34,8 @@
     gettext
     terraform-ls
     tflint
+    kubectx
+    lazydocker
   ] ++ [
     # Python
     python311
@@ -69,7 +71,8 @@
     nodePackages.bash-language-server
 
     # Nix
-    rnix-lsp
+    # rnix-lsp
+    nil-language-server
     nixpkgs-fmt
     statix
 
