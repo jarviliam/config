@@ -1,7 +1,7 @@
 local config = require("conf")
 local catppuccin = require("catppuccin")
 
-vim.g.catppuccin_flavour = "frappe" -- latte, frappe, macchiato, mocha
+vim.g.catppuccin_flavour = "mocha" -- latte, frappe, macchiato, mocha
 catppuccin.setup({
   transparent_background = false,
   term_colors = false,
