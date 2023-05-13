@@ -37,6 +37,9 @@
           };
           order = ["DuckDuckGo" "Google"];
           };
+        settings = {
+            "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
+          };
         userChrome = builtins.readFile("./userChrome.css");
         };
 
