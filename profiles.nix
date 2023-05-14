@@ -1,7 +1,7 @@
 { self, nixpkgs, lib, nixvim }: rec {
   liam =
     let
-      username = "liam.jarvis"; in
+      username = "liam"; in
     {
       inherit username;
 
@@ -24,10 +24,11 @@
           ./home-manager/modules/tmux.nix
           ./home-manager/modules/wezterm.nix
           ./home-manager/modules/nvim
+          ./home-manager/modules/firefox
         ];
 
         extraConfig = {
-          home.stateVersion = "23.05";
+          home.stateVersion = "22.11";
         };
       };
       extraConfig = {
@@ -36,11 +37,17 @@
     };
   liam-linux = liam // {
     username = "liam";
-    modules = [ ./modules/linux/system.nix ] ++ liam.modules;
+    modules = [ ./modules/linux/network.nix ./modules/linux/window.nix ] ++ liam.modules;
     home-manager = liam.home-manager // {
-      modules = liam.home-manager.modules;
+      enable = true;
+      modules = [./home-manager/modules/linux/x.nix
+        ./home-manager/modules/firefox
+      ]++liam.home-manager.modules;
     };
     commonSpecialArgs = liam.commonSpecialArgs;
+    extraConfig = {
+        system.stateVersion = "22.11"; # Did you read the comment?
+    };
   };
 
   liam-work = liam // {

@@ -301,7 +301,7 @@
 
       Tab.setup()
       return {
-        font = wezterm.font_with_fallback({ "JetBrains Mono" }),
+        font = wezterm.font_with_fallback({ "JetBrainsMono Nerd Font" }),
         audible_bell = "Disabled",
         font_size = 11,
         front_end = "OpenGL",

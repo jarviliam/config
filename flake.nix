@@ -24,7 +24,7 @@
     };
     nil-language-server.url = "github:oxalica/nil";
   };
-  outputs = { self, nixpkgs, flake-utils, darwin, home-manager, nix-index-database, nil-language-server, nixvim, ... }:
+  outputs = { self, nixpkgs, flake-utils, darwin, home-manager, nix-index-database, nil-language-server, nur,nixvim, ... }:
     let
       lib = import ./lib.nix {
         inherit nixpkgs home-manager darwin flake-utils nix-index-database;
@@ -39,12 +39,22 @@
       inherit lib;
       overlays.default = final: prev:
          {
-          nil-language-server = nil-language-server.packages.aarch64-darwin.nil;
+      nil-language-server = nil-language-server.packages.${lib.stdenvNoCC.hostPlatform.system
+    or (throw "Unsupported platform ${lib.stdenvNoCC.hostPlatform.system}")}.nil;
         };
+
       nixosConfigurations = {
         nixtop = lib.createSystem profiles.liam-linux {
           system = "x86_64-linux";
-          hostname = "nixtop";
+          modules = [{
+            nixpkgs.overlays = [
+              nur.overlay
+            ];
+            }
+          ./modules/linux/hardware/nixos-laptop.nix ./modules/linux/system.nix];
+          commonSpecialArgs = {
+            hostname = "nixos";
+        };
         };
       };
       darwinConfigurations = {

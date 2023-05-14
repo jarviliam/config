@@ -1,4 +1,5 @@
-{lib,pkgs,...}:{
+{config,lib,pkgs,...}:
+{
   programs.firefox = {
       enable = true;
       profiles.default = {
@@ -9,8 +10,10 @@
           bypass-paywalls-clean
           vimium
           reddit-enhancement-suite
+          ublock-origin
         ];
         search = {
+          force = true;
           engines = {
             "Nix Packages" = {
               urls = [{
@@ -40,7 +43,7 @@
         settings = {
             "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
           };
-        userChrome = builtins.readFile("./userChrome.css");
+        userChrome = builtins.readFile ./userChrome.css;
         };
 
     };

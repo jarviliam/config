@@ -12,10 +12,11 @@
     ripgrep
     htop
     unar
-    jetbrains-mono
     neovim
     file
     nodePackages.npm
+    source-code-pro
+    (nerdfonts.override { fonts = [ "FiraCode" "JetBrainsMono" "Iosevka" ]; })
     neofetch
     nodejs
     openssh
@@ -73,7 +74,7 @@
 
     # Nix
     # rnix-lsp
-    nil-language-server
+    # nil-language-server
     nixpkgs-fmt
     statix
 
@@ -83,5 +84,7 @@
     rustc
     clippy
     rust-analyzer
+
+    vimPlugins.nvim-treesitter.withAllGrammars
   ];
 }

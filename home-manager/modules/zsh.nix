@@ -88,7 +88,7 @@
           owner = "zdharma-continuum";
           repo = "fast-syntax-highlighting";
           rev = "v1.55";
-          sha256 = "0na6b5b46k4473c53mv1wkb009i6b592gxpjq94bdnlz1kkcqwg6";
+          sha256 = "B0mdmIqefbm5H8wSG1h41c/J4shA186OyqvivmSK42Q=";
         };
       }
       {
@@ -98,7 +98,8 @@
           owner = "chisui";
           repo = "zsh-nix-shell";
           rev = "v0.6.0";
-          sha256 = "0na6b5b46k4473c53mv1wkb009i6b592gxpjq94bdnlz1kkcqwg6";
+          sha256 = "B0mdmIqefbm5H8wSG1h41c/J4shA186OyqvivmSK42Q=";
+          # sha256 = "0na6b5b46k4473c53mv1wkb009i6b592gxpjq94bdnlz1kkcqwg6";
         };
       }
       {
@@ -108,7 +109,8 @@
           owner = "jeffreytse";
           repo = "zsh-vi-mode";
           rev = "v0.9.0";
-          sha256 = "0na6b5b46k4473c53mv1wkb009i6b592gxpjq94bdnlz1kkcqwg6";
+          sha256 = "B0mdmIqefbm5H8wSG1h41c/J4shA186OyqvivmSK42Q=";
+          # sha256 = "0na6b5b46k4473c53mv1wkb009i6b592gxpjq94bdnlz1kkcqwg6";
         };
       }
       {
@@ -129,7 +131,8 @@
             owner = "wfxr";
             repo = "forgit";
             rev = "23.05.0";
-            sha256 = "oBPN8ehz00cDIs6mmGfCBzuDQMLG5z3G6KetJ1FK7e8=";
+            sha256 = "B0mdmIqefbm5H8wSG1h41c/J4shA186OyqvivmSK42Q=";
+            # sha256 = "oBPN8ehz00cDIs6mmGfCBzuDQMLG5z3G6KetJ1FK7e8=";
             # src = "${pkgs.zsh-forgit}/share/forgit";
           };
       }
