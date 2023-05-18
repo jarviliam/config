@@ -208,7 +208,7 @@ packer.startup(function(use)
   -----------------------------------------------------------------------------//
   -- Debugger {{{1
   -----------------------------------------------------------------------------//
-  use({ "mfussenegger/nvim-dap" })
+  use({ "mfussenegger/nvim-dap", config = require("modules.dap").setup() })
   use({
     "theHamsta/nvim-dap-virtual-text",
     config = function()
@@ -223,9 +223,12 @@ packer.startup(function(use)
     end,
   })
   use({
+    "leoluz/nvim-dap-go",
+    requires = { "mfussenegger/nvim-dap" }
+  })
+  use({
     "mfussenegger/nvim-dap-python",
     requires = { "mfussenegger/nvim-dap" },
-    config = require("modules.dap").setup(),
   })
   -----------------------------------------------------------------------------//
   -- Frontend {{{1
