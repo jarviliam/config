@@ -1,6 +1,4 @@
 { pkgs, lib, nixvim, ... }:
-let
-in
 {
   imports = [ nixvim.homeManagerModules.nixvim ];
   programs.nixvim = {

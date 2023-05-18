@@ -5,7 +5,12 @@
 , ...
 }:
 {
+environment.systemPackages = [
+    pkgs.sketchybar
+  ];
   services.nix-daemon.enable = true;
+  nix.settings.allowed-users = ["root" "liam.jarvis"];
+  nix.settings.trusted-users = ["root" "liam.jarvis"];
   fonts = {
     fontDir.enable = false;
     fonts = with pkgs; [
