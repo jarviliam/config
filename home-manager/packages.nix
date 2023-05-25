@@ -52,6 +52,7 @@
     nodePackages_latest.pyright
     ruff
 
+    lua53Packages.luacheck
     # Node
     # prettierd
     terraform # look into tfenv porting
@@ -80,7 +81,7 @@
 
     # Nix
     # rnix-lsp
-    # nil-language-server
+    nil-language-server
     nixpkgs-fmt
     statix
 

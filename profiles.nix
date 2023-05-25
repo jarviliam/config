@@ -45,7 +45,7 @@
       ]++liam.home-manager.modules;
     };
     commonSpecialArgs = liam.commonSpecialArgs;
-    extraConfig = {
+    extraConfig = liam.extraConfig // {
         system.stateVersion = "22.11"; # Did you read the comment?
     };
   };

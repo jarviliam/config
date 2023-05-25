@@ -37,10 +37,11 @@
     {
       packages = lib.packagesFromOverlay self.overlays.default;
       inherit lib;
-      overlays.default = final: prev:
+
+      overlays.default = final: prev: let pkgs = final; in with pkgs;
          {
-      nil-language-server = nil-language-server.packages.${lib.stdenvNoCC.hostPlatform.system
-    or (throw "Unsupported platform ${lib.stdenvNoCC.hostPlatform.system}")}.nil;
+      nil-language-server = nil-language-server.packages.${stdenvNoCC.hostPlatform.system
+    or (throw "Unsupported platform ${stdenvNoCC.hostPlatform.system}")}.nil;
         };
 
       nixosConfigurations = {

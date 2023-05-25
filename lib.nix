@@ -4,6 +4,7 @@ in
 rec {
   inherit (lib) optional optionals optionalAttrs;
   isDarwin = system: lib.hasSuffix "darwin" system;
+
   pkgsWithOverlay = system: overlay: import nixpkgs {
     overlays = [ overlay ];
     inherit system;
