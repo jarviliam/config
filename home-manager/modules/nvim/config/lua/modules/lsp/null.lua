@@ -19,12 +19,17 @@ function M.setup(options)
           vim.fn.expand("~/.config/stylua.toml"),
         },
       }),
+      fmt.ruff,
+      dgn.ruff,
       fmt.terraform_fmt,
       fmt.gofmt,
       fmt.goimports,
       fmt.clang_format,
-      fmt.black,
-      fmt.isort,
+      fmt.black.with({
+        -- extra_args = {
+        --   "--preview"
+        -- }
+      }),
       fmt.shfmt,
       dgn.yamllint,
       nls.builtins.hover.dictionary,

@@ -1,5 +1,4 @@
 { pkgs
-, lib
 , ...
 }:
 
@@ -35,6 +34,7 @@
     slack
     gettext
     terraform-ls
+    # tfenv
     tflint
     kubectx
     lazydocker
@@ -49,8 +49,10 @@
     black
     isort
     nodePackages_latest.pyright
+    ruff
 
     # Node
+    # prettierd
 
     # Go
     go

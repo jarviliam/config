@@ -89,6 +89,7 @@ local leader = {
   f = {
     name = "+fuzzy",
     f = { "<cmd>Telescope find_files<cr>", "Find File" },
+    g = { "<cmd>Telescope git_files<cr>", "Find Files (Git)" },
     b = { "<cmd>Telescope buffers<cr>", "Buffers" },
     n = { "<cmd>enew<cr>", "New File" },
     z = "Zoxide",
@@ -96,13 +97,13 @@ local leader = {
   x = {
     name = "+errors",
     x = { "<cmd>TroubleToggle workspace_diagnostics<cr>", "Trouble" },
+    d = { "<cmd>TroubleToggle document_diagnostics<cr>", "Trouble" },
     t = { "<cmd>TodoTrouble<cr>", "Todo Trouble" },
     T = { "<cmd>TodoTelescope<cr>", "Todo Telescope" },
     l = { "<cmd>lopen<cr>", "Open Location List" },
     q = { "<cmd>copen<cr>", "Open Quickfix List" },
   },
 }
-vim.keymap.set("n", "<A-i>", '<CMD>lua require("FTerm").toggle()<CR>')
 vim.api.nvim_create_user_command(
   "FTermToggle",
   require("FTerm").toggle,
