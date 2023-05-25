@@ -58,6 +58,7 @@
     terraform # look into tfenv porting
     yamllint
 
+    stylua
     # Go
     go
     gotools

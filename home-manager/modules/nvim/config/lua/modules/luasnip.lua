@@ -3,7 +3,7 @@ if not ok then
   return
 end
 
-require("luasnip/loaders/from_vscode").load()
+require("luasnip.loaders.from_vscode").load()
 
 local t = require("luasnip.util.types")
 
