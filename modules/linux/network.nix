@@ -10,5 +10,6 @@
    settings.passwordAuthentication = false;
    settings.kbdInteractiveAuthentication = false;
    };
+   programs.ssh.startAgent = true;
 
 }

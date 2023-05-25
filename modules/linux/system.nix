@@ -4,6 +4,7 @@
         vim
         git
         wget
+        xclip
         ];
         };
         boot = {
@@ -25,6 +26,14 @@
 	timeout = 5;
 };
         };
+        fonts.fonts = with pkgs; [
+ noto-fonts
+  noto-fonts-cjk
+  noto-fonts-emoji
+  roboto
+    source-code-pro
+    (nerdfonts.override { fonts = [ "FiraCode" "JetBrainsMono" "Iosevka" ]; })
+        ];
 
   # Enable sound with pipewire.
   sound.enable = true;

@@ -28,6 +28,7 @@
     nix-prefetch-git
     comma
     manix
+    qbittorrent
   ] ++ [
     docker
     docker-compose

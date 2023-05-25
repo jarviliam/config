@@ -22,10 +22,10 @@ services.picom = {
     settings = {
       # Shadows
       shadow = true;
-      shadow-radius = 11;
-      shadow-opacity = 0.75;
-      shadow-offset-x = -7;
-      shadow-offset-y = -7;
+      shadow-radius = 6;
+      shadow-opacity = 0.5;
+      shadow-offset-x = 3;
+      shadow-offset-y = 3;
       shadow-exlude = [
         "window_type = 'desktop'"
         "window_type = 'dock'"
@@ -37,25 +37,26 @@ services.picom = {
       fade-in-step = 0.1;
       fade-out-step = 0.1;
       # Corners
-      corner-radius = 0;
+      detect-rounded-corners = true;
+      corner-radius = 12.0;
       round-borders = 1;
       rounded-corners-exclude = [
         "window_type = 'desktop'"
         "window_type = 'dock'"
         "class_g = 'Polybar'"
         "class_g = 'dunst'"
-        "class_g = 'firefox' && argb"
+        "class_g = 'firefox'"
       ];
       # Blur
       blur = {
         method = "dual_kawase";
         strength = 3;
+        background=true;
       };
       blur-kern = "3x3box";
       blur-background-exclude = [
         "window_type = 'desktop'"
-        "class_g = 'firefox' && argb"
-        "_GTK_FRAME_EXTENTS@:c"
+        "class_g = 'firefox'"
       ];
       # Other
       daemon = true;
@@ -66,7 +67,6 @@ services.picom = {
       xrender-sync-fence = true;
       mark-wmwin-focused = true;
       mark-ovredir-focused = false;
-      detect-rounded-corners = true;
       detect-client-opacity = true;
       detect-transient = true;
       wintypes = {
@@ -93,7 +93,8 @@ keybindings = {
       "super + w" = "firefox";
 
       # Moving around windows
-      "super + {1-8}" = "bspc desktop -f ^{1-8}";
+      "super + alt + {1-8}" = "bspc desktop -f ^{1-8}";
+        # Throw window
       "super + shift + {1-8}" = "bspc node -d ^{1-8}";
        # focus
       "super + {h,j,k,l}" = "bspc node -f {west,south,north,east}";
@@ -124,13 +125,15 @@ services.polybar = {
     envelope = "";
   };
   color = {
-    foreground = "";
-    background = "#1a1b26";
-    yellow = "#e0af68";
-    red = "#f7768e";
-    blue = "#7aa2f7";
+    foreground = "#e0def4";
+    background = "#191724";
+    yellow = "#f6c177";
+    red = "#eb6f92";
+    blue = "#31748f";
     green = "#9ece6a";
-    altblack = "#444b6a";
+    altblack = "#6e6a86";
+    cyan = "#ebbcba";
+
     };
     in {
         "settings" = {
@@ -144,6 +147,33 @@ services.polybar = {
             compositing-underline = "over";
             compositing-border = "over";
         };
+"module/volume" = {
+type = "internal/pulseaudio";
+use-ui-max = false;
+interval = 5;
+format-volume = "<ramp-volume>  <label-volume>";
+format-muted = "<label-muted>";
+format-muted-prefix = "婢";
+format-muted-prefix-font = 2;
+format-muted-prefix-foreground = color.red;
+label-volume = "%percentage%%";
+label-muted = "  Muted";
+label-muted-foreground = "#757575";
+ramp-volume-0 = "奄";
+ramp-volume-1 = "奄";
+ramp-volume-2 = "奄";
+ramp-volume-3 = "奔";
+ramp-volume-4 = "奔";
+ramp-volume-5 = "奔";
+ramp-volume-6 = "墳";
+ramp-volume-7 = "墳";
+ramp-volume-8 = "墳";
+ramp-volume-9 = "墳";
+ramp-volume-font = 2;
+ramp-volume-foreground = color.blue;
+ramp-headphones-0 = "";
+ramp-headphones-1 = "";
+};
         "module/date" = {
           type = "internal/date";
           interval = "5";
@@ -172,8 +202,8 @@ services.polybar = {
         "module/battery" = {
             type = "internal/battery";
             full-at = 99;
-            battery" = "BAT0";
-            adapter" = "ACAD";
+            battery = "BAT0";
+            adapter = "ACAD";
             poll-interval = 2;
             time-format = "%H:%M";
             format-charging = "<animation-charging> <label-charging>";
@@ -203,14 +233,22 @@ services.polybar = {
             animation-charging-foreground = color.green;
             animation-charging-framerate = 750;
             };
+            "module/memory"={
+type = "internal/memory";
+interval = 3;
+format = "<label>";
+format-background = color.background;
+format-prefix = " ";
+format-prefix-font = 2;
+format-prefix-foreground = color.green;
+label = " %mb_used%";
+    };
           "module/bspwm" = {
             type = "internal/bspwm";
             pin-workspaces = true;
             enable-click = true;
             enable-scroll = true;
-
-
-            ws-icon = [ "1; " "2;" "3;" "4;漣"];
+            ws-icon = [ "1;" "2;" "3;" "4;漣"];
             ws-icon-default = "";
 
             format = "<label-state>";
@@ -219,13 +257,13 @@ services.polybar = {
             label-monitor = "%name%";
 
             label-focused = "%icon%";
-            label-focused-foreground = color.green;
+            label-focused-foreground = color.blue;
             label-focused-background = color.background;
             label-focused-underline =  color.background;
             label-focused-padding = 1;
 
             label-occupied = "%icon%";
-            label-occupied-foreground = color.blue;
+            label-occupied-foreground = color.cyan;
             label-occupied-background = color.background;
             label-occupied-padding = 1;
 
@@ -256,12 +294,13 @@ services.polybar = {
             };
             "module/sep" = {
                 type = "custom/text";
-                content = "";
+                content = " ";
                 content-font = 3;
                 content-padding = 2;
                 content-foreground = color.foreground;
                 content-background = color.background;
             };
+
             "module/network" = {
                 type = "internal/network";
                 interface = "wlp2s0";
@@ -305,10 +344,10 @@ services.polybar = {
             "bar/main" = {
                 monitor = "\${env:MONITOR:HDMI-1}";
                 bottom = false;
-                width = "70%";
-                height = 20;
-                offset-x = "15%";
-                offset-y = 7;
+                width = "90%";
+                height = 30;
+                offset-x = "5%";
+                offset-y = 10;
                 fixed-center = true;
                 background = color.background;
                 foreground = color.foreground;
@@ -318,7 +357,7 @@ services.polybar = {
                 radius-top = 0.0;
                 radius-bottom = 0.0;
                 wm-restack = "bspwm";
-                font-0 = "Inter:size=10:weight=bold;3";
+                font-0 = "JetBrains Mono Nerd Font:size=10:weight=bold;3";
                 font-1 = "Iosevka Nerd Font:size=12;3";
                 font-2 = "Iosevka Nerd Font:size=16;4";
                 font-3 = "Iosevka Nerd Font:size=18;4";
@@ -328,7 +367,7 @@ services.polybar = {
 
                 modules-left = "launcher bspwm";
                 modules-center = "";
-                modules-right = "sep battery sep volume sep date sep";
+                modules-right = "memory sep battery sep volume sep date sep";
 
                 padding = 1;
                 module-margin-left = 1;
