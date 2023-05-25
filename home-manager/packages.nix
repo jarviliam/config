@@ -22,6 +22,7 @@
     ripgrep
     jq
     yq
+    qmk
     killall
     fd
     nix-prefetch-git
@@ -53,6 +54,8 @@
 
     # Node
     # prettierd
+    terraform # look into tfenv porting
+    yamllint
 
     # Go
     go
