@@ -20,6 +20,7 @@ function M.setup(options)
         },
       }),
       fmt.ruff,
+      fmt.nixfmt,
       dgn.ruff,
       fmt.terraform_fmt,
       fmt.gofmt,

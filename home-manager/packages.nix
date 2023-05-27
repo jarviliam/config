@@ -83,6 +83,7 @@
     # Nix
     # rnix-lsp
     nil-language-server
+    nixfmt
     nixpkgs-fmt
     statix
 
