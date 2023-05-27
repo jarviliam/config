@@ -1,7 +1,7 @@
 { self, nixpkgs, lib, nixvim }: rec {
   liam =
     let
-      username = "liam"; in
+      username = "liam.jarvis"; in
     {
       inherit username;
 
@@ -24,7 +24,6 @@
           ./home-manager/modules/tmux.nix
           ./home-manager/modules/wezterm.nix
           ./home-manager/modules/nvim
-          ./home-manager/modules/firefox
         ];
 
         extraConfig = {
@@ -57,6 +56,9 @@
     home-manager = liam.home-manager // {
       modules = liam.home-manager.modules;
     };
-    commonSpecialArgs = liam.commonSpecialArgs;
+    commonSpecialArgs = liam.commonSpecialArgs // {
+        username= "liam.jarvis";
+    };
+    extraConfig = liam.extraConfig;
   };
 }

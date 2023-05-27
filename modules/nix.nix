@@ -12,12 +12,12 @@
 
     gc.automatic = true;
 
-    settings = rec {
+    settings = {
       auto-optimise-store = true;
       warn-dirty = false;
       experimental-features = [ "nix-command" "flakes" ];
     };
   };
-    programs.nix-index.enable = true;
-    programs.nix-index.enableZshIntegration = true;
+    # programs.nix-index.enable = true;
+    # programs.nix-index.enableZshIntegration = true;
 }

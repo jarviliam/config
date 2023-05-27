@@ -38,10 +38,11 @@
       packages = lib.packagesFromOverlay self.overlays.default;
       inherit lib;
 
-      overlays.default = final: prev: let pkgs = final; in with pkgs;
+      overlays.default = final: prev:
          {
-      nil-language-server = nil-language-server.packages.${stdenvNoCC.hostPlatform.system
-    or (throw "Unsupported platform ${stdenvNoCC.hostPlatform.system}")}.nil;
+      nil-language-server = nil-language-server.packages.aarch64-darwin.nil;
+      # nil-language-server = nil-language-server.packages.${final.stdenvNoCC.hostPlatform.system
+    # or (throw "Unsupported platform ${final.stdenvNoCC.hostPlatform.system}")}.nil;
         };
 
       nixosConfigurations = {
@@ -61,6 +62,7 @@
       darwinConfigurations = {
         workbook = lib.createSystem profiles.liam-work {
           system = "aarch64-darwin";
+          modules = [{ nixpkgs.overlays = [ nur.overlay ]; }];
         };
       };
     };

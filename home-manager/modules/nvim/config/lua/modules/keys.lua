@@ -104,14 +104,4 @@ local leader = {
     q = { "<cmd>copen<cr>", "Open Quickfix List" },
   },
 }
-vim.api.nvim_create_user_command(
-  "FTermToggle",
-  require("FTerm").toggle,
-  { bang = true }
-)
-vim.keymap.set(
-  "t",
-  "<A-i>",
-  '<C-\\><C-n><CMD>lua require("FTerm").toggle()<CR>'
-)
 wk.register(leader, { prefix = "<leader>" })

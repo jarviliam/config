@@ -53,7 +53,6 @@ packer.startup(function(use)
     event = "BufReadPre",
     wants = {
       "null-ls.nvim",
-      "nvim-lsp-ts-utils",
     },
     config = function()
       require("core.lsp")
@@ -80,9 +79,6 @@ packer.startup(function(use)
   use({
     "jose-elias-alvarez/null-ls.nvim",
     event = "BufRead",
-  })
-  use({
-    "jose-elias-alvarez/nvim-lsp-ts-utils",
   })
   use({
     "SmiteshP/nvim-navic",
@@ -144,19 +140,15 @@ packer.startup(function(use)
       "RRethy/nvim-treesitter-textsubjects",
     },
   })
-
-  -----------------------------------------------------------------------------//
-  -- Utils {{{1
-  -----------------------------------------------------------------------------//
-  use({ "numToStr/FTerm.nvim" })
   -----------------------------------------------------------------------------//
   -- Text Objects and Editing {{{1
   -----------------------------------------------------------------------------//
-  use({
-    "ggandor/lightspeed.nvim",
-    as = "lightspeed",
-    requires = { "tpope/vim-repeat", as = "repeat" },
-  })
+  -- use({
+  --   "ggandor/lightspeed.nvim",
+  --   as = "lightspeed",
+  --   requires = { "tpope/vim-repeat", as = "repeat" },
+  -- })
+
   use({
     "numToStr/Comment.nvim",
     config = get_config("comment"),
@@ -311,6 +303,7 @@ packer.startup(function(use)
   -- Themes {{{1
   -----------------------------------------------------------------------------//
 
+  use({ 'rose-pine/neovim', as = 'rose-pine' })
   use({ "sainnhe/sonokai", config = get_config("themes.general") })
   use({ "sainnhe/edge", config = get_config("themes.general") })
   use({ "sainnhe/everforest", config = get_config("themes.general") })

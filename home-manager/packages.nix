@@ -22,7 +22,7 @@
     ripgrep
     jq
     yq
-    qmk
+    # qmk
     killall
     fd
     nix-prefetch-git
@@ -39,6 +39,7 @@
     tflint
     kubectx
     lazydocker
+    argocd
   ] ++ [
     # Python
     python311
@@ -57,6 +58,7 @@
     # prettierd
     terraform # look into tfenv porting
     yamllint
+    nodePackages.typescript-language-server
 
     stylua
     # Go
