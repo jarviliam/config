@@ -1,7 +1,4 @@
-{ pkgs
-, nixpkgs
-, ...
-}:
+{ pkgs, nixpkgs, ... }:
 
 {
   nixpkgs.config.allowUnfree = true;
@@ -18,6 +15,6 @@
       experimental-features = [ "nix-command" "flakes" ];
     };
   };
-    # programs.nix-index.enable = true;
-    # programs.nix-index.enableZshIntegration = true;
+  programs.nix-index.enable = true;
+  programs.nix-index.enableZshIntegration = true;
 }
