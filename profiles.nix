@@ -33,9 +33,11 @@
     home-manager = liam.home-manager // {
       inherit username;
       enable = true;
-      modules =
-        [ ./home-manager/modules/linux/x.nix ./home-manager/modules/firefox ]
-        ++ liam.home-manager.modules;
+      modules = [
+        ./home-manager/modules/linux/x.nix
+        ./home-manager/modules/firefox
+        ./home-manager/modules/linux/poly.nix
+      ] ++ liam.home-manager.modules;
     };
     commonSpecialArgs = liam.commonSpecialArgs // { inherit username; };
     extraConfig = liam.extraConfig // {
