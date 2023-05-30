@@ -39,6 +39,7 @@
             final.stdenvNoCC.hostPlatform.system or (throw
               "Unsupported platform ${final.stdenvNoCC.hostPlatform.system}")
           }.nil;
+        prettierd = final.callPackage ./home-manager/prettierd.nix { };
       };
 
       nixosConfigurations = {

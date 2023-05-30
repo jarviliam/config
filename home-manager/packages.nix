@@ -47,6 +47,7 @@
       python311
       python311Packages.virtualenv
       python311Packages.pip
+      cloud-custodian
       codespell
       pre-commit
       poetry
@@ -57,9 +58,11 @@
 
       lua53Packages.luacheck
       # Node
-      # prettierd
+      actionlint
+      prettierd
       terraform # look into tfenv porting
       yamllint
+      yarn
       nodePackages.typescript-language-server
 
       stylua
