@@ -40,7 +40,7 @@ require("nvim-treesitter.configs").setup({
     lsp_interop = {
       enable = true,
       peek_definition_code = {
-        ["nD"] = "@function.outer",
+        ["<leader>np"] = "@function.outer",
       },
     },
     swap = {
