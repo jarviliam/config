@@ -24,6 +24,7 @@
       ripgrep
       jq
       yq
+      jwt-cli
       # qmk
       killall
       fd
@@ -45,6 +46,7 @@
     ] ++ [
       # Python
       python311
+      # python39
       python311Packages.virtualenv
       python311Packages.pip
       cloud-custodian

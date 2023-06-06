@@ -60,7 +60,6 @@ packer.startup(function(use)
   })
   use({
     "hrsh7th/nvim-cmp",
-    event = "InsertEnter",
     requires = {
       { "hrsh7th/cmp-nvim-lsp",     after = "nvim-cmp" },
       { "hrsh7th/cmp-path",         after = "nvim-cmp" },
@@ -98,6 +97,13 @@ packer.startup(function(use)
   -----------------------------------------------------------------------------//
   -- Telescope {{{1
   -----------------------------------------------------------------------------//
+  use { 'ibhagwan/fzf-lua',
+    -- optional for icon support
+    requires = { 'nvim-tree/nvim-web-devicons' },
+    config = function()
+      require "fzf-lua".setup({ "telescope", winopts = { preview = { default = "bat" } } })
+    end
+  }
   use({
     "nvim-telescope/telescope.nvim",
     requires = {
