@@ -1,6 +1,6 @@
 local M = {}
 
-function M.setup(options)
+function M.setup()
   local nls = require("null-ls")
   local fmt = nls.builtins.formatting
   local dgn = nls.builtins.diagnostics
@@ -26,11 +26,7 @@ function M.setup(options)
       fmt.gofmt,
       fmt.goimports,
       fmt.clang_format,
-      fmt.black.with({
-        -- extra_args = {
-        --   "--preview"
-        -- }
-      }),
+      fmt.black,
       fmt.shfmt,
       dgn.yamllint,
       nls.builtins.hover.dictionary,
@@ -48,7 +44,11 @@ function M.setup(options)
       }),
       dgn.codespell,
     },
-    on_attach = options.on_attach,
+    on_attach = function(_, bufnr)
+      vim.keymap.set("n", "<leader>lf",
+        [[<cmd>lua vim.lsp.buf.format({async=true,name="null-ls"})<CR>]],
+        { silent = true, buffer = bufnr, desc = "format document [null-ls]" })
+    end,
     root_dir = require("null-ls.utils").root_pattern(
       ".null-ls-root",
       ".nvim.settings.json",

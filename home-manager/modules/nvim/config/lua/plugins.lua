@@ -54,7 +54,8 @@ packer.startup(function(use)
       "null-ls.nvim",
     },
     config = function()
-      require("core.lsp")
+      require("modules.lsp.null").setup()
+      require("lsp")
     end,
   })
   use({
@@ -76,7 +77,7 @@ packer.startup(function(use)
   })
   use({
     "jose-elias-alvarez/null-ls.nvim",
-    event = "BufRead",
+    event = "BufRead"
   })
   use({
     "SmiteshP/nvim-navic",
@@ -265,13 +266,6 @@ packer.startup(function(use)
   })
 
   use("tpope/vim-eunuch")
-
-  use({
-    "folke/todo-comments.nvim",
-    as = "todo_comments",
-    requires = "nvim-lua/plenary.nvim",
-    config = get_config("todo"),
-  })
 
   use({
     "mbbill/undotree",

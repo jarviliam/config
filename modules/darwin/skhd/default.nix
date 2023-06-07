@@ -61,8 +61,8 @@
           cmd + alt - n : yabai -m window --display next && yabai -m display --focus next
           cmd + alt - p : yabai -m window --display previous && yabai -m display --focus previous
 
-          cmd - return : ${pkgs.wezterm}/bin/wezterm connect unix
-          # cmd - return : ${pkgs.wezterm}/bin/wezterm
+          # cmd - return : ${pkgs.wezterm}/bin/wezterm connect unix
+          cmd - return : ${pkgs.wezterm}/bin/wezterm
           # cmd - return : /etc/profiles/per-user/liam.jarvis/bin/wezterm
     '';
   };
