@@ -48,7 +48,7 @@ local options = {
 local servers = {
   bashls = {},
   clangd = {},
-  dockerls = {},
+  -- dockerls = {},
   jsonls = {},
   gopls = {},
   nil_ls = {},
@@ -77,7 +77,9 @@ local servers = {
   rust_analyzer = {},
   terraformls = {},
   tsserver = {},
-  yamlls = {},
+  yamlls = {
+    keyOrdering = false,
+  },
 }
 
 require("modules.lsp.null").setup(options)

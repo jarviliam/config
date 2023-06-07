@@ -65,7 +65,7 @@ local leader = {
   },
   s = {
     name = "+search",
-    b = { "<cmd>Telescope current_buffer_fuzzy_find<cr>", "Buffer" },
+    b = { "<cmd>FzfLua grep_curbuf<cr>", "Buffer" },
     s = {
       function()
         require("telescope.builtin").lsp_document_symbols({
@@ -83,8 +83,8 @@ local leader = {
       end,
       "Goto Symbol",
     },
-    h = { "<cmd>Telescope command_history<cr>", "Command History" },
-    m = { "<cmd>Telescope marks<cr>", "Jump to Mark" },
+    h = { "<cmd>FzfLua command_history<cr>", "Command History" },
+    m = { "<cmd>FzfLua marks<cr>", "Jump to Mark" },
   },
   f = {
     name = "+fuzzy",
@@ -102,5 +102,6 @@ local leader = {
     l = { "<cmd>lopen<cr>", "Open Location List" },
     q = { "<cmd>copen<cr>", "Open Quickfix List" },
   },
+  ["/"] = { "<cmd>FzfLua live_grep<cr>", "Live grep" }
 }
 wk.register(leader, { prefix = "<leader>" })

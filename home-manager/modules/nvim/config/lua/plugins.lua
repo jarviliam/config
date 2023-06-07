@@ -43,7 +43,6 @@ packer.startup(function(use)
       require("nvim-web-devicons").setup({ default = true })
     end,
   })
-  use({ "lewis6991/impatient.nvim", as = "impatient" })
   --
   -----------------------------------------------------------------------------//
   -- LSP, Autocomplete and snippets {{{1
@@ -98,7 +97,6 @@ packer.startup(function(use)
   -- Telescope {{{1
   -----------------------------------------------------------------------------//
   use { 'ibhagwan/fzf-lua',
-    -- optional for icon support
     requires = { 'nvim-tree/nvim-web-devicons' },
     config = function()
       require "fzf-lua".setup({ "telescope", winopts = { preview = { default = "bat" } } })
@@ -109,7 +107,6 @@ packer.startup(function(use)
     requires = {
       "nvim-lua/plenary.nvim",
       "nvim-lua/popup.nvim",
-      "nvim-telescope/telescope-dap.nvim",
     },
     config = get_config("telescope"),
   })
@@ -227,6 +224,12 @@ packer.startup(function(use)
   use({
     "mfussenegger/nvim-dap-python",
     requires = { "mfussenegger/nvim-dap" },
+  })
+  use({
+    "karloskar/poetry-nvim",
+    config = function()
+      require("poetry-nvim").setup()
+    end
   })
   -----------------------------------------------------------------------------//
   -- Frontend {{{1

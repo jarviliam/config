@@ -8,6 +8,7 @@
 --
 ----------------------------------------------------
 --require("impatient").enable_profile()
+vim.loader.enable()
 
 local ok, reload = pcall(require, "plenary.reload")
 local RELOAD = ok and reload.reload_module or function(...)

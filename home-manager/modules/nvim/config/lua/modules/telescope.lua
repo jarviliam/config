@@ -1,7 +1,5 @@
 local telescope = require("telescope")
 local actions = require("telescope.actions")
-local builtin = require("telescope.builtin")
-local map = vim.keymap.set
 local trouble = require("trouble.providers.telescope")
 
 telescope.setup({
@@ -95,38 +93,11 @@ telescope.setup({
   },
   extensions = {
     fzf = {
-      fuzzy = true, -- false will only do exact matching
+      fuzzy = true,                   -- false will only do exact matching
       override_generic_sorter = true, -- override the generic sorter
-      override_file_sorter = true, -- override the file sorter
-      case_mode = "smart_case", -- or "ignore_case" or "respect_case"
+      override_file_sorter = true,    -- override the file sorter
+      case_mode = "smart_case",       -- or "ignore_case" or "respect_case"
     },
   },
 })
-
-local M = {}
-
-M.curbuf = function()
-  local opts = require("telescope.themes").get_dropdown({
-    winblend = 10,
-    border = true,
-    previewer = false,
-    shorten_path = false,
-  })
-  builtin.current_buffer_fuzzy_find(opts)
-end
-
-map(
-  "n",
-  "<leader>/",
-  ":Telescope live_grep theme=get_ivy<CR>",
-  { silent = true, desc = "telescope: live grep" }
-)
-map(
-  "n",
-  "<leader>nb",
-  M.curbuf,
-  { silent = true, desc = "telescope: buffer fuzzy" }
-)
-
 telescope.load_extension("fzf")
-telescope.load_extension("dap")

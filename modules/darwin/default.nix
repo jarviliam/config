@@ -1,16 +1,8 @@
-{ pkgs
-, config
-, nixpkgs
-, username
-, ...
-}:
-{
-environment.systemPackages = [
-    pkgs.sketchybar
-  ];
+{ pkgs, config, nixpkgs, username, ... }: {
+  environment.systemPackages = [ pkgs.sketchybar ];
   services.nix-daemon.enable = true;
-  nix.settings.allowed-users = ["root" "liam.jarvis"];
-  nix.settings.trusted-users = ["root" "liam.jarvis"];
+  nix.settings.allowed-users = [ "root" "liam.jarvis" ];
+  nix.settings.trusted-users = [ "root" "liam.jarvis" ];
   fonts = {
     fontDir.enable = false;
     fonts = with pkgs; [
@@ -22,5 +14,10 @@ environment.systemPackages = [
   users.users."${username}" = {
     name = username;
     home = "/Users/${username}";
+  };
+  system = {
+    keyboard = {
+      enableKeyMapping = true; # Needed for skhd
+    };
   };
 }

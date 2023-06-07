@@ -1,8 +1,8 @@
-{ config, pkgs, ... }:
-{
+{ pkgs, ... }: {
   services.yabai = {
     enable = true;
     package = pkgs.yabai;
+    # package = "yabai-5.0.4";
     enableScriptingAddition = true;
     config = {
       window_border = "on";
@@ -10,8 +10,9 @@
       active_window_border_color = "0xff81a1c1";
       normal_window_border_color = "0xff3b4252";
       window_border_hidpi = "on";
-      focus_follows_mouse = "off";
-      mouse_follows_focus = "off";
+      focus_follows_mouse = "autofocus";
+      # focus_follows_mouse = "on";
+      # mouse_follows_focus = "off";
       mouse_drop_action = "stack";
       window_placement = "second_child";
       window_opacity = "off";
