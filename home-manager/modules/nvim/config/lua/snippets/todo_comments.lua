@@ -1,3 +1,5 @@
+local status_ok, comment_ft = pcall(require, 'Comment.ft')
+if not status_ok then return end
 local ls = require 'luasnip'
 
 local s = ls.snippet
@@ -7,7 +9,16 @@ local c = ls.choice_node
 local f = ls.function_node
 local fmta = require('luasnip.extras.fmt').fmta
 local fmt = require('luasnip.extras.fmt').fmt
-local get_cstring = require('snippets.utils').get_cstring
+local region = require('Comment.utils').get_region
+
+local get_cstring = function(ctype)
+  local cstring = comment_ft.calculate { ctype = ctype, range = region() } or ''
+  local cstring_table = vim.split(cstring, '%s', { plain = true, trimempty = true })
+  if #cstring_table == 0 then
+    return { '', '' }
+  end
+  return #cstring_table == 1 and { cstring_table[1], '' } or { cstring_table[1], cstring_table[2] }
+end
 
 -- TODO: Make the date jump by numbers instead of the whole date change at once <15-03-22, kunzaatko> --
 -- TODO: Add possibilities for formatting and creating custom marks <15-03-22, kunzaatko> --
@@ -89,19 +100,19 @@ end
 -- TODO: Enable *SELECT* mode for these snippets <13-03-22, kunzaatko> --
 
 local todo_snippet_specs = {
-  { { trig = 'todo' }, 'TODO' },
-  { { trig = 'fix' }, { 'FIX', 'BUG', 'ISSUE', 'FIXIT' } },
-  { { trig = 'hack' }, 'HACK' },
-  { { trig = 'warn' }, { 'WARN', 'WARNING', 'XXX' } },
-  { { trig = 'perf' }, { 'PERF', 'PERFORMANCE', 'OPTIM', 'OPTIMIZE' } },
-  { { trig = 'note' }, { 'NOTE', 'INFO' } },
+  { { trig = 'todo' },  'TODO' },
+  { { trig = 'fix' },   { 'FIX', 'BUG', 'ISSUE', 'FIXIT' } },
+  { { trig = 'hack' },  'HACK' },
+  { { trig = 'warn' },  { 'WARN', 'WARNING', 'XXX' } },
+  { { trig = 'perf' },  { 'PERF', 'PERFORMANCE', 'OPTIM', 'OPTIMIZE' } },
+  { { trig = 'note' },  { 'NOTE', 'INFO' } },
   -- NOTE: Block commented todo-comments <kunzaatko>
-  { { trig = 'todob' }, 'TODO', { ctype = 2 } },
-  { { trig = 'fixb' }, { 'FIX', 'BUG', 'ISSUE', 'FIXIT' }, { ctype = 2 } },
-  { { trig = 'hackb' }, 'HACK', { ctype = 2 } },
-  { { trig = 'warnb' }, { 'WARN', 'WARNING', 'XXX' }, { ctype = 2 } },
+  { { trig = 'todob' }, 'TODO',                                         { ctype = 2 } },
+  { { trig = 'fixb' },  { 'FIX', 'BUG', 'ISSUE', 'FIXIT' },             { ctype = 2 } },
+  { { trig = 'hackb' }, 'HACK',                                         { ctype = 2 } },
+  { { trig = 'warnb' }, { 'WARN', 'WARNING', 'XXX' },                   { ctype = 2 } },
   { { trig = 'perfb' }, { 'PERF', 'PERFORMANCE', 'OPTIM', 'OPTIMIZE' }, { ctype = 2 } },
-  { { trig = 'noteb' }, { 'NOTE', 'INFO' }, { ctype = 2 } },
+  { { trig = 'noteb' }, { 'NOTE', 'INFO' },                             { ctype = 2 } },
 }
 
 local todo_comment_snippets = {}

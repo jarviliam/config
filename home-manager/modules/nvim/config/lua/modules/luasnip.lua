@@ -5,10 +5,13 @@ local map = vim.keymap.set
 
 local t = require("luasnip.util.types")
 
+local ft_functions = require 'luasnip.extras.filetype_functions'
 ls.config.set_config({
-  history = true,
+  history = false,
   updateevents = "TextChanged,TextChangedI",
   enable_autosnippets = true,
+  store_selection_keys = '<Tab>',
+  ft_func = ft_functions.from_filetype,
   ext_opts = {
     [t.choiceNode] = {
       active = {
@@ -22,39 +25,18 @@ require("luasnip.loaders.from_vscode").lazy_load()
 ls.filetype_extend('javascript', { 'javascriptreact', 'typescriptreact' })
 require 'snippets'
 
--- vim.keymap.set({ "i", "s" }, "<C-l>", function()
---   if ls.expand_or_jumpable() then
---     ls.expand_or_jump()
---   end
--- end, { silent = true })
---
---
--- -- <c-j> is my jump backwards key.
--- -- this always moves to the previous item within the snippet
--- vim.keymap.set({ "i", "s" }, "<C-h>", function()
---   if ls.jumpable(-1) then
---     ls.jump(-1)
---   end
--- end, { silent = true })
---
--- -- <c-l> is selecting within a list of options.
--- vim.keymap.set("i", "<c-m>", function()
---   if ls.choice_active() then
---     ls.change_choice(1)
---   end
--- end)
-
 map({ 'i', 's' }, '<C-l>', function()
   if ls.expand_or_locally_jumpable() then
     ls.expand_or_jump()
   end
 end, { silent = true, desc = 'jump forward or expand snippet' })
+
 map({ 'i', 's' }, '<C-h>', function()
   if ls.jumpable(-1) then
     ls.jump(-1)
   end
 end, { silent = true, desc = 'jump backward in snippet' })
--- FIX: Only local choice (on the current snippet) should be considered <13-03-22, kunzaatko> --
+
 map({ 'i', 's' }, '<C-k>', function()
   if ls.choice_active() then
     ls.change_choice(1)
