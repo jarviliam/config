@@ -1,18 +1,4 @@
-local client_has_capability = function(client, capability)
-  local resolved_capabilities = {
-    codeLensProvider = "code_len",
-    documentFormattingProvider = "document_formatting",
-    documentRangeFormattingProvider = "document_range_formatting",
-  }
-  if vim.fn.has("nvim-0.8") == 1 then
-    return client.server_capabilities[capability]
-  else
-    assert(resolved_capabilities[capability])
-    capability = resolved_capabilities[capability]
-    return client.resolved_capabilities[capability]
-  end
-end
-
+local fmt_group = vim.api.nvim_create_augroup("LspFormatting", {})
 local map = function(mode, lhs, rhs, opts)
   opts = vim.tbl_extend("keep", opts,
     { silent = true, buffer = true })
@@ -54,8 +40,17 @@ local on_attach = function(client, bufnr)
     { desc = "goto implementation [LSP]" })
   map("n", "<leader>nt", vim.lsp.buf.type_definition,
     { desc = "goto type definition [LSP]" })
-  map("n", "<leader>na", vim.lsp.buf.code_action,
-    { desc = "lsp: code actions" })
+  map("n", "<leader>na", "<cmd>FzfLua lsp_code_actions",
+    {
+      desc = "lsp: code actions",
+      winopts = {
+        relative = "cursor",
+        row      = 1.01,
+        col      = 0,
+        height   = 0.20,
+        width    = 0.55,
+      }
+    })
   map("n", "<leader>lr", vim.lsp.buf.rename, { desc = "lsp: rename" })
   map("n", "<leader>K", "<cmd>lua vim.lsp.buf.signature_help()<CR>",
     { desc = "signature help [LSP]" })
@@ -78,53 +73,29 @@ local on_attach = function(client, bufnr)
     { desc = "send diagnostics to loclist [LSP]" })
 
 
-  if client_has_capability(client, "documentFormattingProvider") then
-    if vim.lsp.buf.format then
-      -- prioritize null-ls as formatter
-      local clients = vim.lsp.get_active_clients(bufnr)
-      local client_name = (function()
-        local name = client.name
-        for _, c in ipairs(clients) do
-          if c.name == "null-ls" then
-            return c.name
-          end
-        end
-        return name
-      end)()
-      local fmt_opts = string.format([[async=true,bufnr=%d,name="%s"]], bufnr, client_name)
-      map("n", "<leader>lf",
-        string.format("<cmd>lua vim.lsp.buf.format({%s})<CR>", fmt_opts),
-        { desc = string.format("format document [LSP:%s]", client_name) })
-    else
-      map("n", "<leader>lf", "<cmd>lua vim.lsp.buf.formatting()<CR>",
-        { desc = "format document [LSP]" })
-    end
+  local ft = vim.api.nvim_buf_get_option(bufnr, "filetype")
+  local nls = require("modules.lsp.null")
+  local enable = false
+  if nls.has_formatter(ft) then
+    enable = client.name == "null-ls"
+  else
+    enable = not (client.name == "null-ls")
   end
-  if client_has_capability(client, "documentRangeFormattingProvider") then
-    if vim.lsp.buf.format then
-      map("v", "gq", function()
-        local _, csrow, cscol, cerow, cecol
-        local mode = vim.fn.mode()
-        assert(mode == "v" or mode == "V" or mode == "")
-        _, csrow, cscol, _ = unpack(vim.fn.getpos("."))
-        _, cerow, cecol, _ = unpack(vim.fn.getpos("v"))
-        if mode == "V" then
-          -- visual line doesn't provide columns
-          cscol, cecol = 0, 999
-        end
-        local fmt_opts = {
-          async   = true,
-          bufnr   = 0,
-          name    = vim.bo[bufnr].ft == "lua" and "sumneko_lua" or nil,
-          start   = { csrow, cscol },
-          ["end"] = { cerow, cecol },
-        }
-        vim.lsp.buf.format(fmt_opts)
-      end, { desc = "format selection [LSP]" })
-    else
-      map("v", "gq", "<cmd>lua vim.lsp.buf.range_formatting()<CR>",
-        { desc = "format selection [LSP]" })
-    end
+
+  client.server_capabilities.documentFormatting = enable
+  -- format on save
+  if client.server_capabilities.documentFormatting then
+    vim.api.nvim_clear_autocmds({ group = fmt_group, buffer = bufnr })
+    vim.api.nvim_create_autocmd("BufWritePre", {
+      group = fmt_group,
+      buffer = bufnr,
+      callback = function()
+        vim.lsp.buf.format({
+          timeout_ms = 2000,
+          bufnr = bufnr,
+        })
+      end,
+    })
   end
 end
 

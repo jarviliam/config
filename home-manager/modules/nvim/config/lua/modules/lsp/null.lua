@@ -1,5 +1,6 @@
 local M = {}
 
+local fmt_group = vim.api.nvim_create_augroup("LspFormatting", {})
 function M.setup()
   local nls = require("null-ls")
   local fmt = nls.builtins.formatting
@@ -44,7 +45,20 @@ function M.setup()
       }),
       dgn.codespell,
     },
-    on_attach = function(_, bufnr)
+    on_attach = function(client, bufnr)
+      if client.server_capabilities.documentFormatting then
+        vim.api.nvim_clear_autocmds({ group = fmt_group, buffer = bufnr })
+        vim.api.nvim_create_autocmd("BufWritePre", {
+          group = fmt_group,
+          buffer = bufnr,
+          callback = function()
+            vim.lsp.buf.format({
+              timeout_ms = 2000,
+              bufnr = bufnr,
+            })
+          end,
+        })
+      end
       vim.keymap.set("n", "<leader>lf",
         [[<cmd>lua vim.lsp.buf.format({async=true,name="null-ls"})<CR>]],
         { silent = true, buffer = bufnr, desc = "format document [null-ls]" })

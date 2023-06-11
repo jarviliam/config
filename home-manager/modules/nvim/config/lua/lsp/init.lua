@@ -36,7 +36,7 @@ local servers = {
         diagnostics = {
           globals = { "vim" },
         },
-      },
+     },
     },
   },
   rust_analyzer = {},

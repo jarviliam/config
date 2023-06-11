@@ -65,6 +65,7 @@ packer.startup(function(use)
       { "hrsh7th/cmp-path",         after = "nvim-cmp" },
       { "hrsh7th/cmp-buffer",       after = "nvim-cmp" },
       { "hrsh7th/cmp-nvim-lua",     after = "nvim-cmp" },
+      { "hrsh7th/cmp-nvim-lua",     after = "nvim-cmp" },
       { "saadparwaiz1/cmp_luasnip", after = "nvim-cmp" },
     },
     config = get_config("compe"),
@@ -104,7 +105,8 @@ packer.startup(function(use)
     end
   }
   use({
-    "nvim-telescope/telescope.nvim",
+    "~/Coding/telescope.nvim",
+    -- "nvim-telescope/telescope.nvim",
     requires = {
       "nvim-lua/plenary.nvim",
       "nvim-lua/popup.nvim",
@@ -188,12 +190,19 @@ packer.startup(function(use)
     config = get_config("neogit"),
   })
   use({
-    "pwntester/octo.nvim",
+    "~/Coding/octo.nvim",
     config = get_config("octo"),
     requires = {
       'nvim-telescope/telescope.nvim'
     }
   })
+  -- use({
+  --   "pwntester/octo.nvim",
+  --   config = get_config("octo"),
+  --   requires = {
+  --     'nvim-telescope/telescope.nvim'
+  --   }
+  -- })
   use({
     "lewis6991/gitsigns.nvim",
     requires = { "nvim-lua/plenary.nvim" },

@@ -7,6 +7,10 @@
     enableAutosuggestions = true;
     defaultKeymap = "viins";
     historySubstringSearch.enable = true;
+    # Hack because /etc/static isn't in $NIX_PROFILE
+    initExtraBeforeCompInit = ''
+      fpath+=(/etc/static/profiles/per-user/liam.jarvis/share/zsh/site-functions /etc/static/profiles/per-user/liam.jarvis/share/zsh/$ZSH_VERSION/functions /etc/static/profiles/per-user/liam.jarvis/share/zsh/vendor-completions )
+    '';
     history = {
       expireDuplicatesFirst = true;
       extended = true;
@@ -24,21 +28,13 @@
       df = "df -h";
       free = "free -h";
       du = "du -sh";
-      susu = "sudo su";
       op = "xdg-open";
       del = "rm -rf";
       sdel = "sudo rm -rf";
       lst = "ls --tree -I .git";
       lsl = "ls -l";
       lsa = "ls -a";
-      null = "/dev/null";
-      tmux = "tmux -u";
-      tu = "tmux -u";
-      tua = "tmux a -t";
 
-      # overrides
-      cat = "bat";
-      ssh = "TERM=screen ssh";
       python = "python3";
       pip = "python3 -m pip";
       venv = "python3 -m venv";
@@ -46,7 +42,6 @@
       g = "git";
       kc = "kubectl";
       kca = "kubectl apply -f";
-      ks = "k9s";
       ku = "kubie";
       dk = "docker";
       dc = "docker-compose";
@@ -54,24 +49,14 @@
       pc = "podman-compose";
       li = "lima nerdctl";
       lc = "limactl";
-      sc = "sudo systemctl";
       poe = "poetry";
-      space = "ncdu";
+
       ca = "cargo";
       tf = "terraform";
       diff = "delta";
       nr = "npm run";
       py = "python";
-
       psf = "ps -aux | grep";
-      lsf = "ls | grep";
-      shut = "sudo shutdown -h now";
-      socks = "ssh -D 1337 -q -C -N";
-
-      # clean
-      dklocal =
-        "docker run --rm -it -v `PWD`:/usr/workdir --workdir=/usr/workdir";
-      dkclean = "docker container rm $(docker container ls -aq)";
 
       # nix
       ne = "nvim -c ':cd ~/.nixpkgs' ~/.nixpkgs";
@@ -81,6 +66,19 @@
       nse = "nix search nixpkgs";
     };
 
+    initExtra = ''
+      fancy-ctrl-z () {
+        if [[ $#BUFFER -eq 0 ]]; then
+          BUFFER="fg"
+          zle accept-line -w
+        else
+          zle push-input -w
+          zle clear-screen -w
+        fi
+      }
+      zle -N fancy-ctrl-z
+      bindkey '^Z' fancy-ctrl-z
+    '';
     plugins = [
       {
         name = "fast-syntax-highlighting";
