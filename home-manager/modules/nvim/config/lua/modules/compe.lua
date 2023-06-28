@@ -9,12 +9,13 @@ cmp.setup({
     format = function(entry, item)
       item.kind = as.style.lsp.kind[item.kind]
       item.menu = ({
-            nvim_lsp = "[LSP]",
-            nvim_lua = "[Api]",
-            luasnip = "[Snip]",
-            buffer = "[Buffer]",
-            path = "[Path]",
-          })[entry.source.name]
+        nvim_lsp = "[LSP]",
+        nvim_lua = "[Api]",
+        luasnip = "[Snip]",
+        buffer = "[Buffer]",
+        path = "[Path]",
+        git = "[Git]",
+      })[entry.source.name]
       return item
     end,
   },
@@ -23,7 +24,7 @@ cmp.setup({
   },
   mapping = cmp.mapping.preset.insert({
     ["<C-e>"] = cmp.config.disable,
-    ["<C-d>"] = cmp.mapping.scroll_docs( -4),
+    ["<C-d>"] = cmp.mapping.scroll_docs(-4),
     ["<C-f>"] = cmp.mapping.scroll_docs(4),
     ["<C-y>"] = cmp.mapping(
       cmp.mapping.confirm({
@@ -50,8 +51,11 @@ cmp.setup({
     { name = "nvim_lua", priority_weight = 90 },
     { name = "buffer",   priority_weight = 70,  max_item_count = 5 },
     { name = "path",     priority_weight = 110, keyword_length = 3 },
+    { name = "git" },
   }),
   experimental = {
     ghost_text = true,
   },
 })
+
+require("cmp_git").setup()

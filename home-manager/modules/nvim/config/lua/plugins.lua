@@ -67,6 +67,8 @@ packer.startup(function(use)
       { "hrsh7th/cmp-nvim-lua",     after = "nvim-cmp" },
       { "hrsh7th/cmp-nvim-lua",     after = "nvim-cmp" },
       { "saadparwaiz1/cmp_luasnip", after = "nvim-cmp" },
+      { "petertriho/cmp-git",       requires = "nvim-lua/plenary.nvim" },
+
     },
     config = get_config("compe"),
   })
@@ -101,12 +103,12 @@ packer.startup(function(use)
   use { 'ibhagwan/fzf-lua',
     requires = { 'nvim-tree/nvim-web-devicons' },
     config = function()
-      require "fzf-lua".setup({ "telescope", winopts = { preview = { default = "bat" } } })
+      require "fzf-lua".setup({ "fzf-native" })
     end
   }
   use({
-    "~/Coding/telescope.nvim",
-    -- "nvim-telescope/telescope.nvim",
+    -- "~/Coding/telescope.nvim",
+    "nvim-telescope/telescope.nvim",
     requires = {
       "nvim-lua/plenary.nvim",
       "nvim-lua/popup.nvim",
@@ -264,6 +266,7 @@ packer.startup(function(use)
 
   use({
     "j-hui/fidget.nvim",
+    tag = "legacy",
     after = "nvim-lspconfig",
     config = function()
       require("fidget").setup({

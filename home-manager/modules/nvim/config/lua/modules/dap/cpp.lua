@@ -66,3 +66,5 @@ dap.configurations.cpp = {
 		args = {},
 	},
 }
+
+dap.configurations.c = dap.configurations.cpp

@@ -30,12 +30,11 @@ local leader = {
     ["s"] = { "<C-W>s", "split-window-below" },
     ["v"] = { "<C-W>v", "split-window-right" },
   },
-  c = { o = { "<cmd>SymbolsOutline<cr>", "Symbols Outline" } },
   g = {
     name = "+git",
     g = { "<cmd>Neogit<CR>", "NeoGit" },
     c = { "<Cmd>FzfLua git_commits<CR>", "commits" },
-    C = { "<Cmd>FzfLua bgit_commits<CR>", "commits (buffer)" },
+    C = { "<Cmd>FzfLua git_bcommits<CR>", "commits (buffer)" },
     b = { "<Cmd>FzfLua git_branches<CR>", "branches" },
     s = { "<Cmd>FzfLua git_status<CR>", "status" },
     d = { "<cmd>DiffviewOpen<cr>", "DiffView" },
@@ -43,7 +42,7 @@ local leader = {
   },
   ["h"] = {
     name = "+help",
-    t = { "<cmd>FzfLua builtin<cr>", "FzfLua" },
+    b = { "<cmd>FzfLua builtin<cr>", "FzfLua" },
     c = { "<cmd>FzfLua commands<cr>", "Commands" },
     h = { "<cmd>FzfLua help_tags<cr>", "Help Pages" },
     m = { "<cmd>FzfLua man_pages<cr>", "Man Pages" },
@@ -67,23 +66,7 @@ local leader = {
   s = {
     name = "+search",
     b = { "<cmd>FzfLua grep_curbuf<cr>", "Buffer" },
-    s = {
-      function()
-        require("telescope.builtin").lsp_document_symbols({
-          symbols = {
-            "Class",
-            "Function",
-            "Method",
-            "Constructor",
-            "Interface",
-            "Module",
-            "Struct",
-            "Trait",
-          },
-        })
-      end,
-      "Goto Symbol",
-    },
+    s = { "<cmd>FzfLua lsp_document_symbols<cr>", "Goto Symbol" },
     h = { "<cmd>FzfLua command_history<cr>", "Command History" },
     m = { "<cmd>FzfLua marks<cr>", "Jump to Mark" },
   },
@@ -105,13 +88,13 @@ local leader = {
     g = { "<cmd>FzfLua git_files<cr>", "Find Files (Git)" },
     b = { "<cmd>FzfLua blines<cr>", "buffer lines" },
     B = { "<cmd>FzfLua lgrep_curbuf<cr>", "live grep (buffer)" },
+    j = { "<cmd>FzfLua jumps<cr>", "jumps" },
   },
   x = {
     name = "+errors",
     x = { "<cmd>TroubleToggle workspace_diagnostics<cr>", "Trouble" },
     d = { "<cmd>TroubleToggle document_diagnostics<cr>", "Trouble" },
-    t = { "<cmd>TodoTrouble<cr>", "Todo Trouble" },
-    T = { "<cmd>TodoTelescope<cr>", "Todo Telescope" },
+    D = { "<cmd>FzfLua document_diagnostics<cr>", "Document diagnostics" },
     l = { "<cmd>lopen<cr>", "Open Location List" },
     q = { "<cmd>copen<cr>", "Open Quickfix List" },
   },
