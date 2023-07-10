@@ -104,5 +104,7 @@
       rust-analyzer
 
       vimPlugins.nvim-treesitter.withAllGrammars
+
+      clamav
     ];
 }

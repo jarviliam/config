@@ -151,12 +151,6 @@ packer.startup(function(use)
   -----------------------------------------------------------------------------//
   -- Text Objects and Editing {{{1
   -----------------------------------------------------------------------------//
-  -- use({
-  --   "ggandor/lightspeed.nvim",
-  --   as = "lightspeed",
-  --   requires = { "tpope/vim-repeat", as = "repeat" },
-  -- })
-
   use({
     "numToStr/Comment.nvim",
     config = get_config("comment"),
