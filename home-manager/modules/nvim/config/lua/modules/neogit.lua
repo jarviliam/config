@@ -13,5 +13,6 @@ neogit.setup({
   },
   integrations = {
     diffview = true,
+    telescope = true,
   },
 })

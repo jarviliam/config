@@ -59,6 +59,7 @@
       ruff
 
       lua53Packages.luacheck
+      lua-language-server
       # Node
       actionlint
       prettierd
@@ -78,7 +79,7 @@
       nodePackages.typescript-language-server # Typescript/javascript
       nodePackages.vscode-langservers-extracted # JSON/HTML
 
-      sumneko-lua-language-server # Lua
+      # sumneko-lua-language-server # Lua
       cmake-language-server # CMake
 
       # C/C++
@@ -89,6 +90,7 @@
       shellcheck
       nodePackages.bash-language-server
 
+      # release-please
       # Nix
       # rnix-lsp
       nil-language-server

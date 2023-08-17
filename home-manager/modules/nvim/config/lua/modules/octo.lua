@@ -3,6 +3,7 @@ if not ok then return end
 local map = vim.keymap.set
 
 octo.setup({
+  picker = "fzf-lua",
   default_remote = { "upstream", "origin", "github" },
   reaction_viewer_hint_icon = "",
   user_icon = " ",

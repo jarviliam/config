@@ -43,6 +43,9 @@ local servers = {
   terraformls = {},
   tsserver = {},
   yamlls = {
+    schemas = { kubernetes = "globPattern",
+    ["https://json.schemastore.org/github-workflow.json"] = "/.github/workflows/*",
+    },
     keyOrdering = false,
   },
 }

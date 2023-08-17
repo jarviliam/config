@@ -3,7 +3,7 @@
     enable = true;
     autocd = true;
     enableCompletion = true;
-    enableSyntaxHighlighting = true;
+    syntaxHighlighting = { enable = true; };
     enableAutosuggestions = true;
     defaultKeymap = "viins";
     historySubstringSearch.enable = true;
@@ -39,7 +39,6 @@
       pip = "python3 -m pip";
       venv = "python3 -m venv";
 
-      g = "git";
       kc = "kubectl";
       kca = "kubectl apply -f";
       ku = "kubie";
@@ -128,9 +127,19 @@
         src = pkgs.fetchFromGitHub {
           owner = "wfxr";
           repo = "forgit";
-          rev = "23.07.0";
-          sha256 = "PNeS/YpL56Ir3xoiUzOU5Tkhq0B5eyudzEuOt2yCqh4=";
+          rev = "23.08.1";
+          sha256 = "YyPB7Kd6ScV0VVXR9wdxqd3oIyxdxRRgmK2c8E3uzWk=";
           # sha256 = "oBPN8ehz00cDIs6mmGfCBzuDQMLG5z3G6KetJ1FK7e8=";
+        };
+      }
+      {
+        name = "you-should-use";
+        file = "you-should-use.plugin.zsh";
+        src = pkgs.fetchFromGitHub {
+          owner = "MichaelAquilina";
+          repo = "zsh-you-should-use";
+          rev = "1.7.3";
+          sha256 = "/uVFyplnlg9mETMi7myIndO6IG7Wr9M7xDFfY1pG5Lc=";
         };
       }
     ];

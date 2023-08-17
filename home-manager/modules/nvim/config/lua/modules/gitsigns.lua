@@ -85,8 +85,8 @@ gitsigns.setup({
       gitsigns.stage_buffer,
       { desc = "gitsigns: stage buffer" }
     ) -- git stage buffer
-    map("n", "gk", gitsigns.prev_hunk, { desc = "gitsigns: go to prev hunk" }) -- previous hunk
-    map("n", "gj", gitsigns.next_hunk, { desc = "gitsigns: go to next hunk" }) -- next hunk
+    map("n", "g]", gitsigns.prev_hunk, { desc = "gitsigns: go to prev hunk" }) -- previous hunk
+    map("n", "g[", gitsigns.next_hunk, { desc = "gitsigns: go to next hunk" }) -- next hunk
     map("n", "<leader>ghq", function()
       gitsigns.setqflist("all")
     end, { desc = "gitsigns: list modified in quickfix" })

@@ -42,6 +42,7 @@
           }.nil;
         prettierd = final.callPackage ./home-manager/prettierd.nix { };
         neomutt = prev.neomutt.overrideAttrs (oldAttrs: { doCheck = false; });
+        # release-please = prev.callPackage ./release-please.nix;
       };
 
       nixosConfigurations = {
