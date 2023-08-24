@@ -7,7 +7,7 @@ return {
       "nvim-treesitter/nvim-treesitter-context",
       "RRethy/nvim-treesitter-textsubjects",
     },
-    event = "User FileOpened",
+    lazy= false,
     build = function()
         local install = require("nvim-treesitter.install")
         install.compilers = { "gcc", "clang", "cl" }

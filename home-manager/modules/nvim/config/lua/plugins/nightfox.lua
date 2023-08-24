@@ -38,5 +38,5 @@ return { "EdenEast/nightfox.nvim",lazy=conf.theme ~="nightfox" or conf.theme ~= 
       whichkey = true,
     },
   }
-},
+}
 
