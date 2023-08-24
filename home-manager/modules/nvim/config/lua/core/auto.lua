@@ -1,11 +1,16 @@
-vim.api.nvim_exec(
-  [[
-augroup vimrc -- Ensure all autocmds are cleared
-autocmd!
-augroup end
-]] ,
-  ""
-)
+local augroup = vim.api.nvim_create_augroup('JAutoCmd',{})
+local au = function(event, pattern, callback, desc)
+    vim.api.nvim_create_autocmd(event, { group = augroup, pattern = pattern, callback = callback, desc = desc })
+  end
+
+au('TextYankPost', '*', function() vim.highlight.on_yank() end, 'Highlight yanked text')
+
+local start_terminal_insert = vim.schedule_wrap(function(data)
+      -- Try to start terminal mode only if target terminal is current
+      if not (vim.api.nvim_get_current_buf() == data.buf and vim.bo.buftype == 'terminal') then return end
+      vim.cmd('startinsert')
+    end)
+    au('TermOpen', 'term://*', start_terminal_insert, 'Start builtin terminal in Insert mode')
 
 local cursorLineGroup =
 vim.api.nvim_create_augroup("CursorLineControl", { clear = true })
@@ -21,20 +26,6 @@ vim.api.nvim_create_autocmd("WinEnter", {
     vim.opt_local.cursorline = true
   end,
 })
-
-local YankGroup =
-vim.api.nvim_create_augroup("TextYankHighlight", { clear = true })
-
--- Highlight Yank. * is default
-vim.api.nvim_create_autocmd("TextYankPost", {
-  group = YankGroup,
-  callback = function()
-    vim.highlight.on_yank({
-      timeout = 500,
-    })
-  end,
-})
-
 ---Clears cmdline after a few seconds
 ---@return function
 local function clear_cmd()
@@ -57,34 +48,6 @@ vim.api.nvim_create_autocmd({ "CmdlineLeave", "CmdlineChanged" }, {
   group = clearCommands,
   pattern = ":",
   callback = clear_cmd(),
-})
-
-as.augroup("VimrcIncSearchHighlight", {
-  {
-    events = { "CmdlineEnter" },
-    targets = { "[/\\?]" },
-    command = ":set hlsearch  | redrawstatus",
-  },
-  {
-    events = { "CmdlineLeave" },
-    targets = { "[/\\?]" },
-    command = ":set nohlsearch | redrawstatus",
-  },
-})
-
-as.augroup("ExternalCommands", {
-  {
-    events = { "BufEnter" },
-    targets = { "*.png,*.jpg,*.gif" },
-    command = function()
-      vim.cmd(
-        string.format(
-          'silent! "%s | :bw"',
-          vim.g.open_command .. " " .. vim.fn.expand("%")
-        )
-      )
-    end,
-  },
 })
 
 local quick_close_filetypes = {

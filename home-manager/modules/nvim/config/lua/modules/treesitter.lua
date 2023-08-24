@@ -1,5 +1,5 @@
 --require("nvim-treesitter.install").compilers = {"clang++"}
--- require("nvim-treesitter.install").compilers = { "gcc", "clang", "cl" }
+require("nvim-treesitter.install").compilers = { "gcc", "clang", "cl" }
 require("nvim-treesitter.configs").setup({
   ensure_installed = {
     "bash",
@@ -13,6 +13,9 @@ require("nvim-treesitter.configs").setup({
     "comment",
     "dhall",
     "go",
+    "gitcommit",
+    "git_config",
+    "gitignore",
     "html",
     "javascript",
     "json",
@@ -22,6 +25,7 @@ require("nvim-treesitter.configs").setup({
     "markdown",
     "markdown_inline",
     "nix",
+    "po",
     "python",
     "query",
     "regex",

@@ -43,19 +43,25 @@
       # balance size of windows
           shift + cmd - 0 : yabai -m space --balance
 
+        cmd - f1 : yabai -m space --focus 1
+        cmd - f2 : yabai -m space --focus 2
+        cmd - f3 : yabai -m space --focus 3
+        cmd - f4 : yabai -m space --focus 4
+        cmd - f5 : yabai -m space --focus 5
+        cmd - f6 : yabai -m space --focus 6
+        cmd - f7 : yabai -m space --focus 7
+
       # move window and focus desktop
-          shift + cmd - 1 : yabai -m window --space 1 && yabai -m space --focus 1
-          shift + cmd - 2 : yabai -m window --space 2 && yabai -m space --focus 2
-          shift + cmd - 3 : yabai -m window --space 3 && yabai -m space --focus 3
-          shift + cmd - 4 : yabai -m window --space 4 && yabai -m space --focus 4
-          shift + cmd - 5 : yabai -m window --space 5 && yabai -m space --focus 5
-          shift + cmd - 6 : yabai -m window --space 6 && yabai -m space --focus 6
-          shift + cmd - 7 : yabai -m window --space 7 && yabai -m space --focus 7
-          shift + cmd - 8 : yabai -m window --space 8 && yabai -m space --focus 8
-          shift + cmd - 9 : yabai -m window --space 9 && yabai -m space --focus 9
+          shift + cmd - f1 : yabai -m window --space 1 && yabai -m space --focus 1
+          shift + cmd - f2 : yabai -m window --space 2 && yabai -m space --focus 2
+          shift + cmd - f3 : yabai -m window --space 3 && yabai -m space --focus 3
+          shift + cmd - f4 : yabai -m window --space 4 && yabai -m space --focus 4
+          shift + cmd - f5 : yabai -m window --space 5 && yabai -m space --focus 5
+          shift + cmd - f6 : yabai -m window --space 6 && yabai -m space --focus 6
+          shift + cmd - f7 : yabai -m window --space 7 && yabai -m space --focus 7
 
       # fast focus desktop
-          cmd + alt - tab : yabai -m space --focus recent
+          cmd - f10 : yabai -m space --focus recent
 
       # send window to monitor and follow focus
           cmd + alt - n : yabai -m window --display next && yabai -m display --focus next
