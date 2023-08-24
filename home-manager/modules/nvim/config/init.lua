@@ -8,25 +8,14 @@
 --
 ----------------------------------------------------
 
-vim.loader.enable()
-
-local ok, reload = pcall(require, "plenary.reload")
-local RELOAD = ok and reload.reload_module or function(...)
-  return ...
-end
-
-local function R(name)
-  RELOAD(name)
-  return require(name)
-end
-
 vim.g.do_filetype_lua = 1
 vim.g.loaded_python_provider = 0
 vim.g.python3_host_prog = "/Users/liam.jarvis/.pyenv/versions/3.10.1/bin/python"
 
-R("conf")
-R("core.global")
-R("core.auto")
-R("core.settings")
-R("plugins")
-R("core.mappings")
+require("conf")
+require("core.global")
+require("core.auto")
+require("core.settings")
+require("core.mappings")
+require("lazyplug")
+
