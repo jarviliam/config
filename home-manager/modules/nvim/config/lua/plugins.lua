@@ -95,15 +95,16 @@ return {
   {
     -- "~/Coding/telescope.nvim",
     "nvim-telescope/telescope.nvim",
+    lazy=true,
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-lua/popup.nvim",
+      {
+        "nvim-telescope/telescope-fzf-native.nvim",
+        build = "make",
+      },
     },
     config = get_config("telescope"),
-  },
-  {
-    "nvim-telescope/telescope-fzf-native.nvim",
-    run = "make",
   },
   {
     "folke/trouble.nvim",
@@ -118,11 +119,12 @@ return {
   },
   {
     "nvim-treesitter/nvim-treesitter",
-    run = ":TSUpdate",
     config = get_config("treesitter"),
+    build = function()
+        require('nvim-treesitter.install').update({ with_sync = true })()
+      end,
     dependencies = {
-      { "nvim-treesitter/playground", cmd = { "TSHighlightCapturesUnderCursor", "TSPlaygroundToggle" },
-      },
+      { "nvim-treesitter/playground"},
       "nvim-treesitter/nvim-treesitter-refactor",
       "nvim-treesitter/nvim-treesitter-textobjects",
       "nvim-treesitter/nvim-treesitter-context",
@@ -134,9 +136,10 @@ return {
   -----------------------------------------------------------------------------//
   {
     "echasnovski/mini.comment",
-    branch = "stable",
+    event = "BufReadPre",
+    opts = {},
     config = function()
-      require("mini.comment").setup()
+      require("mini.comment").setup({})
     end,
   },
   "tpope/vim-surround",
@@ -224,8 +227,18 @@ return {
   {
     "echasnovski/mini.jump",
     branch = "stable",
-    config = function()
-      require("mini.jump").setup()
+  event = "BufReadPre",
+    opts = {
+      mappings = {
+        forward = "f",
+        backward = "F",
+        forward_till = "t",
+        backward_till = "T",
+        repeat_jump = "",
+      },
+    },
+    config = function(_, opts)
+      require("mini.jump").setup(opts)
     end,
   },
   {
@@ -241,23 +254,45 @@ return {
   },
 
   {
-    "mhinz/vim-startify",
-    as = "startify",
-    setup = function()
-      vim.g.startify_fortune_use_unicode = 1
-    end,
-  },
-
-  {
     "lukas-reineke/indent-blankline.nvim",
-    config = get_config("indent-lines"),
+  event = "BufReadPre",
+  init = function()
+    vim.g.indent_blankline_char = "▎"
+    vim.g.indent_blankline_char_blankline = "▎"
+  end,
+    opts = {
+      filetype_exclude= {
+      "lazy",
+      "man",
+      "gitmessengerpopup",
+      "diagnosticpopup",
+      "lspinfo",
+      "help",
+      "neo-tree",
+      "NeogitStatus",
+      "checkhealth",
+      "TelescopePrompt",
+      "TelescopeResults",
+    },
+    buftype_exclude                = { "terminal" },
+    show_trailing_blankline_indent = false,
+    use_treesitter_scope           = true,
+    space_char_blankline           = " ",
+    show_foldtext                  = false,
+    strict_tabs                    = true,
+    max_indent_increase            = 1,
+    show_current_context           = false,
+    show_current_context_start     = false,
+    context_highlight_list         = { "IndentBlanklineContext" },
+    viewport_buffer                = 100,
+    }
   },
 
   {
     "rcarriga/nvim-notify",
-    as = "notify",
-    config = function()
-      vim.notify = require("notify")
+    init = function()
+      local notify = require("notify")
+      vim.notify = notify
     end,
   },
 
