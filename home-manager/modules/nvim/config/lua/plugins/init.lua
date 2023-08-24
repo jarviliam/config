@@ -86,6 +86,7 @@ return {
   {
     "ibhagwan/fzf-lua",
     dependencies = "kyazdani42/nvim-web-devicons",
+    lazy=false,
     config = function()
       require("fzf-lua").setup({ "fzf-native" })
     end,
@@ -98,7 +99,7 @@ return {
 
   {
     "folke/which-key.nvim",
-    lazy=true,
+    lazy=false,
     config = get_config("keys"),
   },
   -----------------------------------------------------------------------------//
@@ -262,7 +263,7 @@ return {
   { "sainnhe/everforest", lazy=conf.theme ~="everforest"},
   { "EdenEast/nightfox.nvim",lazy=conf.theme ~="nightfox", config = get_config("themes.nightfox") },
   {
-    "catppuccin/nvim",
+    "catppuccin/nvim",lazy=conf.theme ~= "catppuccin"
     config = get_config("themes.cat"),
   }
 }

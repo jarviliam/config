@@ -1,6 +1,4 @@
-local config = require("conf")
 local catppuccin = require("catppuccin")
-
 vim.g.catppuccin_flavour = "mocha" -- latte, frappe, macchiato, mocha
 catppuccin.setup({
   transparent_background = false,
@@ -72,7 +70,3 @@ catppuccin.setup({
     symbols_outline = true,
   },
 })
-
-if config.theme == "catppuccin" then
-  vim.cmd(string.format("colorscheme %s", config.theme))
-end
