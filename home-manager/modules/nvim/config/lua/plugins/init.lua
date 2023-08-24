@@ -76,7 +76,6 @@ return {
   },
   {
     "danymat/neogen",
-    dependencies = "nvim-treesitter/nvim-treesitter",
     config = get_config("neogen"),
   },
 
@@ -97,11 +96,6 @@ return {
     config = get_config("trouble"),
   },
 
-  {
-    "folke/which-key.nvim",
-    lazy=false,
-    config = get_config("keys"),
-  },
   -----------------------------------------------------------------------------//
   -- Text Objects and Editing {{{1
   -----------------------------------------------------------------------------//
@@ -118,7 +112,6 @@ return {
     "windwp/nvim-autopairs",
     event = "InsertEnter",
     config = get_config("autopairs"),
-    dependencies = { "nvim-treesitter/nvim-treesitter", "hrsh7th/nvim-cmp" },
   },
   { "numToStr/Navigator.nvim", config = get_config("navigate") },
 
@@ -262,8 +255,4 @@ return {
   { "sainnhe/edge", lazy=conf.theme ~= "edge"},
   { "sainnhe/everforest", lazy=conf.theme ~="everforest"},
   { "EdenEast/nightfox.nvim",lazy=conf.theme ~="nightfox", config = get_config("themes.nightfox") },
-  {
-    "catppuccin/nvim",lazy=conf.theme ~= "catppuccin"
-    config = get_config("themes.cat"),
-  }
 }
