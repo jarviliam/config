@@ -7,9 +7,7 @@ return {
   "nvim-lua/plenary.nvim",
   {
     "kyazdani42/nvim-web-devicons",
-    config = function()
-      require("nvim-web-devicons").setup({ default = true })
-    end,
+    opts = {default = true},
   },
   --
   -----------------------------------------------------------------------------//
@@ -93,20 +91,6 @@ return {
     end,
   },
   {
-    -- "~/Coding/telescope.nvim",
-    "nvim-telescope/telescope.nvim",
-    lazy=true,
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-lua/popup.nvim",
-      {
-        "nvim-telescope/telescope-fzf-native.nvim",
-        build = "make",
-      },
-    },
-    config = get_config("telescope"),
-  },
-  {
     "folke/trouble.nvim",
     dependencies = "kyazdani42/nvim-web-devicons",
     config = get_config("trouble"),
@@ -116,20 +100,6 @@ return {
     "folke/which-key.nvim",
     lazy=true,
     config = get_config("keys"),
-  },
-  {
-    "nvim-treesitter/nvim-treesitter",
-    config = get_config("treesitter"),
-    build = function()
-        require('nvim-treesitter.install').update({ with_sync = true })()
-      end,
-    dependencies = {
-      { "nvim-treesitter/playground"},
-      "nvim-treesitter/nvim-treesitter-refactor",
-      "nvim-treesitter/nvim-treesitter-textobjects",
-      "nvim-treesitter/nvim-treesitter-context",
-      "RRethy/nvim-treesitter-textsubjects",
-    },    event = "User FileOpened",
   },
   -----------------------------------------------------------------------------//
   -- Text Objects and Editing {{{1
@@ -164,12 +134,6 @@ return {
     config = get_config("diffview"),
   },
   {
-    "TimUntersberger/neogit",
-    dependencies = { "nvim-lua/plenary.nvim" },
-    cmd = { "Neogit" },
-    config = get_config("neogit"),
-  },
-  {
     dir = "~/Coding/octo.nvim",
     config = get_config("octo"),
   },
@@ -184,16 +148,6 @@ return {
     "lewis6991/gitsigns.nvim",
     event = "BufReadPre",
     config = get_config("gitsigns"),
-  },
-
-  { "mfussenegger/nvim-dap",lazy=true,
-  dependencies = {
-    "rcarriga/nvim-dap-ui",
-    "theHamsta/nvim-dap-virtual-text",
-    "leoluz/nvim-dap-go",
-    "mfussenegger/nvim-dap-python"
-    },
-    config = require("modules.dap").setup() 
   },
   {
     "karloskar/poetry-nvim",
@@ -306,10 +260,9 @@ return {
   { "sainnhe/sonokai",lazy = conf.theme ~= "sonokai" },
   { "sainnhe/edge", lazy=conf.theme ~= "edge"},
   { "sainnhe/everforest", lazy=conf.theme ~="everforest"},
-  { "EdenEast/nightfox.nvim", config = get_config("themes.nightfox") },
+  { "EdenEast/nightfox.nvim",lazy=conf.theme ~="nightfox", config = get_config("themes.nightfox") },
   {
     "catppuccin/nvim",
-    as = "catppuccin",
     config = get_config("themes.cat"),
   }
 }
