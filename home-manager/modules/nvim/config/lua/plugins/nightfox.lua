@@ -1,6 +1,6 @@
-local config = require("conf")
-require("nightfox").setup({
-  options = {
+local conf = require("conf")
+return { "EdenEast/nightfox.nvim",lazy=conf.theme ~="nightfox" or conf.theme ~= "nordfox",
+  opts = {
     -- Compiled file's destination location
     compile_path = vim.fn.stdpath("cache") .. "/nightfox",
     compile_file_suffix = "_compiled", -- Compiled file suffix
@@ -37,9 +37,6 @@ require("nightfox").setup({
       tsrainbow = true,
       whichkey = true,
     },
-  },
-})
+  }
+},
 
-if config.theme == "nightfox" or config.theme == "nordfox" then
-  vim.cmd(string.format("colorscheme %s", config.theme))
-end

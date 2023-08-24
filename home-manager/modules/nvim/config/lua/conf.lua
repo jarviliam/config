@@ -1,7 +1,7 @@
 local M = {}
 
 -- Theme selector
-M.theme = "catppuccin"
+M.theme = "nightfox"
 -- Toggle Frontend plugins
 M.toggle_frontend = false
 -- Toggle Global Statusline
