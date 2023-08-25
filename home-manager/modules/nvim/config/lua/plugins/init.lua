@@ -73,9 +73,7 @@ return {
   -- })
   {
     "karloskar/poetry-nvim",
-    config = function()
-      require("poetry-nvim").setup()
-    end,
+    lazy = false,
   },
   -----------------------------------------------------------------------------//
   -- General plugins {{{1
