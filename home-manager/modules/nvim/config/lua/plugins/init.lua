@@ -55,7 +55,15 @@ return {
     dependencies = "kyazdani42/nvim-web-devicons",
   },
 
-  { "numToStr/Navigator.nvim",        lazy = false, config = get_config("navigate") },
+  {
+    "numToStr/Navigator.nvim",
+    keys = {
+      { "<C-h>", '<cmd>NavigatorLeft<cmd>' },
+      { "<C-k>", '<cmd>NavigatorUp<cmd>' },
+      { "<C-l>", '<cmd>NavigatorRight<cmd>' },
+      { "<C-j>", '<cmd>NavigatorDown<cmd>' },
+    }
+  },
 
   -----------------------------------------------------------------------------//
   -- Git {{{1
@@ -91,7 +99,7 @@ return {
     tag = "legacy",
   },
 
-  { "tpope/vim-eunuch",   lazy = false },
+  { "tpope/vim-eunuch",               lazy = false },
   {
     "mbbill/undotree",
     cmd = "UndotreeToggle",
@@ -144,7 +152,9 @@ return {
     "karb94/neoscroll.nvim",
     event = "WinScrolled",
     keys = { "<C-u>", "<C-d>", "gg", "G" },
-    config = get_config("scroll"),
+    opts = {
+      hide_cursor = false,
+    }
   },
 
   { "sainnhe/sonokai",    lazy = conf.theme ~= "sonokai" },
