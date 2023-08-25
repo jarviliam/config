@@ -18,8 +18,8 @@ return {
     event = "BufReadPre",
     dependencies = {
       "hrsh7th/cmp-nvim-lsp",
-    "ray-x/lsp_signature.nvim",
-    "folke/neodev.nvim",
+      "ray-x/lsp_signature.nvim",
+      "folke/neodev.nvim",
     },
     config = function()
       require("neodev").setup({})
@@ -41,20 +41,6 @@ return {
       padding = " ",
     })
   end
-  },
-  {
-    "hrsh7th/nvim-cmp",
-    event = "InsertEnter",
-    dependencies = {
-       "hrsh7th/cmp-nvim-lsp",
-       "hrsh7th/cmp-path",
-       "hrsh7th/cmp-buffer",
-       "hrsh7th/cmp-nvim-lua",
-       "hrsh7th/cmp-nvim-lua",
-       "saadparwaiz1/cmp_luasnip",
-       "petertriho/cmp-git",
-    },
-    config = get_config("compe"),
   },
   {
     "L3MON4D3/LuaSnip",
@@ -108,12 +94,7 @@ return {
     end,
   },
   "tpope/vim-surround",
-  {
-    "windwp/nvim-autopairs",
-    event = "InsertEnter",
-    config = get_config("autopairs"),
-  },
-  { "numToStr/Navigator.nvim", config = get_config("navigate") },
+  { "numToStr/Navigator.nvim",lazy=false, config = get_config("navigate") },
 
   -----------------------------------------------------------------------------//
   -- Git {{{1
@@ -254,5 +235,4 @@ return {
   { "sainnhe/sonokai",lazy = conf.theme ~= "sonokai" },
   { "sainnhe/edge", lazy=conf.theme ~= "edge"},
   { "sainnhe/everforest", lazy=conf.theme ~="everforest"},
-  { "EdenEast/nightfox.nvim",lazy=conf.theme ~="nightfox", config = get_config("themes.nightfox") },
 }
