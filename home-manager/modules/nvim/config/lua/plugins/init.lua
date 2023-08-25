@@ -20,6 +20,7 @@ return {
       "hrsh7th/cmp-nvim-lsp",
       "ray-x/lsp_signature.nvim",
       "folke/neodev.nvim",
+      "SmiteshP/nvim-navic",
     },
     config = function()
       require("neodev").setup({})
@@ -33,16 +34,6 @@ return {
     end,
   },
   {
-    "ray-x/lsp_signature.nvim", config = function()
-    require "lsp_signature".setup({
-      handler_opts = { border = "rounded" },
-      hint_prefix = "",
-      fixpos = true,
-      padding = " ",
-    })
-  end
-  },
-  {
     "L3MON4D3/LuaSnip",
     event = "InsertEnter",
     config = 'require("modules.luasnip")',
@@ -50,15 +41,6 @@ return {
   },
   {
     "jose-elias-alvarez/null-ls.nvim",
-  },
-  {
-    "SmiteshP/nvim-navic",
-    dependencies = "neovim/nvim-lspconfig",
-    module = "nvim-navic",
-    config = function()
-      vim.g.navic_silence = true
-      require("nvim-navic").setup({ separator = " " })
-    end,
   },
   {
     "danymat/neogen",
@@ -93,21 +75,12 @@ return {
       require("mini.comment").setup({})
     end,
   },
-  "tpope/vim-surround",
+  "tpope/vim-surround, lazy=false",
   { "numToStr/Navigator.nvim",lazy=false, config = get_config("navigate") },
 
   -----------------------------------------------------------------------------//
   -- Git {{{1
   -----------------------------------------------------------------------------//
-  {
-    "sindrets/diffview.nvim",
-    cmd = {
-      "DiffviewOpen",
-      "DiffviewFileHistory",
-    },
-    dependencies = {"nvim-lua/plenary.nvim"},
-    config = get_config("diffview"),
-  },
   {
     dir = "~/Coding/octo.nvim",
     config = get_config("octo"),
@@ -119,11 +92,6 @@ return {
   --     'nvim-telescope/telescope.nvim'
   --   }
   -- })
-  {
-    "lewis6991/gitsigns.nvim",
-    event = "BufReadPre",
-    config = get_config("gitsigns"),
-  },
   {
     "karloskar/poetry-nvim",
     config = function()
@@ -146,8 +114,7 @@ return {
     tag = "legacy",
   },
 
-{"tpope/vim-eunuch"},
-
+{"tpope/vim-eunuch",lazy=false},
   {
     "mbbill/undotree",
     cmd = "UndotreeToggle",

@@ -12,6 +12,17 @@ local on_attach = function(client, bufnr)
     client.config.flags.allow_incremental_sync = true
     client.config.flags.debounce_text_changes  = 100
   end
+if client.server_capabilities.documentSymbolProvider then
+        require("nvim-navic").attach(client, bufnr)
+  end
+if client.supports_method("textDocument/signatureHelp") then
+      require("lsp_signature").on_attach({
+        handler_opts = { border = "rounded" },
+        hint_prefix = "",
+        fixpos = true,
+        padding = " ",
+      }, bufnr)
+    end
 
   local wk = require("which-key")
   local keymaps = {
