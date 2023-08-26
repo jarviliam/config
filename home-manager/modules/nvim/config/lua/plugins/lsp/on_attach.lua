@@ -39,9 +39,7 @@ return function (options)
     --   [[autocmd CursorHold,CursorHoldI * lua vim.diagnostic.open_float({focusable=false})]]
     -- )
       vim.api.nvim_create_autocmd("CursorHold",{
-        callback = function ()
-          vim.diagnostic.open_float({focusable=false})
-        end,
+        callback = require("plugins.lsp.diagnostic").hover,
         buffer = bufnr
       })
   end
