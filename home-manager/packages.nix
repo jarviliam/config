@@ -29,6 +29,7 @@
       killall
       fd
       nix-prefetch-git
+      efm-langserver
       comma
       manix
       qbittorrent
