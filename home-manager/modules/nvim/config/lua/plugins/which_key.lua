@@ -20,7 +20,7 @@ return {
       key_labels = { ["<leader>"] = "SPC" },
       triggers_blacklist = {
         i = { "j", "k", "n" },
-        v = { "j", "k" },
+        v = { "j", "k", "y" },
       },
       window = {
         border = "none", -- none, single, double, shadow

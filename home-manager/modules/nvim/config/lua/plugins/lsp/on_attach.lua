@@ -36,9 +36,6 @@ return function(options)
     if
       client.supports_method("textDocument/publishDiagnostics") or client.supports_method("textDocument/diagnostic")
     then
-      -- vim.cmd(
-      --   [[autocmd CursorHold,CursorHoldI * lua vim.diagnostic.open_float({focusable=false})]]
-      -- )
       vim.api.nvim_create_autocmd("CursorHold", {
         callback = require("plugins.lsp.diagnostic").hover,
         buffer = bufnr,
@@ -52,11 +49,15 @@ return function(options)
         [[<cmd>lua vim.lsp.buf.format({async=true})<CR>]],
         { silent = true, buffer = bufnr, desc = "format document [null-ls]" }
       )
-      -- vim.api.nvim_create_autocmd("BufWritePost",{
-      -- callback = function ()
-      --
-      -- end,
-      -- buffer = bufnr})
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        buffer = bufnr,
+        callback = function()
+          vim.lsp.buf.format({
+            timeout_ms = 2000,
+            bufnr = bufnr,
+          })
+        end,
+      })
     end
   end
 end

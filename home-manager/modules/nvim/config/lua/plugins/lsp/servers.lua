@@ -62,6 +62,21 @@ return {
             formatStdin = true,
           },
         },
+        ["yaml"] = {
+          {
+            prefix = "actionlint",
+            lintCommand = "actionlint -no-color -onelone ${INPUT} -",
+            lintStdin = true,
+            lintFormats = {
+              "%f:%l:%c: %.%#: SC%n:%trror:%m",
+              "%f:%l:%c: %.%#: SC%n:%tarning:%m",
+              "%f:%l:%c: %.%#: SC%n:%tnfo:%m",
+              "%f:%l:%c: %m",
+            },
+            requireMarker = true,
+            rootMarkers = { ".github/" },
+          },
+        },
       },
     },
   },
@@ -71,6 +86,7 @@ return {
   gopls = {},
   nil_ls = {},
   pyright = {
+    init_options = { documentFormatting = false },
     before_init = function(params, config)
       local Path = require("plenary.path")
       local venv = Path:new((config.root_dir:gsub("/", Path.path.sep)), ".venv")
@@ -82,6 +98,7 @@ return {
     end,
   },
   lua_ls = {
+    init_options = { documentFormatting = false },
     settings = {
       Lua = {
         format = {
