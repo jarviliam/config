@@ -34,10 +34,10 @@ vim.cmd("filetype plugin indent on") -- Enable all filetype plugins
 -- Avoid showing message extra message when using completion
 o.shortmess:append("c")
 o.completeopt:append({
-	"noinsert",
-	"menuone",
-	"noselect",
-	"preview",
+  "noinsert",
+  "menuone",
+  "noselect",
+  "preview",
 })
 o.shortmess:append("WcC") -- Reduce command line messages
 o.splitkeep = "screen" -- Reduce scroll during window split
@@ -46,10 +46,10 @@ o.showbreak = "↳ "
 o.mouse = "a"
 
 o.diffopt:append({
-	"linematch:50",
-	"vertical",
-	"foldcolumn:0",
-	"indent-heuristic",
+  "linematch:50",
+  "vertical",
+  "foldcolumn:0",
+  "indent-heuristic",
 })
 
 o.undolevels = 10000
@@ -59,11 +59,11 @@ o.splitbelow = true
 o.spell = true
 
 o.formatoptions:append({
-	r = true, -- Automatically insert comment leader after <Enter> in Insert mode.
-	o = true, -- Automatically insert comment leader after 'o' or 'O' in Normal mode.
-	l = true, -- Long lines are not broken in insert mode.
-	t = true, -- Do not auto wrap text
-	n = true, -- Recognise lists
+  r = true, -- Automatically insert comment leader after <Enter> in Insert mode.
+  o = true, -- Automatically insert comment leader after 'o' or 'O' in Normal mode.
+  l = true, -- Long lines are not broken in insert mode.
+  t = true, -- Do not auto wrap text
+  n = true, -- Recognise lists
 })
 
 o.foldcolumn = "0"
@@ -74,26 +74,26 @@ o.listchars = { eol = "↩", tab = "▸ ", trail = "·" }
 
 -- Disable Builtins
 local builtins = {
-	"gzip",
-	"2html_plugin",
-	"getscript",
-	"getscriptPlugin",
-	"logiPat",
-	"matchit",
-	"matchparen",
-	"netrw",
-	"netrwFileHandlers",
-	"netrwPlugin",
-	"netrwSettings",
-	"rrhelper",
-	"tar",
-	"tarPlugin",
-	"vimball",
-	"vimballPlugin",
-	"zip",
-	"zipPlugin",
+  "gzip",
+  "2html_plugin",
+  "getscript",
+  "getscriptPlugin",
+  "logiPat",
+  "matchit",
+  "matchparen",
+  "netrw",
+  "netrwFileHandlers",
+  "netrwPlugin",
+  "netrwSettings",
+  "rrhelper",
+  "tar",
+  "tarPlugin",
+  "vimball",
+  "vimballPlugin",
+  "zip",
+  "zipPlugin",
 }
 
 for _, plugin in ipairs(builtins) do
-	vim.g["loaded_" .. plugin] = 1
+  vim.g["loaded_" .. plugin] = 1
 end

@@ -1,14 +1,16 @@
 local prettierd = {
   formatCommand = "prettierd ${INPUT}",
   formatStdin = true,
-  env = { string.format("PRETTIERD_DEFAULT_CONFIG=%s/.prettierrc.json", vim.fn.getcwd()) },
+  env = {
+    string.format("PRETTIERD_DEFAULT_CONFIG=%s/.prettierrc.json", vim.fn.getcwd()),
+  },
 }
 
 return {
   efm = {
     init_options = { documentFormatting = true },
     settings = {
-      rootMarkers = {".git/"},
+      rootMarkers = { ".git/" },
       languages = {
         ["lua"] = {
           {
@@ -25,16 +27,16 @@ return {
           {
             formatCommand = "goimports",
             formatStdin = true,
-          }
+          },
         },
-        ["nix"]= {
+        ["nix"] = {
           {
             formatCommand = "nixfmt",
             formatStdin = true,
-             rootMarkers = {
-              'flake.nix',
-              'shell.nix',
-              'default.nix',
+            rootMarkers = {
+              "flake.nix",
+              "shell.nix",
+              "default.nix",
             },
           },
         },
@@ -46,7 +48,7 @@ return {
           {
             formatCommand = "ruff --fix -e -n -",
             formatStdin = true,
-          }
+          },
         },
         ["javascript"] = { prettierd },
         ["javascriptreact"] = { prettierd },
@@ -58,10 +60,10 @@ return {
           {
             formatCommand = "terraform fmt -",
             formatStdin = true,
-          }
-        }
-      }
-    }
+          },
+        },
+      },
+    },
   },
   bashls = {},
   clangd = {},
@@ -96,14 +98,14 @@ return {
         telemetry = { enable = false },
         workspace = { checkThirdParty = false },
         diagnostics = {
-                  enable = true,
-                  neededFileStatus = {
-                    ["codestyle-check"] = "Any",
-                  },
-                  globals = { "vim", "hs" },
-                },
-              },
+          enable = true,
+          neededFileStatus = {
+            ["codestyle-check"] = "Any",
+          },
+          globals = { "vim", "hs" },
         },
+      },
+    },
   },
   rust_analyzer = {},
   terraformls = {},
@@ -114,10 +116,10 @@ return {
     },
   },
   yamlls = {
-	schemaStore = {
-		enable = true,
-		url = "https://www.schemastore.org/api/json/catalog.json",
-	},
+    schemaStore = {
+      enable = true,
+      url = "https://www.schemastore.org/api/json/catalog.json",
+    },
     schemas = {
       kubernetes = "globPattern",
       ["https://json.schemastore.org/github-workflow.json"] = "/.github/workflows/*",

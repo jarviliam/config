@@ -1,71 +1,71 @@
 local ok, lualine = as.safe_require("lualine")
 if not ok then
-	return
+  return
 end
 local function diff_source()
-	local gitsigns = vim.b.gitsigns_status_dict
-	if gitsigns then
-		return {
-			added = gitsigns.added,
-			modified = gitsigns.changed,
-			removed = gitsigns.removed,
-		}
-	end
+  local gitsigns = vim.b.gitsigns_status_dict
+  if gitsigns then
+    return {
+      added = gitsigns.added,
+      modified = gitsigns.changed,
+      removed = gitsigns.removed,
+    }
+  end
 end
 
 local sections = {
-	lualine_a = {
-		{ "b:gitsigns_head", icon = "" },
-		{ "diff", source = diff_source },
-	},
-	lualine_b = {
-		{
-			"diagnostics",
-			sources = { "nvim_diagnostic" },
-			sections = { "error", "warn", "info", "hint" },
-		},
-	},
-	lualine_c = {
-		{
-			"filetype",
-			icon_only = true, -- Display only an icon for filetype
-		},
-		{
-			"filename",
-			file_status = true, -- Displays file status (readonly status, modified status)
-			path = 1, -- 0: Just the filename 1: Relative path 2: Absolute pathath
-			shorting_target = 40, -- Shortens path to leave 40 spaces in the window
-		},
-		{
-			function()
-				local navic = require("nvim-navic")
-				return navic.get_location()
-			end,
-			cond = function()
-				local navic = require("nvim-navic")
-				return navic.is_available()
-			end,
-		},
-	},
-	lualine_x = { "encoding", "fileformat", "filesize" },
-	lualine_y = { "progress" },
-	lualine_z = { "location" },
+  lualine_a = {
+    { "b:gitsigns_head", icon = "" },
+    { "diff", source = diff_source },
+  },
+  lualine_b = {
+    {
+      "diagnostics",
+      sources = { "nvim_diagnostic" },
+      sections = { "error", "warn", "info", "hint" },
+    },
+  },
+  lualine_c = {
+    {
+      "filetype",
+      icon_only = true, -- Display only an icon for filetype
+    },
+    {
+      "filename",
+      file_status = true, -- Displays file status (readonly status, modified status)
+      path = 1, -- 0: Just the filename 1: Relative path 2: Absolute pathath
+      shorting_target = 40, -- Shortens path to leave 40 spaces in the window
+    },
+    {
+      function()
+        local navic = require("nvim-navic")
+        return navic.get_location()
+      end,
+      cond = function()
+        local navic = require("nvim-navic")
+        return navic.is_available()
+      end,
+    },
+  },
+  lualine_x = { "encoding", "fileformat", "filesize" },
+  lualine_y = { "progress" },
+  lualine_z = { "location" },
 }
 lualine.setup({
-	sections = sections,
-	inactive_sections = {
-		lualine_a = {},
-		lualine_b = {},
-		lualine_c = { "filename" },
-		lualine_x = { "location" },
-		lualine_y = {},
-		lualine_z = {},
-	},
-	options = {
-		theme = "auto",
-		icons_enabled = true,
-		disabled_filetypes = {},
-		always_divide_middle = false,
-	},
-	extensions = { "fugitive", "quickfix", "symbols-outline" },
+  sections = sections,
+  inactive_sections = {
+    lualine_a = {},
+    lualine_b = {},
+    lualine_c = { "filename" },
+    lualine_x = { "location" },
+    lualine_y = {},
+    lualine_z = {},
+  },
+  options = {
+    theme = "auto",
+    icons_enabled = true,
+    disabled_filetypes = {},
+    always_divide_middle = false,
+  },
+  extensions = { "fugitive", "quickfix", "symbols-outline" },
 })
