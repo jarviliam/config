@@ -12,35 +12,15 @@ map("n", "Q", "<Nop>")
 
 map({ "n", "v", "i" }, "<C-F>", "<Esc>gUiw`]a")
 
-map({ 'n', 'x' }, 'j', [[v:count == 0 ? 'gj' : 'j']], { expr = true })
-map({ 'n', 'x' }, 'k', [[v:count == 0 ? 'gk' : 'k']], { expr = true })
+map({ "n", "x" }, "j", [[v:count == 0 ? 'gj' : 'j']], { expr = true })
+map({ "n", "x" }, "k", [[v:count == 0 ? 'gk' : 'k']], { expr = true })
 -----------------------------------------------------------------------------//
 -- buffers {{{1
 -----------------------------------------------------------------------------//
-map(
-  "n",
-  "<TAB>",
-  ":bnext<CR>",
-  { silent = true, desc = "buffer: cycle forward" }
-)
-map(
-  "n",
-  "<S-TAB>",
-  ":bprevious<CR>",
-  { silent = true, desc = "buffer: cycle backward" }
-)
+map("n", "<TAB>", ":bnext<CR>", { silent = true, desc = "buffer: cycle forward" })
+map("n", "<S-TAB>", ":bprevious<CR>", { silent = true, desc = "buffer: cycle backward" })
 
 --Undo Tree---
-map(
-  "n",
-  l .. "u",
-  ":UndotreeToggle<CR>",
-  { silent = true, desc = "undo: toggle" }
-)
+map("n", l .. "u", ":UndotreeToggle<CR>", { silent = true, desc = "undo: toggle" })
 
-map(
-  "n",
-  l .. "q",
-  ":lua require('core.utils').clear_buffers()<CR>",
-  { silent = true, desc = "buffer: clear" }
-)
+map("n", l .. "q", ":lua require('core.utils').clear_buffers()<CR>", { silent = true, desc = "buffer: clear" })

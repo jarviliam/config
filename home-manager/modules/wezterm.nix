@@ -269,6 +269,11 @@
                               local function is_vi_process(pane)
                                 return pane:get_foreground_process_name():find("n?vim") ~= nil
                               end
+                              -- if you are *NOT* lazy-loading smart-splits.nvim (recommended)
+                              local function is_vim(pane)
+                                -- this is set by the plugin, and unset on ExitPre in Neovim
+                                return pane:get_user_vars().IS_NVIM == 'true'
+                              end
 
                               local direction_keys = {
                                 Left = "h",
@@ -284,11 +289,11 @@
                               local function split_nav(resize_or_move, key)
                                 return {
                                   key = key,
-                                  mods = resize_or_move == "resize" and "SHIFT|ALT" or "ALT",
+                                  mods = resize_or_move == "resize" and "META" or "CTRL",
                                   action = wezterm.action_callback(function(win, pane)
-                                    if is_vi_process(pane) then
+                                    if is_vim(pane) then
                                       win:perform_action({
-                                        SendKey = { key = key, mods = resize_or_move == "resize" and "SHIFT|ALT" or "ALT" },
+                                        SendKey = { key = key, mods = resize_or_move == "resize" and "META" or "CTRL" },
                                       }, pane)
                                     else
                                       if resize_or_move == "resize" then

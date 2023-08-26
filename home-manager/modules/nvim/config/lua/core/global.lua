@@ -136,14 +136,7 @@ function as.augroup(name, commands)
 				)
 			)
 		else
-			vim.notify(
-				string.format(
-					"Autocmd in %s is typed wrong: %s",
-					name,
-					vim.inspect(name)
-				),
-				vim.log.levels.ERROR
-			)
+			vim.notify(string.format("Autocmd in %s is typed wrong: %s", name, vim.inspect(name)), vim.log.levels.ERROR)
 		end
 	end
 	vim.cmd("augroup END")
@@ -157,11 +150,7 @@ function as.safe_require(module, opts)
 	opts = opts or { silent = false }
 	local ok, result = pcall(require, module)
 	if not ok and not opts.silent then
-		vim.notify(
-			result,
-			vim.log.levels.ERROR,
-			{ title = string.format("Error requiring: %s", module) }
-		)
+		vim.notify(result, vim.log.levels.ERROR, { title = string.format("Error requiring: %s", module) })
 	end
 	return ok, result
 end
