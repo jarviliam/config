@@ -95,6 +95,11 @@ return {
       else
         config.settings.python.pythonPath = tostring(venv:joinpath("Scripts", "python.exe"))
       end
+      local match = vim.fn.glob(vim.fn.getcwd() .. "/poetry.lock")
+      if match ~= "" then
+        local poetry_venv = vim.fn.trim(vim.fn.system("poetry env info -p"))
+        vim.env.VIRTUAL_ENV = poetry_venv
+      end
     end,
   },
   lua_ls = {

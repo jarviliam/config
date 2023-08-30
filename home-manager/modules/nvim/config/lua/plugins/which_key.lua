@@ -21,6 +21,7 @@ return {
       triggers_blacklist = {
         i = { "j", "k", "n" },
         v = { "j", "k", "y" },
+        n = { "y" },
       },
       window = {
         border = "none", -- none, single, double, shadow

@@ -17,9 +17,9 @@ end
 
 lazy.setup("plugins", {
   defaults = { lazy = true },
-  -- dev = {
-  --   path = "~/Sources/nvim",
-  -- },
+  dev = {
+    path = "~/Coding/",
+  },
   install = { colorscheme = { "nightfly", "lua-embark" } },
   checker = { enabled = false },
   ui = {

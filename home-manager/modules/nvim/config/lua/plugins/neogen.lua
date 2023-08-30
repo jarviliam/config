@@ -1,6 +1,7 @@
 return {
   "danymat/neogen",
   dependencies = "nvim-treesitter/nvim-treesitter",
+  cmd = { "Neogen" },
   config = function()
     local neogen = require("neogen")
     neogen.setup({
@@ -18,4 +19,3 @@ return {
   end,
   version = "*",
 }
-

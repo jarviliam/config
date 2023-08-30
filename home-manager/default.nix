@@ -26,5 +26,6 @@
       enable = false;
       # vimKeys = true;
     };
+    gpg = { enable = true; };
   };
 }

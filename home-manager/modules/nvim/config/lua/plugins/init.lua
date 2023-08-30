@@ -36,6 +36,7 @@ return {
   {
     "karloskar/poetry-nvim",
     lazy = false,
+    enabled = false,
   },
   -----------------------------------------------------------------------------//
   -- General plugins {{{1
@@ -118,7 +119,13 @@ return {
     },
   },
 
-  { "sainnhe/sonokai", lazy = conf.theme ~= "sonokai" },
+  {
+    "olimorris/onedarkpro.nvim",
+    lazy = conf.theme ~= "onedark",
+    priority = 1000,
+  },
+  { "sainnhe/sonokai", lazy = conf.theme ~= "sonokai", dev = true },
+  { "sainnhe/sonokai", lazy = conf.theme ~= "sonokai", dev = true },
   { "sainnhe/edge", lazy = conf.theme ~= "edge" },
   { "sainnhe/everforest", lazy = conf.theme ~= "everforest" },
 }

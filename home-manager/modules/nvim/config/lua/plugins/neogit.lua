@@ -1,6 +1,7 @@
 return {
   "NeogitOrg/neogit",
   cmd = { "Neogit" },
+  dev = true,
   opts = {
     disable_signs = false,
     disable_context_highlighting = false,
@@ -14,7 +15,8 @@ return {
     },
     integrations = {
       diffview = true,
-      telescope = true,
+      telescope = false,
+      fzf_lua = true,
     },
   },
 }

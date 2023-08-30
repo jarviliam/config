@@ -3,6 +3,9 @@
 {
   home.packages = with pkgs;
     [
+      emacs
+      lua
+      luajitPackages.luarocks-nix
       awscli2
       coreutils
       github-cli
