@@ -1,5 +1,8 @@
 local o = vim.opt
 
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
+
 -- Visual {{{
 o.termguicolors = true
 o.pumheight = 20

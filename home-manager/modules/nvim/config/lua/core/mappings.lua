@@ -49,3 +49,22 @@ map_toggle("w", "<Cmd>setlocal wrap!<CR>", "Toggle 'wrap'")
 --map("n", "s", require("substitute").operator)
 --map("n", "S", require("substitute").eol)
 --map("n", "ss", require("substitute").line)
+--
+local function foldexpr(value)
+  return function()
+    vim.opt_local.foldmethod = value
+  end
+end
+
+local function opts(desc)
+  return { silent = true, desc = desc }
+end
+
+vim.keymap.set("o", "H", "^", opts("To the beginning of line"))
+vim.keymap.set("o", "L", "$", opts("To the end of line"))
+
+vim.keymap.set("n", "<leader>zm", foldexpr("manual"), opts("Set local foldmethod to manual"))
+vim.keymap.set("n", "<leader>ze", foldexpr("expr"), opts("Set local foldmethod to expr"))
+vim.keymap.set("n", "<leader>zi", foldexpr("indent"), opts("Set local foldmethod to indent"))
+vim.keymap.set("n", "<leader>zk", foldexpr("marker"), opts("Set local foldmethod to marker"))
+vim.keymap.set("n", "<leader>zs", foldexpr("syntax"), opts("Set local foldmethod to syntax"))

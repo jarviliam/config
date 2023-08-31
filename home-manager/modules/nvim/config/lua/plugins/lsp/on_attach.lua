@@ -181,6 +181,7 @@ return function(options)
         })
       end
     end
+
     setup_diagnostics(bufnr)
   end
 end
