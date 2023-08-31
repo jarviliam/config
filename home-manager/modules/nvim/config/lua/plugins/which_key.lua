@@ -6,7 +6,6 @@ return {
     vim.o.timeoutlen = 300
   end,
   config = function()
-    -- https://github.com/folke/which-key.nvim#colors
     vim.cmd([[highlight default link WhichKey          Label]])
     vim.cmd([[highlight default link WhichKeySeperator String]])
     vim.cmd([[highlight default link WhichKeyGroup     Include]])
@@ -84,13 +83,6 @@ return {
         f = { "<cmd>FzfLua filetypes<cr>", "File Types" },
         o = { "<cmd>FzfLua vim_options<cr>", "Options" },
         a = { "<cmd>FzfLua autocmds<cr>", "Auto Commands" },
-        p = {
-          name = "+packer",
-          p = { "<cmd>PackerSync<cr>", "Sync" },
-          s = { "<cmd>PackerStatus<cr>", "Status" },
-          i = { "<cmd>PackerInstall<cr>", "Install" },
-          c = { "<cmd>PackerCompile<cr>", "Compile" },
-        },
       },
       s = {
         name = "+search",

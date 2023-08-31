@@ -22,8 +22,6 @@ map("n", "<S-TAB>", ":bprevious<CR>", { silent = true, desc = "buffer: cycle bac
 
 map("n", "vv", "V")
 map("n", "V", "v$")
-map("n", "k", "gk")
-map("n", "j", "gj")
 map("v", "k", "gk")
 map("v", "j", "gj")
 
@@ -32,7 +30,22 @@ map("n", l .. "u", ":UndotreeToggle<CR>", { silent = true, desc = "undo: toggle"
 
 map("n", l .. "q", ":lua require('core.utils').clear_buffers()<CR>", { silent = true, desc = "buffer: clear" })
 
+local map_toggle = function(lhs, rhs, desc)
+  map("n", [[\]] .. lhs, rhs, { desc = desc })
+end
+map_toggle("b", '<Cmd>lua vim.o.bg = vim.o.bg == "dark" and "light" or "dark"<CR>', "Toggle 'background'")
+map_toggle("c", "<Cmd>setlocal cursorline!<CR>", "Toggle 'cursorline'")
+map_toggle("C", "<Cmd>setlocal cursorcolumn!<CR>", "Toggle 'cursorcolumn'")
+map_toggle("d", "<Cmd>lua MiniBasics.toggle_diagnostic()<CR>", "Toggle diagnostic")
+map_toggle("h", "<Cmd>let v:hlsearch = 1 - v:hlsearch<CR>", "Toggle search highlight")
+map_toggle("i", "<Cmd>setlocal ignorecase!<CR>", "Toggle 'ignorecase'")
+map_toggle("l", "<Cmd>setlocal list!<CR>", "Toggle 'list'")
+map_toggle("n", "<Cmd>setlocal number!<CR>", "Toggle 'number'")
+map_toggle("r", "<Cmd>setlocal relativenumber!<CR>", "Toggle 'relativenumber'")
+map_toggle("s", "<Cmd>setlocal spell!<CR>", "Toggle 'spell'")
+map_toggle("w", "<Cmd>setlocal wrap!<CR>", "Toggle 'wrap'")
+
 -- Substitute
-map("n", "s", require("substitute").operator)
-map("n", "S", require("substitute").eol)
-map("n", "ss", require("substitute").line)
+--map("n", "s", require("substitute").operator)
+--map("n", "S", require("substitute").eol)
+--map("n", "ss", require("substitute").line)
