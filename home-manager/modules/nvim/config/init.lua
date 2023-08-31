@@ -15,7 +15,6 @@ require("core.global")
 require("core.auto")
 require("core.settings")
 require("core.mappings")
-require("core.diagnostics")
 require("lazyplug")
 
 vim.cmd(string.format("colorscheme %s", conf.theme))

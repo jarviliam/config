@@ -26,6 +26,18 @@ return {
     }
     -- capabilities.textDocument.completion.completionItem.snippetSupport = true
 
+    vim.diagnostic.config({
+      virtual_text = { spacing = 4, prefix = "●" },
+      signs = false,
+      underline = true,
+      update_in_insert = false,
+      severity_sort = true,
+      float = {
+        focusable = true,
+        source = "always",
+      },
+    })
+
     for server, opts in pairs(require("plugins.lsp.servers")) do
       local options = {
         capabilities = capabilities,

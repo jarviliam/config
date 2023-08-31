@@ -57,9 +57,17 @@ return {
   { "tpope/vim-eunuch", lazy = false },
   {
     "mbbill/undotree",
+    branch = "search",
     cmd = "UndotreeToggle",
-    config = "vim.g.undotree_WindowLayout = 2",
+    keys = {
+      { mode = "n", "<leader>u", ":UndotreeToggle<CR>", { silent = true } },
+    },
+    init = function()
+      vim.g.undotree_CustomUndotreeCmd = "vertical 40 new"
+      vim.g.undotree_CustomDiffpanelCmd = "botright 15 new"
+    end,
   },
+
   {
     "lukas-reineke/indent-blankline.nvim",
     event = "BufReadPre",

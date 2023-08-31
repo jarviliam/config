@@ -3,18 +3,14 @@ local M = {}
 function M.setup()
   -- Automatically update diagnostics
   vim.diagnostic.config({
-    virtual_text = { spacing = 4, prefix = "●" },
-    signs = true,
+    virtual_text = { spacing = 4, source = "if_many", prefix = "●" },
+    signs = false,
     underline = true,
     update_in_insert = false,
     severity_sort = true,
     float = {
-      focusable = false,
-      style = "minimal",
-      border = "rounded",
+      focusable = true,
       source = "always",
-      header = "",
-      prefix = "",
     },
   })
 
