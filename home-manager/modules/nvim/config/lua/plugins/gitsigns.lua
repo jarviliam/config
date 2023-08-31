@@ -42,6 +42,7 @@ return {
         ignore_whitespace = false,
       },
       on_attach = function(bufnr)
+        local utils = require("core.utils")
         local name = vim.api.nvim_buf_get_name(bufnr)
         if vim.fn.expand("%:t") == "lsp.log" or vim.bo.filetype == "help" then
           return false
@@ -66,19 +67,12 @@ return {
         vim.keymap.set({ "o", "x" }, "ah", function() require("gitsigns.actions").select_hunk() end, { desc = "around hunk" })
         local next_hunk = gs.next_hunk
         local prev_hunk = gs.prev_hunk
-        local function call_and_centre(fn)
-          vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("m'", true, false, false), "n", true)
-          fn()
-          vim.schedule(function()
-            vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("zz", true, false, false), "n", true)
-          end)
-        end
         local ok, ts_repeat_move = pcall(require, "nvim-treesitter.textobjects.repeatable_move")
         if ok then
           next_hunk, prev_hunk = ts_repeat_move.make_repeatable_move_pair(gs.next_hunk, gs.prev_hunk)
         end
-        vim.keymap.set({ "n", "x", "o" }, "]c", function() call_and_centre(next_hunk) end, { desc = "go to next change" })
-        vim.keymap.set({ "n", "x", "o" }, "[c", function() call_and_centre(prev_hunk()) end, { desc = "go to previous change" })
+        vim.keymap.set({ "n", "x", "o" }, "]c", function() utils.call_and_center(next_hunk) end, { desc = "go to next change" })
+        vim.keymap.set({ "n", "x", "o" }, "[c", function() utils.call_and_centre(prev_hunk()) end, { desc = "go to previous change" })
         -- stylua: ignore end
       end,
     })

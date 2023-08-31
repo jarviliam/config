@@ -39,4 +39,45 @@ function M.fmt_on_save(client, buf)
   vim.api.nvim_err_writeln("Not")
 end
 
+--- Lifted from @arsham . Thank you.
+---Executes a command in normal mode.
+---@param mode string @see vim.api.nvim_feedkeys().
+---@param motion string what you mean to do in normal mode.
+---@param special boolean? if provided and true replaces keycodes (<CR> to \r)
+function M.normal(mode, motion, special) --{{{
+  local sequence = vim.api.nvim_replace_termcodes(motion, true, false, special or false)
+  vim.api.nvim_feedkeys(sequence, mode, true)
+end --}}}
+
+function M.call_and_center(fn)
+  M.normal("n", "m'")
+  fn()
+  vim.schedule(function()
+    M.normal("n", "zz")
+  end)
+end
+
+---Creates a command from provided specifics on current buffer.
+---@param name string
+---@param command string|function
+---@param opts? table
+function M.buffer_command(name, command, opts) --{{{
+  opts = opts or {}
+  opts.force = true
+  vim.api.nvim_buf_create_user_command(0, name, command, opts)
+end --}}}
+--
+---Returns true if the buffer has the name variable. If it does not, it sets
+-- the variable and returns false.
+-- @param name The name of the variable to check.
+-- @return boolean
+function M.buffer_has_var(name) --{{{
+  local ok, _ = pcall(vim.api.nvim_buf_get_var, 0, name)
+  if ok then
+    return true
+  end
+  vim.api.nvim_buf_set_var(0, name, true)
+  return false
+end --}}}
+
 return M
