@@ -34,3 +34,25 @@ for kind, symbol in pairs(icons) do
     kinds[index] = symbol
   end
 end
+
+local signs = {
+  lsp = {
+    diagnostic = {
+      signs = {},
+      upper_signs = {},
+    },
+  },
+  kinds = {},
+  border_fn = function(hl)
+    return {
+      { "╭", hl },
+      { "─", hl },
+      { "╮", hl },
+      { "│", hl },
+      { "╯", hl },
+      { "─", hl },
+      { "╰", hl },
+      { "│", hl },
+    }
+  end,
+}

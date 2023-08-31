@@ -9,8 +9,6 @@
 ----------------------------------------------------
 
 vim.g.do_filetype_lua = 1
-vim.g.loaded_python_provider = 0
-vim.g.python3_host_prog = "/Users/liam.jarvis/.pyenv/versions/3.10.1/bin/python"
 
 local conf = require("conf")
 require("core.global")

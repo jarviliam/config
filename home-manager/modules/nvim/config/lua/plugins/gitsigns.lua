@@ -5,21 +5,36 @@ return {
   config = function()
     require("gitsigns").setup({
       signs = {
-        add = { text = "┃" },
-        change = { text = "┃" },
-        delete = { text = "_" },
-        topdelete = { text = "‾" },
-        changedelete = { text = "~" },
+        add = { text = "▌", show_count = true },
+        change = { text = "▌", show_count = true },
+        delete = { text = "▐", show_count = true },
+        topdelete = { text = "▛", show_count = true },
+        changedelete = { text = "▚", show_count = true },
         untracked = { text = "┆" },
       },
-      signcolumn = true, -- Toggle with `:Gitsigns toggle_signs`
-      numhl = false, -- Toggle with `:Gitsigns toggle_numhl`
-      linehl = false, -- Toggle with `:Gitsigns toggle_linehl`
-      word_diff = false, -- Toggle with `:Gitsigns toggle_word_diff`
-      sign_priority = 4,
-      preview_config = { border = "rounded" },
+      update_debounce = 500,
+      signcolumn = false, -- Toggle with `:Gitsigns toggle_signs`
+      numhl = true, -- Toggle with `:Gitsigns toggle_numhl`
+      sign_priority = 10,
+      count_chars = { -- {{{
+        [1] = "",
+        [2] = "₂",
+        [3] = "₃",
+        [4] = "₄",
+        [5] = "₅",
+        [6] = "₆",
+        [7] = "₇",
+        [8] = "₈",
+        [9] = "₉",
+        ["+"] = "₊",
+      }, -- }}}
+      diff_opts = { -- {{{
+        internal = true,
+        algorithm = "patience",
+        indent_heuristic = true,
+        linematch = 60,
+      }, -- }}}
       yadm = { enable = false },
-      current_line_blame_formatter = "<author>:<author_time:%Y-%m-%d> - <summary>",
       current_line_blame_opts = {
         virt_text = true,
         virt_text_pos = "right_align",
@@ -27,44 +42,44 @@ return {
         ignore_whitespace = false,
       },
       on_attach = function(bufnr)
-        local gs = package.loaded.gitsigns
-        local function map(mode, l, r, opts)
-          opts = opts or {}
-          opts.buffer = bufnr
-          vim.keymap.set(mode, l, r, opts)
+        local name = vim.api.nvim_buf_get_name(bufnr)
+        if vim.fn.expand("%:t") == "lsp.log" or vim.bo.filetype == "help" then
+          return false
         end
-        map("n", "<leader>ghp", gs.preview_hunk, { desc = "gitsigns: preview hunk" }) -- preview hunk
-        map("n", "<leaderg>ghb", function()
-          gs.blame_line({ full = true })
-        end, { desc = "gitsigns: blame current line" }) -- git blame
-        map("n", "<leader>ght", gs.toggle_current_line_blame, { desc = "gitsigns: toggle blame" }) -- preview hunk
-        map("n", "<leader>ghd", gs.diffthis, { desc = "gitsigns: diff" })
-        map("n", "<leader>ghr", gs.reset_hunk, { desc = "gitsigns: reset hunk" })
-        map("n", "<leader>ghR", gs.reset_buffer, { desc = "gitsigns: reset buffer" }) -- reset buffer
-        map("n", "<leader>ghu", gs.undo_stage_hunk, { desc = "gitsigns: undo stage" }) -- undo last stage hunk
-        map("n", "<leader>ghs", gs.stage_hunk, { desc = "gitsigns: stage" }) -- git stage hunk
-        map("n", "<leader>ghS", gs.stage_buffer, { desc = "gitsigns: stage buffer" }) -- git stage buffer
-        map("n", "]c", function()
-          if vim.wo.diff then
-            return "]c"
-          end
+        local size = vim.fn.getfsize(name)
+        if size > 1024 * 1024 * 5 then
+          return false
+        end
+        local gs = package.loaded.gitsigns
+        -- stylua: ignore start
+        vim.keymap.set("n", "<leader>gs", function() gs.toggle_signs() end, { desc = "toggle gitsigns sign column" })
+        vim.keymap.set("n", "<leader>hb", function() gs.blame_line({ full = true }) end, { desc = "blame line" })
+        vim.keymap.set("n", "<leader>hs", function() gs.stage_hunk() end, { desc = "stage hunk" })
+        vim.keymap.set("n", "<leader>hu", function() gs.undo_stage_hunk() end, { desc = "undo last staged hunk" })
+        vim.keymap.set("n", "<leader>hr", function() gs.reset_hunk() end, { desc = "reset hunk" })
+        vim.keymap.set("n", "<leader>hR", function() gs.reset_buffer() end, { desc = "reset buffer" })
+        vim.keymap.set("n", "<leader>hp", function() gs.preview_hunk() end, { desc = "preview hunk" })
+        vim.keymap.set("n", "<leader>hl", function() gs.stage_hunk({ vim.fn.line("."), vim.fn.line(".") }) end, { desc = "stage line" })
+        vim.keymap.set("x", "<leader>hs", function() gs.stage_hunk({ vim.fn.line("."), vim.fn.line(".") }) end, { desc = "stage line" })
+        vim.keymap.set("x", "<leader>hr", function() gs.reset_hunk({ vim.fn.line("."), vim.fn.line(".") }) end, { desc = "reset line" })
+        vim.keymap.set({ "o", "x" }, "ih", function() require("gitsigns.actions").select_hunk() end, { desc = "in hunk" })
+        vim.keymap.set({ "o", "x" }, "ah", function() require("gitsigns.actions").select_hunk() end, { desc = "around hunk" })
+        local next_hunk = gs.next_hunk
+        local prev_hunk = gs.prev_hunk
+        local function call_and_centre(fn)
+          vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("m'", true, false, false), "n", true)
+          fn()
           vim.schedule(function()
-            gs.next_hunk()
+            vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("zz", true, false, false), "n", true)
           end)
-          return "<Ignore>"
-        end, { expr = true, desc = "gitsigns: go to prev hunk" }) -- previous hunk
-        map("n", "[c", function()
-          if vim.wo.diff then
-            return "[c"
-          end
-          vim.schedule(function()
-            gs.prev_hunk()
-          end)
-          return "<Ignore>"
-        end, { expr = true, desc = "Previous hunk" })
-        map("n", "<leader>ghq", function()
-          gs.setqflist("all")
-        end, { desc = "gitsigns: list modified in quickfix" })
+        end
+        local ok, ts_repeat_move = pcall(require, "nvim-treesitter.textobjects.repeatable_move")
+        if ok then
+          next_hunk, prev_hunk = ts_repeat_move.make_repeatable_move_pair(gs.next_hunk, gs.prev_hunk)
+        end
+        vim.keymap.set({ "n", "x", "o" }, "]c", function() call_and_centre(next_hunk) end, { desc = "go to next change" })
+        vim.keymap.set({ "n", "x", "o" }, "[c", function() call_and_centre(prev_hunk()) end, { desc = "go to previous change" })
+        -- stylua: ignore end
       end,
     })
   end,

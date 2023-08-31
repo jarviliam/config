@@ -66,9 +66,9 @@ return {
         b = { "<Cmd>FzfLua git_branches<CR>", "branches" },
         s = { "<Cmd>FzfLua git_status<CR>", "status" },
         d = { "<cmd>DiffviewOpen<cr>", "DiffView" },
-        h = { name = "+hunk" },
       },
-      ["h"] = {
+      h = {name="+hunk"}
+      ["?"] = {
         name = "+help",
         b = { "<cmd>FzfLua builtin<cr>", "FzfLua" },
         c = { "<cmd>FzfLua commands<cr>", "Commands" },

@@ -1,76 +1,179 @@
 local o = vim.opt
-o.backup = false
-o.writebackup = false
+
+-- Visual {{{
+o.termguicolors = true
+o.pumheight = 20
+o.cmdheight = 1
+o.title = true
+o.titlestring:append("%t")
+o.number = true
+o.relativenumber = true
+o.lazyredraw = false
+o.laststatus = 3
+o.signcolumn = "auto:3"
+
+o.scrolloff = 3
+o.sidescroll = 1
+o.sidescrolloff = 15
+-- }}}
+
+-- Indentation {{{
+o.autoindent = true
+o.softtabstop = 4
+o.tabstop = 4
+o.shiftwidth = 4
+o.smartindent = true
+o.expandtab = true
+-- }}}
+
+o.mouse = nil
+
+-- Navigation {{{
+o.hidden = true
+o.whichwrap:append("h,l")
+-- }}}
+
+-- Editing {{{
+o.formatoptions:append("n")
+-- o.formatoptions:append({
+--   r = true, -- Automatically insert comment leader after <Enter> in Insert mode.
+--   o = true, -- Automatically insert comment leader after 'o' or 'O' in Normal mode.
+--   l = true, -- Long lines are not broken in insert mode.
+--   t = true, -- Do not auto wrap text
+--   n = true, -- Recognise lists
+-- })
+o.linebreak = true
+-- }}}
+
+-- Presentation {{{
+o.textwidth = 80
+o.colorcolumn = "80,120"
+o.wrap = false
+o.conceallevel = 2
+o.list = true
+o.listchars = { eol = "↩", tab = "▸ ", trail = "·" }
+o.synmaxcol = 256
+o.history = 10000
+-- }}}
+
+-- Wildmenu {{{
+-- enable ctrl-n and ctrl-p to scroll through matches
+vim.opt.wildmode = "longest:full,full"
+vim.opt.wildignorecase = true
+
+-- stuff to ignore when tab completing
+vim.opt.wildignore = {
+  "*~",
+  "*.o",
+  "*.obj",
+  "*.so",
+  "*vim/backups*",
+  "*.git/**",
+  "**/.git/**",
+  "*sass-cache*",
+  "*DS_Store*",
+  "vendor/rails/**",
+  "vendor/cache/**",
+  "*.gem",
+  "*.pyc",
+  "log/**",
+  "*.png",
+  "*.jpg",
+  "*.gif",
+  "*.zip",
+  "*.bg2",
+  "*.gz",
+  "*.db",
+  "**/node_modules/**",
+  "**/bin/**",
+  "**/thesaurus/**",
+}
+-- }}}
+
 o.breakindent = true -- Indent wrapped lines to match start
 o.clipboard = "unnamedplus"
-o.expandtab = true
-o.fillchars = { eob = " ", diff = " " }
-o.hidden = true
 o.ignorecase = true
-o.inccommand = "split"
-o.number = true
-o.pumblend = 10
-o.pumheight = 10
-o.relativenumber = true
-o.scrolloff = 6
-o.shiftwidth = 4
-o.sidescroll = 6
-o.sidescrolloff = 6
-o.signcolumn = "yes:1"
-o.grepprg = "rg --vimgrep --no-heading --hidden --glob '!*{.git,node_modules,build,tags}'"
 o.smartcase = true
-o.softtabstop = 4
-o.startofline = false
-o.swapfile = false
-o.tabstop = 4
-o.termguicolors = true
-o.textwidth = 80
+o.inccommand = "nosplit"
+o.showmatch = true
+
+local ok, is_exe = pcall(vim.fn.executable, "rg")
+if ok and is_exe == 1 then
+  o.grepprg = "rg --vimgrep --no-heading --hidden --glob '!*{.git,node_modules,build,tags}'"
+  o.grepformat = "%f:%l:%c:%m,%f:%l:%m"
+end
 o.virtualedit = "block" -- allow cursor to exist where there is no character
-o.winblend = 10
-o.wrap = false
+o.modeline = true
+
+o.splitbelow = true
+o.splitright = true
+-- o.fillchars = { eob = " ", diff = " " }
+o.fillchars = {
+  horizup = "┻",
+  horiz = "━",
+  horizdown = "┳",
+  vert = "┃",
+  vertright = "┣",
+  vertleft = "┫",
+  verthoriz = "╋",
+  diff = "╱",
+}
 
 vim.cmd("filetype plugin indent on") -- Enable all filetype plugins
 
 -- Avoid showing message extra message when using completion
-o.shortmess:append("c")
-o.completeopt:append({
-  "noinsert",
-  "menuone",
-  "noselect",
-  "preview",
-})
-o.shortmess:append("WcC") -- Reduce command line messages
-o.splitkeep = "screen" -- Reduce scroll during window split
+o.completeopt:append({ "menuone", "noinsert", "noselect" })
 
-o.showbreak = "↳ "
-o.mouse = "a"
+-- Shortmess {{{
+-- f -> Use "(3 of 5)" instead of "(file 3 of 5)"
+-- i -> Use "[noeol]" instead of "[Incomplete last line]"
+-- l -> Use "999L, 888C" instead of "999 lines, 888 characters"
+-- m -> Use "[+]" instead of "[Modified]"
+-- n -> Use "[New]" instead of "[New File]"
+-- r -> Use "[RO]" instead of "[readonly]"
+-- x -> Use "[dos]" instead of "[dos format]", "[unix]" instead of [unix format]" and "[mac]" instead of "[mac format]".
+-- a -> All of the above abbreviations
+-- o -> Overwrite message for writing a file with subsequent message for reading a file (useful for ":wn" or when 'autowrite' on)
+-- O -> Message for reading a file overwrites any previous message.  Also for quickfix message (e.g., ":cn").
+-- t -> Truncate file message at the start if it is too long to fit on the command-line, "<" will appear in the left most column.  Ignored in Ex mode.
+-- T -> Truncate other messages in the middle if they are too long to fit on the command line.  "..." will appear in the middle.  Ignored in Ex mode.
+-- A -> Don't give the "ATTENTION" message when an existing swap file is found.
+-- I -> Don't give the intro message when starting Vim |:intro|.
+-- c -> Avoid showing message extra message when using completion
+o.shortmess:append("filmnrxoOtTAIcCs")
+-- o.shortmess:append("c")
+-- o.shortmess:append("WcC") -- Reduce command line messages
+-- }}}
 
 o.diffopt:append({
-  "linematch:50",
-  "vertical",
-  "foldcolumn:0",
+  "linematch:60",
+  "algorithm:patience",
+  "context:3",
+  "foldcolumn:1",
   "indent-heuristic",
 })
 
-o.undolevels = 10000
+-- Undo / Backup {{{
 o.undofile = true
-o.splitright = true
-o.splitbelow = true
-o.spell = true
+o.undolevels = 10000
+local undodir = "~/.cache/nvim/undodir"
+local backdir = "~/.cache/nvim/backdir"
 
-o.formatoptions:append({
-  r = true, -- Automatically insert comment leader after <Enter> in Insert mode.
-  o = true, -- Automatically insert comment leader after 'o' or 'O' in Normal mode.
-  l = true, -- Long lines are not broken in insert mode.
-  t = true, -- Do not auto wrap text
-  n = true, -- Recognise lists
-})
+vim.opt.undodir = vim.fs.normalize(undodir)
+vim.opt.backupdir = vim.fs.normalize(backdir)
+vim.opt.directory = vim.fs.normalize(backdir)
+-- }}}
+
+-- Language {{{
+o.spelllang = "en"
+o.spell = false
+vim.opt.dictionary = {
+  "~/.local/share/dict/words-insane",
+}
+--}}}
 
 o.foldcolumn = "0"
 o.foldnestmax = 3
-o.foldopen:append("jump")
-o.list = true
-o.listchars = { eol = "↩", tab = "▸ ", trail = "·" }
 
 -- Disable Builtins
 local builtins = {
@@ -97,3 +200,6 @@ local builtins = {
 for _, plugin in ipairs(builtins) do
   vim.g["loaded_" .. plugin] = 1
 end
+vim.g.loaded_perl_provider = 0
+vim.g.loaded_ruby_provider = 0
+vim.g.loaded_node_provider = 0
