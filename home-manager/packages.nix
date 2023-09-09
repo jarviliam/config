@@ -7,6 +7,7 @@
       lua
       luajitPackages.luarocks-nix
       awscli2
+      zk
       coreutils
       github-cli
       wget

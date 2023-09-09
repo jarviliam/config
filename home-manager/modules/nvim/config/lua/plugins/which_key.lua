@@ -40,24 +40,6 @@ return {
     })
 
     local leader = {
-      ["w"] = {
-        name = "+windows",
-        ["o"] = { "<C-W>p", "other-window" },
-        ["w"] = { ":update<CR>", "update-window" },
-        ["d"] = { "<C-W>c", "delete-window" },
-        ["2"] = { "<C-W>v", "layout-double-columns" },
-        ["h"] = { "<C-W>h", "window-left" },
-        ["j"] = { "<C-W>j", "window-below" },
-        ["l"] = { "<C-W>l", "window-right" },
-        ["k"] = { "<C-W>k", "window-up" },
-        ["H"] = { "<C-W>5<", "expand-window-left" },
-        ["J"] = { ":resize +5", "expand-window-below" },
-        ["L"] = { "<C-W>5>", "expand-window-right" },
-        ["K"] = { ":resize -5", "expand-window-up" },
-        ["="] = { "<C-W>=", "balance-window" },
-        ["s"] = { "<C-W>s", "split-window-below" },
-        ["v"] = { "<C-W>v", "split-window-right" },
-      },
       g = {
         name = "+git",
         g = { "<cmd>Neogit<CR>", "NeoGit" },
@@ -113,8 +95,8 @@ return {
       },
       x = {
         name = "+errors",
-        x = { "<cmd>TroubleToggle workspace_diagnostics<cr>", "Trouble" },
-        d = { "<cmd>TroubleToggle document_diagnostics<cr>", "Trouble" },
+        -- x = { "<cmd>TroubleToggle workspace_diagnostics<cr>", "Trouble" },
+        -- d = { "<cmd>TroubleToggle document_diagnostics<cr>", "Trouble" },
         D = { "<cmd>FzfLua lsp_document_diagnostics<cr>", "Document diagnostics" },
         X = { "<cmd>FzfLua lsp_workspace_diagnostics<cr>", "Workspace diagnostics" },
         l = { "<cmd>lopen<cr>", "Open Location List" },

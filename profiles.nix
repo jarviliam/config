@@ -39,7 +39,10 @@
         ./home-manager/modules/linux/poly.nix
       ] ++ liam.home-manager.modules;
     };
-    commonSpecialArgs = liam.commonSpecialArgs // { inherit username; };
+    commonSpecialArgs = liam.commonSpecialArgs // {
+      inherit username;
+      flakePath = "/home/liam.jarvis/nix_dot";
+    };
     extraConfig = liam.extraConfig // {
       system.stateVersion = "22.11"; # Did you read the comment?
     };
@@ -53,7 +56,10 @@
     home-manager = liam.home-manager // {
       modules = liam.home-manager.modules;
     };
-    commonSpecialArgs = liam.commonSpecialArgs // { username = "liam.jarvis"; };
+    commonSpecialArgs = liam.commonSpecialArgs // {
+      username = "liam.jarvis";
+      flakePath = "/Users/liam.jarvis/nix_dot";
+    };
     extraConfig = liam.extraConfig;
   };
 }

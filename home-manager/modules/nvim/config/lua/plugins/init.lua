@@ -15,24 +15,14 @@ return {
     dependencies = "kyazdani42/nvim-web-devicons",
     lazy = false,
     config = function()
-      require("fzf-lua").setup({ "fzf-native" })
+      require("fzf-lua").setup({
+        "fzf-native",
+        grep = {
+          rg_opts = "--vimgrep --column --line-number --color=always --smart-case --no-heading --hidden --glob '!*{.git,node_modules,build,tags}'",
+        },
+      })
     end,
   },
-  {
-    "folke/trouble.nvim",
-    dependencies = "kyazdani42/nvim-web-devicons",
-  },
-  {
-    dir = "~/Coding/octo.nvim",
-    config = get_config("octo"),
-  },
-  -- {
-  --   "pwntester/octo.nvim",
-  --   config = get_config("octo"),
-  --   dependencies = {
-  --     'nvim-telescope/telescope.nvim'
-  --   }
-  -- })
   {
     "karloskar/poetry-nvim",
     lazy = false,
@@ -46,6 +36,7 @@ return {
     "nvim-lualine/lualine.nvim",
     dependencies = "kyazdani42/nvim-web-devicons",
     event = "BufEnter",
+    enabled = false,
     config = get_config("line"),
   },
 

@@ -13,7 +13,7 @@ return {
         untracked = { text = "┆" },
       },
       update_debounce = 500,
-      signcolumn = false, -- Toggle with `:Gitsigns toggle_signs`
+      signcolumn = true, -- Toggle with `:Gitsigns toggle_signs`
       numhl = true, -- Toggle with `:Gitsigns toggle_numhl`
       sign_priority = 10,
       count_chars = { -- {{{
@@ -34,13 +34,6 @@ return {
         indent_heuristic = true,
         linematch = 60,
       }, -- }}}
-      yadm = { enable = false },
-      current_line_blame_opts = {
-        virt_text = true,
-        virt_text_pos = "right_align",
-        delay = 1,
-        ignore_whitespace = false,
-      },
       on_attach = function(bufnr)
         local utils = require("core.utils")
         local name = vim.api.nvim_buf_get_name(bufnr)
@@ -72,7 +65,7 @@ return {
           next_hunk, prev_hunk = ts_repeat_move.make_repeatable_move_pair(gs.next_hunk, gs.prev_hunk)
         end
         vim.keymap.set({ "n", "x", "o" }, "]c", function() utils.call_and_center(next_hunk) end, { desc = "go to next change" })
-        vim.keymap.set({ "n", "x", "o" }, "[c", function() utils.call_and_centre(prev_hunk()) end, { desc = "go to previous change" })
+        vim.keymap.set({ "n", "x", "o" }, "[c", function() utils.call_and_centre(prev_hunk) end, { desc = "go to previous change" })
         -- stylua: ignore end
       end,
     })

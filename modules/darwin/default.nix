@@ -8,7 +8,9 @@
     fontDir.enable = false;
     fonts = with pkgs; [
       noto-fonts-emoji
-      (nerdfonts.override { fonts = [ "FiraCode" ]; })
+      (nerdfonts.override { fonts = [ "FiraCode" "NerdFontsSymbolsOnly" ]; })
+      victor-mono
+      ibm-plex
     ];
   };
   programs.zsh.enable = true;

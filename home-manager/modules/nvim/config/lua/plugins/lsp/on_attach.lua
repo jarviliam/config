@@ -68,7 +68,7 @@ return function(options)
 
     if client.supports_method("textDocument/hover") then
       nnoremap("H", vim.lsp.buf.hover, "Show hover")
-      nnoremap("K", vim.lsp.buf.hover, "hover information [LSP]")
+      -- nnoremap("K", vim.lsp.buf.hover, "hover information [LSP]")
       inoremap("<M-h>", vim.lsp.buf.hover, "Show hover")
     end
 
@@ -84,7 +84,11 @@ return function(options)
     end
 
     if client.supports_method("textDocument/codeAction") then
-      vim.keymap.set("n", "<leader>na", "<cmd>FzfLua lsp_code_actions", {
+      local op = function()
+        fzf.lsp_code_actions({})
+      end
+      utils.buffer_command("CodeAction", op)
+      nnoremap("<localleader>na", op, {
         desc = "lsp: code actions",
         winopts = {
           relative = "cursor",
@@ -95,6 +99,7 @@ return function(options)
         },
       })
     end
+
     if client.supports_method("textDocument/rename") then
       nnoremap("<leader>rn", vim.lsp.buf.rename, "lsp: rename")
     end
@@ -103,7 +108,7 @@ return function(options)
       utils.buffer_command("WorkspaceSymbols", fzf.lsp_live_workspace_symbols)
     end
 
-    if client.supports_method("textDocuments/documentSymbol") then
+    if client.supports_method("textDocument/documentSymbol") then
       local op = function()
         fzf.lsp_document_symbols({
           jump_to_single_result = true,

@@ -49,12 +49,19 @@ o.linebreak = true
 -- }}}
 
 -- Presentation {{{
-o.textwidth = 80
-o.colorcolumn = "80,120"
+o.textwidth = 79
+o.colorcolumn = ""
 o.wrap = false
 o.conceallevel = 2
 o.list = true
-o.listchars = { eol = "↩", tab = "▸ ", trail = "·" }
+-- o.listchars = { eol = "↩", tab = "▸ ", trail = "·" }
+o.listchars = {
+  tab = "  ",
+  trail = "·",
+  extends = "◣",
+  precedes = "◢",
+  nbsp = "○",
+}
 o.synmaxcol = 256
 o.history = 10000
 -- }}}
@@ -174,9 +181,12 @@ vim.opt.dictionary = {
   "~/.local/share/dict/words-insane",
 }
 --}}}
+--
+o.updatetime = 50
 
-o.foldcolumn = "0"
+-- o.foldcolumn = "0"
 o.foldnestmax = 3
+o.foldlevelstart = 3
 
 -- Disable Builtins
 local builtins = {

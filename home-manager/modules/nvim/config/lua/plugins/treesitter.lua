@@ -55,6 +55,7 @@ return {
       disable = function(_, buffer)
         return vim.api.nvim_buf_line_count(buffer) > 50000
       end,
+      additional_vim_regex_highlighting = { "markdown" },
     },
     indent = { enable = true },
     autopairs = { enable = true },
