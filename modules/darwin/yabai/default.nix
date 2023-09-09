@@ -6,19 +6,17 @@
     enableScriptingAddition = true;
     config = {
       window_border = "on";
-      window_border_width = 1;
-      active_window_border_color = "0xff81a1c1";
-      normal_window_border_color = "0xff3b4252";
+      window_border_width = 2;
+      active_window_border_color = "0xfff5c2e7";
+      normal_window_border_color = "0xffcba6f7";
       window_border_hidpi = "on";
-      focus_follows_mouse = "autofocus";
-      # focus_follows_mouse = "on";
-      # mouse_follows_focus = "off";
-      mouse_drop_action = "stack";
+      focus_follows_mouse = "off";
+      mouse_drop_action = "swap";
       window_placement = "second_child";
       window_opacity = "off";
       window_topmost = "on";
       window_shadow = "float";
-      window_origin_display = "focused";
+      window_origin_display = "default";
       active_window_opacity = "1.0";
       normal_window_opacity = "1.0";
       split_ratio = "0.50";
@@ -27,11 +25,11 @@
       mouse_action1 = "move";
       mouse_action2 = "resize";
       layout = "bsp";
-      top_padding = 12;
-      bottom_padding = 12;
-      left_padding = 12;
-      right_padding = 12;
-      window_gap = 6;
+      top_padding = 5;
+      bottom_padding = 5;
+      left_padding = 5;
+      right_padding = 5;
+      window_gap = 5;
       external_bar = "all:50:0";
     };
 

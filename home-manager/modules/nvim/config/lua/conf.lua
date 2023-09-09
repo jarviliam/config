@@ -1,7 +1,7 @@
 local M = {}
 
 -- Theme selector
-M.theme = "onedark"
+M.theme = "catppuccin"
 -- Toggle Global Statusline
 M.global_statusline = false
 
