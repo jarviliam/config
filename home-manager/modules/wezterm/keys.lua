@@ -75,14 +75,14 @@ end
 local M = {}
 M.apply = function(c)
   c.leader = {
-    key = "s",
+    key = " ",
     mods = "CTRL",
     timeout_milliseconds = math.maxinteger,
   }
-  map([[\]], { "ALT" }, act.SplitHorizontal({ domain = "CurrentPaneDomain" }))
+  map([[\]], "LEADER", act.SplitHorizontal({ domain = "CurrentPaneDomain" }))
   map(
     [[|]],
-    { "ALT", "SHIFT" },
+    "LEADER",
     act.SplitPane({
       top_level = true,
       direction = "Right",
@@ -92,7 +92,7 @@ M.apply = function(c)
   map("-", "ALT", act.SplitVertical({ domain = "CurrentPaneDomain" }))
   map(
     "_",
-    { "ALT", "SHIFT" },
+    "LEADER",
     act.SplitPane({
       top_level = true,
       direction = "Down",

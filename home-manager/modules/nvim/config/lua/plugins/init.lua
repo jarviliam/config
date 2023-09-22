@@ -112,18 +112,24 @@ return {
   {
     "karb94/neoscroll.nvim",
     event = "WinScrolled",
+    enabled = false,
     keys = { "<C-u>", "<C-d>", "gg", "G" },
     opts = {
       hide_cursor = false,
     },
   },
-
+  {
+    "m4xshen/hardtime.nvim",
+    dependencies = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim" },
+    opts = {},
+    cmd = { "Hardtime" },
+  },
   {
     "olimorris/onedarkpro.nvim",
     lazy = conf.theme ~= "onedark",
     priority = 1000,
   },
-  { "sainnhe/sonokai", lazy = conf.theme ~= "sonokai", dev = true },
+
   { "sainnhe/sonokai", lazy = conf.theme ~= "sonokai", dev = true },
   { "sainnhe/edge", lazy = conf.theme ~= "edge" },
   { "sainnhe/everforest", lazy = conf.theme ~= "everforest" },

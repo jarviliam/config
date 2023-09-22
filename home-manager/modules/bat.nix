@@ -5,7 +5,7 @@ let
     "${pkgs.less}/bin/less --mouse --raw-control-chars --wheel-lines=1 --quit-if-one-screen";
 in {
   programs.bat = let
-    themes = pkgs.fetchFromGithub {
+    themes = pkgs.fetchFromGitHub {
       owner = "catppuccin";
       repo = "bat";
       rev = "ba4d16880d63e656acced2b7d4e034e4a93f74b1";

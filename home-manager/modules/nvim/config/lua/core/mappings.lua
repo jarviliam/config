@@ -10,8 +10,6 @@ map("v", "<", "<gv", { desc = "dedent and reselect" }) -- reselect after <<
 
 map("n", "Q", "<Nop>")
 
-map({ "n", "v", "i" }, "<C-F>", "<Esc>gUiw`]a")
-
 map({ "n", "x" }, "j", [[v:count == 0 ? 'gj' : 'j']], { expr = true })
 map({ "n", "x" }, "k", [[v:count == 0 ? 'gk' : 'k']], { expr = true })
 -----------------------------------------------------------------------------//
@@ -44,6 +42,8 @@ map_toggle("n", "<Cmd>setlocal number!<CR>", "Toggle 'number'")
 map_toggle("r", "<Cmd>setlocal relativenumber!<CR>", "Toggle 'relativenumber'")
 map_toggle("s", "<Cmd>setlocal spell!<CR>", "Toggle 'spell'")
 map_toggle("w", "<Cmd>setlocal wrap!<CR>", "Toggle 'wrap'")
+
+map("n", "<C-S>", ":update<CR>", { silent = true })
 
 -- Substitute
 --map("n", "s", require("substitute").operator)

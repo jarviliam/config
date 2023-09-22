@@ -157,10 +157,12 @@
     enable = true;
     enableAliases = true;
   };
-  programs.starship = {
+  programs.starship = let flavour = "frappe";
+  in {
     enable = true;
     enableZshIntegration = true;
     settings = {
+      palette = "catppuccin_${flavour}";
       format = lib.concatStrings [
         "$username"
         "$hostname"
@@ -239,14 +241,7 @@
         "$shell"
         "$character"
       ];
-      aws = {
-        disabled = true;
-        symbol = "  ";
-        format =
-          "\\[[$symbol($profile)(\\($region))(\\[$duration\\])]($style)\\]";
-      };
-      bun = { format = "\\[[$symbol($version)]($style)\\]"; };
-      buf = { symbol = " "; };
+      aws = { disabled = true; };
       c = {
         symbol = " ";
         format = "\\[[$symbol($version(-$name))]($style)\\]";
@@ -271,34 +266,47 @@
         symbol = " ";
         format = "\\[[$symbol$context]($style)\\]";
       };
-      dotnet = { format = "\\[[$symbol($version)(🎯 $tfm)]($style)\\]"; };
-      custom.elixir = {
-        command = "elixir --short-version";
-        detect_files = [ "mix.exs" ];
-        symbol = " ";
-        format = "\\[[$symbol($output)]($style)\\]";
-        style = "bold purple";
-      };
-      elixir = {
-        disabled = true;
-        symbol = " ";
-        format = "\\[[$symbol($version \\(OTP $otp_version\\))]($style)\\]";
-      };
       elm = {
         symbol = " ";
         format = "\\[[$symbol($version)]($style)\\]";
       };
-      erlang = { format = "\\[[$symbol($version)]($style)\\]"; };
-      gcloud = {
-        format = "\\[[$symbol$account(@$domain)(\\($region\\))]($style)\\]";
+      git_state = {
+        format = "[[$state($progress_current/$progress_total)] ]($style)";
+        style = "fg:peach";
+        disabled = false;
+      };
+      git_metrics = {
+        format =
+          "[+$added]($added_style)[/](fg:peach )[-$deleted ]($deleted_style)";
+        added_style = "fg:peach";
+        deleted_style = "fg:peach";
+        disabled = false;
       };
       git_branch = {
         symbol = " ";
         format = "\\[[$symbol$branch]($style)\\]";
+        style = "fg:peach";
       };
       git_status = {
-        stashed = "";
-        format = "([\\[$all_status$ahead_behind\\]]($style))";
+        format = "[$all_status$ahead_behind ]($style)";
+        style = "fg:peach";
+        ahead = " ";
+        behind = " ";
+        conflicted = "󰩌 ";
+        deleted = "󱪢 ";
+        diverged = "󱐎 ";
+        modified = "󱇨 ";
+        renamed = "󱀱 ";
+        untracked = "󰻭 ";
+        staged = "󱧳 ";
+        stashed = "󱧶 ";
+        disabled = false;
+      };
+      git_commit = {
+        format = "[$tag ]($style)";
+        style = "fg:peach";
+        tag_disabled = false;
+        tag_symbol = " ";
       };
       golang = {
         symbol = " ";
@@ -395,6 +403,11 @@
       vagrant = { format = "\\[[$symbol($version)]($style)\\]"; };
       vlang = { format = "\\[[$symbol($version)]($style)\\]"; };
       zig = { format = "\\[[$symbol($version)]($style)\\]"; };
-    };
+    } // builtins.fromTOML (builtins.readFile (pkgs.fetchFromGitHub {
+      owner = "catppuccin";
+      repo = "starship";
+      rev = "5629d2356f62a9f2f8efad3ff37476c19969bd4f";
+      sha256 = "sha256-nsRuxQFKbQkyEI4TXgvAjcroVdG+heKX5Pauq/4Ota0=";
+    } + /palettes/${flavour}.toml));
   };
 }

@@ -6,6 +6,7 @@ require("keys").apply(c)
 
 c.font = wezterm.font_with_fallback({
   "JetBrainsMono Nerd Font",
+  "VictorMono Nerd Font",
 })
 c.audible_bell = "Disabled"
 c.window_padding = {
@@ -33,6 +34,33 @@ c.tab_bar_at_bottom = true
 c.use_fancy_tab_bar = false
 c.tab_max_width = 32
 
+c.hyperlink_rules = {
+  {
+    regex = "\\b\\w+://[\\w.-]+:[0-9]{2,15}\\S*\\b",
+    format = "$0",
+  },
+  {
+    regex = "\\b\\w+://[\\w.-]+\\.[a-z]{2,15}\\S*\\b",
+    format = "$0",
+  },
+  {
+    regex = [[\b\w+@[\w-]+(\.[\w-]+)+\b]],
+    format = "mailto:$0",
+  },
+  {
+    regex = [[\bfile://\S*\b]],
+    format = "$0",
+  },
+  {
+    regex = [[\b\w+://(?:[\d]{1,3}\.){3}[\d]{1,3}\S*\b]],
+    format = "$0",
+  },
+  {
+    regex = [[\b[tT](\d+)\b]],
+    format = "https://example.com/tasks/?t=$1",
+  },
+}
+
 local dividers = {
   slant_right = {
     left = utf8.char(0xe0be),
@@ -52,7 +80,127 @@ local dividers = {
   },
 }
 
+local function get_current_working_folder_name(tab)
+  local cwd_uri = tab.active_pane.current_working_dir
+
+  if cwd_uri == nil or cwd_uri == "" then
+    return ""
+  end
+  cwd_uri = cwd_uri:sub(8)
+
+  local slash = cwd_uri:find("/")
+  local cwd = cwd_uri:sub(slash)
+  if cwd:sub(-1) == "/" then
+    cwd = cwd:sub(1, -2)
+  end
+
+  local HOME_DIR = os.getenv("HOME")
+  if cwd == HOME_DIR then
+    return "  ~"
+  end
+
+  return string.format("  %s", string.match(cwd, "[^/]+$"))
+end
+
 local scheme = wezterm.get_builtin_color_schemes()["Catppuccin Frappe"]
+
+local function get_process(tab)
+  local process_icons = {
+    ["docker"] = {
+      { Foreground = { Color = scheme.ansi[5] } },
+      { Text = wezterm.nerdfonts.linux_docker },
+    },
+    ["docker-compose"] = {
+      { Foreground = { Color = scheme.ansi[5] } },
+      { Text = wezterm.nerdfonts.linux_docker },
+    },
+    ["nvim"] = {
+      { Foreground = { Color = scheme.ansi[3] } },
+      { Text = wezterm.nerdfonts.custom_vim },
+    },
+    ["bob"] = {
+      { Foreground = { Color = scheme.ansi[5] } },
+      { Text = wezterm.nerdfonts.custom_vim },
+    },
+    ["vim"] = {
+      { Foreground = { Color = scheme.ansi[3] } },
+      { Text = wezterm.nerdfonts.dev_vim },
+    },
+    ["node"] = {
+      { Foreground = { Color = scheme.ansi[3] } },
+      { Text = wezterm.nerdfonts.mdi_hexagon },
+    },
+    ["zsh"] = {
+      { Foreground = { Color = "#838ba7" } },
+      { Text = wezterm.nerdfonts.dev_terminal },
+    },
+    ["bash"] = {
+      { Foreground = { Color = "#838ba7" } },
+      { Text = wezterm.nerdfonts.cod_terminal_bash },
+    },
+    ["htop"] = {
+      { Foreground = { Color = scheme.ansi[4] } },
+      { Text = wezterm.nerdfonts.mdi_chart_donut_variant },
+    },
+    ["btop"] = {
+      { Foreground = { Color = "#f2d5cf" } },
+      { Text = wezterm.nerdfonts.mdi_chart_donut_variant },
+    },
+    ["cargo"] = {
+      { Foreground = { Color = scheme.indexed[16] } },
+      { Text = wezterm.nerdfonts.dev_rust },
+    },
+    ["go"] = {
+      { Foreground = { Color = "#85c1dc" } },
+      { Text = wezterm.nerdfonts.mdi_language_go },
+    },
+    ["lazydocker"] = {
+      { Foreground = { Color = scheme.ansi[5] } },
+      { Text = wezterm.nerdfonts.linux_docker },
+    },
+    ["git"] = {
+      { Foreground = { Color = scheme.indexed[16] } },
+      { Text = wezterm.nerdfonts.dev_git },
+    },
+    ["lazygit"] = {
+      { Foreground = { Color = "#ca9ee6" } },
+      { Text = wezterm.nerdfonts.dev_git },
+    },
+    ["lua"] = {
+      { Foreground = { Color = scheme.ansi[5] } },
+      { Text = wezterm.nerdfonts.seti_lua },
+    },
+    ["wget"] = {
+      { Foreground = { Color = scheme.ansi[4] } },
+      { Text = wezterm.nerdfonts.mdi_arrow_down_box },
+    },
+    ["curl"] = {
+      { Foreground = { Color = scheme.ansi[4] } },
+      { Text = wezterm.nerdfonts.mdi_flattr },
+    },
+    ["gh"] = {
+      { Foreground = { Color = "#ca9ee6" } },
+      { Text = wezterm.nerdfonts.dev_github_badge },
+    },
+    ["flatpak"] = {
+      { Foreground = { Color = scheme.ansi[5] } },
+      { Text = wezterm.nerdfonts.mdi_package_variant },
+    },
+  }
+
+  local process_name =
+    string.gsub(tab.active_pane.foreground_process_name, "(.*[/\\])(.*)", "%2")
+
+  if process_name == "" then
+    process_name = "zsh"
+  end
+
+  return wezterm.format(process_icons[process_name] or {
+    { Foreground = { Color = "#99d1db" } },
+    { Text = string.format("[%s]", process_name) },
+  })
+end
+
 wezterm.on(
   "format-tab-title",
   function(tab, tabs, _panes, conf, _hover, _max_width)
@@ -122,8 +270,9 @@ wezterm.on(
       { Background = { Color = s_bg } },
       { Foreground = { Color = s_fg } },
       { Text = string.format(" %s  ", tab.tab_index + 1) },
-      { Text = process_name },
+      { Text = get_process(tab) },
       { Text = " " },
+      { Text = get_current_working_folder_name(tab) },
       { Background = { Color = e_bg } },
       { Foreground = { Color = e_fg } },
       { Text = dividers.slant_right.right },

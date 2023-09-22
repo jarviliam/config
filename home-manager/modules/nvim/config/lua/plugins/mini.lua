@@ -54,6 +54,7 @@ return {
   },
   {
     "echasnovski/mini.bufremove",
+    event = "BufAdd",
     config = function()
       require("mini.bufremove").setup({})
     end,

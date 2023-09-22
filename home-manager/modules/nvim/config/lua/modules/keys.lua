@@ -55,20 +55,6 @@ local leader = {
     f = { "<cmd>FzfLua filetypes<cr>", "File Types" },
     o = { "<cmd>FzfLua vim_options<cr>", "Options" },
     a = { "<cmd>FzfLua autocmds<cr>", "Auto Commands" },
-    p = {
-      name = "+packer",
-      p = { "<cmd>PackerSync<cr>", "Sync" },
-      s = { "<cmd>PackerStatus<cr>", "Status" },
-      i = { "<cmd>PackerInstall<cr>", "Install" },
-      c = { "<cmd>PackerCompile<cr>", "Compile" },
-    },
-  },
-  s = {
-    name = "+search",
-    b = { "<cmd>FzfLua grep_curbuf<cr>", "Buffer" },
-    s = { "<cmd>FzfLua lsp_document_symbols<cr>", "Goto Symbol" },
-    h = { "<cmd>FzfLua command_history<cr>", "Command History" },
-    m = { "<cmd>FzfLua marks<cr>", "Jump to Mark" },
   },
   f = {
     name = "+fuzzy",
