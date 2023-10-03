@@ -3,6 +3,8 @@
 {
   home.packages = with pkgs;
     [
+      bazel
+      bazel-gazelle
       emacs
       lua
       luajitPackages.luarocks-nix
@@ -75,7 +77,7 @@
 
       stylua
       # Go
-      go
+      go_1_21
       gotools
       gopls
       delve
