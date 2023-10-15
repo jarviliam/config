@@ -6,11 +6,11 @@ return {
     "hrsh7th/cmp-path",
     "hrsh7th/cmp-buffer",
     "hrsh7th/cmp-nvim-lua",
-    "hrsh7th/cmp-nvim-lua",
     "saadparwaiz1/cmp_luasnip",
     "petertriho/cmp-git",
   },
   config = function()
+    vim.api.nvim_set_hl(0, "CmpGhostText", { link = "Comment", default = true })
     local cmp = require("cmp")
     local luasnip = require("luasnip")
     local compare = require("cmp.config.compare")
@@ -98,7 +98,9 @@ return {
         { name = "git" },
       }),
       experimental = {
-        ghost_text = true,
+        ghost_text = {
+          hl_group = "CmpGhostText",
+        },
       },
     })
     require("cmp_git").setup()

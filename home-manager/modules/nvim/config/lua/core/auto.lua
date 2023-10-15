@@ -82,7 +82,7 @@ vim.api.nvim_create_autocmd("FileType", {
 -- Enable spell checking for certain file types
 vim.api.nvim_create_autocmd(
   { "BufRead", "BufNewFile" },
-  { pattern = { "*.txt", "*.md", "*.tex" }, command = "setlocal spell" }
+  { pattern = { "*.txt", "*.md", "*.tex", "gitcommit" }, command = "setlocal spell" }
 )
 local utilityGroup = vim.api.nvim_create_augroup("Utilities", { clear = true })
 -- @source: https://vim.fandom.com/wiki/Use_gf_to_open_a_file_via_its_URL
@@ -91,5 +91,21 @@ vim.api.nvim_create_autocmd("BufReadCmd", {
   pattern = "file:///*",
   callback = function()
     vim.cmd(string.format("bd!|edit %s", vim.uri_from_fname("<afile>")))
+  end,
+})
+
+-- Check if we need to reload the file when it changed
+vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
+  group = augroup,
+  command = "checktime",
+})
+
+-- resize splits if window got resized
+vim.api.nvim_create_autocmd({ "VimResized" }, {
+  group = vim.api.nvim_create_augroup("resize_splits"),
+  callback = function()
+    local current_tab = vim.fn.tabpagenr()
+    vim.cmd("tabdo wincmd =")
+    vim.cmd("tabnext " .. current_tab)
   end,
 })
