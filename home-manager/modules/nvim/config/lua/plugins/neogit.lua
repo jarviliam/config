@@ -1,7 +1,7 @@
 return {
   "NeogitOrg/neogit",
   cmd = { "Neogit" },
-  dev = true,
+  dev = false,
   opts = {
     disable_signs = false,
     disable_context_highlighting = false,

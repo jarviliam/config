@@ -32,15 +32,6 @@ return {
   -----------------------------------------------------------------------------//
   -- General plugins {{{1
   -----------------------------------------------------------------------------//
-
-  {
-    "nvim-lualine/lualine.nvim",
-    dependencies = "kyazdani42/nvim-web-devicons",
-    event = "BufEnter",
-    enabled = false,
-    config = get_config("line"),
-  },
-
   {
     "j-hui/fidget.nvim",
     tag = "legacy",

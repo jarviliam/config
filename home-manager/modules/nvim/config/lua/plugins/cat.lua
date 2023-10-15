@@ -49,7 +49,7 @@ return {
           enabled = true,
           enable_ui = true, -- enable nvim-dap-ui
         },
-        mini = false,
+        mini = true,
         indent_blankline = {
           enabled = true,
           colored_indent_levels = false,
