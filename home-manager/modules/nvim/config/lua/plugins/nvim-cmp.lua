@@ -7,13 +7,13 @@ return {
     "hrsh7th/cmp-buffer",
     "hrsh7th/cmp-nvim-lua",
     "saadparwaiz1/cmp_luasnip",
-    "petertriho/cmp-git",
+    "onsails/lspkind.nvim",
   },
   config = function()
     vim.api.nvim_set_hl(0, "CmpGhostText", { link = "Comment", default = true })
     local cmp = require("cmp")
     local luasnip = require("luasnip")
-    local compare = require("cmp.config.compare")
+    local kind = require("lspkind")
     -- Add parens to functions returned from cmp
     cmp.event:on(
       "confirm_done",
@@ -32,45 +32,45 @@ return {
       })
     )
 
+    local border_opts = {
+      border = "rounded",
+      winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:PmenuSel,Search:None",
+    }
+
     cmp.setup({
       window = {
-        documentation = cmp.config.window.bordered(),
-        completion = {
-          winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,Search:None",
-          col_offset = -4,
-          side_padding = 0,
-        },
+        documentation = cmp.config.window.bordered(border_opts),
+        completion = cmp.config.window.bordered(border_opts),
       },
       formatting = {
         fields = { "kind", "abbr", "menu" },
-        format = function(entry, item)
-          item.kind = as.style.lsp.kind[item.kind]
-          item.menu = ({
-            nvim_lsp = "[LSP]",
-            nvim_lua = "[Api]",
-            luasnip = "[Snip]",
-            buffer = "[Buffer]",
-            path = "[Path]",
-            git = "[Git]",
-          })[entry.source.name]
-          return item
-        end,
+        format = kind.cmp_format({
+          mode = "symbol",
+          symbol_map = {
+            Array = "󰅪",
+            Boolean = "⊨",
+            Class = "󰌗",
+            Constructor = "",
+            Key = "󰌆",
+            Namespace = "󰅪",
+            Null = "NULL",
+            Number = "#",
+            Object = "󰀚",
+            Package = "󰏗",
+            Property = "",
+            Reference = "",
+            Snippet = "",
+            String = "󰀬",
+            TypeParameter = "󰊄",
+            Unit = "",
+          },
+          menu = {},
+        }),
       },
-
-      sorting = {
-        priority_weight = 2,
-        comparators = {
-          compare.score,
-          compare.exact,
-          compare.recently_used,
-          compare.offset,
-          compare.kind,
-          compare.sort_text,
-          compare.length,
-          compare.order,
-        },
+      confirm_opts = {
+        behavior = cmp.ConfirmBehavior.Replace,
+        select = false,
       },
-
       snippet = {
         expand = function(args)
           luasnip.lsp_expand(args.body)
@@ -78,9 +78,16 @@ return {
       },
 
       mapping = cmp.mapping.preset.insert({
-        ["<C-e>"] = cmp.config.disable,
-        ["<C-d>"] = cmp.mapping.scroll_docs(-4),
-        ["<C-f>"] = cmp.mapping.scroll_docs(4),
+        ["<C-e>"] = cmp.mapping({ i = cmp.mapping.abort(), c = cmp.mapping.close() }),
+        ["<Up>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
+        ["<Down>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
+        ["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
+        ["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
+        ["<C-k>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
+        ["<C-j>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
+        ["<C-u>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i", "c" }),
+        ["<C-d>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
+        ["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
         ["<C-y>"] = cmp.mapping(
           cmp.mapping.confirm({
             behavior = cmp.ConfirmBehavior.Insert,
@@ -90,11 +97,11 @@ return {
         ),
       }),
       sources = cmp.config.sources({
-        { name = "luasnip", priority_weight = 80 },
-        { name = "nvim_lsp", priority_weight = 100, max_item_count = 15 },
+        { name = "nvim_lsp", priority_weight = 150 },
+        { name = "luasnip", priority_weight = 100 },
         { name = "nvim_lua", priority_weight = 90 },
         { name = "buffer", priority_weight = 70, max_item_count = 5 },
-        { name = "path", priority_weight = 110, keyword_length = 3 },
+        { name = "path", priority_weight = 50, keyword_length = 3 },
         { name = "git" },
       }),
       experimental = {
@@ -103,6 +110,5 @@ return {
         },
       },
     })
-    require("cmp_git").setup()
   end,
 }

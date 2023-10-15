@@ -5,6 +5,7 @@ return {
       "nvim-treesitter/nvim-treesitter-refactor",
       "nvim-treesitter/nvim-treesitter-textobjects",
       "nvim-treesitter/nvim-treesitter-context",
+      "JoosepAlviste/nvim-ts-context-commentstring",
     },
     keys = {
       { "<c-space>", desc = "Increment selection" },
@@ -54,6 +55,7 @@ return {
       fold = {
         enable = true,
       },
+      context_commentstring = { enable = true, enable_autocmd = false },
       highlight = {
         enable = true,
         disable = function(_, buffer)
@@ -75,23 +77,20 @@ return {
       textobjects = {
         select = {
           enable = true,
+          lookahead = true,
           keymaps = {
-            ["af"] = "@function.outer",
-            ["if"] = "@function.inner",
-            ["ao"] = "@class.outer",
-            ["io"] = "@class.inner",
-            ["ac"] = "@conditional.outer",
-            ["ic"] = "@conditional.inner",
-            ["ae"] = "@block.outer",
-            ["ie"] = "@block.inner",
-            ["al"] = "@loop.outer",
-            ["il"] = "@loop.inner",
-            ["is"] = "@statement.inner",
-            ["as"] = "@statement.outer",
-            ["ad"] = "@comment.outer",
-            ["id"] = "@comment.inner",
-            ["am"] = "@call.outer",
-            ["im"] = "@call.inner",
+            ["ak"] = { query = "@block.outer", desc = "around block" },
+            ["ik"] = { query = "@block.inner", desc = "inside block" },
+            ["ac"] = { query = "@class.outer", desc = "around class" },
+            ["ic"] = { query = "@class.inner", desc = "inside class" },
+            ["a?"] = { query = "@conditional.outer", desc = "around conditional" },
+            ["i?"] = { query = "@conditional.inner", desc = "inside conditional" },
+            ["af"] = { query = "@function.outer", desc = "around function " },
+            ["if"] = { query = "@function.inner", desc = "inside function " },
+            ["al"] = { query = "@loop.outer", desc = "around loop" },
+            ["il"] = { query = "@loop.inner", desc = "inside loop" },
+            ["aa"] = { query = "@parameter.outer", desc = "around argument" },
+            ["ia"] = { query = "@parameter.inner", desc = "inside argument" },
           },
         },
         move = {
@@ -101,6 +100,19 @@ return {
           goto_next_end = { ["]F"] = "@function.outer", ["]C"] = "@class.outer" },
           goto_previous_start = { ["[f"] = "@function.outer", ["[c"] = "@class.outer" },
           goto_previous_end = { ["[F"] = "@function.outer", ["[C"] = "@class.outer" },
+        },
+      },
+      swap = {
+        enable = true,
+        swap_next = {
+          [">K"] = { query = "@block.outer", desc = "Swap next block" },
+          [">F"] = { query = "@function.outer", desc = "Swap next function" },
+          [">A"] = { query = "@parameter.inner", desc = "Swap next argument" },
+        },
+        swap_previous = {
+          ["<K"] = { query = "@block.outer", desc = "Swap previous block" },
+          ["<F"] = { query = "@function.outer", desc = "Swap previous function" },
+          ["<A"] = { query = "@parameter.inner", desc = "Swap previous argument" },
         },
       },
       refactor = {
@@ -116,18 +128,5 @@ return {
     config = function(_, opts)
       require("nvim-treesitter.configs").setup(opts)
     end,
-  },
-  {
-    "nvim-treesitter/nvim-treesitter-context",
-    event = "LazyFile",
-    enabled = true,
-    opts = { mode = "cursor" },
-  },
-  {
-    "JoosepAlviste/nvim-ts-context-commentstring",
-    lazy = true,
-    opts = {
-      enable_autocmd = false,
-    },
   },
 }

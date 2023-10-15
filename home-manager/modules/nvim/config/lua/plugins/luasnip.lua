@@ -8,8 +8,10 @@ return {
     local ft_functions = require("luasnip.extras.filetype_functions")
 
     luasnip.config.set_config({
-      history = false,
+      history = true,
       updateevents = "TextChanged,TextChangedI",
+      delete_check_events = "TextChanged",
+      region_check_events = "CursorMoved",
       enable_autosnippets = true,
       store_selection_keys = "<Tab>",
       ft_func = ft_functions.from_filetype,
