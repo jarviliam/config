@@ -82,7 +82,14 @@ return {
   },
   bashls = {},
   clangd = {},
-  jsonls = {},
+  jsonls = {
+    settings = {
+      json = {
+        schemas = require("schemastore").json.schemas(),
+        validate = { enable = true },
+      },
+    },
+  },
   gopls = {
     settings = {
       analyses = {
@@ -173,13 +180,10 @@ return {
   },
   yamlls = {
     schemaStore = {
-      enable = true,
-      url = "https://www.schemastore.org/api/json/catalog.json",
+      enable = false,
+      url = "",
     },
-    schemas = {
-      kubernetes = "globPattern",
-      ["https://json.schemastore.org/github-workflow.json"] = "/.github/workflows/*",
-    },
+    schemas = require("schemastore").yaml.schemas(),
     keyOrdering = false,
   },
 }
