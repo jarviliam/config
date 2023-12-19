@@ -5,7 +5,6 @@ return {
       "nvim-treesitter/nvim-treesitter-refactor",
       "nvim-treesitter/nvim-treesitter-textobjects",
       "nvim-treesitter/nvim-treesitter-context",
-      "JoosepAlviste/nvim-ts-context-commentstring",
     },
     keys = {
       { "<c-space>", desc = "Increment selection" },
@@ -55,7 +54,6 @@ return {
       fold = {
         enable = true,
       },
-      context_commentstring = { enable = true, enable_autocmd = false },
       highlight = {
         enable = true,
         disable = function(_, buffer)
@@ -128,5 +126,8 @@ return {
     config = function(_, opts)
       require("nvim-treesitter.configs").setup(opts)
     end,
+  },
+  {
+    "JoosepAlviste/nvim-ts-context-commentstring",
   },
 }

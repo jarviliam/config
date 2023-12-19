@@ -42,7 +42,7 @@ return {
         },
         ["python"] = {
           {
-            formatCommand = "black --no-color -q -",
+            formatCommand = "ruff format -",
             formatStdin = true,
           },
           {
@@ -170,6 +170,7 @@ return {
       },
     },
   },
+  ruff_lsp = {},
   rust_analyzer = {},
   terraformls = {},
   tsserver = {

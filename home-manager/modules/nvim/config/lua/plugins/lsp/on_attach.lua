@@ -1,80 +1,35 @@
 local fzf = require("fzf-lua")
 local utils = require("core.utils")
-local function nnoremap(key, fn, desc, opts) --{{{
-  opts = vim.tbl_extend("force", { buffer = true, silent = true, desc = desc }, opts or {})
-  vim.keymap.set("n", key, fn, opts)
-end --}}}
-local function xnoremap(key, fn, desc, opts) --{{{
-  opts = vim.tbl_extend("force", { buffer = true, silent = true, desc = desc }, opts or {})
-  vim.keymap.set("x", key, fn, opts)
-end --}}}
-local function inoremap(key, fn, desc, opts) --{{{
-  opts = vim.tbl_extend("force", { buffer = true, silent = true, desc = desc }, opts or {})
-  vim.keymap.set("i", key, fn, opts)
-end --}}}
-
-local function setup_diagnostics(bufnr)
-  nnoremap("<localleader>dd", vim.diagnostic.open_float, "show diagnostics")
-  nnoremap("<localleader>dq", vim.diagnostic.setqflist, "populate quickfix")
-  nnoremap("<localleader>dw", vim.diagnostic.setloclist, "populate local list")
-  
-  -- stylua: ignore start
-  local next = vim.diagnostic.goto_next
-  local prev = vim.diagnostic.goto_prev
-  local repeat_ok, ts_repeat_move = pcall(require, "nvim-treesitter.textobjects.repeatable_move")
-  if repeat_ok then
-    next, prev= ts_repeat_move.make_repeatable_move_pair(vim.diagnostic.goto_next, vim.diagnostic.goto_prev)
-  end
-  nnoremap("]d", function() utils.call_and_center(next) end, "goto next diagnostic")
-  nnoremap("[d", function() utils.call_and_center(prev) end, "goto previous diagnostic")
-  utils.buffer_command("DiagLoc", function() vim.diagnostic.setloclist() end)
-  utils.buffer_command("DiagQf",  function() vim.diagnostic.setqflist()  end)
-
-  local ok, diagnostics = pcall(require, "fzf-lua.providers.diagnostic")
-  if ok then
-    utils.buffer_command("Diagnostics",    function() diagnostics.diagnostics({}) end)
-    utils.buffer_command("Diag",           function() diagnostics.diagnostics({}) end)
-    utils.buffer_command("DiagnosticsAll", function() diagnostics.all({})         end)
-    utils.buffer_command("DiagAll",        function() diagnostics.all({})         end)
-  end
-  -- stylua: ignore end
-  utils.buffer_command("DiagnosticsDisable", function()
-    vim.diagnostic.disable(bufnr)
-  end)
-  utils.buffer_command("DiagnosticsEnable", function()
-    vim.diagnostic.enable(bufnr)
-  end)
-  vim.api.nvim_create_autocmd("CursorHold", {
-    callback = require("plugins.lsp.diagnostic").hover,
-    buffer = bufnr,
-  })
-end
+local methods = vim.lsp.protocol.Methods
 
 return function(options)
   return function(client, bufnr)
+    ---@param lhs string
+    ---@param rhs string|function
+    ---@param desc string
+    ---@param mode? string|string[]
+    local function keymap(lhs, rhs, desc, mode)
+      mode = mode or "n"
+      vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, desc = desc })
+    end
+
     if client.supports_method("textDocument/completion") then
       vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
     end
 
-    if client.supports_method("textDocument/definition") then
-      local op = function()
-        fzf.lsp_definitions({ jump_to_single_result = true })
-      end
-      utils.buffer_command("Definition", op)
-      nnoremap("gd", op, "Go to definition")
-      nnoremap("<leader>nd", op, "goto definition [LSP]")
-      vim.bo.tagfunc = "v:lua.vim.lsp.tagfunc"
+    if client.supports_method(methods.textDocument_definition) then
+      keymap("gd", fzf.lsp_definitions({ jump_to_single_result = true }), "Go to definition")
+      keymap("gD", fzf.lsp_definitions, "Peek definition")
     end
 
     if client.supports_method("textDocument/hover") then
-      nnoremap("H", vim.lsp.buf.hover, "Show hover")
+      keymap("H", vim.lsp.buf.hover, "Show hover")
       -- nnoremap("K", vim.lsp.buf.hover, "hover information [LSP]")
-      inoremap("<M-h>", vim.lsp.buf.hover, "Show hover")
+      keymap("<M-h>", vim.lsp.buf.hover, "Show hover", "i")
     end
 
-    if client.supports_method("textDocument/signatureHelp") then
-      nnoremap("K", vim.lsp.buf.signature_help, "signature help [LSP]")
-      inoremap("<M-l>", vim.lsp.buf.signature_help, "signature help [LSP]")
+    if client.supports_method(methods.textDocument_signatureHelp) then
+      keymap("<C-k>", vim.lsp.buf.signature_help, "signature help", "i")
       require("lsp_signature").on_attach({
         handler_opts = { border = "rounded" },
         hint_prefix = "",
@@ -83,25 +38,24 @@ return function(options)
       }, bufnr)
     end
 
-    if client.supports_method("textDocument/codeAction") then
-      local op = function()
-        fzf.lsp_code_actions({})
-      end
-      utils.buffer_command("CodeAction", op)
-      nnoremap("<localleader>na", op, {
-        desc = "lsp: code actions",
-        winopts = {
-          relative = "cursor",
-          row = 1.01,
-          col = 0,
-          height = 0.20,
-          width = 0.55,
-        },
-      })
+    if client.supports_method(methods.textDocument_codeAction) then
+      keymap(
+        "<leader>ca",
+        fzf.lsp_code_actions({
+          winopts = {
+            relative = "cursor",
+            row = 1.01,
+            col = 0,
+            height = 0.20,
+            width = 0.55,
+          },
+        }),
+        "lsp: code actions"
+      )
     end
 
-    if client.supports_method("textDocument/rename") then
-      nnoremap("<leader>rn", vim.lsp.buf.rename, "lsp: rename")
+    if client.supports_method(methods.textDocument_rename) then
+      keymap("<leader>rn", vim.lsp.buf.rename, "lsp: rename")
     end
 
     if client.supports_method("workspace/symbol") then
@@ -109,50 +63,34 @@ return function(options)
     end
 
     if client.supports_method("textDocument/documentSymbol") then
-      local op = function()
-        fzf.lsp_document_symbols({
-          jump_to_single_result = true,
-          fzf_opts = {
-            ["--with-nth"] = "2..",
-          },
-        })
-      end
-      utils.buffer_command("DocumentSymbol", op)
-      nnoremap("<localleader>@", op, "Documents symbol")
+      keymap("<leader>@", fzf.lsp_document_symbols({}), "Documents symbol")
     end
 
     if client.supports_method("textDocument/references") then
-      local op = function()
-        fzf.lsp_references({ jump_to_single_result = true })
-      end
-      utils.buffer_command("References", op)
-      nnoremap("gr", op, "Go to references")
-      nnoremap("<localleader>nr", op, "goto reference [LSP]")
+      keymap("gr", fzf.lsp_references({ jump_to_single_result = true }), "Go to references")
     end
 
     if client.supports_method("textDocument/implementation") then
       local op = function()
         fzf.lsp_implementations({ jump_to_single_result = true })
       end
-      utils.buffer_command("Implementation", op)
-      nnoremap("<localleader>gi", op, "Go to implementation")
-      nnoremap("<localleader>ni", op, "goto implementation [LSP]")
+      keymap("<localleader>gi", op, "Go to implementation")
+      keymap("<localleader>ni", op, "goto implementation [LSP]")
     end
 
     if client.supports_method("textDocument/typeDefinition") then
       local op = function()
         fzf.lsp_typedefs({ jump_to_single_result = true })
       end
-      utils.buffer_command("TypeDefinition", op)
-      nnoremap("<leader>nt", op, "goto type definition [LSP]")
+      keymap("<leader>nt", op, "goto type definition [LSP]")
     end
 
     if client.supports_method("textDocument/declaration") then
       local op = function()
         fzf.lsp_declarations({ jump_to_single_result = true })
       end
-      nnoremap("gD", op, "Go to declaration")
-      nnoremap("<leader>nD", op, "goto declaration [LSP]")
+      keymap("gD", op, "Go to declaration")
+      keymap("<leader>nD", op, "goto declaration [LSP]")
     end
 
     if client.supports_method("textDocument/formatting") then
@@ -178,7 +116,7 @@ return function(options)
       if not utils.buffer_has_var("code_lens") then
         utils.buffer_command("CodeLensRefresh", vim.lsp.codelens.refresh)
         utils.buffer_command("CodeLensRun", vim.lsp.codelens.run)
-        nnoremap("<localleader>cr", vim.lsp.codelens.run, "run code lens")
+        keymap("<localleader>cr", vim.lsp.codelens.run, "run code lens")
         vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI", "InsertLeave" }, {
           group = vim.api.nvim_create_augroup("code_lenses", { clear = true }),
           callback = vim.lsp.codelens.refresh,
@@ -187,6 +125,22 @@ return function(options)
       end
     end
 
-    setup_diagnostics(bufnr)
+    keymap("<leader>cd", vim.diagnostic.open_float, "line diagnostics")
+    local next = vim.diagnostic.goto_next
+    local prev = vim.diagnostic.goto_prev
+    local repeat_ok, ts_repeat_move = pcall(require, "nvim-treesitter.textobjects.repeatable_move")
+    if repeat_ok then
+      next, prev = ts_repeat_move.make_repeatable_move_pair(vim.diagnostic.goto_next, vim.diagnostic.goto_prev)
+    end
+    keymap("]d", function()
+      utils.call_and_center(next)
+    end, "Next diagnostic")
+    keymap("[d", function()
+      utils.call_and_center(prev)
+    end, "Previous diagnostic")
+    vim.api.nvim_create_autocmd("CursorHold", {
+      callback = require("plugins.lsp.diagnostic").hover,
+      buffer = bufnr,
+    })
   end
 end

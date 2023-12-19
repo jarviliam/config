@@ -1,11 +1,12 @@
 local o = vim.opt
+local wo = vim.wo
 
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
-
+vim.g.skip_ts_context_commentstring_module = true
 -- Visual {{{
 o.termguicolors = true
-o.pumheight = 20
+o.pumheight = 15
 o.cmdheight = 1
 o.title = true
 o.titlestring:append("%t")
@@ -56,15 +57,30 @@ o.conceallevel = 2
 o.list = true
 -- o.listchars = { eol = "↩", tab = "▸ ", trail = "·" }
 o.listchars = {
-  tab = "  ",
-  trail = "·",
+  tab = "⇥ ",
+  leadmultispace = "┊ ",
+  multispace = "│ ",
+  trail = "␣",
+  nbsp = "⍽",
   extends = "◣",
   precedes = "◢",
-  nbsp = "○",
 }
 o.synmaxcol = 256
 o.history = 10000
 -- }}}
+--
+local function update_lead()
+  local lcs = vim.opt_local.listchars:get()
+  local tab = vim.fn.str2list(lcs.tab)
+  local space = vim.fn.str2list(lcs.multispace or lcs.space)
+  local lead = { tab[1] }
+  for i = 1, vim.bo.tabstop - 1 do
+    lead[#lead + 1] = space[i % #space + 1]
+  end
+  vim.opt_local.listchars:append({ leadmultispace = vim.fn.list2str(lead) })
+end
+vim.api.nvim_create_autocmd("OptionSet", { pattern = { "listchars", "tabstop", "filetype" }, callback = update_lead })
+vim.api.nvim_create_autocmd("VimEnter", { callback = update_lead, once = true })
 
 -- Wildmenu {{{
 -- enable ctrl-n and ctrl-p to scroll through matches
@@ -110,7 +126,7 @@ o.showmatch = true
 local ok, is_exe = pcall(vim.fn.executable, "rg")
 if ok and is_exe == 1 then
   o.grepprg = "rg --vimgrep --no-heading --hidden --glob '!*{.git,node_modules,build,tags}'"
-  o.grepformat = "%f:%l:%c:%m,%f:%l:%m"
+  o.grepformat = "%f:%l:%c:%m"
 end
 o.virtualedit = "block" -- allow cursor to exist where there is no character
 o.modeline = true
@@ -158,8 +174,7 @@ o.shortmess:append("filmnrxoOtTAIcCs")
 o.diffopt:append({
   "linematch:60",
   "algorithm:patience",
-  "context:3",
-  "foldcolumn:1",
+  "context:99",
   "indent-heuristic",
 })
 
@@ -184,9 +199,12 @@ vim.opt.dictionary = {
 --
 o.updatetime = 50
 
--- o.foldcolumn = "0"
+o.foldcolumn = "1"
 o.foldnestmax = 3
-o.foldlevelstart = 3
+o.foldlevelstart = 99
+o.foldmethod = "expr"
+wo.foldtext = "v:lua.vim.treesitter.foldtext()"
+wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 
 -- Disable Builtins
 local builtins = {

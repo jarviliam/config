@@ -31,6 +31,7 @@
       jq
       yq
       jwt-cli
+      kubectl
       # qmk
       killall
       fd
@@ -52,10 +53,9 @@
       argocd
     ] ++ [
       # Python
-      python311
-      # python39
-      python311Packages.virtualenv
-      python311Packages.pip
+      python312Full
+      # python312Packages.virtualenv
+      # python312Packages.pip
       cloud-custodian
       codespell
       pre-commit
@@ -64,6 +64,7 @@
       isort
       nodePackages_latest.pyright
       ruff
+      ruff-lsp
 
       lua53Packages.luacheck
       lua-language-server
@@ -115,5 +116,7 @@
       vimPlugins.nvim-treesitter.withAllGrammars
 
       clamav
+      darwin.apple_sdk.frameworks.Foundation
+      darwin.apple_sdk.frameworks.CoreFoundation
     ];
 }

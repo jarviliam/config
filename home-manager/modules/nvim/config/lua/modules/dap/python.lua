@@ -24,22 +24,3 @@ table.insert(dap.configurations.python, {
     },
   },
 })
-
-table.insert(dap.configurations.python, {
-  name = "(Docker)KumamushiAPI",
-  type = "python",
-  request = "attach",
-  host = "localhost",
-  port = 10001,
-  justMyCode = false,
-  pathMappings = {
-    {
-      localRoot = vim.fn.getcwd() .. "/.venv/",
-      remoteRoot = "/opt/pysetup/.venv/",
-    },
-    {
-      localRoot = vim.fn.getcwd(),
-      remoteRoot = "/km-api/",
-    },
-  },
-})

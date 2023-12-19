@@ -12,7 +12,7 @@ vim.g.do_filetype_lua = 1
 
 local conf = require("conf")
 require("core.global")
-require("core.auto")
+require("core.autocmds")
 require("core.settings")
 require("core.mappings")
 require("lazyplug")

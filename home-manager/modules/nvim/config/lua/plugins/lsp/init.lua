@@ -24,17 +24,17 @@ return {
       dynamicRegistration = false,
       lineFoldingOnly = true,
     }
-    -- capabilities.textDocument.completion.completionItem.snippetSupport = true
 
     vim.diagnostic.config({
-      virtual_text = { spacing = 4, prefix = "●" },
+      virtual_text = { prefix = "" },
       signs = false,
       underline = true,
       update_in_insert = false,
       severity_sort = true,
       float = {
         focusable = true,
-        source = "always",
+        source = "if_many",
+        border = "rounded",
       },
     })
 
@@ -49,7 +49,5 @@ return {
       opts = vim.tbl_deep_extend("force", {}, options, opts or {})
       require("lspconfig")[server].setup(opts)
     end
-    -- require("modules.lsp.null").setup()
-    -- require("lsp")
   end,
 }

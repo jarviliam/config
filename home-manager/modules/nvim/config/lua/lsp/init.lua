@@ -42,6 +42,7 @@ local servers = {
   rust_analyzer = {},
   terraformls = {},
   tsserver = {},
+  ruff_lsp = {},
   yamlls = {
     schemas = {
       kubernetes = "globPattern",
