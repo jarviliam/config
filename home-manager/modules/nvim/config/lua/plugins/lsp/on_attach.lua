@@ -1,8 +1,7 @@
 local fzf = require("fzf-lua")
 local utils = require("core.utils")
-local methods = vim.lsp.protocol.Methods
 
-return function(options)
+return function(_)
   return function(client, bufnr)
     ---@param lhs string
     ---@param rhs string|function
@@ -13,12 +12,9 @@ return function(options)
       vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, desc = desc })
     end
 
-    if client.supports_method("textDocument/completion") then
-      vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
-    end
-
-    if client.supports_method(methods.textDocument_definition) then
-      keymap("gd", fzf.lsp_definitions({ jump_to_single_result = true }), "Go to definition")
+    if client.supports_method("textDocument/definition") then
+      keymap("gd", function ()
+      fzf.lsp_definitions({ jump_to_single_result = true })end, "Go to definition")
       keymap("gD", fzf.lsp_definitions, "Peek definition")
     end
 
@@ -28,7 +24,7 @@ return function(options)
       keymap("<M-h>", vim.lsp.buf.hover, "Show hover", "i")
     end
 
-    if client.supports_method(methods.textDocument_signatureHelp) then
+    if client.supports_method("textDocument/signatureHelp") then
       keymap("<C-k>", vim.lsp.buf.signature_help, "signature help", "i")
       require("lsp_signature").on_attach({
         handler_opts = { border = "rounded" },
@@ -38,9 +34,9 @@ return function(options)
       }, bufnr)
     end
 
-    if client.supports_method(methods.textDocument_codeAction) then
+    if client.supports_method("textDocument/codeAction") then
       keymap(
-        "<leader>ca",
+        "<leader>ca",function ()
         fzf.lsp_code_actions({
           winopts = {
             relative = "cursor",
@@ -49,25 +45,25 @@ return function(options)
             height = 0.20,
             width = 0.55,
           },
-        }),
+        })
+        end
+                    ,
         "lsp: code actions"
       )
     end
 
-    if client.supports_method(methods.textDocument_rename) then
-      keymap("<leader>rn", vim.lsp.buf.rename, "lsp: rename")
-    end
+    keymap("<leader>rn", vim.lsp.buf.rename, "lsp: rename")
 
     if client.supports_method("workspace/symbol") then
       utils.buffer_command("WorkspaceSymbols", fzf.lsp_live_workspace_symbols)
     end
 
     if client.supports_method("textDocument/documentSymbol") then
-      keymap("<leader>@", fzf.lsp_document_symbols({}), "Documents symbol")
+      keymap("<leader>@", fzf.lsp_document_symbols, "Documents symbol")
     end
 
     if client.supports_method("textDocument/references") then
-      keymap("gr", fzf.lsp_references({ jump_to_single_result = true }), "Go to references")
+      keymap("gr", function()fzf.lsp_references({ jump_to_single_result = true })end, "Go to references")
     end
 
     if client.supports_method("textDocument/implementation") then

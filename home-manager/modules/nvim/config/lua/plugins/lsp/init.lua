@@ -6,7 +6,10 @@ return {
     "hrsh7th/cmp-nvim-lsp",
     "ray-x/lsp_signature.nvim",
     "folke/neodev.nvim",
-    "SmiteshP/nvim-navic",
+    {
+    "j-hui/fidget.nvim",
+    tag = "v1.1.0",
+  },
   },
   config = function()
     require("neodev").setup({})
