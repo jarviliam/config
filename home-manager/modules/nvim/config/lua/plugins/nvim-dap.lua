@@ -76,21 +76,6 @@ return {
       local fname = string.format("modules.dap.%s", l)
       require(fname)
     end
-    local dap_icons = {
-      breakpoint = " ",
-      breakpoint_condition = " ",
-      log_point = " ",
-      stopped = " ",
-      breakpoint_rejected = " ",
-      pause = " ",
-      play = " ",
-      step_into = " ",
-      step_over = " ",
-      step_out = " ",
-      step_back = " ",
-      run_last = " ",
-      terminate = " ",
-    }
     local dap = require("dap")
     dap.listeners.after.event_stopped["jarviliam"] = function()
       vim.keymap.set("n", "<leader>dh", "<cmd>lua require 'dap.ui.widgets'.hover()<CR>")
@@ -103,14 +88,14 @@ return {
 
     -- Lua configurations.
     dap.adapters.nlua = function(callback, config)
-        callback { type = 'server', host = config.host or '127.0.0.1', port = config.port or 8086 }
+      callback({ type = "server", host = config.host or "127.0.0.1", port = config.port or 8086 })
     end
-    dap.configurations['lua'] = {
-        {
-            type = 'nlua',
-            request = 'attach',
-            name = 'Attach to running Neovim instance',
-        },
+    dap.configurations["lua"] = {
+      {
+        type = "nlua",
+        request = "attach",
+        name = "Attach to running Neovim instance",
+      },
     }
   end,
 }

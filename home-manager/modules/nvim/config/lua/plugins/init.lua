@@ -18,16 +18,8 @@ return {
     config = function()
       require("fzf-lua").setup({
         "fzf-native",
-        grep = {
-          rg_opts = "--vimgrep --column --line-number --color=always --smart-case --no-heading --hidden --glob '!*{.git,node_modules,build,tags}'",
-        },
       })
     end,
-  },
-  {
-    "karloskar/poetry-nvim",
-    lazy = false,
-    enabled = false,
   },
   -----------------------------------------------------------------------------//
   -- General plugins {{{1

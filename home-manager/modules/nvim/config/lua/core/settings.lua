@@ -123,17 +123,13 @@ o.smartcase = true
 o.inccommand = "nosplit"
 o.showmatch = true
 
-local ok, is_exe = pcall(vim.fn.executable, "rg")
-if ok and is_exe == 1 then
-  o.grepprg = "rg --vimgrep --no-heading --hidden --glob '!*{.git,node_modules,build,tags}'"
-  o.grepformat = "%f:%l:%c:%m"
-end
+o.grepprg = "rg --vimgrep"
+o.grepformat = "%f:%l:%c:%m"
 o.virtualedit = "block" -- allow cursor to exist where there is no character
 o.modeline = true
 
 o.splitbelow = true
 o.splitright = true
--- o.fillchars = { eob = " ", diff = " " }
 o.fillchars = {
   horizup = "┻",
   horiz = "━",
@@ -167,8 +163,6 @@ o.completeopt:append({ "menuone", "noinsert", "noselect" })
 -- I -> Don't give the intro message when starting Vim |:intro|.
 -- c -> Avoid showing message extra message when using completion
 o.shortmess:append("filmnrxoOtTAIcCs")
--- o.shortmess:append("c")
--- o.shortmess:append("WcC") -- Reduce command line messages
 -- }}}
 
 o.diffopt:append({

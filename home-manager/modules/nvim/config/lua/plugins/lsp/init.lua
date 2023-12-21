@@ -1,3 +1,4 @@
+local diagnostic_icons = require("icons").diagnostics
 return {
   "neovim/nvim-lspconfig",
   event = "BufReadPre",
@@ -25,8 +26,20 @@ return {
       lineFoldingOnly = true,
     }
 
+    for severity, icon in pairs(diagnostic_icons) do
+      local hl = "DiagnosticSign" .. severity:sub(1, 1) .. severity:sub(2):lower()
+      vim.fn.sign_define(hl, { text = icon, texthl = hl })
+    end
+
     vim.diagnostic.config({
-      virtual_text = { prefix = "" },
+      virtual_text = {
+        prefix = "",
+        format = function(diagnostic)
+          local icon = diagnostic_icons[vim.diagnostic.severity[diagnostic.severity]]
+          local message = vim.split(diagnostic.message, "\n")[1]
+          return string.format("%s %s ", icon, message)
+        end,
+      },
       signs = false,
       underline = true,
       update_in_insert = false,
@@ -37,6 +50,19 @@ return {
         border = "rounded",
       },
     })
+
+    -- Override the virtual text diagnostic handler so that the most severe diagnostic is shown first.
+    local show_handler = vim.diagnostic.handlers.virtual_text.show
+    local hide_handler = vim.diagnostic.handlers.virtual_text.hide
+    vim.diagnostic.handlers.virtual_text = {
+      show = function(ns, bufnr, diagnostics, opts)
+        table.sort(diagnostics, function(diag1, diag2)
+          return diag1.severity > diag2.severity
+        end)
+        return show_handler(ns, bufnr, diagnostics, opts)
+      end,
+      hide = hide_handler,
+    }
 
     for server, opts in pairs(require("plugins.lsp.servers")) do
       local options = {

@@ -7,15 +7,6 @@ au("TextYankPost", "*", function()
   vim.highlight.on_yank()
 end, "Highlight yanked text")
 
-local start_terminal_insert = vim.schedule_wrap(function(data)
-  -- Try to start terminal mode only if target terminal is current
-  if not (vim.api.nvim_get_current_buf() == data.buf and vim.bo.buftype == "terminal") then
-    return
-  end
-  vim.cmd("startinsert")
-end)
-au("TermOpen", "term://*", start_terminal_insert, "Start builtin terminal in Insert mode")
-
 local cursorLineGroup = vim.api.nvim_create_augroup("CursorLineControl", { clear = true })
 vim.api.nvim_create_autocmd("WinLeave", {
   group = cursorLineGroup,
@@ -109,3 +100,7 @@ vim.api.nvim_create_autocmd({ "VimResized" }, {
     vim.cmd("tabnext " .. current_tab)
   end,
 })
+
+vim.api.nvim_create_user_command("Todos", function()
+  require("fzf-lua").grep({ search = [[TODO:|todo!\(.*\)]], no_esc = true })
+end, { desc = "Grep TODOs", nargs = 0 })

@@ -1,4 +1,3 @@
-vim.g.mapleader = " "
 local l = "<leader>"
 local map = vim.keymap.set
 

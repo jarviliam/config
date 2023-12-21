@@ -14,6 +14,7 @@ return {
     local cmp = require("cmp")
     local luasnip = require("luasnip")
     local kind = require("lspkind")
+    local symbols = require("icons").symbol_kinds
     -- Add parens to functions returned from cmp
     cmp.event:on(
       "confirm_done",
@@ -46,24 +47,7 @@ return {
         fields = { "kind", "abbr", "menu" },
         format = kind.cmp_format({
           mode = "symbol",
-          symbol_map = {
-            Array = "󰅪",
-            Boolean = "⊨",
-            Class = "󰌗",
-            Constructor = "",
-            Key = "󰌆",
-            Namespace = "󰅪",
-            Null = "NULL",
-            Number = "#",
-            Object = "󰀚",
-            Package = "󰏗",
-            Property = "",
-            Reference = "",
-            Snippet = "",
-            String = "󰀬",
-            TypeParameter = "󰊄",
-            Unit = "",
-          },
+          symbol_map = symbols,
           menu = {},
         }),
       },
