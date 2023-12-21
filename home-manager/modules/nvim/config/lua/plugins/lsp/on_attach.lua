@@ -13,8 +13,9 @@ return function(_)
     end
 
     if client.supports_method("textDocument/definition") then
-      keymap("gd", function ()
-      fzf.lsp_definitions({ jump_to_single_result = true })end, "Go to definition")
+      keymap("gd", function()
+        fzf.lsp_definitions({ jump_to_single_result = true })
+      end, "Go to definition")
       keymap("gD", fzf.lsp_definitions, "Peek definition")
     end
 
@@ -35,8 +36,7 @@ return function(_)
     end
 
     if client.supports_method("textDocument/codeAction") then
-      keymap(
-        "<leader>ca",function ()
+      keymap("<leader>ca", function()
         fzf.lsp_code_actions({
           winopts = {
             relative = "cursor",
@@ -46,10 +46,7 @@ return function(_)
             width = 0.55,
           },
         })
-        end
-                    ,
-        "lsp: code actions"
-      )
+      end, "lsp: code actions")
     end
 
     keymap("<leader>rn", vim.lsp.buf.rename, "lsp: rename")
@@ -63,7 +60,9 @@ return function(_)
     end
 
     if client.supports_method("textDocument/references") then
-      keymap("gr", function()fzf.lsp_references({ jump_to_single_result = true })end, "Go to references")
+      keymap("gr", function()
+        fzf.lsp_references({ jump_to_single_result = true })
+      end, "Go to references")
     end
 
     if client.supports_method("textDocument/implementation") then
@@ -91,19 +90,16 @@ return function(_)
 
     if client.supports_method("textDocument/formatting") then
       vim.api.nvim_buf_set_var(bufnr, "format_with_lsp", true)
-      vim.keymap.set(
-        "n",
-        "<leader>lf",
-        [[<cmd>lua vim.lsp.buf.format({async=true})<CR>]],
-        { silent = true, buffer = bufnr, desc = "format document [null-ls]" }
-      )
-      vim.api.nvim_create_autocmd("BufWritePre", {
-        buffer = bufnr,
-        callback = function()
-          vim.lsp.buf.format({
-            timeout_ms = 2000,
-            bufnr = bufnr,
-          })
+      vim.keymap.set("n", "<leader>cf", function()
+        vim.lsp.buf.format({ async = true })
+      end, { silent = true, buffer = bufnr, desc = "format document" })
+      vim.api.nvim_create_autocmd("BufWritePost", {
+        callback = function(ev)
+          local efm = vim.lsp.get_active_clients({ name = "efm", bufnr = ev.buf })
+          if vim.tbl_isempty(efm) then
+            return
+          end
+          vim.lsp.buf.format({ name = "efm" })
         end,
       })
     end

@@ -6,19 +6,9 @@ return {
     "hrsh7th/cmp-nvim-lsp",
     "ray-x/lsp_signature.nvim",
     "folke/neodev.nvim",
-    {
-    "j-hui/fidget.nvim",
-    tag = "v1.1.0",
-  },
   },
   config = function()
     require("neodev").setup({})
-    require("fidget").setup({
-      text = {
-        spinner = "circle_halves",
-      },
-    })
-
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     local completion = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
@@ -67,10 +57,11 @@ return {
       hide = hide_handler,
     }
 
+    local on_attach = require("plugins.lsp.on_attach")
     for server, opts in pairs(require("plugins.lsp.servers")) do
       local options = {
         capabilities = capabilities,
-        on_attach = require("plugins.lsp.on_attach")(opts),
+        on_attach = on_attach(opts),
         flags = {
           debounce_text_changes = 150,
         },

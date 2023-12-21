@@ -1,8 +1,4 @@
 local conf = require("conf")
-local function get_config(name)
-  return string.format('require("modules.%s")', name)
-end
-
 return {
   "nvim-lua/plenary.nvim",
   "b0o/SchemaStore.nvim",
@@ -10,7 +6,6 @@ return {
     "kyazdani42/nvim-web-devicons",
     opts = { default = true },
   },
-  { "jose-elias-alvarez/null-ls.nvim", enabled = false },
   {
     "ibhagwan/fzf-lua",
     dependencies = "kyazdani42/nvim-web-devicons",
@@ -33,6 +28,11 @@ return {
       vim.g.undotree_CustomUndotreeCmd = "vertical 40 new"
       vim.g.undotree_CustomDiffpanelCmd = "botright 15 new"
     end,
+  },
+  {
+    "creativenull/efmls-configs-nvim",
+    version = "v1.4.0", -- version is optional, but recommended
+    dependencies = { "neovim/nvim-lspconfig" },
   },
   {
     "rcarriga/nvim-notify",

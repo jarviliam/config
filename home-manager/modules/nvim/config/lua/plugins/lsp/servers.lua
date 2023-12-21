@@ -1,83 +1,25 @@
-local prettierd = {
-  formatCommand = "prettierd ${INPUT}",
-  formatStdin = true,
-  env = {
-    string.format("PRETTIERD_DEFAULT_CONFIG=%s/.prettierrc.json", vim.fn.getcwd()),
+local efm_languages = {
+  go = { require("efmls-configs.formatters.gofmt"), require("efmls-configs.linters.golangci_lint") },
+  python = { require("efmls-configs.formatters.ruff"), require("efmls-configs.linters.ruff") },
+  lua = { require("efmls-configs.formatters.stylua"), require("efmls-configs.linters.luacheck") },
+  nix = { require("efmls-configs.formatters.nixfmt") },
+  terraform = { require("efmls-configs.formatters.terraform_fmt") },
+  yaml = {
+    require("efmls-configs.formatters.prettier_d"),
+    require("efmls-configs.linters.actionlint"),
+    require("efmls-configs.linters.yamllint"),
   },
 }
+for _, filetype in ipairs({ "javascript", "typescript", "html", "css", "scss", "less", "json", "jsonc" }) do
+  efm_languages[filetype] = { require("efmls-configs.formatters.prettier_d") }
+end
 
 return {
   efm = {
-    init_options = { documentFormatting = true },
+    init_options = { documentFormatting = true, documentRangeFormatting = true },
     settings = {
       rootMarkers = { ".git/" },
-      languages = {
-        ["lua"] = {
-          {
-            formatCommand = "stylua --color Never -",
-            formatStdin = true,
-            rootMarkers = { "stylua.toml", ".stylua.toml" },
-          },
-        },
-        ["go"] = {
-          {
-            formatCommand = "gofmt",
-            formatStdin = true,
-          },
-          {
-            formatCommand = "goimports",
-            formatStdin = true,
-          },
-        },
-        ["nix"] = {
-          {
-            formatCommand = "nixfmt",
-            formatStdin = true,
-            rootMarkers = {
-              "flake.nix",
-              "shell.nix",
-              "default.nix",
-            },
-          },
-        },
-        ["python"] = {
-          {
-            formatCommand = "ruff format -",
-            formatStdin = true,
-          },
-          {
-            formatCommand = "ruff --fix -e -n -",
-            formatStdin = true,
-          },
-        },
-        ["javascript"] = { prettierd },
-        ["javascriptreact"] = { prettierd },
-        ["javascript.jsx"] = { prettierd },
-        ["typescript"] = { prettierd },
-        ["typescriptreact"] = { prettierd },
-        ["typescript.tsx"] = { prettierd },
-        ["terraform"] = {
-          {
-            formatCommand = "terraform fmt -",
-            formatStdin = true,
-          },
-        },
-        ["yaml"] = {
-          {
-            prefix = "actionlint",
-            lintCommand = "actionlint -no-color -onelone ${INPUT} -",
-            lintStdin = true,
-            lintFormats = {
-              "%f:%l:%c: %.%#: SC%n:%trror:%m",
-              "%f:%l:%c: %.%#: SC%n:%tarning:%m",
-              "%f:%l:%c: %.%#: SC%n:%tnfo:%m",
-              "%f:%l:%c: %m",
-            },
-            requireMarker = true,
-            rootMarkers = { ".github/" },
-          },
-        },
-      },
+      languages = vim.tbl_keys(efm_languages),
     },
   },
   bashls = {},
