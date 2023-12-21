@@ -12,6 +12,8 @@ M.symbol_kinds = {
   Boolean = "⊨",
   Class = "󰌗",
   Constructor = "",
+  File = "󰈙",
+  Folder = "󰉋",
   Key = "󰌆",
   Namespace = "󰅪",
   Null = "NULL",
@@ -24,5 +26,12 @@ M.symbol_kinds = {
   String = "󰀬",
   TypeParameter = "󰊄",
   Unit = "",
+}
+
+M.misc = {
+  bug = "",
+  git = "",
+  search = "",
+  vertical_bar = "│",
 }
 return M
