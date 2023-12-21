@@ -1,6 +1,7 @@
 return {
   "pwntester/octo.nvim",
   dev = false,
+  event = "VeryLazy",
   config = function()
     require("octo").setup({
       picker = "fzf-lua",

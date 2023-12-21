@@ -95,4 +95,3 @@ return {
     vim.keymap.set("n", "<C-l>", require("smart-splits").move_cursor_right)
   end,
 }
-

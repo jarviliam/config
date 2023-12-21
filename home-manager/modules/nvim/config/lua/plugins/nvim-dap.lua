@@ -1,7 +1,45 @@
 return {
   "mfussenegger/nvim-dap",
   dependencies = {
-    "rcarriga/nvim-dap-ui",
+    {
+      "rcarriga/nvim-dap-ui",
+      keys = {
+        {
+          "<leader>de",
+          function()
+            require("dapui").eval()
+            require("dapui").eval()
+          end,
+          desc = "Evaluate expression",
+        },
+      },
+      opts = {
+        icons = {
+          collapsed = " ",
+          expanded = " ",
+          current = " ",
+          folder_empty = "",
+          folder_closed = "",
+          folder_open = "",
+          file = "",
+          v_border = "▐",
+        },
+        floating = {
+          border = "rounded",
+        },
+        layouts = {
+          {
+            elements = {
+              { id = "stacks", size = 0.30 },
+              { id = "breakpoints", size = 0.20 },
+              { id = "scopes", size = 0.50 },
+            },
+            position = "left",
+            size = 40,
+          },
+        },
+      },
+    },
     "theHamsta/nvim-dap-virtual-text",
     "leoluz/nvim-dap-go",
     "mfussenegger/nvim-dap-python",
@@ -9,9 +47,10 @@ return {
   },
   lazy = true,
   keys = {
-    { "<Space>d~", "<cmd>DapToggleBreakpoint<cr>", desc = "dap: Toggle Breakpoint" },
-    { "<Space>d-", "<cmd>lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>" },
-    { "<Space>do", "<cmd>DapContinue<cr>", desc = "dap: Continue" },
+    { "<Space>db", "<cmd>DapToggleBreakpoint<cr>", desc = "dap: Toggle Breakpoint" },
+    { "<Space>dB", "<cmd>FzfLua dap_breakpoints<cr>", desc = "dap: List Breakpoint" },
+    { "<Space>dc", "<cmd>lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>" },
+    { "<F5>", "<cmd>DapContinue<cr>", desc = "dap: Continue" },
     { "<Space>df", "<cmd>lua require 'dapui'.toggle()<CR>", desc = "dapui: Toggle" },
   },
   config = function()
@@ -43,91 +82,6 @@ return {
       run_last = " ",
       terminate = " ",
     }
-    dapui.setup({
-      icons = {
-        collapsed = " ",
-        expanded = " ",
-        current = " ",
-        folder_empty = "",
-        folder_closed = "",
-        folder_open = "",
-        file = "",
-        v_border = "▐",
-      },
-      mappings = {
-        -- Use a table to apply multiple mappings
-        expand = { "<CR>", "<2-LeftMouse>" },
-        open = "o",
-        remove = "d",
-        edit = "e",
-        repl = "r",
-        toggle = "t",
-      },
-
-      -- Use this to override mappings for specific elements
-      element_mappings = {
-        -- Example:
-        -- stacks = {
-        --   open = "<CR>",
-        --   expand = "o",
-        -- }
-      },
-
-      -- Expand lines larger than the window
-      -- Requires >= 0.7
-      expand_lines = vim.fn.has("nvim-0.7") == 1,
-
-      -- Layouts define sections of the screen to place windows.
-      -- The position can be "left", "right", "top" or "bottom".
-      -- The size specifies the height/width depending on position. It can be an Int
-      -- or a Float. Integer specifies height/width directly (i.e. 20 lines/columns) while
-      -- Float value specifies percentage (i.e. 0.3 - 30% of available lines/columns)
-      -- Elements are the elements shown in the layout (in order).
-      -- Layouts are opened in order so that earlier layouts take priority in window sizing.
-      layouts = {
-        {
-          elements = {
-            -- Elements can be strings or table with id and size keys.
-            { id = "scopes", size = 0.25 },
-            "breakpoints",
-            "stacks",
-            "watches",
-          },
-          size = 40, -- 40 columns
-          position = "left",
-        },
-        {
-          elements = {
-            "repl",
-            "console",
-          },
-          size = 0.25, -- 25% of total lines
-          position = "bottom",
-        },
-      },
-
-      controls = {
-        enabled = true,
-        element = "repl",
-        icons = dap_icons,
-      },
-
-      floating = {
-        max_height = nil, -- These can be integers or a float between 0 and 1.
-        max_width = nil, -- Floats will be treated as percentage of your screen.
-        border = "single", -- Border style. Can be "single", "double" or "rounded"
-        mappings = {
-          close = { "q", "<Esc>" },
-        },
-      },
-
-      windows = { indent = 1 },
-
-      render = {
-        max_type_length = nil, -- Can be integer or nil.
-        max_value_lines = 100, -- Can be integer or nil.
-      },
-    })
     local dap = require("dap")
     dap.listeners.after.event_stopped["jarviliam"] = function()
       vim.keymap.set("n", "<leader>dh", "<cmd>lua require 'dap.ui.widgets'.hover()<CR>")

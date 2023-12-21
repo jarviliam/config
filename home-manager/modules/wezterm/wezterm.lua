@@ -2,6 +2,7 @@
 local wezterm = require("wezterm")
 local c = wezterm.config_builder()
 
+
 require("keys").apply(c)
 
 c.font = wezterm.font_with_fallback({
@@ -25,6 +26,7 @@ c.color_scheme = "catppuccin-frappe"
 c.window_decorations = "RESIZE"
 c.window_background_opacity = 0.8
 c.macos_window_background_blur = 20
+c.native_macos_fullscreen_mode = false
 c.hide_tab_bar_if_only_one_tab = true
 c.clean_exit_codes = { 130 }
 c.adjust_window_size_when_changing_font_size = false
@@ -36,6 +38,7 @@ c.use_fancy_tab_bar = false
 c.tab_max_width = 32
 
 c.hyperlink_rules = {
+  { regex = [["([\w\d]{1}[-\w\d]+)(/){1}([-\w\d\.]+)"]], format = "https://www.github.com/$1/$3" },
   {
     regex = "\\b\\w+://[\\w.-]+:[0-9]{2,15}\\S*\\b",
     format = "$0",
@@ -55,10 +58,6 @@ c.hyperlink_rules = {
   {
     regex = [[\b\w+://(?:[\d]{1,3}\.){3}[\d]{1,3}\S*\b]],
     format = "$0",
-  },
-  {
-    regex = [[\b[tT](\d+)\b]],
-    format = "https://example.com/tasks/?t=$1",
   },
 }
 

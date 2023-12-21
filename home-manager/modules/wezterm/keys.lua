@@ -1,5 +1,6 @@
 --@type wezterm
 local wezterm = require("wezterm")
+local workspace_switcher = wezterm.plugin.require("https://github.com/MLFlexer/smart_workspace_switcher.wezterm")
 local act = wezterm.action
 
 local function is_vim(pane)
@@ -103,11 +104,12 @@ M.apply = function(c)
     map(tostring(i), { "LEADER", "SUPER" }, act.ActivateTab(i - 1))
   end
   map("c", "LEADER", act.SpawnTab("CurrentPaneDomain"))
-  map("x", "LEADER", act.CloseCurrentPane({ confirm = true }))
+  map("x", {"LEADER","SHIFT|CTRL"}, act.CloseCurrentPane({ confirm = true }))
   map("t", { "SHIFT|CTRL", "SUPER" }, act.SpawnTab("CurrentPaneDomain"))
   map("w", { "SHIFT|CTRL", "SUPER" }, act.CloseCurrentTab({ confirm = true }))
   map("n", { "SHIFT|CTRL", "SUPER" }, act.SpawnWindow)
-  map("z", { "LEADER", "SUPER" }, act.TogglePaneZoomState)
+  map("z", { "LEADER", "SHIFT|CTRL" }, act.TogglePaneZoomState)
+  map("s", "SHIFT|CTRL", workspace_switcher.switch_workspace())
   map("v", "LEADER", act.ActivateCopyMode)
   map("c", { "SHIFT|CTRL", "SUPER" }, act.CopyTo("Clipboard"))
   map("v", { "SHIFT|CTRL", "SUPER" }, act.PasteFrom("Clipboard"))

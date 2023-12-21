@@ -13,6 +13,7 @@
       coreutils
       github-cli
       wget
+      yazi
       ripgrep
       htop
       unar
