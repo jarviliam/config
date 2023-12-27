@@ -26,4 +26,7 @@ if M.theme == "sonokai" or M.theme == "edge" or M.theme == "everforest" then
   vim.g.edge_diagnostic_virtual_text = "colored"
 end
 
+if M.theme == "gruvbox-material" then
+end
+
 return M

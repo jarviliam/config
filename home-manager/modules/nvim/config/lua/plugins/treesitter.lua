@@ -4,7 +4,35 @@ return {
     dependencies = {
       "nvim-treesitter/nvim-treesitter-refactor",
       "nvim-treesitter/nvim-treesitter-textobjects",
-      "nvim-treesitter/nvim-treesitter-context",
+      {
+        "nvim-treesitter/nvim-treesitter-context",
+        opts = {
+          -- Avoid the sticky context from growing a lot.
+          max_lines = 3,
+          -- Match the context lines to the source code.
+          multiline_threshold = 1,
+          -- Disable it when the window is too small.
+          min_window_height = 20,
+        },
+        keys = {
+          {
+            "[c",
+            function()
+              -- Jump to previous change when in diffview.
+              if vim.wo.diff then
+                return "[c"
+              else
+                vim.schedule(function()
+                  require("treesitter-context").go_to_context()
+                end)
+                return "<Ignore>"
+              end
+            end,
+            desc = "Jump to upper context",
+            expr = true,
+          },
+        },
+      },
     },
     keys = {
       { "<c-space>", desc = "Increment selection" },
@@ -98,19 +126,6 @@ return {
           goto_next_end = { ["]F"] = "@function.outer", ["]C"] = "@class.outer" },
           goto_previous_start = { ["[f"] = "@function.outer", ["[c"] = "@class.outer" },
           goto_previous_end = { ["[F"] = "@function.outer", ["[C"] = "@class.outer" },
-        },
-      },
-      swap = {
-        enable = true,
-        swap_next = {
-          [">K"] = { query = "@block.outer", desc = "Swap next block" },
-          [">F"] = { query = "@function.outer", desc = "Swap next function" },
-          [">A"] = { query = "@parameter.inner", desc = "Swap next argument" },
-        },
-        swap_previous = {
-          ["<K"] = { query = "@block.outer", desc = "Swap previous block" },
-          ["<F"] = { query = "@function.outer", desc = "Swap previous function" },
-          ["<A"] = { query = "@parameter.inner", desc = "Swap previous argument" },
         },
       },
       refactor = {

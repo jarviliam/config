@@ -196,9 +196,10 @@ o.updatetime = 50
 o.foldcolumn = "1"
 o.foldnestmax = 3
 o.foldlevelstart = 99
-o.foldmethod = "expr"
-wo.foldtext = "v:lua.vim.treesitter.foldtext()"
-wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+-- NOTE: DISABLED DUE TO RELOAD BUG
+-- o.foldmethod = "expr"
+-- wo.foldtext = "v:lua.vim.treesitter.foldtext()"
+-- wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 
 -- Disable Builtins
 local builtins = {
