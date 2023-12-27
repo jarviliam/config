@@ -43,7 +43,7 @@ return {
         return false
       end
       local gs = package.loaded.gitsigns
-      vim.keymap.set("n", "<leader>gs", gs.toggle_signsd, { desc = "toggle gitsigns sign column" })
+      vim.keymap.set("n", "<leader>gs", gs.toggle_signs, { desc = "toggle gitsigns sign column" })
       vim.keymap.set("n", "<leader>hb", gs.blame_line, { desc = "blame line" })
       vim.keymap.set("n", "<leader>hs", gs.stage_hunk, { desc = "stage hunk" })
       vim.keymap.set("n", "<leader>hu", gs.undo_stage_hunk, { desc = "undo last staged hunk" })
