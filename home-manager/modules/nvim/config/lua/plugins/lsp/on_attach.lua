@@ -105,12 +105,14 @@ return function(_)
     if repeat_ok then
       next, prev = ts_repeat_move.make_repeatable_move_pair(vim.diagnostic.goto_next, vim.diagnostic.goto_prev)
     end
-    keymap("]d", function()
-      utils.call_and_center(next)
-    end, "Next diagnostic")
-    keymap("[d", function()
-      utils.call_and_center(prev)
-    end, "Previous diagnostic")
+    keymap("[d", prev, "Previous diagnostic")
+    keymap("]d", next, "Next diagnostic")
+    keymap('[e', function()
+        prev{ severity = vim.diagnostic.severity.ERROR }
+    end, 'Previous error')
+    keymap(']e', function()
+        next{ severity = vim.diagnostic.severity.ERROR }
+    end, 'Next error')
     vim.api.nvim_create_autocmd("CursorHold", {
       callback = require("plugins.lsp.diagnostic").hover,
       buffer = bufnr,
