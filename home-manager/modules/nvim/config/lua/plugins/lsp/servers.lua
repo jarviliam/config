@@ -91,13 +91,9 @@ return {
       Lua = {
         format = {
           enable = false,
-          defaultConfig = {
-            indent_style = "space",
-            indent_size = "2",
-            quote_style = "AutoPreferDouble",
-            call_parentheses = "Always",
-            column_width = "120",
-            line_endings = "Unix",
+          hint = {
+            enable = true,
+            arrayIndex = "Disable",
           },
         },
         telemetry = { enable = false },

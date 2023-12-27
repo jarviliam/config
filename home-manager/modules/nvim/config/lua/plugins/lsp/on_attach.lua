@@ -19,11 +19,7 @@ return function(_)
       keymap("gD", fzf.lsp_definitions, "Peek definition")
     end
 
-    if client.supports_method("textDocument/hover") then
-      keymap("H", vim.lsp.buf.hover, "Show hover")
-      -- nnoremap("K", vim.lsp.buf.hover, "hover information [LSP]")
-      keymap("<M-h>", vim.lsp.buf.hover, "Show hover", "i")
-    end
+    keymap("K", vim.lsp.buf.hover, "hover information [LSP]")
 
     if client.supports_method("textDocument/signatureHelp") then
       keymap("<C-k>", vim.lsp.buf.signature_help, "signature help", "i")
@@ -49,15 +45,10 @@ return function(_)
       end, "lsp: code actions")
     end
 
-    keymap("<leader>rn", vim.lsp.buf.rename, "lsp: rename")
+    keymap("<leader>cr", vim.lsp.buf.rename, "lsp: rename")
 
-    if client.supports_method("workspace/symbol") then
-      utils.buffer_command("WorkspaceSymbols", fzf.lsp_live_workspace_symbols)
-    end
-
-    if client.supports_method("textDocument/documentSymbol") then
-      keymap("<leader>@", fzf.lsp_document_symbols, "Documents symbol")
-    end
+    keymap("<leader>fs", fzf.lsp_document_symbols, "Documents symbol")
+    keymap("<leader>fS", fzf.lsp_live_workspace_symbols, "Workspace symbols")
 
     if client.supports_method("textDocument/references") then
       keymap("gr", function()
@@ -77,32 +68,22 @@ return function(_)
       local op = function()
         fzf.lsp_typedefs({ jump_to_single_result = true })
       end
-      keymap("<leader>nt", op, "goto type definition [LSP]")
+      keymap("<leader>gy", op, "goto type definition [LSP]")
     end
-
-    if client.supports_method("textDocument/declaration") then
-      local op = function()
-        fzf.lsp_declarations({ jump_to_single_result = true })
-      end
-      keymap("gD", op, "Go to declaration")
-      keymap("<leader>nD", op, "goto declaration [LSP]")
-    end
-
-    if client.supports_method("textDocument/formatting") then
-      vim.api.nvim_buf_set_var(bufnr, "format_with_lsp", true)
-      vim.keymap.set("n", "<leader>cf", function()
-        vim.lsp.buf.format({ async = true })
-      end, { silent = true, buffer = bufnr, desc = "format document" })
-      vim.api.nvim_create_autocmd("BufWritePost", {
-        callback = function(ev)
-          local efm = vim.lsp.get_active_clients({ name = "efm", bufnr = ev.buf })
-          if vim.tbl_isempty(efm) then
-            return
-          end
-          vim.lsp.buf.format({ name = "efm" })
-        end,
-      })
-    end
+    vim.keymap.set("n", "<leader>cf", function()
+      vim.lsp.buf.format({ async = true })
+    end, { silent = true, buffer = bufnr, desc = "Format" })
+    local lsp_fmt_group = vim.api.nvim_create_augroup("LspFormattingGroup", {})
+    vim.api.nvim_create_autocmd("BufWritePost", {
+      group = lsp_fmt_group,
+      callback = function(ev)
+        local efm = vim.lsp.get_active_clients({ name = "efm", bufnr = ev.buf })
+        if vim.tbl_isempty(efm) then
+          return
+        end
+        vim.lsp.buf.format({ name = "efm" })
+      end,
+    })
 
     if client.supports_method("textDocument/codeLens") or client.supports_method("codeLens/resolve") then
       if not utils.buffer_has_var("code_lens") then

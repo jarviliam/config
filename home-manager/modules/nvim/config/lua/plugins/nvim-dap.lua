@@ -58,11 +58,15 @@ return {
   },
   lazy = true,
   keys = {
-    { "<Space>db", "<cmd>DapToggleBreakpoint<cr>", desc = "dap: Toggle Breakpoint" },
-    { "<Space>dB", "<cmd>FzfLua dap_breakpoints<cr>", desc = "dap: List Breakpoint" },
-    { "<Space>dc", "<cmd>lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>" },
-    { "<F5>", "<cmd>DapContinue<cr>", desc = "dap: Continue" },
-    { "<Space>df", "<cmd>lua require 'dapui'.toggle()<CR>", desc = "dapui: Toggle" },
+    { "<Space>db", "<cmd>DapToggleBreakpoint<cr>", desc = "Toggle Breakpoint" },
+    { "<Space>dB", "<cmd>FzfLua dap_breakpoints<cr>", desc = "List Breakpoint" },
+    {
+      "<Space>dc",
+      "<cmd>lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>",
+      desc = "Set Breakpoint",
+    },
+    { "<F5>", "<cmd>DapContinue<cr>", desc = "Continue" },
+    { "<Space>df", "<cmd>lua require 'dapui'.toggle()<CR>", desc = "Toggle" },
   },
   config = function()
     local lang = {
@@ -78,7 +82,7 @@ return {
     end
     local dap = require("dap")
     dap.listeners.after.event_stopped["jarviliam"] = function()
-      vim.keymap.set("n", "<leader>dh", "<cmd>lua require 'dap.ui.widgets'.hover()<CR>")
+      vim.keymap.set("n", "<leader>dh", "<cmd>lua require 'dap.ui.widgets'.hover()<CR>", { desc = "Hover" })
       vim.keymap.set("v", "<leader>dh", "<cmd>lua require 'dap.ui.widgets'.visual_hover()<CR>")
       vim.keymap.set("n", "<leader>dj", dap.step_into, { desc = "dap: Step Into" })
       vim.keymap.set("n", "<leader>dl", dap.step_over, { desc = "dap: Step Over" })

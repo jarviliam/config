@@ -7,6 +7,11 @@ local map = vim.keymap.set
 map("v", ">", ">gv", { desc = "indent and reselect" }) -- reselect after >>
 map("v", "<", "<gv", { desc = "dedent and reselect" }) -- reselect after <<
 
+map("n", "<C-d>", "<C-d>zz", { desc = "Scroll downwards" })
+map("n", "<C-u>", "<C-u>zz", { desc = "Scroll upwards" })
+map("n", "n", "nzzzv", { desc = "Next result" })
+map("n", "N", "Nzzzv", { desc = "Previous result" })
+
 map("n", "Q", "<Nop>")
 
 map({ "n", "x" }, "j", [[v:count == 0 ? 'gj' : 'j']], { expr = true })
@@ -25,8 +30,6 @@ map("v", "j", "gj")
 --Undo Tree---
 map("n", l .. "u", ":UndotreeToggle<CR>", { silent = true, desc = "undo: toggle" })
 
-map("n", l .. "q", ":lua require('core.utils').clear_buffers()<CR>", { silent = true, desc = "buffer: clear" })
-
 local map_toggle = function(lhs, rhs, desc)
   map("n", [[\]] .. lhs, rhs, { desc = desc })
 end
@@ -44,11 +47,6 @@ map_toggle("w", "<Cmd>setlocal wrap!<CR>", "Toggle 'wrap'")
 
 map("n", "<C-S>", ":update<CR>", { silent = true })
 
--- Substitute
---map("n", "s", require("substitute").operator)
---map("n", "S", require("substitute").eol)
---map("n", "ss", require("substitute").line)
---
 local function foldexpr(value)
   return function()
     vim.opt_local.foldmethod = value
@@ -58,9 +56,6 @@ end
 local function opts(desc)
   return { silent = true, desc = desc }
 end
-
-vim.keymap.set("o", "H", "^", opts("To the beginning of line"))
-vim.keymap.set("o", "L", "$", opts("To the end of line"))
 
 vim.keymap.set("n", "<leader>zm", foldexpr("manual"), opts("Set local foldmethod to manual"))
 vim.keymap.set("n", "<leader>ze", foldexpr("expr"), opts("Set local foldmethod to expr"))
