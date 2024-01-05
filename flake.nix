@@ -22,9 +22,10 @@
     };
     nur = { url = "github:nix-community/NUR"; };
     nil-language-server.url = "github:oxalica/nil";
+    neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
   };
   outputs = { self, nixpkgs, flake-utils, darwin, home-manager
-    , nix-index-database, nil-language-server, nur, nixvim, ... }:
+    , nix-index-database, nil-language-server, nur, nixvim,neovim-nightly-overlay, ... }:
     let
       lib = import ./lib.nix {
         inherit nixpkgs home-manager darwin flake-utils nix-index-database;
@@ -59,7 +60,8 @@
       darwinConfigurations = {
         workbook = lib.createSystem profiles.liam-work {
           system = "aarch64-darwin";
-          modules = [{ nixpkgs.overlays = [ nur.overlay ]; }];
+          modules = [{ nixpkgs.overlays = [ nur.overlay ] ++
+          [neovim-nightly-overlay.overlay]; }];
         };
       };
     };

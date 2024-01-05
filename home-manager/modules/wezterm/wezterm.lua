@@ -6,9 +6,11 @@ local c = wezterm.config_builder()
 require("keys").apply(c)
 
 c.font = wezterm.font_with_fallback({
+  "Hack Nerd Font Mono",
+  "Berkeley Mono Trial",
+  "Iosevka Nerd Font Mono",
   "VictorMono Nerd Font",
   "JetBrainsMono Nerd Font",
-  "MonoLisa Nerd Font",
 })
 c.audible_bell = "Disabled"
 c.window_padding = {

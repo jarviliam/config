@@ -1,6 +1,4 @@
-local l = "<leader>"
 local map = vim.keymap.set
-
 -----------------------------------------------------------------------------//
 -- Core
 -----------------------------------------------------------------------------//
@@ -24,14 +22,11 @@ map("n", "<S-TAB>", ":bprevious<CR>", { silent = true, desc = "buffer: cycle bac
 
 map("n", "vv", "V")
 map("n", "V", "v$")
-map("v", "k", "gk")
-map("v", "j", "gj")
-
---Undo Tree---
-map("n", l .. "u", ":UndotreeToggle<CR>", { silent = true, desc = "undo: toggle" })
+map("v", "k", "gk", { silent = true })
+map("v", "j", "gj", { silent = true })
 
 local map_toggle = function(lhs, rhs, desc)
-  map("n", [[\]] .. lhs, rhs, { desc = desc })
+    map("n", [[\]] .. lhs, rhs, { desc = desc })
 end
 map_toggle("b", '<Cmd>lua vim.o.bg = vim.o.bg == "dark" and "light" or "dark"<CR>', "Toggle 'background'")
 map_toggle("c", "<Cmd>setlocal cursorline!<CR>", "Toggle 'cursorline'")
@@ -48,13 +43,13 @@ map_toggle("w", "<Cmd>setlocal wrap!<CR>", "Toggle 'wrap'")
 map("n", "<C-S>", ":update<CR>", { silent = true })
 
 local function foldexpr(value)
-  return function()
-    vim.opt_local.foldmethod = value
-  end
+    return function()
+        vim.opt_local.foldmethod = value
+    end
 end
 
 local function opts(desc)
-  return { silent = true, desc = desc }
+    return { silent = true, desc = desc }
 end
 
 vim.keymap.set("n", "<leader>zm", foldexpr("manual"), opts("Set local foldmethod to manual"))

@@ -23,7 +23,8 @@
       source-code-pro
       (nerdfonts.override {
         fonts =
-          [ "FiraCode" "JetBrainsMono" "Iosevka" "FantasqueSansMono" "Hack" ];
+          [ "FiraCode" "JetBrainsMono" "Iosevka" "FantasqueSansMono" "Hack"
+          "IntelOneMono" ];
       })
       neofetch
       nodejs

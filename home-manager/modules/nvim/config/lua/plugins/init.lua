@@ -57,14 +57,11 @@ return {
       }
     end,
   },
-  { "tpope/vim-eunuch", lazy = false },
   {
     "mbbill/undotree",
     branch = "search",
     cmd = "UndotreeToggle",
-    keys = {
-      { mode = "n", "<leader>u", ":UndotreeToggle<CR>", { silent = true } },
-    },
+    keys = { { mode = "n", "<leader>u", ":UndotreeToggle<CR>", { silent = true } }, },
     init = function()
       vim.g.undotree_CustomUndotreeCmd = "vertical 40 new"
       vim.g.undotree_CustomDiffpanelCmd = "botright 15 new"
@@ -95,12 +92,6 @@ return {
     opts = {},
     cmd = { "Hardtime" },
   },
-  {
-    "olimorris/onedarkpro.nvim",
-    lazy = conf.theme ~= "onedark",
-    priority = 1000,
-  },
-
   { "sainnhe/sonokai", lazy = conf.theme ~= "sonokai", dev = true },
   { "sainnhe/edge", lazy = conf.theme ~= "edge" },
   { "sainnhe/everforest", lazy = conf.theme ~= "everforest" },

@@ -1,5 +1,6 @@
 local fzf = require("fzf-lua")
 local utils = require("core.utils")
+local methods = vim.lsp.protocol.Methods
 
 return function(_)
   return function(client, bufnr)
@@ -12,7 +13,7 @@ return function(_)
       vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, desc = desc })
     end
 
-    if client.supports_method("textDocument/definition") then
+    if client.supports_method(methods.textDocument_definition) then
       keymap("gd", function()
         fzf.lsp_definitions({ jump_to_single_result = true })
       end, "Go to definition")
@@ -21,7 +22,7 @@ return function(_)
 
     keymap("K", vim.lsp.buf.hover, "hover information [LSP]")
 
-    if client.supports_method("textDocument/signatureHelp") then
+    if client.supports_method(methods.textDocument_signatureHelp) then
       keymap("<C-k>", vim.lsp.buf.signature_help, "signature help", "i")
       require("lsp_signature").on_attach({
         handler_opts = { border = "rounded" },
@@ -31,7 +32,7 @@ return function(_)
       }, bufnr)
     end
 
-    if client.supports_method("textDocument/codeAction") then
+    if client.supports_method(methods.textDocument_codeAction) then
       keymap("<leader>ca", function()
         fzf.lsp_code_actions({
           winopts = {
@@ -50,13 +51,13 @@ return function(_)
     keymap("<leader>fs", fzf.lsp_document_symbols, "Documents symbol")
     keymap("<leader>fS", fzf.lsp_live_workspace_symbols, "Workspace symbols")
 
-    if client.supports_method("textDocument/references") then
+    if client.supports_method(methods.textDocument_references) then
       keymap("gr", function()
         fzf.lsp_references({ jump_to_single_result = true })
       end, "Go to references")
     end
 
-    if client.supports_method("textDocument/implementation") then
+    if client.supports_method(methods.textDocument_implementation) then
       local op = function()
         fzf.lsp_implementations({ jump_to_single_result = true })
       end
@@ -64,7 +65,7 @@ return function(_)
       keymap("<localleader>ni", op, "goto implementation [LSP]")
     end
 
-    if client.supports_method("textDocument/typeDefinition") then
+    if client.supports_method(methods.textDocument_typeDefinition) then
       local op = function()
         fzf.lsp_typedefs({ jump_to_single_result = true })
       end
@@ -73,6 +74,7 @@ return function(_)
     vim.keymap.set("n", "<leader>cf", function()
       vim.lsp.buf.format({ async = true })
     end, { silent = true, buffer = bufnr, desc = "Format" })
+
     local lsp_fmt_group = vim.api.nvim_create_augroup("LspFormattingGroup", {})
     vim.api.nvim_create_autocmd("BufWritePost", {
       group = lsp_fmt_group,
@@ -85,7 +87,32 @@ return function(_)
       end,
     })
 
-    if client.supports_method("textDocument/codeLens") or client.supports_method("codeLens/resolve") then
+    if client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
+      local inlay_hints_group = vim.api.nvim_create_augroup("Toggle_Inlay_Hints", { clear = false })
+
+      vim.defer_fn(function()
+        local mode = vim.api.nvim_get_mode().mode
+        vim.lsp.inlay_hint.enable(bufnr, mode == "n" or mode == "v")
+      end, 500)
+      vim.api.nvim_create_autocmd("InsertEnter", {
+        group = inlay_hints_group,
+        desc = "Enable inlay hints",
+        buffer = bufnr,
+        callback = function()
+          vim.lsp.inlay_hint.enable(bufnr, false)
+        end,
+      })
+      vim.api.nvim_create_autocmd("InsertLeave", {
+        group = inlay_hints_group,
+        desc = "Disable inlay hints",
+        buffer = bufnr,
+        callback = function()
+          vim.lsp.inlay_hint.enable(bufnr, true)
+        end,
+      })
+    end
+
+    if client.supports_method(methods.textDocument_codeLens) or client.supports_method(methods.codeLens_resolve) then
       if not utils.buffer_has_var("code_lens") then
         utils.buffer_command("CodeLensRefresh", vim.lsp.codelens.refresh)
         utils.buffer_command("CodeLensRun", vim.lsp.codelens.run)
@@ -107,15 +134,16 @@ return function(_)
     end
     keymap("[d", prev, "Previous diagnostic")
     keymap("]d", next, "Next diagnostic")
-    keymap('[e', function()
-        prev{ severity = vim.diagnostic.severity.ERROR }
-    end, 'Previous error')
-    keymap(']e', function()
-        next{ severity = vim.diagnostic.severity.ERROR }
-    end, 'Next error')
-    vim.api.nvim_create_autocmd("CursorHold", {
-      callback = require("plugins.lsp.diagnostic").hover,
-      buffer = bufnr,
-    })
+    keymap("[e", function()
+      prev({ severity = vim.diagnostic.severity.ERROR })
+    end, "Previous error")
+    keymap("]e", function()
+      next({ severity = vim.diagnostic.severity.ERROR })
+    end, "Next error")
+    -- Disable for now
+    -- vim.api.nvim_create_autocmd("CursorHold", {
+    --   callback = require("plugins.lsp.diagnostic").hover,
+    --   buffer = bufnr,
+    -- })
   end
 end

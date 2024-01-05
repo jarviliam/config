@@ -25,11 +25,11 @@
       mouse_action1 = "move";
       mouse_action2 = "resize";
       layout = "bsp";
-      top_padding = 5;
-      bottom_padding = 5;
-      left_padding = 5;
-      right_padding = 5;
-      window_gap = 5;
+      top_padding = 10;
+      bottom_padding = 10;
+      left_padding = 10;
+      right_padding = 10;
+      window_gap = 10;
       external_bar = "all:50:0";
     };
 

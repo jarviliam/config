@@ -58,6 +58,7 @@ return {
     }
 
     local on_attach = require("plugins.lsp.on_attach")
+    local lsp_config = require("lspconfig")
     for server, opts in pairs(require("plugins.lsp.servers")) do
       local options = {
         capabilities = capabilities,
@@ -67,7 +68,7 @@ return {
         },
       }
       opts = vim.tbl_deep_extend("force", {}, options, opts or {})
-      require("lspconfig")[server].setup(opts)
+      lsp_config[server].setup(opts)
     end
   end,
 }

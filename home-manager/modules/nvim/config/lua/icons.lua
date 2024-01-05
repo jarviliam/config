@@ -34,4 +34,12 @@ M.misc = {
   search = "",
   vertical_bar = "│",
 }
+
+M.arrows = {
+    right = '',
+    left = '',
+    up = '',
+    down = '',
+}
+
 return M

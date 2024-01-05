@@ -1,5 +1,5 @@
 local o = vim.opt
-local wo = vim.wo
+local arrows = require("icons").arrows
 
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
@@ -139,6 +139,11 @@ o.fillchars = {
   vertleft = "┫",
   verthoriz = "╋",
   diff = "╱",
+    foldclose = arrows.right,
+    foldopen = arrows.down,
+foldsep = ' ',
+        fold = ' ',
+
 }
 
 vim.cmd("filetype plugin indent on") -- Enable all filetype plugins

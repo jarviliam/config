@@ -44,11 +44,11 @@ return {
       local gs = package.loaded.gitsigns
 
       vim.b[bufnr].miniclue_config = {
-                clues = {
-                    {mode="n",keys="<leader>h",desc="+hunk"},
-                    {mode="x",keys="<leader>h",desc="+hunk"}
-                }
-            }
+        clues = {
+          { mode = "n", keys = "<leader>h", desc = "+hunk" },
+          { mode = "x", keys = "<leader>h", desc = "+hunk" },
+        },
+      }
       vim.keymap.set("n", "<leader>hS", gs.toggle_signs, { desc = "Toggle signs" })
       vim.keymap.set("n", "<leader>hb", gs.blame_line, { desc = "Blame line" })
       vim.keymap.set("n", "<leader>hs", gs.stage_hunk, { desc = "Stage hunk" })
@@ -62,8 +62,8 @@ return {
       if ok then
         next_hunk, prev_hunk = ts_repeat_move.make_repeatable_move_pair(gs.next_hunk, gs.prev_hunk)
       end
-      vim.keymap.set( "n", "]g", next_hunk, { desc = "Next hunk" })
-      vim.keymap.set( "n", "[g", prev_hunk, { desc = "Prev hunk" })
+      vim.keymap.set("n", "]g", next_hunk, { desc = "Next hunk" })
+      vim.keymap.set("n", "[g", prev_hunk, { desc = "Prev hunk" })
     end,
   },
 }
