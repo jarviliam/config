@@ -36,18 +36,9 @@ o.mouse = nil
 o.hidden = true
 o.whichwrap:append("h,l")
 -- }}}
-
--- Editing {{{
+--
 o.formatoptions:append("n")
--- o.formatoptions:append({
---   r = true, -- Automatically insert comment leader after <Enter> in Insert mode.
---   o = true, -- Automatically insert comment leader after 'o' or 'O' in Normal mode.
---   l = true, -- Long lines are not broken in insert mode.
---   t = true, -- Do not auto wrap text
---   n = true, -- Recognise lists
--- })
 o.linebreak = true
--- }}}
 
 -- Presentation {{{
 o.textwidth = 79

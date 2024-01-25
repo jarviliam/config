@@ -57,3 +57,8 @@ vim.keymap.set("n", "<leader>ze", foldexpr("expr"), opts("Set local foldmethod t
 vim.keymap.set("n", "<leader>zi", foldexpr("indent"), opts("Set local foldmethod to indent"))
 vim.keymap.set("n", "<leader>zk", foldexpr("marker"), opts("Set local foldmethod to marker"))
 vim.keymap.set("n", "<leader>zs", foldexpr("syntax"), opts("Set local foldmethod to syntax"))
+
+-- Tab navigation.
+vim.keymap.set('n', '<leader>tc', '<cmd>tabclose<cr>', { desc = 'Close tab page' })
+vim.keymap.set('n', '<leader>tn', '<cmd>tab split<cr>', { desc = 'New tab page' })
+vim.keymap.set('n', '<leader>to', '<cmd>tabonly<cr>', { desc = 'Close other tab pages' })

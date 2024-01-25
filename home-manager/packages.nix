@@ -95,6 +95,10 @@
       # C/C++
       clang-tools
       clang
+      pkg-config
+      cmake
+      meson
+      llvm
 
       # Bash
       shellcheck
@@ -120,5 +124,6 @@
       clamav
       darwin.apple_sdk.frameworks.Foundation
       darwin.apple_sdk.frameworks.CoreFoundation
+      zathura
     ];
 }

@@ -66,8 +66,11 @@ return {
         config = true,
     },
     {
+        "echasnovski/mini.bracketed",
+        config = function()
+            require('mini.bracketed').setup({})
+        end
     },
-    "echasnovski/mini.bracketed",
     {
         "echasnovski/mini.ai",
         event = "VeryLazy",
@@ -199,6 +202,7 @@ return {
                     -- `z` key
                     { mode = "n", keys = "z" },
                     { mode = "x", keys = "z" },
+
                     { mode = "n", keys = "[" },
                     { mode = "n", keys = "]" },
                 },
@@ -213,9 +217,15 @@ return {
                     { mode = "n", keys = "<leader>g", desc = "+git" },
                     { mode = "n", keys = "<leader>h", desc = "+hunk" },
                     { mode = "n", keys = "<leader>o", desc = "+overseer" },
+                    { mode = 'n', keys = '<leader>t', desc = '+tabs' },
                     { mode = "n", keys = "<leader>x", desc = "+loclist/quickfix" },
                     { mode = "n", keys = "[",         desc = "+prev" },
                     { mode = "n", keys = "]",         desc = "+next" },
+
+                    { mode = 'n', keys = ']b',        postkeys = ']' },
+                    { mode = 'n', keys = ']w',        postkeys = ']' },
+                    { mode = 'n', keys = '[b',        postkeys = '[' },
+                    { mode = 'n', keys = '[w',        postkeys = '[' },
                     miniclue.gen_clues.builtin_completion(),
                     miniclue.gen_clues.g(),
                     miniclue.gen_clues.marks(),
