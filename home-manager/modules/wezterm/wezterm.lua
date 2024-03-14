@@ -6,8 +6,8 @@ local c = wezterm.config_builder()
 require("keys").apply(c)
 
 c.font = wezterm.font_with_fallback({
+  "CommitMono Nerd Font Mono",
   "Hack Nerd Font Mono",
-  "Berkeley Mono Trial",
   "Iosevka Nerd Font Mono",
   "VictorMono Nerd Font",
   "JetBrainsMono Nerd Font",

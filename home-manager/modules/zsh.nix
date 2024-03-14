@@ -221,7 +221,7 @@
         #   "$shell"
         #   "$character"
         # ];
-        right_format = "" "$status$all" "";
+        right_format = "$status$all";
         aws = { disabled = true; };
         character = {
           success_symbol = "[❯](red)[❯](yellow)[❯](green)";

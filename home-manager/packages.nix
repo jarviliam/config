@@ -1,5 +1,11 @@
 { pkgs, ... }:
-
+let
+  mypython312 = pkgs.python312Full.override {
+    self = pkgs.python312Full;
+    pythonAttr = "python312Full";
+    bluezSupport = false;
+  };
+in
 {
   home.packages = with pkgs;
     [
@@ -23,8 +29,14 @@
       source-code-pro
       (nerdfonts.override {
         fonts =
-          [ "FiraCode" "JetBrainsMono" "Iosevka" "FantasqueSansMono" "Hack"
-          "IntelOneMono" ];
+          [
+            "FiraCode"
+            "JetBrainsMono"
+            "Iosevka"
+            "FantasqueSansMono"
+            "Hack"
+            "IntelOneMono"
+         ];
       })
       neofetch
       nodejs
@@ -55,7 +67,7 @@
       argocd
     ] ++ [
       # Python
-      python312Full
+      python312
       # python312Packages.virtualenv
       # python312Packages.pip
       cloud-custodian
@@ -122,8 +134,6 @@
       vimPlugins.nvim-treesitter.withAllGrammars
 
       clamav
-      darwin.apple_sdk.frameworks.Foundation
-      darwin.apple_sdk.frameworks.CoreFoundation
-      zathura
+      # zathura
     ];
 }

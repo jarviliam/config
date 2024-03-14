@@ -15,24 +15,6 @@ return {
     local luasnip = require("luasnip")
     local kind = require("lspkind")
     local symbols = require("icons").symbol_kinds
-    -- Add parens to functions returned from cmp
-    cmp.event:on(
-      "confirm_done",
-      require("nvim-autopairs.completion.cmp").on_confirm_done({
-        filetypes = {
-          ["*"] = {
-            ["("] = {
-              kind = {
-                cmp.lsp.CompletionItemKind.Function,
-                cmp.lsp.CompletionItemKind.Method,
-              },
-              handler = require("nvim-autopairs.completion.handlers")["*"],
-            },
-          },
-        },
-      })
-    )
-
     local border_opts = {
       border = "rounded",
       winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:PmenuSel,Search:None",

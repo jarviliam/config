@@ -1,9 +1,16 @@
-{ pkgs, ... }: {
+{ pkgs, lib, ... }:
+let
+  yabai_pkg = pkgs.yabai.overrideAttrs
+    (old: {
+      version = "7.0.2";
+    });
+in
+{
   services.yabai = {
     enable = true;
-    package = pkgs.yabai;
+    package = yabai_pkg;
     # package = "yabai-5.0.4";
-    enableScriptingAddition = true;
+    enableScriptingAddition = false;
     config = {
       window_border = "on";
       window_border_width = 2;

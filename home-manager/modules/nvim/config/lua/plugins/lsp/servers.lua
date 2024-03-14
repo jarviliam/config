@@ -13,7 +13,7 @@ local efm_languages = {
 for _, filetype in ipairs({ "javascript", "typescript", "html", "css", "scss", "less", "json", "jsonc" }) do
     efm_languages[filetype] = { require("efmls-configs.formatters.prettier_d") }
 end
-
+local capabilities = require('lsp').client_capabilities
 return {
     efm = {
         init_options = { documentFormatting = true, documentRangeFormatting = true },
@@ -23,16 +23,32 @@ return {
         },
     },
     bashls = {},
-    cmake={},
+    cmake = {},
     clangd = {
-        offsetEncoding = { "utf-16", "utf-8" }
+        capabilities = vim.tbl_deep_extend('error', capabilities(), {
+            -- Prevents the 'multiple different client offset_encodings detected for buffer' warning.
+            offsetEncoding = { 'utf-16' },
+        }),
+        cmd = {
+            'clangd',
+            '--clang-tidy',
+            '--header-insertion=iwyu',
+            '--completion-style=detailed',
+            '--function-arg-placeholders',
+            '--fallback-style=none',
+        },
     },
     jsonls = {
         settings = {
             json = {
-                schemas = require("schemastore").json.schemas(),
+                format = { enable = true },
                 validate = { enable = true },
             },
+            -- Lazy-load schemas.
+            on_new_config = function(config)
+                config.settings.json.schemas = config.settings.json.schemas or {}
+                vim.list_extend(config.settings.json.schemas, require('schemastore').json.schemas())
+            end,
         },
     },
     gopls = {
@@ -64,8 +80,8 @@ return {
             completionDocumentation = true,
             deepCompletion = true,
             semanticTokens = true,
-            verboseOutput = false, -- useful for debugging when true.
-            matcher = "Fuzzy", -- default
+            verboseOutput = false,   -- useful for debugging when true.
+            matcher = "Fuzzy",       -- default
             diagnosticsDelay = "500ms",
             symbolMatcher = "Fuzzy", -- default is FastFuzzy
         },

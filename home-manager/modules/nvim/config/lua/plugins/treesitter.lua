@@ -37,7 +37,6 @@ return {
       { "<c-space>", desc = "Increment selection" },
       { "<bs>", desc = "Decrement selection", mode = "x" },
     },
-    event = { "VeryLazy" },
     build = function()
       local install = require("nvim-treesitter.install")
       install.compilers = { "gcc", "clang", "cl" }
