@@ -1,4 +1,14 @@
 local diagnostic_icons = require("icons").diagnostics
+
+local function capabilities()
+    return vim.tbl_deep_extend(
+        'force',
+        vim.lsp.protocol.make_client_capabilities(),
+        -- require('cmp_nvim_lsp').default_capabilities()
+        require('lsp_compl').capabilities()
+    )
+end
+
 return {
   "neovim/nvim-lspconfig",
   event = "BufReadPre",
@@ -6,12 +16,11 @@ return {
     "hrsh7th/cmp-nvim-lsp",
     "ray-x/lsp_signature.nvim",
     "folke/neodev.nvim",
+        "mfussenegger/nvim-lsp-compl"
   },
   config = function()
     require("neodev").setup({})
-    local capabilities = vim.lsp.protocol.make_client_capabilities()
-    local completion = require("cmp_nvim_lsp").default_capabilities(capabilities)
-
+    local completion = capabilities()
     capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = true
     capabilities.textDocument.completion = completion.textDocument.completion
     capabilities.textDocument.foldingRange = {
