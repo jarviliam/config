@@ -40,7 +40,7 @@ return {
       end
     end, { silent = true, desc = "jump backward in snippet" })
 
-    vim.keymap.set({ "i", "s" }, "<C-k>", function()
+    vim.keymap.set({ "i", "s" }, "<C-c>", function()
       if luasnip.choice_active() then
         luasnip.change_choice(1)
       end

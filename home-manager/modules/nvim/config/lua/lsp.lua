@@ -4,6 +4,7 @@ local methods = vim.lsp.protocol.Methods
 
 local M = {}
 
+fzf.lsp_code_actions()
 M.client_capabilities = function()
     return vim.tbl_deep_extend('force', vim.lsp.protocol.make_client_capabilities(), require('lsp_compl').capabilities())
 end
@@ -31,6 +32,10 @@ local function on_attach(client, bufnr)
 
     local function pumvisible()
         return tonumber(vim.fn.pumvisible()) ~= 0
+    end
+
+    if client.server_capabilities.signatureHelpProvider then
+        client.server_capabilities.signatureHelpProvider.triggerCharacters = {}
     end
 
     local lsp_compl = require 'lsp_compl'
@@ -144,13 +149,19 @@ local function on_attach(client, bufnr)
     end
 
     if client.supports_method(methods.textDocument_signatureHelp) then
-        keymap("<C-k>", vim.lsp.buf.signature_help, "signature help", "i")
-        require("lsp_signature").on_attach({
-            handler_opts = { border = "rounded" },
-            hint_prefix = "",
-            fixpos = true,
-            padding = " ",
-        }, bufnr)
+        keymap("<C-k>",
+            function()
+                if pumvisible() then
+                    feedkeys '<C-e>'
+                end
+                vim.lsp.buf.signature_help()
+            end, "signature help", "i")
+        -- require("lsp_signature").on_attach({
+        --     handler_opts = { border = "rounded" },
+        --     hint_prefix = "",
+        --     fixpos = true,
+        --     padding = " ",
+        -- }, bufnr)
     end
 
     if client.supports_method(methods.textDocument_documentHighlight) then

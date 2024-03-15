@@ -132,6 +132,8 @@ in
       rust-analyzer
 
       vimPlugins.nvim-treesitter.withAllGrammars
+      redis
+      pgcli
 
       clamav
       # zathura
