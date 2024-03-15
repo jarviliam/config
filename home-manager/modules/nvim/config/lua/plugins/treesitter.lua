@@ -2,7 +2,6 @@ return {
   {
     "nvim-treesitter/nvim-treesitter",
     dependencies = {
-      "nvim-treesitter/nvim-treesitter-refactor",
       {
         "nvim-treesitter/nvim-treesitter-context",
         opts = {
@@ -98,15 +97,6 @@ return {
       },
       indent = { enable = true },
       autopairs = { enable = true },
-      refactor = {
-        highlight_definitions = {
-          enable = true,
-          disable = function(lang, buffer)
-            return vim.api.nvim_buf_line_count(buffer) > 10 * 1024 or vim.tbl_contains({ "help" }, lang)
-          end,
-          clear_on_cursor_move = true,
-        },
-      },
     },
     config = function(_, opts)
       require("nvim-treesitter.configs").setup(opts)

@@ -13,7 +13,6 @@ local efm_languages = {
 for _, filetype in ipairs({ "javascript", "typescript", "html", "css", "scss", "less", "json", "jsonc" }) do
     efm_languages[filetype] = { require("efmls-configs.formatters.prettier_d") }
 end
-local capabilities = require('lsp').client_capabilities
 return {
     efm = {
         init_options = { documentFormatting = true, documentRangeFormatting = true },
@@ -25,10 +24,10 @@ return {
     bashls = {},
     cmake = {},
     clangd = {
-        capabilities = vim.tbl_deep_extend('error', capabilities(), {
-            -- Prevents the 'multiple different client offset_encodings detected for buffer' warning.
-            offsetEncoding = { 'utf-16' },
-        }),
+        -- capabilities = vim.tbl_deep_extend('error', capabilities(), {
+        --     -- Prevents the 'multiple different client offset_encodings detected for buffer' warning.
+        --     offsetEncoding = { 'utf-16' },
+        -- }),
         cmd = {
             'clangd',
             '--clang-tidy',
