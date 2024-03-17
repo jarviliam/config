@@ -4,7 +4,6 @@ local methods = vim.lsp.protocol.Methods
 
 local M = {}
 
-fzf.lsp_code_actions()
 M.client_capabilities = function()
     return vim.tbl_deep_extend('force', vim.lsp.protocol.make_client_capabilities(), require('lsp_compl').capabilities())
 end

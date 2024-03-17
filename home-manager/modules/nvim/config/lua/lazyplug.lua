@@ -1,33 +1,31 @@
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.uv.fs_stat(lazypath) then
-  vim.fn.system({
-    "git",
-    "clone",
-    "--filter=blob:none",
-    "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable", -- latest stable release
-    lazypath,
-  })
+    vim.fn.system({
+        "git",
+        "clone",
+        "--filter=blob:none",
+        "https://github.com/folke/lazy.nvim.git",
+        "--branch=stable", -- latest stable release
+        lazypath,
+    })
 end
 vim.opt.rtp:prepend(lazypath)
 local ok, lazy = pcall(require, "lazy")
 if not ok then
-  return
+    return
 end
 
 lazy.setup("plugins", {
-  defaults = { lazy = true },
-  dev = {
-    path = "~/Coding/",
-  },
-  install = { colorscheme = { "nightfly", "lua-embark" } },
-  checker = { enabled = false },
-  ui = {
-    border = "rounded",
-    custom_keys = {
-      ["<localleader>l"] = false,
-      ["<localleader>t"] = false,
+    defaults = { lazy = true },
+    dev = { path = vim.g.personal_dir },
+    install = { colorscheme = { "nightfly", "lua-embark" } },
+    checker = { enabled = false },
+    ui = {
+        border = "rounded",
+        custom_keys = {
+            ["<localleader>l"] = false,
+            ["<localleader>t"] = false,
+        },
     },
-  },
-  debug = false,
+    debug = false,
 })

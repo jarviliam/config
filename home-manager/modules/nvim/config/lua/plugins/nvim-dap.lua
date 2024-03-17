@@ -77,7 +77,7 @@ return {
             "node",
         }
         for _, l in pairs(lang) do
-            local fname = string.format("modules.dap.%s", l)
+            local fname = string.format("plugins.dap.%s", l)
             require(fname)
         end
         local dap = require("dap")

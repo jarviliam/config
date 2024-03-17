@@ -14,10 +14,11 @@ vim.g.personal_dir = vim.env.HOME .. '/Coding'
 vim.g.do_filetype_lua = 1
 
 local conf = require("conf")
+require("settings")
+require("keymaps")
+require("commands")
+require("autocmds")
 require("core.global")
-require("core.autocmds")
-require("core.settings")
-require("core.mappings")
 require("lazyplug")
 
 vim.cmd(string.format("colorscheme %s", conf.theme))

@@ -1,8 +1,12 @@
-{ pkgs, lib, ... }:
+{ pkgs, lib, fetchzip, ... }:
 let
   yabai_pkg = pkgs.yabai.overrideAttrs
     (old: {
       version = "7.0.2";
+      src = pkgs.fetchzip {
+        url = "https://github.com/koekeishiya/yabai/releases/download/v7.0.2/yabai-v7.0.2.tar.gz";
+        hash = "sha256-FeNiJJM5vdzFT9s7N9cTjLYxKEfzZnKE9br13lkQhJo=";
+      };
     });
 in
 {
@@ -10,7 +14,7 @@ in
     enable = true;
     package = yabai_pkg;
     # package = "yabai-5.0.4";
-    enableScriptingAddition = false;
+    enableScriptingAddition = true;
     config = {
       window_border = "on";
       window_border_width = 2;

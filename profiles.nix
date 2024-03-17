@@ -1,9 +1,9 @@
-{ self, nixpkgs, lib, nixvim }: rec {
+{ self, nixpkgs, lib, nixvim, nixstaging}: rec {
   liam = let username = "liam.jarvis";
   in {
     inherit username;
 
-    commonSpecialArgs = { inherit username nixpkgs nixvim; };
+    commonSpecialArgs = { inherit username nixpkgs nixvim nixstaging; };
     modules = [ ./modules/nix.nix ];
 
     home-manager = {

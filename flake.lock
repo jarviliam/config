@@ -480,6 +480,22 @@
         "type": "github"
       }
     },
+    "nixstaging": {
+      "locked": {
+        "lastModified": 1710568882,
+        "narHash": "sha256-pKb6ZI18MZQHjVYccXSJqAoJilD9gw3vr8jkXy3HbCc=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "8e730f6e02998de07927e075dfacc8347203baf8",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "staging",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixvim": {
       "inputs": {
         "devshell": "devshell",
@@ -558,6 +574,7 @@
         "nil-language-server": "nil-language-server",
         "nix-index-database": "nix-index-database",
         "nixpkgs": "nixpkgs_3",
+        "nixstaging": "nixstaging",
         "nixvim": "nixvim",
         "nur": "nur"
       }

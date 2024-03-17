@@ -2,6 +2,10 @@
   environment.systemPackages = [ pkgs.sketchybar ];
   # environment.profiles = ["liam.jarvis" "test"];
   services.nix-daemon.enable = true;
+  homebrew.enable = true;
+  homebrew.brews = [
+    "llvm"
+  ];
   nix.settings.allowed-users = [ "root" "liam.jarvis" ];
   nix.settings.trusted-users = [ "root" "liam.jarvis" ];
   fonts = {

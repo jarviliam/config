@@ -1,5 +1,6 @@
-{ pkgs, ... }:
+{ pkgs,nixstaging, ... }:
 let
+  # nixpkgs_staging = import <nixpkgs_staging> { };
   mypython312 = pkgs.python312Full.override {
     self = pkgs.python312Full;
     pythonAttr = "python312Full";
@@ -36,7 +37,7 @@ in
             "FantasqueSansMono"
             "Hack"
             "IntelOneMono"
-         ];
+          ];
       })
       neofetch
       nodejs
@@ -105,12 +106,13 @@ in
       cmake-language-server # CMake
 
       # C/C++
-      clang-tools
-      clang
+      # nixstaging.clang-tools
+      # nixstaging.clang
       pkg-config
       cmake
       meson
-      llvm
+      # llvm
+      # libcxxabi
 
       # Bash
       shellcheck
