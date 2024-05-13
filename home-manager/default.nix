@@ -18,6 +18,7 @@
     PAGER = "bat";
   };
   programs = {
+    nix-index.enable = true;
     direnv = {
       enable = true;
       nix-direnv.enable = true;

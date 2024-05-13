@@ -30,7 +30,7 @@ return {
             { "<leader>ff", "<cmd>FzfLua files<cr>",          desc = "Find File" },
             { "<leader>/",  "<cmd>FzfLua live_grep_glob<cr>", desc = "Live grep" },
             { "<leader>fm", "<cmd>FzfLua marks<cr>",          desc = "marks" },
-            { "<leader>f?",  "<cmd>FzfLua builtin<cr>",        desc = "builtin" },
+            { "<leader>f?", "<cmd>FzfLua builtin<cr>",        desc = "builtin" },
             { "<leader>fM", "<cmd>FzfLua man_pages<cr>",      desc = "man_pages" },
             { "<leader>fw", "<cmd>FzfLua grep_cword<cr>",     desc = "grep <word> (project)" },
             { "<leader>fW", "<cmd>FzfLua grep_cWORD<cr>",     desc = "grep <WORD> (project)" },
@@ -42,7 +42,7 @@ return {
             { "<leader>gc", "<Cmd>FzfLua git_commits<CR>",    desc = "commits" },
             { "<leader>gC", "<Cmd>FzfLua git_bcommits<CR>",   desc = "commits (buffer)" },
             { "<leader>gb", "<Cmd>FzfLua git_branches<CR>",   desc = "branches" },
-            { "<leader>fb", "<cmd>FzfLua buffers<cr>",          desc = "Buffers" },
+            { "<leader>fb", "<cmd>FzfLua buffers<cr>",        desc = "Buffers" },
         },
         opts = function()
             local actions = require("fzf-lua.actions")
@@ -161,8 +161,122 @@ return {
         opts = {},
         cmd = { "Hardtime" },
     },
-    { "sainnhe/sonokai",          lazy = conf.theme ~= "sonokai",   dev = true },
-    { "sainnhe/edge",             lazy = conf.theme ~= "edge" },
-    { "sainnhe/everforest",       lazy = conf.theme ~= "everforest" },
-    { "sainnhe/gruvbox-material", lazy = false },
+    { "sainnhe/sonokai",            lazy = conf.theme ~= "sonokai",   dev = true },
+    { "sainnhe/edge",               lazy = conf.theme ~= "edge" },
+    { "sainnhe/everforest",         lazy = conf.theme ~= "everforest" },
+    { "sainnhe/gruvbox-material",   lazy = false },
+    { "projekt0n/github-nvim-theme" },
+    {
+        "nvim-neotest/neotest",
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            "nvim-neotest/neotest-go",
+            "nvim-neotest/neotest-jest",
+            "nvim-neotest/neotest-plenary",
+            "nvim-neotest/neotest-python",
+            "nvim-neotest/nvim-nio",
+            "stevearc/overseer.nvim",
+        },
+        keys = {
+            {
+                "<leader>Tn",
+                function() require("neotest").run.run({}) end,
+                desc = "Run test",
+            },
+            {
+                "<leader>Tt",
+                function() require("neotest").run.run({ vim.api.nvim_buf_get_name(0) }) end,
+                desc = "Run test buffer",
+            },
+            {
+                "<leader>Ta",
+                function()
+                    for _, adapter_id in ipairs(require("neotest").run.adapters()) do
+                        require("neotest").run.run({ suite = true, adapter = adapter_id })
+                    end
+                end,
+                desc = "Run test suite",
+            },
+            {
+                "<leader>Tl",
+                function() require("neotest").run.run_last() end,
+                desc = "Run last test",
+            },
+            {
+                "<leader>Td",
+                function() require("neotest").run.run({ strategy = "dap" }) end,
+                desc = "Run test dap",
+            },
+            {
+                "<leader>Ts",
+                function() require("neotest").summary.toggle() end,
+                desc = "Test summary",
+            },
+            {
+                "<leader>To",
+                function() require("neotest").output.open({ short = true }) end,
+                desc = "Test output",
+            },
+        },
+        config = function()
+            local neotest = require("neotest")
+            -- require("neotest.logging"):set_level("trace")
+            neotest.setup({
+                adapters = {
+                    require("neotest-python")({
+                        dap = { justMyCode = false },
+                    }),
+                    require("neotest-plenary"),
+                    require("neotest-go"),
+                    require("neotest-jest")({
+                        jestCommand = "yarn test",
+                        cwd = function(file)
+                            if string.find(file, "/packages/") then
+                                return string.match(file, "(.-/[^/]+/)src")
+                            end
+                            return vim.fn.getcwd()
+                        end
+                    }),
+                },
+                discovery = {
+                    enabled = false,
+                },
+                consumers = {
+                    overseer = require("neotest.consumers.overseer"),
+                },
+                summary = {
+                    mappings = {
+                        attach = "a",
+                        expand = "l",
+                        expand_all = "L",
+                        jumpto = "gf",
+                        output = "o",
+                        run = "<C-r>",
+                        short = "p",
+                        stop = "u",
+                    },
+                },
+                icons = {
+                    passed = " ",
+                    running = " ",
+                    failed = " ",
+                    unknown = " ",
+                    running_animated = vim.tbl_map(
+                        function(s) return s .. " " end,
+                        { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" }
+                    ),
+                },
+                diagnostic = {
+                    enabled = true,
+                },
+                output = {
+                    enabled = true,
+                    open_on_run = false,
+                },
+                status = {
+                    enabled = true,
+                },
+            })
+        end,
+    }
 }

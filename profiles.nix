@@ -1,52 +1,54 @@
-{ self, nixpkgs, lib, nixvim, nixstaging}: rec {
-  liam = let username = "liam.jarvis";
-  in {
-    inherit username;
-
-    commonSpecialArgs = { inherit username nixpkgs nixvim nixstaging; };
-    modules = [ ./modules/nix.nix ];
-
-    home-manager = {
-      enable = true;
+{ self, nixpkgs, lib }: rec {
+  liam =
+    let username = "liam.jarvis";
+    in {
       inherit username;
-      modules = [
-        ./home-manager/default.nix
-        ./home-manager/packages.nix
-        ./home-manager/modules/git.nix
-        ./home-manager/modules/zsh.nix
-        ./home-manager/modules/bat.nix
-        ./home-manager/modules/fzf.nix
-        ./home-manager/modules/tmux.nix
-        ./home-manager/modules/wezterm.nix
-        ./home-manager/modules/nvim
-      ];
 
-      extraConfig = { home.stateVersion = "22.11"; };
+      commonSpecialArgs = { inherit username nixpkgs; };
+      modules = [ ./modules/nix.nix ];
+
+      home-manager = {
+        enable = true;
+        inherit username;
+        modules = [
+          ./home-manager/default.nix
+          ./home-manager/packages.nix
+          ./home-manager/modules/git.nix
+          ./home-manager/modules/zsh.nix
+          ./home-manager/modules/bat.nix
+          ./home-manager/modules/fzf.nix
+          ./home-manager/modules/tmux.nix
+          ./home-manager/modules/wezterm.nix
+          ./home-manager/modules/nvim
+        ];
+
+        extraConfig = { home.stateVersion = "22.11"; };
+      };
+      extraConfig = { nixpkgs.overlays = [ self.overlays.default ]; };
     };
-    extraConfig = { nixpkgs.overlays = [ self.overlays.default ]; };
-  };
-  liam-linux = let username = "liam";
-  in liam // {
-    inherit username;
-    modules = [ ./modules/linux/network.nix ./modules/linux/window.nix ]
-      ++ liam.modules;
-    home-manager = liam.home-manager // {
+  liam-linux =
+    let username = "liam";
+    in liam // {
       inherit username;
-      enable = true;
-      modules = [
-        ./home-manager/modules/linux/x.nix
-        ./home-manager/modules/firefox
-        ./home-manager/modules/linux/poly.nix
-      ] ++ liam.home-manager.modules;
+      modules = [ ./modules/linux/network.nix ./modules/linux/window.nix ]
+        ++ liam.modules;
+      home-manager = liam.home-manager // {
+        inherit username;
+        enable = true;
+        modules = [
+          ./home-manager/modules/linux/x.nix
+          ./home-manager/modules/firefox
+          ./home-manager/modules/linux/poly.nix
+        ] ++ liam.home-manager.modules;
+      };
+      commonSpecialArgs = liam.commonSpecialArgs // {
+        inherit username;
+        flakePath = "/home/liam.jarvis/nix_dot";
+      };
+      extraConfig = liam.extraConfig // {
+        system.stateVersion = "22.11"; # Did you read the comment?
+      };
     };
-    commonSpecialArgs = liam.commonSpecialArgs // {
-      inherit username;
-      flakePath = "/home/liam.jarvis/nix_dot";
-    };
-    extraConfig = liam.extraConfig // {
-      system.stateVersion = "22.11"; # Did you read the comment?
-    };
-  };
 
   liam-work = liam // {
     username = "liam.jarvis";

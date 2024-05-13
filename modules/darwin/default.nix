@@ -3,8 +3,11 @@
   # environment.profiles = ["liam.jarvis" "test"];
   services.nix-daemon.enable = true;
   homebrew.enable = true;
+  homebrew.taps = ["qmk/qmk"];
   homebrew.brews = [
     "llvm"
+    "qmk"
+    "clamav"
   ];
   nix.settings.allowed-users = [ "root" "liam.jarvis" ];
   nix.settings.trusted-users = [ "root" "liam.jarvis" ];

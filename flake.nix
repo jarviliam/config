@@ -9,7 +9,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     darwin = {
-      url = "github:LnL7/nix-darwin";
+      url = "github:wegank/nix-darwin/mddoc-remove";
+      # url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-index-database = {
@@ -44,7 +45,7 @@
         inherit nixpkgs home-manager darwin flake-utils nix-index-database;
       };
       profiles = import ./profiles.nix {
-        inherit self nixpkgs lib nixvim nixstaging;
+        inherit self nixpkgs lib;
       };
     in
     {
@@ -59,6 +60,7 @@
         }.nil;
         prettierd = final.callPackage ./home-manager/prettierd.nix { };
         neomutt = prev.neomutt.overrideAttrs (oldAttrs: { doCheck = false; });
+        staging = nixstaging.legacyPackages.aarch64-darwin;
         # release-please = prev.callPackage ./release-please.nix;
       };
 
@@ -76,6 +78,7 @@
       darwinConfigurations = {
         workbook = lib.createSystem profiles.liam-work {
           system = "aarch64-darwin";
+          commonSpecialArgs = { inherit nixvim nixstaging; };
           modules = [{
             nixpkgs.overlays = [ nur.overlay ] ++
               [ neovim-nightly-overlay.overlay ];

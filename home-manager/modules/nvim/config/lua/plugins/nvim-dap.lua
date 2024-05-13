@@ -42,7 +42,21 @@ return {
         },
         { "theHamsta/nvim-dap-virtual-text", opts = { virt_text_pos = "eol" } },
         "leoluz/nvim-dap-go",
-        "mfussenegger/nvim-dap-python",
+        {
+            "mfussenegger/nvim-dap-python",
+            config = function()
+              local get_python_path = function()
+                local venv_path = os.getenv('VIRTUAL_ENV') or os.getenv('CONDA_PREFIX')
+                 if venv_path then
+                   return venv_path .. '/bin/python'
+                 end
+                return nil
+               end
+                local dap = require("dap-python")
+                dap.setup(get_python_path())
+                dap.test_runner = "pytest"
+            end
+        },
         {
             "jbyuki/one-small-step-for-vimkind",
             keys = {
@@ -70,11 +84,8 @@ return {
     },
     config = function()
         local lang = {
-            "cpp",
             "go",
             "go_test",
-            "python",
-            "node",
         }
         for _, l in pairs(lang) do
             local fname = string.format("plugins.dap.%s", l)

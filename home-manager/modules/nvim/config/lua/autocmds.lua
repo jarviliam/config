@@ -1,8 +1,4 @@
 local augroup = vim.api.nvim_create_augroup("JAutoCmd", {})
-local au = function(event, pattern, callback, desc)
-    vim.api.nvim_create_autocmd(event, { group = augroup, pattern = pattern, callback = callback, desc = desc })
-end
-
 vim.api.nvim_create_autocmd("TextYankPost",
     {
         group = vim.api.nvim_create_augroup('YankHighlight', { clear = true }),
@@ -54,6 +50,7 @@ vim.api.nvim_create_autocmd("FileType", {
     pattern = { "help",
         "qf",
         "man",
+        "Scratch",
         "netrw",
         "tsplayground",
         "git-status",
@@ -61,7 +58,7 @@ vim.api.nvim_create_autocmd("FileType", {
         "codelldb",
         "repl", },
     callback = function(args)
-        vim.keymap.set("n", "q", "<cmd>qluit<CR>", { buffer = args.buf })
+        vim.keymap.set("n", "q", "<cmd>quit<CR>", { buffer = args.buf })
     end,
 })
 --

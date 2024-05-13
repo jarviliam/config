@@ -188,14 +188,14 @@ local function on_attach(client, bufnr)
 
         vim.defer_fn(function()
             local mode = vim.api.nvim_get_mode().mode
-            vim.lsp.inlay_hint.enable(bufnr, mode == "n" or mode == "v")
+            vim.lsp.inlay_hint.enable(mode == "n" or mode == "v",{bufnr=bufnr})
         end, 500)
         vim.api.nvim_create_autocmd("InsertEnter", {
             group = inlay_hints_group,
             desc = "Enable inlay hints",
             buffer = bufnr,
             callback = function()
-                vim.lsp.inlay_hint.enable(bufnr, false)
+                vim.lsp.inlay_hint.enable(false,{bufnr=bufnr})
             end,
         })
         vim.api.nvim_create_autocmd("InsertLeave", {
@@ -203,7 +203,7 @@ local function on_attach(client, bufnr)
             desc = "Disable inlay hints",
             buffer = bufnr,
             callback = function()
-                vim.lsp.inlay_hint.enable(bufnr, true)
+                vim.lsp.inlay_hint.enable(true,{ bufnr =bufnr})
             end,
         })
     end

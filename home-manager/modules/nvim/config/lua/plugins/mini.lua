@@ -218,6 +218,7 @@ return {
                     { mode = "n", keys = "<leader>h", desc = "+hunk" },
                     { mode = "n", keys = "<leader>o", desc = "+overseer" },
                     { mode = 'n', keys = '<leader>t', desc = '+tabs' },
+                    { mode = 'n', keys = '<leader>T', desc = '+tests' },
                     { mode = "n", keys = "<leader>x", desc = "+loclist/quickfix" },
                     { mode = "n", keys = "[",         desc = "+prev" },
                     { mode = "n", keys = "]",         desc = "+next" },

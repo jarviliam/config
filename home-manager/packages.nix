@@ -1,11 +1,26 @@
-{ pkgs,nixstaging, ... }:
+{ pkgs, lib, nixstaging, ... }:
 let
+  py312 = pkgs.python312.overrideAttrs
+    (old: {
+      version = "3.12.3";
+    });
   # nixpkgs_staging = import <nixpkgs_staging> { };
   mypython312 = pkgs.python312Full.override {
     self = pkgs.python312Full;
+    version = "3.12.3";
     pythonAttr = "python312Full";
     bluezSupport = false;
   };
+  efm = pkgs.efm-langserver.overrideAttrs (old: {
+    version = "0.0.50";
+    src = pkgs.fetchFromGitHub {
+      owner = "mattn";
+      repo = "efm-langserver";
+      rev = "v0.0.50";
+      sha256 = "sha256-3WnMEkDa1boExyOg30wiFqs1Nw/zMtBqoUmtjluTQ0Y=";
+    };
+    vendorHash = lib.fakeSha256;
+  });
 in
 {
   home.packages = with pkgs;
@@ -51,7 +66,7 @@ in
       killall
       fd
       nix-prefetch-git
-      efm-langserver
+      # efm
       comma
       manix
       qbittorrent
@@ -68,7 +83,7 @@ in
       argocd
     ] ++ [
       # Python
-      python312
+      py312
       # python312Packages.virtualenv
       # python312Packages.pip
       cloud-custodian
@@ -107,7 +122,8 @@ in
 
       # C/C++
       # nixstaging.clang-tools
-      # nixstaging.clang
+      staging.clang
+      # clang
       pkg-config
       cmake
       meson
@@ -137,7 +153,7 @@ in
       redis
       pgcli
 
-      clamav
+      # clamav
       # zathura
     ];
 }
