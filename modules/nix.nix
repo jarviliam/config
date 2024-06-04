@@ -4,7 +4,7 @@
   nixpkgs.config.allowUnfree = true;
 
   nix = {
-    package = pkgs.nixUnstable;
+      package = pkgs.nixVersions.latest;
     registry.nixpkgs.flake = nixpkgs;
 
     gc = {

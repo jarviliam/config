@@ -114,8 +114,6 @@ o.smartcase = true
 o.inccommand = "nosplit"
 o.showmatch = true
 
-o.grepprg = "rg --vimgrep"
-o.grepformat = "%f:%l:%c:%m"
 o.virtualedit = "block" -- allow cursor to exist where there is no character
 o.modeline = true
 

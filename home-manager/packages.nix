@@ -122,11 +122,11 @@ in
 
       # C/C++
       # nixstaging.clang-tools
-      staging.clang
+      # staging.clang
       # clang
-      pkg-config
+      # pkg-config
       cmake
-      meson
+      # meson
       # llvm
       # libcxxabi
 

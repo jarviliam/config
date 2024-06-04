@@ -4,7 +4,7 @@
     autocd = true;
     enableCompletion = true;
     syntaxHighlighting = { enable = true; };
-    enableAutosuggestions = true;
+    autosuggestion.enable = true;
     defaultKeymap = "viins";
     historySubstringSearch.enable = true;
     # Hack because /etc/static isn't in $NIX_PROFILE
@@ -66,6 +66,8 @@
     };
 
     initExtra = ''
+      alias my-opened-prs='gh pr list --search "is:open author:@me updated:$(date +"%Y-%m-%d")" --json number,title | jq -r ".[] | \"\(.number),\(.title)\"" | pbcopy'
+      alias my-merged-prs='gh pr list --search "is:merged author:@me updated:$(date +"%Y-%m-%d")" --json number,title | jq -r ".[] | \"\(.number),\(.title)\"" | pbcopy'
       fancy-ctrl-z () {
         if [[ $#BUFFER -eq 0 ]]; then
           BUFFER="fg"
