@@ -6,7 +6,6 @@
   homebrew.taps = ["qmk/qmk"];
   homebrew.brews = [
     "llvm"
-    "qmk"
     "clamav"
   ];
   nix.settings.allowed-users = [ "root" "liam.jarvis" ];

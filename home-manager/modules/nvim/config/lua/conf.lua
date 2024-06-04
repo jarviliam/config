@@ -4,6 +4,7 @@ local M = {}
 M.theme = "github_dark"
 -- Toggle Global Statusline
 M.global_statusline = false
+vim.g.colors_name = M.theme
 
 if M.theme == "sonokai" or M.theme == "edge" or M.theme == "everforest" then
   vim.g.sonokai_style = "atlantis"
@@ -24,9 +25,6 @@ if M.theme == "sonokai" or M.theme == "edge" or M.theme == "everforest" then
   vim.g.edge_better_performance = 1
   vim.g.edge_diagnostic_text_highlight = 1
   vim.g.edge_diagnostic_virtual_text = "colored"
-end
-
-if M.theme == "gruvbox-material" then
 end
 
 return M
