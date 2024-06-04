@@ -88,7 +88,6 @@ return {
       end,
     },
   },
-  ,
   {
     "m4xshen/hardtime.nvim",
     dependencies = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim" },
@@ -100,5 +99,4 @@ return {
   { "sainnhe/everforest", lazy = conf.theme ~= "everforest" },
   { "sainnhe/gruvbox-material", lazy = false },
   { "projekt0n/github-nvim-theme" },
-  ,
 }

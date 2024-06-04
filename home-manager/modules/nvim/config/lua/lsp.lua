@@ -38,7 +38,11 @@ local function on_attach(client, bufnr)
   end
 
   local lsp_compl = require("lsp_compl")
-  lsp_compl.attach(client, bufnr, { server_side_fuzzy_completion = true })
+  if vim.lsp.completion then
+    vim.lsp.completion.enable(true, client.id, bufnr, { autotrigger = true })
+  else
+    lsp_compl.attach(client, bufnr, { server_side_fuzzy_completion = true })
+  end
 
   keymap("<cr>", function()
     return lsp_compl.accept_pum() and "<C-y>" or "<cr>"
@@ -53,7 +57,11 @@ local function on_attach(client, bufnr)
       feedkeys("<C-n>")
     else
       if next(vim.lsp.get_clients({ bufnr = 0 })) then
-        lsp_compl.trigger_completion()
+        if vim.lsp.completion then
+          vim.lsp.completion.trigger()
+        else
+          lsp_compl.trigger_completion()
+        end
       else
         if vim.bo.omnifunc == "" then
           feedkeys("<C-x><C-n>")
@@ -100,7 +108,6 @@ local function on_attach(client, bufnr)
     keymap("<leader>ni", op, "goto implementation [LSP]")
   end
 
-  -- keymap("K", vim.lsp.buf.hover, "Hover")
   keymap("<leader>fs", fzf.lsp_document_symbols, "Documents symbol")
   keymap("<leader>fS", function()
     fzf.lsp_live_workspace_symbols({ no_header_i = true })
@@ -208,7 +215,7 @@ local function on_attach(client, bufnr)
   vim.api.nvim_create_autocmd("BufWritePost", {
     group = lsp_fmt_group,
     callback = function(ev)
-      local efm = vim.lsp.get_active_clients({ name = "efm", bufnr = ev.buf })
+      local efm = vim.lsp.get_clients({ name = "efm", bufnr = ev.buf })
       if vim.tbl_isempty(efm) then
         return
       end
