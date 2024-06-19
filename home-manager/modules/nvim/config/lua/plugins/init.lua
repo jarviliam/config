@@ -19,7 +19,6 @@ return {
   },
   {
     "creativenull/efmls-configs-nvim",
-    version = "v1.4.0",
     dependencies = { "neovim/nvim-lspconfig" },
   },
   {
@@ -38,7 +37,7 @@ return {
   },
   {
     "garymjr/nvim-snippets",
-    enabled = true,
+    enabled = false,
     dependencies = { "rafamadriz/friendly-snippets" },
     opts = {
       friendly_snippets = true,
