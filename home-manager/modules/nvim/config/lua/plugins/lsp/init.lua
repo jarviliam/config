@@ -12,7 +12,7 @@ return {
       },
     },
   },
-    { "Bilal2453/luvit-meta", lazy = true },
+  { "Bilal2453/luvit-meta", lazy = true },
   {
     "neovim/nvim-lspconfig",
     event = "BufReadPre",
@@ -24,7 +24,13 @@ return {
       local lspconfig = require("lspconfig")
       require("lspconfig.ui.windows").default_options.border = "rounded"
 
-      local capabilities = require("lsp").client_capabilities
+      local function capabilities()
+        return vim.tbl_deep_extend(
+          "force",
+          vim.lsp.protocol.make_client_capabilities(),
+          require("lsp_compl").capabilities()
+        )
+      end
 
       for severity, icon in pairs(diagnostic_icons) do
         local hl = "DiagnosticSign" .. severity:sub(1, 1) .. severity:sub(2):lower()

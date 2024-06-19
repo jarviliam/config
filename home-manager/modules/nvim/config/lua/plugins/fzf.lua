@@ -35,6 +35,7 @@ return {
           ["--info"] = "default",
           ["--layout"] = "reverse-list",
         },
+              defaults = { formatter = "path.filename_first" },
         helptags = {
           actions = {
             -- Open help pages in a vertical split.

@@ -20,5 +20,6 @@ require("commands")
 require("autocmds")
 require("core.global")
 require("lazyplug")
+require("lsp")
 
 vim.cmd(string.format("colorscheme %s", conf.theme))

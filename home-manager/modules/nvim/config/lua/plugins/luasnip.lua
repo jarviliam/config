@@ -1,6 +1,7 @@
 return {
     "L3MON4D3/LuaSnip",
     event = "InsertEnter",
+    enabled = false,
     dependencies = { "rafamadriz/friendly-snippets" },
     opts = function()
         local t = require("luasnip.util.types")

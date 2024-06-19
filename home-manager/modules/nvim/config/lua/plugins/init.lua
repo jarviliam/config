@@ -37,10 +37,13 @@ return {
     },
   },
   {
-    "m4xshen/hardtime.nvim",
-    dependencies = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim" },
-    opts = {},
-    cmd = { "Hardtime" },
+    "garymjr/nvim-snippets",
+    enabled = true,
+    dependencies = { "rafamadriz/friendly-snippets" },
+    opts = {
+      friendly_snippets = true,
+      create_autocmd = true,
+    },
   },
   { "sainnhe/sonokai", lazy = conf.theme ~= "sonokai", dev = true },
   { "sainnhe/edge", lazy = conf.theme ~= "edge" },

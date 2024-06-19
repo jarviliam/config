@@ -4,10 +4,6 @@ local methods = vim.lsp.protocol.Methods
 
 local M = {}
 
-M.client_capabilities = function()
-  return vim.tbl_deep_extend("force", vim.lsp.protocol.make_client_capabilities(), require("lsp_compl").capabilities())
-end
-
 --- Sets up the Keymaps and autocommands
 ---@param client vim.lsp.Client
 ---@param bufnr integer
@@ -37,65 +33,61 @@ local function on_attach(client, bufnr)
     client.server_capabilities.signatureHelpProvider.triggerCharacters = {}
   end
 
-  local lsp_compl = require("lsp_compl")
-  if vim.lsp.completion then
-    vim.lsp.completion.enable(true, client.id, bufnr, { autotrigger = true })
-  else
-    lsp_compl.attach(client, bufnr, { server_side_fuzzy_completion = true })
-  end
-
-  keymap("<cr>", function()
-    return lsp_compl.accept_pum() and "<C-y>" or "<cr>"
-  end, { expr = true }, "i")
-
-  keymap("/", function()
-    return pumvisible() and "<C-e>" or "/"
-  end, { expr = true }, "i")
-
-  keymap("<C-n>", function()
-    if pumvisible() then
-      feedkeys("<C-n>")
+  if client.supports_method(methods.textDocument_completion) then
+    local lsp_compl = require("lsp_compl")
+    if vim.lsp.completion then
+      vim.lsp.completion.enable(true, client.id, bufnr, { autotrigger = true })
     else
-      if next(vim.lsp.get_clients({ bufnr = 0 })) then
+      lsp_compl.attach(client, bufnr, { server_side_fuzzy_completion = true })
+    end
+
+
+    keymap("<cr>", function()
+      return lsp_compl.accept_pum() and "<C-y>" or "<cr>"
+    end, { expr = true }, "i")
+
+    keymap("/", function()
+      return pumvisible() and "<C-e>" or "/"
+    end, { expr = true }, "i")
+
+    keymap("<C-n>", function()
+      if pumvisible() then
+        feedkeys("<C-n>")
+      else
         if vim.lsp.completion then
           vim.lsp.completion.trigger()
         else
           lsp_compl.trigger_completion()
         end
-      else
-        if vim.bo.omnifunc == "" then
-          feedkeys("<C-x><C-n>")
-        else
-          feedkeys("<C-x><C-o>")
-        end
       end
-    end
-  end, "Trigger/select next completion", "i")
+    end, "Trigger/select next completion", "i")
 
-  keymap("<Tab>", function()
-    local luasnip = require("luasnip")
-    if pumvisible() then
-      feedkeys("<C-n>")
-    elseif luasnip.expand_or_locally_jumpable() then
-      luasnip.expand_or_jump()
-    else
-      feedkeys("<Tab>")
-    end
-  end, {}, { "i", "s" })
+    keymap("<Tab>", function()
+      if pumvisible() then
+        feedkeys("<C-n>")
+      elseif vim.snippet.active({ direction = 1 }) then
+        vim.snippet.jump(1)
+      else
+        feedkeys("<Tab>")
+      end
+    end, {}, { "i", "s" })
 
-  keymap("<S-Tab>", function()
-    local luasnip = require("luasnip")
+    keymap("<S-Tab>", function()
+      if pumvisible() then
+        feedkeys("<C-p>")
+      elseif vim.snippet.active({ direction = -1 }) then
+        vim.snippet.jump(-1)
+      else
+        feedkeys("<S-Tab>")
+      end
+    end, {}, { "i", "s" })
 
-    if pumvisible() then
-      feedkeys("<C-p>")
-    elseif luasnip.expand_or_locally_jumpable(-1) then
-      luasnip.jump(-1)
-    else
-      feedkeys("<S-Tab>")
-    end
-  end, {}, { "i", "s" })
+    keymap("<C-u>", "<C-x><C-n>", { desc = "Buffer completions" }, "i")
+    -- Inside a snippet, use backspace to remove the placeholder.
+    keymap("<BS>", "<C-o>s", {}, "s")
+  end
 
-  keymap("gr", function()
+  keymap("grr", function()
     fzf.lsp_references({ jump_to_single_result = true })
   end, "Go to references")
   keymap("<leader>gy", "<cmd>FzfLua lsp_typedefs<cr>", "goto type definition [LSP]")
@@ -129,7 +121,7 @@ local function on_attach(client, bufnr)
   end, "Next error")
 
   if client.supports_method(methods.textDocument_codeAction) then
-    keymap("<leader>ca", function()
+    keymap("gra", function()
       fzf.lsp_code_actions({
         winopts = {
           relative = "cursor",
@@ -141,8 +133,6 @@ local function on_attach(client, bufnr)
       })
     end, "lsp: code actions")
   end
-
-  keymap("<leader>cr", vim.lsp.buf.rename, "lsp: rename")
 
   if client.supports_method(methods.textDocument_definition) then
     keymap("gd", function()
@@ -158,12 +148,6 @@ local function on_attach(client, bufnr)
       end
       vim.lsp.buf.signature_help()
     end, "signature help", "i")
-    -- require("lsp_signature").on_attach({
-    --     handler_opts = { border = "rounded" },
-    --     hint_prefix = "",
-    --     fixpos = true,
-    --     padding = " ",
-    -- }, bufnr)
   end
 
   if client.supports_method(methods.textDocument_documentHighlight) then
