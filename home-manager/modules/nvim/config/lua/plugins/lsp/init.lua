@@ -19,6 +19,7 @@ return {
     dependencies = {
       "ray-x/lsp_signature.nvim",
       "mfussenegger/nvim-lsp-compl",
+      "b0o/SchemaStore.nvim",
     },
     config = function()
       local lspconfig = require("lspconfig")

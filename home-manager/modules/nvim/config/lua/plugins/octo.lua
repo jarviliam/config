@@ -1,6 +1,7 @@
 return {
   "pwntester/octo.nvim",
   dev = true,
+    enabled = false,
   event = "VeryLazy",
   cmd = { "Octo" },
   config = function()
