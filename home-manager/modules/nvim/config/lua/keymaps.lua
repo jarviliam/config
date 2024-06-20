@@ -26,7 +26,7 @@ map("v", "k", "gk", { silent = true })
 map("v", "j", "gj", { silent = true })
 
 local map_toggle = function(lhs, rhs, desc)
-    map("n", [[\]] .. lhs, rhs, { desc = desc })
+  map("n", [[\]] .. lhs, rhs, { desc = desc })
 end
 map_toggle("b", '<Cmd>lua vim.o.bg = vim.o.bg == "dark" and "light" or "dark"<CR>', "Toggle 'background'")
 map_toggle("c", "<Cmd>setlocal cursorline!<CR>", "Toggle 'cursorline'")
@@ -43,13 +43,13 @@ map_toggle("w", "<Cmd>setlocal wrap!<CR>", "Toggle 'wrap'")
 map("n", "<C-S>", ":update<CR>", { silent = true })
 
 local function foldexpr(value)
-    return function()
-        vim.opt_local.foldmethod = value
-    end
+  return function()
+    vim.opt_local.foldmethod = value
+  end
 end
 
 local function opts(desc)
-    return { silent = true, desc = desc }
+  return { silent = true, desc = desc }
 end
 
 vim.keymap.set("n", "<leader>zm", foldexpr("manual"), opts("Set local foldmethod to manual"))
@@ -59,6 +59,11 @@ vim.keymap.set("n", "<leader>zk", foldexpr("marker"), opts("Set local foldmethod
 vim.keymap.set("n", "<leader>zs", foldexpr("syntax"), opts("Set local foldmethod to syntax"))
 
 -- Tab navigation.
-vim.keymap.set('n', '<leader>tc', '<cmd>tabclose<cr>', { desc = 'Close tab page' })
-vim.keymap.set('n', '<leader>tn', '<cmd>tab split<cr>', { desc = 'New tab page' })
-vim.keymap.set('n', '<leader>to', '<cmd>tabonly<cr>', { desc = 'Close other tab pages' })
+vim.keymap.set("n", "<leader>tc", "<cmd>tabclose<cr>", { desc = "Close tab page" })
+vim.keymap.set("n", "<leader>tn", "<cmd>tab split<cr>", { desc = "New tab page" })
+vim.keymap.set("n", "<leader>to", "<cmd>tabonly<cr>", { desc = "Close other tab pages" })
+vim.keymap.set("n", "<leader>gg", function()
+  require("float").float_term("lazygit", {
+    size = { width = 0.85, height = 0.8 },
+  })
+end, {desc="Lazygit"})

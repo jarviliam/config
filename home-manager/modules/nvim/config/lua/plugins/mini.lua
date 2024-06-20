@@ -39,13 +39,6 @@ return {
         end,
         desc = "Delete Buffer",
       },
-      {
-        "<leader>bD",
-        function()
-          require("mini.bufremove").delete(0, true)
-        end,
-        desc = "Delete Buffer (Force)",
-      },
     },
   },
   {
@@ -190,10 +183,10 @@ return {
           { mode = "n", keys = "z" },
           { mode = "x", keys = "z" },
 
-      { mode = 'n', keys = '[' },        -- mini.bracketed
-      { mode = 'n', keys = ']' },
-      { mode = 'x', keys = '[' },
-      { mode = 'x', keys = ']' },
+          { mode = "n", keys = "[" }, -- mini.bracketed
+          { mode = "n", keys = "]" },
+          { mode = "x", keys = "[" },
+          { mode = "x", keys = "]" },
         },
         clues = {
           -- Leader/movement groups.
