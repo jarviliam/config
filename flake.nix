@@ -45,6 +45,7 @@
               "Unsupported platform ${final.stdenvNoCC.hostPlatform.system}")
           }.nil;
         prettierd = final.callPackage ./home-manager/prettierd.nix { };
+        vtsls = final.callPackage ./home-manager/vtsls.nix { };
         neomutt = prev.neomutt.overrideAttrs (oldAttrs: { doCheck = false; });
         staging = nixstaging.legacyPackages.aarch64-darwin;
         # release-please = prev.callPackage ./release-please.nix;
