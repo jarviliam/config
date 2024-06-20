@@ -41,7 +41,6 @@ local function on_attach(client, bufnr)
       lsp_compl.attach(client, bufnr, { server_side_fuzzy_completion = true })
     end
 
-
     keymap("<cr>", function()
       return lsp_compl.accept_pum() and "<C-y>" or "<cr>"
     end, { expr = true }, "i")
@@ -90,8 +89,8 @@ local function on_attach(client, bufnr)
   keymap("grr", function()
     fzf.lsp_references({ jump_to_single_result = true })
   end, "Go to references")
-  keymap("<leader>gy", "<cmd>FzfLua lsp_typedefs<cr>", "goto type definition [LSP]")
 
+  keymap("<leader>gy", "<cmd>FzfLua lsp_typedefs<cr>", "goto type definition [LSP]")
   if client.supports_method(methods.textDocument_implementation) then
     local op = function()
       fzf.lsp_implementations({ jump_to_single_result = true })
@@ -107,17 +106,17 @@ local function on_attach(client, bufnr)
 
   keymap("<leader>cd", vim.diagnostic.open_float, "line diagnostics")
 
-  local next = vim.diagnostic.goto_next
-  local prev = vim.diagnostic.goto_prev
-  local repeat_ok, ts_repeat_move = pcall(require, "nvim-treesitter.textobjects.repeatable_move")
-  if repeat_ok then
-    next, prev = ts_repeat_move.make_repeatable_move_pair(vim.diagnostic.goto_next, vim.diagnostic.goto_prev)
-  end
+  keymap("[d", function()
+    vim.diagnostic.jump({ count = -1 })
+  end, "Previous diagnostic")
+  keymap("]d", function()
+    vim.diagnostic.jump({ count = 1 })
+  end, "Next diagnostic")
   keymap("[e", function()
-    prev({ severity = vim.diagnostic.severity.ERROR })
+    vim.diagnostic.jump({ count = -1, severity = vim.diagnostic.severity.ERROR })
   end, "Previous error")
   keymap("]e", function()
-    next({ severity = vim.diagnostic.severity.ERROR })
+    vim.diagnostic.jump({ count = 1, severity = vim.diagnostic.severity.ERROR })
   end, "Next error")
 
   if client.supports_method(methods.textDocument_codeAction) then
