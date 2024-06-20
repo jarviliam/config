@@ -17,7 +17,6 @@ return {
     "neovim/nvim-lspconfig",
     event = "BufReadPre",
     dependencies = {
-      "ray-x/lsp_signature.nvim",
       "mfussenegger/nvim-lsp-compl",
       "b0o/SchemaStore.nvim",
     },

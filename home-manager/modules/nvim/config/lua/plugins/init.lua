@@ -2,7 +2,6 @@ local conf = require("conf")
 
 return {
   "nvim-lua/plenary.nvim",
-  "b0o/SchemaStore.nvim",
   {
     "kyazdani42/nvim-web-devicons",
     opts = { default = true },

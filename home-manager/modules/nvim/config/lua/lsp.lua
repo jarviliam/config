@@ -168,7 +168,6 @@ local function on_attach(client, bufnr)
 
   if client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
     local inlay_hints_group = vim.api.nvim_create_augroup("Toggle_Inlay_Hints", { clear = false })
-
     vim.defer_fn(function()
       local mode = vim.api.nvim_get_mode().mode
       vim.lsp.inlay_hint.enable(mode == "n" or mode == "v", { bufnr = bufnr })

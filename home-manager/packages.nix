@@ -1,9 +1,6 @@
 { pkgs, lib, nixstaging, ... }:
 let
-  py312 = pkgs.python312.overrideAttrs
-    (old: {
-      version = "3.12.3";
-    });
+  py312 = pkgs.python312.overrideAttrs (old: { version = "3.12.3"; });
   # nixpkgs_staging = import <nixpkgs_staging> { };
   mypython312 = pkgs.python312Full.override {
     self = pkgs.python312Full;
@@ -21,21 +18,16 @@ let
     };
     vendorHash = lib.fakeSha256;
   });
-in
-{
+in {
   home.packages = with pkgs;
     [
-      bazel
-      bazel-gazelle
       emacs
       lua
       luajitPackages.luarocks-nix
       awscli2
-      zk
       coreutils
       github-cli
       wget
-      yazi
       ripgrep
       htop
       unar
@@ -44,17 +36,15 @@ in
       nodePackages.npm
       source-code-pro
       (nerdfonts.override {
-        fonts =
-          [
-            "FiraCode"
-            "JetBrainsMono"
-            "Iosevka"
-            "FantasqueSansMono"
-            "Hack"
-            "IntelOneMono"
-          ];
+        fonts = [
+          "FiraCode"
+          "JetBrainsMono"
+          "Iosevka"
+          "FantasqueSansMono"
+          "Hack"
+          "IntelOneMono"
+        ];
       })
-      neofetch
       nodejs
       openssh
       ripgrep
@@ -62,8 +52,6 @@ in
       yq
       jwt-cli
       kubectl
-      # qmk
-      killall
       fd
       nix-prefetch-git
       # efm
@@ -76,23 +64,18 @@ in
       slack
       gettext
       terraform-ls
-      # tfenv
       tflint
       kubectx
       lazydocker
+      lazygit
       argocd
     ] ++ [
       # Python
       py312
-      # python312Packages.virtualenv
-      # python312Packages.pip
-      cloud-custodian
       codespell
       pre-commit
       poetry
-      black
-      isort
-      nodePackages_latest.pyright
+      pyright
       ruff
       ruff-lsp
 
@@ -138,7 +121,7 @@ in
       # Nix
       # rnix-lsp
       nil-language-server
-      nixfmt
+      nixfmt-rfc-style
       nixpkgs-fmt
       statix
 

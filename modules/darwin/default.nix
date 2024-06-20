@@ -11,8 +11,7 @@
   nix.settings.allowed-users = [ "root" "liam.jarvis" ];
   nix.settings.trusted-users = [ "root" "liam.jarvis" ];
   fonts = {
-    fontDir.enable = false;
-    fonts = with pkgs; [
+    packages = with pkgs; [
       noto-fonts-emoji
       (nerdfonts.override { fonts = [ "FiraCode" "NerdFontsSymbolsOnly" ]; })
       victor-mono

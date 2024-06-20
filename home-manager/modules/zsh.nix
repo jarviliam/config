@@ -21,6 +21,7 @@
       share = true;
     };
     shellAliases = {
+      nv = "nvim";
       # builtins
       size = "du -sh";
       cp = "cp -i";
@@ -159,213 +160,153 @@
     enable = true;
     enableZshIntegration = true;
   };
-  programs.starship =
-    let flavour = "frappe";
-    in {
-      enable = true;
-      enableZshIntegration = true;
-      settings = {
-        palette = "catppuccin_${flavour}";
-        add_newline = false;
-        format = lib.concatStrings [
-          "$python"
-          "$directory"
-          "$character"
-        ];
-        # format = lib.concatStrings [
-        #   "$username"
-        #   "$hostname"
-        #   "$localip"
-        #   "$shlvl"
-        #   "$singularity"
-        #   "$kubernetes"
-        #   "$directory"
-        #   "$vcsh"
-        #   "$git_branch"
-        #   "$git_commit"
-        #   "$git_state"
-        #   "$git_metrics"
-        #   "$git_status"
-        #   "$hg_branch"
-        #   "$docker_context"
-        #   "$c"
-        #   "$cmake"
-        #   "$golang"
-        #   "$haskell"
-        #   "$helm"
-        #   "$lua"
-        #   "$nodejs"
-        #   "$ocaml"
-        #   "$perl"
-        #   "$php"
-        #   "$pulumi"
-        #   "$purescript"
-        #   "$python"
-        #   "$ruby"
-        #   "$rust"
-        #   "$scala"
-        #   "$terraform"
-        #   "$vagrant"
-        #   "$zig"
-        #   "$buf"
-        #   "$meson"
-        #   "$spack"
-        #   "$aws"
-        #   "$env_var"
-        #   "$crystal"
-        #   "$custom"
-        #   "$sudo"
-        #   "$cmd_duration"
-        #   "$line_break"
-        #   "$time"
-        #   "$status"
-        #   "$container"
-        #   "$shell"
-        #   "$character"
-        # ];
-        right_format = "$status$all";
-        aws = { disabled = true; };
-        character = {
-          success_symbol = "[❯](red)[❯](yellow)[❯](green)";
-          error_symbol = "[❯](red)[❯](yellow)[❯](green)";
-          vicmd_symbol = "[❮](green)[❮](yellow)[❮](red)";
-        };
-        c = {
-          symbol = " ";
-          format = "\\[[$symbol($version(-$name))]($style)\\]";
-        };
-        cmake = { format = "\\[[$symbol($version)]($style)\\]"; };
-        cmd_duration = { format = "\\[[$duration]($style)\\]"; };
-        conda = {
-          symbol = " ";
-          format = "\\[[$symbol$environment]($style)\\]";
-        };
-        directory = {
-          style = "blue";
-          truncation_length = 1;
-          truncation_symbol = "";
-          fish_style_pwd_dir_length = 1;
-        };
-        line_break =
-          {
-            disabled = true;
-          };
-        git_state = {
-          format = "[[$state($progress_current/$progress_total)] ]($style)";
-          style = "fg:peach";
-          disabled = false;
-        };
-        git_branch = {
-          format = "[$branch]($style) ";
-          style = "bold green";
-        };
-        status = {
-          disabled = false;
-          symbol = "✘ ";
-        };
-        git_status = {
-          format = "$all_status$ahead_behind ";
-          ahead = "[⬆](bold purple) ";
-          behind = "[⬇](bold purple) ";
-          staged = "[✚](green) ";
-          deleted = "[✖](red) ";
-          renamed = "[➜](purple) ";
-          stashed = "[✭](cyan) ";
-          untracked = "[◼](white) ";
-          modified = "[✱](blue) ";
-          conflicted = "[═](yellow) ";
-          diverged = "⇕ ";
-          up_to_date = "";
-        };
-        git_commit = {
-          format = "[$tag ]($style)";
-          style = "fg:peach";
-          tag_disabled = false;
-          tag_symbol = " ";
-        };
-        golang = {
-          symbol = " ";
-          format = "\\[[$symbol($version)]($style)\\]";
-        };
-        haskell = {
-          symbol = " ";
-          format = "\\[[$symbol($version)]($style)\\]";
-        };
-        helm = { format = "\\[[$symbol($version)]($style)\\]"; };
-        hg_branch = {
-          symbol = " ";
-          format = "\\[[$symbol$branch]($style)\\]";
-        };
-        java = {
-          symbol = " ";
-          format = "\\[[$symbol($version)]($style)\\]";
-        };
-        julia = {
-          symbol = " ";
-          format = "\\[[$symbol($version)]($style)\\]";
-        };
-        kotlin = { format = "\\[[$symbol($version)]($style)\\]"; };
-        kubernetes = {
-          format = "\\[[$symbol$context( \\($namespace\\))]($style)\\]";
-        };
-        lua = {
-          symbol = " ";
-          format = "\\[[$symbol($version)]($style)\\]";
-        };
-        memory_usage = {
-          symbol = " ";
-          format = "\\[$symbol[$ram( | $swap)]($style)\\]";
-        };
-        meson = {
-          symbol = "喝 ";
-          format = "\\[[$symbol$project]($style)\\]";
-        };
-        nim = {
-          symbol = " ";
-          format = "\\[[$symbol($version)]($style)\\]";
-        };
-        nix_shell = {
-          symbol = " ";
-          format = "\\[[$symbol$state( \\($name\\))]($style)\\]";
-        };
-        nodejs = {
-          symbol = " ";
-          format = "\\[[$symbol($version)]($style)\\]";
-        };
-        ocaml = {
-          format =
-            "\\[[$symbol($version)(\\($switch_indicator$switch_name\\))]($style)\\]";
-        };
-        python = {
-          # symbol = " ";
-          format = "\($virtualenv\) ";
-          # format =
-          #   "\\[[\${symbol}\${pyenv_prefix}(\${version})(\\($virtualenv\\))]($style)\\]";
-        };
-        ruby = {
-          symbol = " ";
-          format = "\\[[$symbol($version)]($style)\\]";
-        };
-        rust = {
-          symbol = " ";
-          format = "\\[[$symbol($version)]($style)\\]";
-        };
-        scala = {
-          symbol = " ";
-          format = "\\[[$symbol($version)]($style)\\]";
-        };
-        sudo = { format = "\\[[as $symbol]\\]"; };
-        terraform = { format = "\\[[$symbol$workspace]($style)\\]"; };
-        time = { format = "\\[[$time]($style)\\]"; };
-        username = { format = "\\[[$user]($style)\\]"; };
-        vagrant = { format = "\\[[$symbol($version)]($style)\\]"; };
-        zig = { format = "\\[[$symbol($version)]($style)\\]"; };
-      } // builtins.fromTOML (builtins.readFile (pkgs.fetchFromGitHub
-        {
-          owner = "catppuccin";
-          repo = "starship";
-          rev = "5629d2356f62a9f2f8efad3ff37476c19969bd4f";
-          sha256 = "sha256-nsRuxQFKbQkyEI4TXgvAjcroVdG+heKX5Pauq/4Ota0=";
-        } + /palettes/${flavour}.toml));
-    };
+  programs.starship = let flavour = "frappe";
+  in {
+    enable = true;
+    enableZshIntegration = true;
+    settings = {
+      palette = "catppuccin_${flavour}";
+      add_newline = false;
+      format = lib.concatStrings [ "$python" "$directory" "$character" ];
+      right_format = "$status$all";
+      aws = { disabled = true; };
+      character = {
+        success_symbol = "[❯](red)[❯](yellow)[❯](green)";
+        error_symbol = "[❯](red)[❯](yellow)[❯](green)";
+        vicmd_symbol = "[❮](green)[❮](yellow)[❮](red)";
+      };
+      c = {
+        symbol = " ";
+        format = "\\[[$symbol($version(-$name))]($style)\\]";
+      };
+      cmake = { format = "\\[[$symbol($version)]($style)\\]"; };
+      cmd_duration = { format = "\\[[$duration]($style)\\]"; };
+      conda = {
+        symbol = " ";
+        format = "\\[[$symbol$environment]($style)\\]";
+      };
+      directory = {
+        style = "blue";
+        truncation_length = 1;
+        truncation_symbol = "";
+        fish_style_pwd_dir_length = 1;
+      };
+      line_break = { disabled = true; };
+      git_state = {
+        format = "[[$state($progress_current/$progress_total)] ]($style)";
+        style = "fg:peach";
+        disabled = false;
+      };
+      git_branch = {
+        format = "[$branch]($style) ";
+        style = "bold green";
+      };
+      status = {
+        disabled = false;
+        symbol = "✘ ";
+      };
+      git_status = {
+        format = "$all_status$ahead_behind ";
+        ahead = "[⬆](bold purple) ";
+        behind = "[⬇](bold purple) ";
+        staged = "[✚](green) ";
+        deleted = "[✖](red) ";
+        renamed = "[➜](purple) ";
+        stashed = "[✭](cyan) ";
+        untracked = "[◼](white) ";
+        modified = "[✱](blue) ";
+        conflicted = "[═](yellow) ";
+        diverged = "⇕ ";
+        up_to_date = "";
+      };
+      git_commit = {
+        format = "[$tag ]($style)";
+        style = "fg:peach";
+        tag_disabled = false;
+        tag_symbol = " ";
+      };
+      golang = {
+        symbol = " ";
+        format = "\\[[$symbol($version)]($style)\\]";
+      };
+      haskell = {
+        symbol = " ";
+        format = "\\[[$symbol($version)]($style)\\]";
+      };
+      helm = { format = "\\[[$symbol($version)]($style)\\]"; };
+      hg_branch = {
+        symbol = " ";
+        format = "\\[[$symbol$branch]($style)\\]";
+      };
+      java = {
+        symbol = " ";
+        format = "\\[[$symbol($version)]($style)\\]";
+      };
+      julia = {
+        symbol = " ";
+        format = "\\[[$symbol($version)]($style)\\]";
+      };
+      kotlin = { format = "\\[[$symbol($version)]($style)\\]"; };
+      kubernetes = {
+        format = "\\[[$symbol$context( \\($namespace\\))]($style)\\]";
+      };
+      lua = {
+        symbol = " ";
+        format = "\\[[$symbol($version)]($style)\\]";
+      };
+      memory_usage = {
+        symbol = " ";
+        format = "\\[$symbol[$ram( | $swap)]($style)\\]";
+      };
+      meson = {
+        symbol = "喝 ";
+        format = "\\[[$symbol$project]($style)\\]";
+      };
+      nim = {
+        symbol = " ";
+        format = "\\[[$symbol($version)]($style)\\]";
+      };
+      nix_shell = {
+        symbol = " ";
+        format = "\\[[$symbol$state( \\($name\\))]($style)\\]";
+      };
+      nodejs = {
+        symbol = " ";
+        format = "\\[[$symbol($version)]($style)\\]";
+      };
+      ocaml = {
+        format =
+          "\\[[$symbol($version)(\\($switch_indicator$switch_name\\))]($style)\\]";
+      };
+      python = {
+        # symbol = " ";
+        format = "($virtualenv) ";
+        # format =
+        #   "\\[[\${symbol}\${pyenv_prefix}(\${version})(\\($virtualenv\\))]($style)\\]";
+      };
+      ruby = {
+        symbol = " ";
+        format = "\\[[$symbol($version)]($style)\\]";
+      };
+      rust = {
+        symbol = " ";
+        format = "\\[[$symbol($version)]($style)\\]";
+      };
+      scala = {
+        symbol = " ";
+        format = "\\[[$symbol($version)]($style)\\]";
+      };
+      sudo = { format = "\\[[as $symbol]\\]"; };
+      terraform = { format = "\\[[$symbol$workspace]($style)\\]"; };
+      time = { format = "\\[[$time]($style)\\]"; };
+      username = { format = "\\[[$user]($style)\\]"; };
+      vagrant = { format = "\\[[$symbol($version)]($style)\\]"; };
+      zig = { format = "\\[[$symbol($version)]($style)\\]"; };
+    } // builtins.fromTOML (builtins.readFile (pkgs.fetchFromGitHub {
+      owner = "catppuccin";
+      repo = "starship";
+      rev = "5629d2356f62a9f2f8efad3ff37476c19969bd4f";
+      sha256 = "sha256-nsRuxQFKbQkyEI4TXgvAjcroVdG+heKX5Pauq/4Ota0=";
+    } + /palettes/${flavour}.toml));
+  };
 }
