@@ -48,6 +48,7 @@ vim.api.nvim_create_autocmd("FileType", {
     group = vim.api.nvim_create_augroup("QuickClose", { clear = true }),
     desc = "Close with q",
     pattern = { "help",
+    "git",
         "qf",
         "man",
         "Scratch",

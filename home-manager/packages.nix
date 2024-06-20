@@ -78,6 +78,7 @@ in {
       pyright
       ruff
       ruff-lsp
+      vtsls
 
       lua53Packages.luacheck
       lua-language-server
