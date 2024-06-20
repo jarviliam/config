@@ -1,6 +1,7 @@
 return {
   "NeogitOrg/neogit",
   cmd = { "Neogit" },
+  enabled = false,
   keys = {
     { "<leader>gg", "<cmd>Neogit<CR>", "NeoGit" },
   },

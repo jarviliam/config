@@ -66,5 +66,21 @@ return {
     'ruifm/gitlinker.nvim',
     lazy = true,
     opts = { mappings = '<leader>gc' },
-  }
+  },
+  {
+        'echasnovski/mini-git',
+        main = 'mini.git',
+        config = true,
+        lazy = false,
+        keys = {
+            {
+                '<leader>gd',
+                function()
+                    require('mini.git').show_at_cursor {}
+                end,
+                desc = 'Show info at cursor',
+                mode = { 'n', 'x' },
+            },
+        },
+    },
 }
