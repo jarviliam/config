@@ -18,7 +18,7 @@ end
 lazy.setup("plugins", {
   defaults = { lazy = true },
   dev = { path = vim.g.personal_dir },
-  lockfile = vim.env.HOME .. "nix_dot/home-manager/modules/nvim/lazy-lock.json",
+  lockfile = vim.env.HOME .. "/nix_dot/home-manager/modules/nvim/lazy-lock.json",
   install = { colorscheme = { "nightfly", "lua-embark" } },
   checker = { enabled = false },
   ui = {
