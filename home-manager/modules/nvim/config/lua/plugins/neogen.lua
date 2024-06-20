@@ -10,7 +10,7 @@ return {
   opts = {
         enabled = true,
         input_after_comment = true,
-        snippet_engine = "luasnip"
+        snippet_engine = "nvim"
     },
   version = "*",
 }
