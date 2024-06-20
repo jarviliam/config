@@ -15,9 +15,6 @@ return {
       { "<leader>f/", "<cmd>FzfLua lgrep_curbuf<cr>", desc = "live grep (buffer)" },
       { "<leader>fj", "<cmd>FzfLua jumps<cr>", desc = "jumps" },
       { "<leader>fr", "<cmd>FzfLua resume<cr>", desc = "resume" },
-      { "<leader>gc", "<Cmd>FzfLua git_commits<CR>", desc = "commits" },
-      { "<leader>gC", "<Cmd>FzfLua git_bcommits<CR>", desc = "commits (buffer)" },
-      { "<leader>gb", "<Cmd>FzfLua git_branches<CR>", desc = "branches" },
       { "<leader>fb", "<cmd>FzfLua buffers<cr>", desc = "Buffers" },
     },
     opts = function()
@@ -35,7 +32,7 @@ return {
           ["--info"] = "default",
           ["--layout"] = "reverse-list",
         },
-              defaults = { formatter = "path.filename_first" },
+        defaults = { formatter = "path.filename_first" },
         helptags = {
           actions = {
             -- Open help pages in a vertical split.
