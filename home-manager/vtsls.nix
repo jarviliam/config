@@ -1,28 +1,31 @@
-{ lib, mkYarnPackage, fetchFromGitHub, ... }:
-mkYarnPackage rec {
+{ lib
+, buildNpmPackage
+, fetchFromGitHub
+, importNpmLock
+}:
+
+buildNpmPackage rec {
   pname = "vtsls";
   version = "0.2.3";
 
   src = fetchFromGitHub {
     owner = "yioneko";
-    repo = pname;
+    repo = "vtsls";
     rev = "server-v${version}";
-    hash = "sha256-M9VA67Ix2aKS5V0cA0cFPXkASoAyFxW6rEopSYXtyiA=";
+    hash = "sha256-bc8KDsvAxvHdUhO2wn1KBc4jB/LKz+fozfrPGmD15wQ=";
+    fetchSubmodules = true;
   };
 
-  packageJSON = "${src}/package.json";
-  yarnLock = "${src}/yarn.lock";
+  sourceRoot = "${src.name}/packages/server";
 
-  buildPhase = ''
-    yarn build
-  '';
-
-  distPhase = "true";
-
-  meta = with lib; {
-    mainProgram = "vtsls";
-    description = "This is an LSP wrapper around TypeScript extension bundled with VSCode. All features and performance are nearly the same.";
-    homepage = "https://github.com/yioneko/vtsls";
-    license = licenses.isc;
+  npmDeps = importNpmLock {
+    npmRoot = "${src}/packages/server";
+    packageLock = lib.importJSON ./package-lock.json;
   };
+
+  npmDepsHash = "sha256-R70+8vwcZHlT9J5MMCw3rjUQmki4/IoRYHO45CC8TiI=";
+
+  npmConfigHook = importNpmLock.npmConfigHook;
+
+  dontNpmPrune = true;
 }

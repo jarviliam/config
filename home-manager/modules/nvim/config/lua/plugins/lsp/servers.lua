@@ -150,12 +150,24 @@ return {
   ruff_lsp = {},
   rust_analyzer = {},
   terraformls = {},
-  tsserver = {
-    init_options = {
-      documentFormatting = false,
-      hostInfo = "neovim",
-    },
+  vtsls = {
+    settings = {
+      javascript = {
+            inlayHints = {
+              functionLikeReturnTypes = { enabled = true },
+              parameterNames = { enabled = 'all' },
+              variableTypes = { enabled = true },
+            },
+      }
+    }
   },
+  -- tsserver = {
+  --   init_options = {
+  --     documentFormatting = false,
+  --     hostInfo = "neovim",
+  --   },
+  -- },
+
   yamlls = {
     schemaStore = {
       enable = false,

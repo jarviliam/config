@@ -8,16 +8,6 @@ let
     pythonAttr = "python312Full";
     bluezSupport = false;
   };
-  efm = pkgs.efm-langserver.overrideAttrs (old: {
-    version = "0.0.50";
-    src = pkgs.fetchFromGitHub {
-      owner = "mattn";
-      repo = "efm-langserver";
-      rev = "v0.0.50";
-      sha256 = "sha256-3WnMEkDa1boExyOg30wiFqs1Nw/zMtBqoUmtjluTQ0Y=";
-    };
-    vendorHash = lib.fakeSha256;
-  });
 in {
   home.packages = with pkgs;
     [
@@ -54,7 +44,6 @@ in {
       kubectl
       fd
       nix-prefetch-git
-      # efm
       comma
       manix
       qbittorrent
