@@ -2,7 +2,6 @@
 local wezterm = require("wezterm")
 local c = wezterm.config_builder()
 
-
 require("keys").apply(c)
 
 c.font = wezterm.font_with_fallback({
@@ -24,7 +23,7 @@ c.inactive_pane_hsb = {
   saturation = 1.0,
   brightness = 0.8,
 }
-c.color_scheme = "catppuccin-frappe"
+c.color_scheme = "Github Dark New"
 c.window_decorations = "RESIZE"
 c.window_background_opacity = 0.9
 c.macos_window_background_blur = 20
@@ -39,8 +38,45 @@ c.tab_bar_at_bottom = true
 c.use_fancy_tab_bar = false
 c.tab_max_width = 32
 
+c.color_schemes = {
+  ["Github Dark New"] = {
+    background = "#30363d",
+    foreground = "#e6edf3",
+
+    cursor_bg = "#e6edf3",
+    cursor_border = "#e6edf3",
+    cursor_fg = "#30363d",
+
+    selection_bg = "#33588a",
+    selection_fg = "#e6edf3",
+    ansi = {
+      "#484f58",
+      "#ff7b72",
+      "#3fb950",
+      "#d29922",
+      "#58a6ff",
+      "#bc8cff",
+      "#39c5cf",
+      "#b1bac4",
+    },
+    brights = {
+      "#6e7681",
+      "#ffa198",
+      "#56d364",
+      "#e3b341",
+      "#79c0ff",
+      "#d2a8ff",
+      "#56d4dd",
+      "#ffffff",
+    },
+  },
+}
+
 c.hyperlink_rules = {
-  { regex = [["([\w\d]{1}[-\w\d]+)(/){1}([-\w\d\.]+)"]], format = "https://www.github.com/$1/$3" },
+  {
+    regex = [["([\w\d]{1}[-\w\d]+)(/){1}([-\w\d\.]+)"]],
+    format = "https://www.github.com/$1/$3",
+  },
   {
     regex = "\\b\\w+://[\\w.-]+:[0-9]{2,15}\\S*\\b",
     format = "$0",
@@ -104,7 +140,7 @@ local function get_current_working_folder_name(tab)
   return string.format("  %s", string.match(cwd, "[^/]+$"))
 end
 
-local scheme = wezterm.get_builtin_color_schemes()["Catppuccin Frappe"]
+local scheme = wezterm.get_builtin_color_schemes()["Github Dark New"]
 
 local function get_process(tab)
   local process_icons = {

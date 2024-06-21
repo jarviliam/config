@@ -21,13 +21,7 @@ return {
       local actions = require("fzf-lua.actions")
       return {
         "fzf-native",
-        fzf_colors = {
-          bg = { "bg", "Normal" },
-          gutter = { "bg", "Normal" },
-          info = { "fg", "Conditional" },
-          scrollbar = { "bg", "Normal" },
-          separator = { "fg", "Comment" },
-        },
+        fzf_colors = true,
         fzf_opts = {
           ["--info"] = "default",
           ["--layout"] = "reverse-list",
