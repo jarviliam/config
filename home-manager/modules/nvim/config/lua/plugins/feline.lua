@@ -279,7 +279,5 @@ return {
     "lewis6991/gitsigns.nvim",
   },
   opts = {
-    -- force_inactive = { filetypes = { "^dapui_*", "^help$", "^neotest*", "^NvimTree$", "^qf$" } },
-    -- disable = { filetypes = { "^alpha$" } },
   },
 }

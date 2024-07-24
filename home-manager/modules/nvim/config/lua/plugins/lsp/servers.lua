@@ -1,7 +1,7 @@
 local languages = require("efmls-configs.defaults").languages()
 languages = vim.tbl_extend("force", languages, {
   go = { require("efmls-configs.formatters.gofmt"), require("efmls-configs.linters.golangci_lint") },
-  python = { require("efmls-configs.formatters.ruff"), require("efmls-configs.linters.ruff") },
+  python = { require("efmls-configs.formatters.ruff") },
   lua = { require("efmls-configs.formatters.stylua"), require("efmls-configs.linters.luacheck") },
   nix = { require("efmls-configs.formatters.nixfmt") },
   terraform = { require("efmls-configs.formatters.terraform_fmt") },
@@ -13,7 +13,7 @@ languages = vim.tbl_extend("force", languages, {
   html = { require("efmls-configs.formatters.prettier_d") },
 })
 for _, filetype in ipairs({ "javascript", "javascriptreact", "typescript", "typescriptreact" }) do
-  languages[filetype] = { require("efmls-configs.formatters.prettier_d"), require("efmls-configs.linters.eslint") }
+  languages[filetype] = { require("efmls-configs.linters.eslint") }
 end
 
 return {
@@ -41,46 +41,56 @@ return {
     },
   },
   jsonls = {
+    -- lazy-load schemastore when needed
+    on_new_config = function(new_config)
+      new_config.settings.json.schemas = new_config.settings.json.schemas or {}
+      vim.list_extend(new_config.settings.json.schemas, require("schemastore").json.schemas())
+    end,
     settings = {
       json = {
-        schemas = require("schemastore").json.schemas(),
+        format = {
+          enable = true,
+        },
         validate = { enable = true },
       },
     },
   },
   gopls = {
     settings = {
-      analyses = {
-        unusedparams = true,
-        nillness = true,
-        unusedwrites = true,
-        useany = true,
-        unusedvariable = true,
+      gopls = {
+        gofumpt = true,
+        codelenses = {
+          gc_details = false,
+          generate = true,
+          regenerate_cgo = true,
+          run_govulncheck = true,
+          test = true,
+          tidy = true,
+          upgrade_dependency = true,
+          vendor = true,
+        },
+        hints = {
+          assignVariableTypes = true,
+          compositeLiteralFields = true,
+          compositeLiteralTypes = true,
+          constantValues = true,
+          functionTypeParameters = true,
+          parameterNames = true,
+          rangeVariableTypes = true,
+        },
+        analyses = {
+          fieldalignment = true,
+          nilness = true,
+          unusedparams = true,
+          unusedwrite = true,
+          useany = true,
+        },
+        usePlaceholders = true,
+        completeUnimported = true,
+        staticcheck = true,
+        directoryFilters = { "-.git", "-.vscode", "-.idea", "-.vscode-test", "-node_modules" },
+        semanticTokens = true,
       },
-      completeUnimported = true,
-      staticcheck = true,
-      buildFlags = { "-tags=integration,e2e" },
-      linksInHover = true,
-      codelenses = {
-        generate = true,
-        gc_details = true,
-        test = true,
-        tidy = true,
-        run_vulncheck_exp = true,
-        upgrade_dependency = true,
-      },
-      usePlaceholders = true,
-      directoryFilters = {
-        "-**/node_modules",
-        "-/tmp",
-      },
-      completionDocumentation = true,
-      deepCompletion = true,
-      semanticTokens = true,
-      verboseOutput = false, -- useful for debugging when true.
-      matcher = "Fuzzy", -- default
-      diagnosticsDelay = "500ms",
-      symbolMatcher = "Fuzzy", -- default is FastFuzzy
     },
   },
   nil_ls = {
@@ -151,15 +161,54 @@ return {
   rust_analyzer = {},
   terraformls = {},
   vtsls = {
+    filetypes = {
+      "javascript",
+      "javascriptreact",
+      "javascript.jsx",
+      "typescript",
+      "typescriptreact",
+      "typescript.tsx",
+    },
     settings = {
+      complete_function_calls = true,
+      vtsls = {
+        enableMoveToFileCodeAction = true,
+        autoUseWorkspaceTsdk = true,
+        experimental = {
+          completion = {
+            enableServerSideFuzzyMatch = true,
+          },
+        },
+      },
+      typescript = {
+        updateImportsOnFileMove = { enabled = "always" },
+        suggest = {
+          completeFunctionCalls = true,
+        },
+        inlayHints = {
+          enumMemberValues = { enabled = true },
+          functionLikeReturnTypes = { enabled = true },
+          parameterNames = { enabled = "literals" },
+          parameterTypes = { enabled = true },
+          propertyDeclarationTypes = { enabled = true },
+          variableTypes = { enabled = false },
+        },
+      },
       javascript = {
-            inlayHints = {
-              functionLikeReturnTypes = { enabled = true },
-              parameterNames = { enabled = 'all' },
-              variableTypes = { enabled = true },
-            },
-      }
-    }
+        updateImportsOnFileMove = { enabled = "always" },
+        suggest = {
+          completeFunctionCalls = true,
+        },
+        inlayHints = {
+          enumMemberValues = { enabled = true },
+          functionLikeReturnTypes = { enabled = true },
+          parameterNames = { enabled = "literals" },
+          parameterTypes = { enabled = true },
+          propertyDeclarationTypes = { enabled = true },
+          variableTypes = { enabled = false },
+        },
+      },
+    },
   },
   -- tsserver = {
   --   init_options = {
@@ -169,11 +218,31 @@ return {
   -- },
 
   yamlls = {
-    schemaStore = {
-      enable = false,
-      url = "",
+    capabilities = {
+      textDocument = {
+        foldingRange = {
+          dynamicRegistration = false,
+          lineFoldingOnly = true,
+        },
+      },
     },
-    schemas = require("schemastore").yaml.schemas(),
-    keyOrdering = false,
+    on_new_config = function(new_config)
+      new_config.settings.yaml.schemas =
+        vim.tbl_deep_extend("force", new_config.settings.yaml.schemas or {}, require("schemastore").yaml.schemas())
+    end,
+    settings = {
+      redhat = { telemetry = { enabled = false } },
+      yaml = {
+        keyOrdering = false,
+        format = {
+          enable = true,
+        },
+        validate = true,
+        schemaStore = {
+          enable = false,
+          url = "",
+        },
+      },
+    },
   },
 }

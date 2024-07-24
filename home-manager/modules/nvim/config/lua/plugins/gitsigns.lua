@@ -13,7 +13,7 @@ return {
       },
       update_debounce = 500,
       signcolumn = true, -- Toggle with `:Gitsigns toggle_signs`
-      numhl = true,    -- Toggle with `:Gitsigns toggle_numhl`
+      numhl = true, -- Toggle with `:Gitsigns toggle_numhl`
       sign_priority = 10,
       count_chars = {
         [1] = "",
@@ -37,48 +37,72 @@ return {
         miniclue.set_mapping_desc("v", "<leader>gc", "Copy GitHub link")
         miniclue.set_mapping_desc("n", "<leader>gc", "Copy GitHub link")
 
-        local function map(lhs,rhs,desc)
-          vim.keymap.set('n',lhs,rhs,{desc=desc,buffer=bufnr})
+        local function map(lhs, rhs, desc)
+          vim.keymap.set("n", lhs, rhs, { desc = desc, buffer = bufnr })
         end
 
-        map('<leader>go', function()
-          gitlinker.get_buf_range_url('n', { action_callback = require('gitlinker.actions').open_in_browser })
-        end, 'Open in browser')
-        map("<leader>gb", gs.blame_line, "Blame line" )
-        map("<leader>gs", gs.stage_hunk, "Stage hunk" )
-        map("<leader>gr", gs.reset_hunk, "Reset hunk" )
-        map("<leader>gR", gs.reset_buffer, "Reset buffer" )
-        map("<leader>gp", gs.preview_hunk, "Preview hunk" )
-        map("]g", gs.next_hunk, "Next hunk" )
-        map("[g", gs.prev_hunk, "Prev hunk" )
-                map('<leader>gl', function()
-                    require('float').float_term('lazygit', {
-                        size = { width = 0.85, height = 0.8 },
-                        cwd = vim.b.gitsigns_status_dict.root,
-                    })
-                end, 'Lazygit')
+        map("<leader>go", function()
+          gitlinker.get_buf_range_url("n", { action_callback = require("gitlinker.actions").open_in_browser })
+        end, "Open in browser")
+
+        map("<leader>ghb", function()
+          gs.blame_line({ full = true })
+        end, "Blame Line")
+        map("<leader>ghB", function()
+          gs.blame()
+        end, "Blame Buffer")
+        map("<leader>ghs", gs.stage_hunk, "Stage hunk")
+        map("<leader>ghr", gs.reset_hunk, "Reset hunk")
+        map("<leader>ghS", gs.stage_buffer, "Stage Buffer")
+        map("<leader>ghR", gs.reset_buffer, "Reset buffer")
+        map("<leader>ghp", gs.preview_hunk, "Preview hunk")
+        map("<leader>ghd", gs.diffthis, "Diff This")
+        map("<leader>ghD", function()
+          gs.diffthis("~")
+        end, "Diff This ~")
+
+        map("]h", function()
+          if vim.wo.diff then
+            vim.cmd.normal({ "]c", bang = true })
+          else
+            gs.next_hunk()
+          end
+        end, "Next hunk")
+        map("[h", function()
+          if vim.wo.diff then
+            vim.cmd.normal({ "[c", bang = true })
+          else
+            gs.prev_hunk()
+          end
+        end, "Prev hunk")
+        map("<leader>gl", function()
+          require("float").float_term("lazygit", {
+            size = { width = 0.85, height = 0.8 },
+            cwd = vim.b.gitsigns_status_dict.root,
+          })
+        end, "Lazygit")
       end,
     },
   },
   {
-    'ruifm/gitlinker.nvim',
+    "ruifm/gitlinker.nvim",
     lazy = true,
-    opts = { mappings = '<leader>gc' },
+    opts = { mappings = "<leader>gc" },
   },
   {
-        'echasnovski/mini-git',
-        main = 'mini.git',
-        config = true,
-        lazy = false,
-        keys = {
-            {
-                '<leader>gd',
-                function()
-                    require('mini.git').show_at_cursor {}
-                end,
-                desc = 'Show info at cursor',
-                mode = { 'n', 'x' },
-            },
-        },
+    "echasnovski/mini-git",
+    main = "mini.git",
+    config = true,
+    lazy = false,
+    keys = {
+      {
+        "<leader>gd",
+        function()
+          require("mini.git").show_at_cursor({})
+        end,
+        desc = "Show info at cursor",
+        mode = { "n", "x" },
+      },
     },
+  },
 }

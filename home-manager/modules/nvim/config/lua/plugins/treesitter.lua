@@ -53,7 +53,7 @@ return {
         "json5",
         "norg",
         "comment",
-        "go",
+        "go","gomod","gowork","gosum",
         "gitcommit",
         "git_config",
         "gitignore",

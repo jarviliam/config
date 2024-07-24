@@ -11,7 +11,7 @@
   #titlebar {
     -moz-box-ordinal-group: 10;
   }
-  #urlbar {
+  .urlbar {
     top: unset !important;
     bottom: calc(
       (var(--urlbar-toolbar-height) - var(--urlbar-height)) / 2
@@ -20,14 +20,14 @@
     display: flex !important;
     flex-direction: column !important;
   }
-  #urlbar-input-container {
+  .urlbar-input-container {
     order: 2;
   }
-  #urlbar > .urlbarView {
+  .urlbar > .urlbarView {
     order: 1;
     border-bottom: 1px solid #666;
   }
-  #urlbar-results {
+  .urlbar-results {
     display: flex;
     flex-direction: column-reverse;
   }

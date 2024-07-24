@@ -1,4 +1,10 @@
-{ config, lib, pkgs, ... }: {
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+{
   programs.firefox = {
     enable = true;
     profiles.default = {
@@ -18,39 +24,40 @@
         force = true;
         engines = {
           "Nix Packages" = {
-            urls = [{
-              template = "https://search.nixos.org/packages";
-              params = [
-                {
-                  name = "type";
-                  value = "packages";
-                }
-                {
-                  name = "query";
-                  value = "{searchTerms}";
-                }
-              ];
-            }];
+            urls = [
+              {
+                template = "https://search.nixos.org/packages";
+                params = [
+                  {
+                    name = "type";
+                    value = "packages";
+                  }
+                  {
+                    name = "query";
+                    value = "{searchTerms}";
+                  }
+                ];
+              }
+            ];
 
-            icon =
-              "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
+            icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
             definedAliases = [ "@np" ];
           };
 
           "NixOS Wiki" = {
-            urls = [{
-              template = "https://nixos.wiki/index.php?search={searchTerms}";
-            }];
+            urls = [ { template = "https://nixos.wiki/index.php?search={searchTerms}"; } ];
             iconUpdateURL = "https://nixos.wiki/favicon.png";
             updateInterval = 24 * 60 * 60 * 1000; # every day
             definedAliases = [ "@nw" ];
           };
 
           "Bing".metaData.hidden = true;
-          "Google".metaData.alias =
-            "@g"; # builtin engines only support specifying one additional alias
+          "Google".metaData.alias = "@g"; # builtin engines only support specifying one additional alias
         };
-        order = [ "DuckDuckGo" "Google" ];
+        order = [
+          "DuckDuckGo"
+          "Google"
+        ];
       };
       settings = {
         "app.normandy.api_url" = "";
@@ -67,8 +74,7 @@
         "browser.disableResetPrompt" = true;
         "browser.formfill.enable" = false;
         "browser.newtab.preload" = false;
-        "browser.newtabpage.activity-stream.section.highlights.includePocket" =
-          false;
+        "browser.newtabpage.activity-stream.section.highlights.includePocket" = false;
         "browser.newtabpage.enabled" = false;
         "browser.newtabpage.enhanced" = false;
         "browser.newtabpage.introShown" = true;
@@ -147,8 +153,7 @@
         "privacy.trackingprotection.pbmode.enabled" = true;
         "privacy.usercontext.about_newtab_segregation.enabled" = true;
         "security.ssl.disable_session_identifiers" = true;
-        "services.sync.prefs.sync.browser.newtabpage.activity-stream.showSponsoredTopSite" =
-          false;
+        "services.sync.prefs.sync.browser.newtabpage.activity-stream.showSponsoredTopSite" = false;
         "signon.autofillForms" = false;
         "toolkit.telemetry.archive.enabled" = false;
         "toolkit.telemetry.bhrPing.enabled" = false;
@@ -175,4 +180,3 @@
 
   };
 }
-

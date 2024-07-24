@@ -48,6 +48,7 @@ return {
   },
   {
     "echasnovski/mini.bracketed",
+    enable= false,
     config = function()
       require("mini.bracketed").setup({})
     end,
@@ -59,14 +60,23 @@ return {
     opts = function()
       local ai = require("mini.ai")
       return {
-        n_lines = 300,
+        n_lines = 500,
         custom_textobjects = {
-          F = ai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }),
+          o = ai.gen_spec.treesitter({ -- code block
+            a = { "@block.outer", "@conditional.outer", "@loop.outer" },
+            i = { "@block.inner", "@conditional.inner", "@loop.inner" },
+          }),
+          f = ai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }), -- function
+          c = ai.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }), -- class
+          t = { "<([%p%w]-)%f[^<%w][^<>]->.-</%1>", "^<.->().*()</[^/]->$" }, -- tags
+          d = { "%f[%d]%d+" }, -- digits
+          e = { -- Word with case
+            { "%u[%l%d]+%f[^%l%d]", "%f[%S][%l%d]+%f[^%l%d]", "%f[%P][%l%d]+%f[^%l%d]", "^[%l%d]+%f[^%l%d]" },
+            "^().*()$",
+          },
+          u = ai.gen_spec.function_call(), -- u for "Usage"
+          U = ai.gen_spec.function_call({ name_pattern = "[%w_]" }), -- without dot in function name
         },
-        -- Disable error feedback.
-        silent = true,
-        -- Don't use the previous or next text object.
-        search_method = "cover",
         mappings = {
           -- Disable next/last variants.
           around_next = "",
@@ -94,7 +104,6 @@ return {
   },
   {
     "echasnovski/mini.files",
-    lazy = false,
     keys = {
       {
         "<leader>e",
@@ -190,6 +199,8 @@ return {
         },
         clues = {
           -- Leader/movement groups.
+          { mode = "n", keys = "<leader>a", desc = "+ai" },
+          { mode = "v", keys = "<leader>a", desc = "+ai" },
           { mode = "n", keys = "<leader>b", desc = "+buffers" },
           { mode = "n", keys = "<leader>c", desc = "+code" },
           { mode = "x", keys = "<leader>c", desc = "+code" },
@@ -199,8 +210,9 @@ return {
           { mode = "n", keys = "<leader>g", desc = "+git" },
           { mode = "n", keys = "<leader>h", desc = "+hunk" },
           { mode = "n", keys = "<leader>o", desc = "+overseer" },
-          { mode = "n", keys = "<leader>t", desc = "+tabs" },
-          { mode = "n", keys = "<leader>T", desc = "+tests" },
+          { mode = "n", keys = "<leader>T", desc = "+tabs" },
+          { mode = "n", keys = "<leader>t", desc = "+tests" },
+          { mode = "n", keys = "<leader>u", desc = "+ui" },
           { mode = "n", keys = "<leader>x", desc = "+loclist/quickfix" },
           miniclue.gen_clues.builtin_completion(),
           miniclue.gen_clues.g(),
@@ -210,7 +222,7 @@ return {
           miniclue.gen_clues.z(),
         },
         window = {
-          delay = 500,
+          delay = 400,
           config = function(bufnr)
             local max_width = 0
             for _, line in ipairs(vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)) do

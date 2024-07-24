@@ -1,5 +1,4 @@
 { pkgs, config, nixpkgs, username, ... }: {
-  environment.systemPackages = [ pkgs.sketchybar ];
   # environment.profiles = ["liam.jarvis" "test"];
   services.nix-daemon.enable = true;
   homebrew.enable = true;
@@ -7,6 +6,7 @@
   homebrew.brews = [
     "llvm"
     "clamav"
+    "pyenv"
   ];
   nix.settings.allowed-users = [ "root" "liam.jarvis" ];
   nix.settings.trusted-users = [ "root" "liam.jarvis" ];

@@ -1,13 +1,17 @@
-{ pkgs, lib, fetchzip, ... }:
+{
+  pkgs,
+  lib,
+  fetchzip,
+  ...
+}:
 let
-  yabai_pkg = pkgs.yabai.overrideAttrs
-    (old: {
-      version = "7.0.2";
-      src = pkgs.fetchzip {
-        url = "https://github.com/koekeishiya/yabai/releases/download/v7.0.2/yabai-v7.0.2.tar.gz";
-        hash = "sha256-FeNiJJM5vdzFT9s7N9cTjLYxKEfzZnKE9br13lkQhJo=";
-      };
-    });
+  yabai_pkg = pkgs.yabai.overrideAttrs (old: {
+    version = "7.0.2";
+    src = pkgs.fetchzip {
+      url = "https://github.com/koekeishiya/yabai/releases/download/v7.0.2/yabai-v7.0.2.tar.gz";
+      hash = "sha256-FeNiJJM5vdzFT9s7N9cTjLYxKEfzZnKE9br13lkQhJo=";
+    };
+  });
 in
 {
   services.yabai = {
@@ -41,7 +45,7 @@ in
       left_padding = 10;
       right_padding = 10;
       window_gap = 10;
-      external_bar = "all:50:0";
+      external_bar = "all:0:0";
     };
 
     extraConfig = ''
@@ -49,11 +53,6 @@ in
       yabai -m rule --add app='System Preferences' manage=off
       yabai -m rule --add app="^System Settings$" manage=off
       yabai -m rule --add app="^Archive Utility$" manage=off
-
-      # signals
-      yabai -m signal --add event=window_focused action="sketchybar --trigger window_focus"
-      yabai -m signal --add event=window_created action="sketchybar --trigger windows_on_spaces"
-      yabai -m signal --add event=window_destroyed action="sketchybar --trigger windows_on_spaces"
     '';
   };
 }

@@ -15,9 +15,7 @@ local function on_attach(client, bufnr)
   local function keymap(lhs, rhs, opts, mode)
     opts = type(opts) == "string" and { desc = opts }
       or vim.tbl_extend("error", opts --[[@as table]], { buffer = bufnr })
-    mode = mode or "n"
-    mode = mode or "n"
-    vim.keymap.set(mode, lhs, rhs, opts)
+    vim.keymap.set(mode or "n", lhs, rhs, opts)
   end
 
   --- @param keys string
@@ -33,7 +31,15 @@ local function on_attach(client, bufnr)
     client.server_capabilities.signatureHelpProvider.triggerCharacters = {}
   end
 
-  if client.supports_method(methods.textDocument_completion) then
+  local supports_signatureHelp = client.supports_method(methods.textDocument_signatureHelp)
+  local supports_completion = client.supports_method(methods.textDocument_completion)
+  local supports_implementation = client.supports_method(methods.textDocument_implementation)
+  local supports_codeAction = client.supports_method(methods.textDocument_codeAction)
+  local supports_definition = client.supports_method(methods.textDocument_definition)
+  local supports_documentHighlight = client.supports_method(methods.textDocument_documentHighlight)
+  local supports_inlayHint = client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint)
+
+  if supports_completion then
     local lsp_compl = require("lsp_compl")
     if vim.lsp.completion then
       vim.lsp.completion.enable(true, client.id, bufnr, { autotrigger = true })
@@ -53,11 +59,7 @@ local function on_attach(client, bufnr)
       if pumvisible() then
         feedkeys("<C-n>")
       else
-        if vim.lsp.completion then
-          vim.lsp.completion.trigger()
-        else
-          lsp_compl.trigger_completion()
-        end
+        vim.lsp.completion.trigger()
       end
     end, "Trigger/select next completion", "i")
 
@@ -90,36 +92,16 @@ local function on_attach(client, bufnr)
     fzf.lsp_references({ jump_to_single_result = true })
   end, "Go to references")
 
-  keymap("<leader>gy", "<cmd>FzfLua lsp_typedefs<cr>", "goto type definition [LSP]")
-  if client.supports_method(methods.textDocument_implementation) then
+  keymap("gy", "<cmd>FzfLua lsp_typedefs<cr>", "goto type definition [LSP]")
+
+  if supports_implementation then
     local op = function()
       fzf.lsp_implementations({ jump_to_single_result = true })
     end
     keymap("<leader>gi", op, "Go to implementation")
-    keymap("<leader>ni", op, "goto implementation [LSP]")
   end
 
-  keymap("<leader>fs", fzf.lsp_document_symbols, "Documents symbol")
-  keymap("<leader>fS", function()
-    fzf.lsp_live_workspace_symbols({ no_header_i = true })
-  end, "Workspace symbols")
-
-  keymap("<leader>cd", vim.diagnostic.open_float, "line diagnostics")
-
-  keymap("[d", function()
-    vim.diagnostic.jump({ count = -1 })
-  end, "Previous diagnostic")
-  keymap("]d", function()
-    vim.diagnostic.jump({ count = 1 })
-  end, "Next diagnostic")
-  keymap("[e", function()
-    vim.diagnostic.jump({ count = -1, severity = vim.diagnostic.severity.ERROR })
-  end, "Previous error")
-  keymap("]e", function()
-    vim.diagnostic.jump({ count = 1, severity = vim.diagnostic.severity.ERROR })
-  end, "Next error")
-
-  if client.supports_method(methods.textDocument_codeAction) then
+  if supports_codeAction then
     keymap("gra", function()
       fzf.lsp_code_actions({
         winopts = {
@@ -133,14 +115,14 @@ local function on_attach(client, bufnr)
     end, "lsp: code actions")
   end
 
-  if client.supports_method(methods.textDocument_definition) then
+  if supports_definition then
     keymap("gd", function()
       fzf.lsp_definitions({ jump_to_single_result = true })
     end, "Go to definition")
     keymap("gD", fzf.lsp_definitions, "Peek definition")
   end
 
-  if client.supports_method(methods.textDocument_signatureHelp) then
+  if supports_signatureHelp then
     keymap("<C-k>", function()
       if pumvisible() then
         feedkeys("<C-e>")
@@ -149,7 +131,7 @@ local function on_attach(client, bufnr)
     end, "signature help", "i")
   end
 
-  if client.supports_method(methods.textDocument_documentHighlight) then
+  if supports_documentHighlight then
     local hl_group = vim.api.nvim_create_augroup("jarviliam/cursor_highlights", { clear = false })
     vim.api.nvim_create_autocmd({ "CursorHold", "InsertLeave", "BufEnter" }, {
       group = hl_group,
@@ -165,7 +147,7 @@ local function on_attach(client, bufnr)
     })
   end
 
-  if client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
+  if supports_inlayHint then
     local inlay_hints_group = vim.api.nvim_create_augroup("Toggle_Inlay_Hints", { clear = false })
     vim.defer_fn(function()
       local mode = vim.api.nvim_get_mode().mode
@@ -204,6 +186,17 @@ local function on_attach(client, bufnr)
       vim.lsp.buf.format({ name = "efm" })
     end,
   })
+
+  -- workaround for gopls not supporting semanticTokensProvider
+  -- https://github.com/golang/go/issues/54531#issuecomment-1464982242
+  if client.name == "gopls" and not client.server_capabilities.semanticTokensProvider then
+    local semantic = client.config.capabilities.textDocument.semanticTokens
+    client.server_capabilities.semanticTokensProvider = {
+      full = true,
+      legend = { tokenModifiers = semantic.tokenModifiers, tokenTypes = semantic.tokenTypes },
+      range = true,
+    }
+  end
 end
 
 vim.diagnostic.config({

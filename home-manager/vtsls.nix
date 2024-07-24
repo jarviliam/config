@@ -6,13 +6,13 @@
 
 buildNpmPackage rec {
   pname = "vtsls";
-  version = "0.2.3";
+  version = "0.2.5";
 
   src = fetchFromGitHub {
     owner = "yioneko";
     repo = "vtsls";
     rev = "server-v${version}";
-    hash = "sha256-bc8KDsvAxvHdUhO2wn1KBc4jB/LKz+fozfrPGmD15wQ=";
+    hash = "sha256-rHiH42WpKR1nZjsW+Q4pit1aLbNIKxpYSy7sjPS0WGc=";
     fetchSubmodules = true;
   };
 

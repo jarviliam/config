@@ -1,40 +1,6 @@
 local go_config = {
   {
     type = "go",
-    name = "Scanner-Worker",
-    mode = "remote",
-    substitutePath = {
-      {
-        from = "${workspaceFolder}",
-        to = "/debug/",
-      },
-      {
-        from = "/Users/liam.jarvis/go/pkg/",
-        to = "/go/pkg/",
-      },
-    },
-    request = "attach",
-    port = 40001,
-  },
-  {
-    type = "go",
-    name = "Upload-Worker Attach",
-    mode = "remote",
-    request = "attach",
-    substitutePath = {
-      {
-        from = "${workspaceFolder}",
-        to = "/debug/",
-      },
-      {
-        from = "/Users/liam.jarvis/go/pkg/",
-        to = "/go/pkg/",
-      },
-    },
-    port = 40000,
-  },
-  {
-    type = "go",
     name = "Debug octopus server folder",
     request = "launch",
     program = "${workspaceFolder}/service/octopus-api/cmd/octopus-api",
@@ -44,115 +10,132 @@ local go_config = {
   },
 }
 
-local lua_config = {
-  {
-    type = "nlua",
-    request = "attach",
-    name = "Attach to running Neovim instance",
-  },
-}
-
 return {
-  "mfussenegger/nvim-dap",
-  dependencies = {
-    {
+  {
+    "mfussenegger/nvim-dap",
+    dependencies = {
       "rcarriga/nvim-dap-ui",
-      dependencies = {
-        "nvim-neotest/nvim-nio",
-      },
+      { "theHamsta/nvim-dap-virtual-text", opts = { virt_text_pos = "eol" } },
+      "leoluz/nvim-dap-go",
+      {
+        "mfussenegger/nvim-dap-python",
+      -- stylua: ignore
       keys = {
-        {
-          "<leader>de",
-          function()
-            require("dapui").eval()
-            require("dapui").eval()
-          end,
-          desc = "Evaluate expression",
-        },
+        { "<leader>dPt", function() require('dap-python').test_method() end, desc = "Debug Method", ft = "python" },
+        { "<leader>dPc", function() require('dap-python').test_class() end, desc = "Debug Class", ft = "python" },
       },
-      config = function(_, opts)
-        require("dapui").setup(opts)
-      end,
-    },
-    { "theHamsta/nvim-dap-virtual-text", opts = { virt_text_pos = "eol" } },
-    "leoluz/nvim-dap-go",
-    {
-      "mfussenegger/nvim-dap-python",
-      config = function()
-        local get_python_path = function()
-          local venv_path = os.getenv("VIRTUAL_ENV") or os.getenv("CONDA_PREFIX")
-          if venv_path then
-            return venv_path .. "/bin/python"
+        config = function()
+          local get_python_path = function()
+            local venv_path = os.getenv("VIRTUAL_ENV") or os.getenv("CONDA_PREFIX")
+            if venv_path then
+              return venv_path .. "/bin/python"
+            end
+            return nil
           end
-          return nil
+          local dap = require("dap-python")
+          dap.setup(get_python_path())
+          dap.test_runner = "pytest"
+        end,
+      },
+      {
+        "jbyuki/one-small-step-for-vimkind",
+      -- stylua: ignore
+      config = function()
+        local dap = require("dap")
+        dap.adapters.nlua = function(callback, conf)
+          local adapter = {
+            type = "server",
+            host = conf.host or "127.0.0.1",
+            port = conf.port or 8086,
+          }
+          if conf.start_neovim then
+            local dap_run = dap.run
+            dap.run = function(c)
+              adapter.port = c.port
+              adapter.host = c.host
+            end
+            require("osv").run_this()
+            dap.run = dap_run
+          end
+          callback(adapter)
         end
-        local dap = require("dap-python")
-        dap.setup(get_python_path())
-        dap.test_runner = "pytest"
+        dap.configurations.lua = {
+          {
+            type = "nlua",
+            request = "attach",
+            name = "Run this file",
+            start_neovim = {},
+          },
+          {
+            type = "nlua",
+            request = "attach",
+            name = "Attach to running Neovim instance (port = 8086)",
+            port = 8086,
+          },
+        }
       end,
-    },
-    {
-      "jbyuki/one-small-step-for-vimkind",
-      keys = {
-        {
-          "<leader>dl",
-          function()
-            require("osv").launch({ port = 8086 })
-          end,
-          desc = "Launch Lua adapter",
-        },
       },
     },
-  },
-  lazy = true,
+    lazy = true,
+  -- stylua: ignore
   keys = {
-    { "<Space>db", "<cmd>DapToggleBreakpoint<cr>", desc = "Toggle Breakpoint" },
-    { "<Space>dB", "<cmd>FzfLua dap_breakpoints<cr>", desc = "List Breakpoint" },
-    {
-      "<Space>dc",
-      "<cmd>lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>",
-      desc = "Set Breakpoint",
-    },
+    { "<leader>d", "", desc = "+debug", mode = {"n", "v"} },
+    { "<leader>dB", function() require("dap").set_breakpoint(vim.fn.input('Breakpoint condition: ')) end, desc = "Breakpoint Condition" },
+    { "<leader>db", function() require("dap").toggle_breakpoint() end, desc = "Toggle Breakpoint" },
+    { "<leader>dc", function() require("dap").continue() end, desc = "Continue" },
     { "<F5>", "<cmd>DapContinue<cr>", desc = "Continue" },
-    { "<Space>df", "<cmd>lua require 'dapui'.toggle()<CR>", desc = "Toggle" },
+    -- { "<leader>da", function() require("dap").continue({ before = get_args }) end, desc = "Run with Args" },
+    { "<leader>dC", function() require("dap").run_to_cursor() end, desc = "Run to Cursor" },
+    { "<leader>dg", function() require("dap").goto_() end, desc = "Go to Line (No Execute)" },
+    { "<leader>di", function() require("dap").step_into() end, desc = "Step Into" },
+    { "<leader>dj", function() require("dap").down() end, desc = "Down" },
+    { "<leader>dk", function() require("dap").up() end, desc = "Up" },
+    { "<leader>dl", function() require("dap").run_last() end, desc = "Run Last" },
+    { "<leader>do", function() require("dap").step_out() end, desc = "Step Out" },
+    { "<leader>dO", function() require("dap").step_over() end, desc = "Step Over" },
+    { "<leader>dp", function() require("dap").pause() end, desc = "Pause" },
+    { "<leader>dr", function() require("dap").repl.toggle() end, desc = "Toggle REPL" },
+    { "<leader>ds", function() require("dap").session() end, desc = "Session" },
+    { "<leader>dt", function() require("dap").terminate() end, desc = "Terminate" },
+    { "<leader>dw", function() require("dap.ui.widgets").hover() end, desc = "Widgets" },
+    { "<leader>td", function() require("neotest").run.run({strategy = "dap"}) end, desc = "Debug Nearest" },
   },
-  config = function()
-    local dap = require("dap")
-    require("dap-go").setup({
-      dap_configurations = go_config,
-    })
-    dap.listeners.after.event_stopped["jarviliam"] = function()
-      vim.keymap.set("n", "<leader>dh", "<cmd>lua require 'dap.ui.widgets'.hover()<CR>", { desc = "Hover" })
-      vim.keymap.set("v", "<leader>dh", "<cmd>lua require 'dap.ui.widgets'.visual_hover()<CR>")
-      vim.keymap.set("n", "<leader>dj", dap.step_into, { desc = "dap: Step Into" })
-      vim.keymap.set("n", "<leader>dl", dap.step_over, { desc = "dap: Step Over" })
-      vim.keymap.set("n", "<leader>dk", dap.step_out, { desc = "dap: Step Out" })
-      vim.keymap.set("n", "<leader>dn", dap.run_to_cursor, { desc = "dap: Run To Cursor" })
-    end
+    config = function()
+      vim.api.nvim_set_hl(0, "DapStoppedLine", { default = true, link = "Visual" })
+      require("dap-go").setup({
+        dap_configurations = go_config,
+      })
 
-    require("overseer").patch_dap(true)
-    require("dap.ext.vscode").json_decode = require("overseer.json").decode
-
-    -- Lua configurations.
-    dap.adapters.nlua = function(callback, config)
-      callback({ type = "server", host = config.host or "127.0.0.1", port = config.port or 8086 })
-    end
-    dap.configurations["lua"] = lua_config
-
-    -- C configurations.
-    dap.adapters.codelldb = {
-      type = "server",
-      host = "localhost",
-      port = "${port}",
-      executable = {
-        command = "codelldb",
-        args = { "--port", "${port}" },
+      local vscode = require("dap.ext.vscode")
+      local json = require("plenary.json")
+      vscode.json_decode = function(str)
+        return vim.json.decode(json.json_strip_comments(str))
+      end
+      require("overseer").enable_dap()
+    end,
+  },
+  {
+    "rcarriga/nvim-dap-ui",
+    dependencies = { "nvim-neotest/nvim-nio" },
+      -- stylua: ignore
+      keys = {
+        { "<leader>du", function() require("dapui").toggle({ }) end, desc = "Dap UI" },
+        { "<leader>de", function() require("dapui").eval() end, desc = "Eval", mode = {"n", "v"} },
       },
-    }
-
-    -- Add configurations from launch.json
-    require("dap.ext.vscode").load_launchjs(nil, {
-      ["codelldb"] = { "c" },
-    })
-  end,
+    opts = {},
+    config = function(_, opts)
+      local dap = require("dap")
+      local dapui = require("dapui")
+      dapui.setup(opts)
+      dap.listeners.after.event_initialized["dapui_config"] = function()
+        dapui.open({})
+      end
+      dap.listeners.before.event_terminated["dapui_config"] = function()
+        dapui.close({})
+      end
+      dap.listeners.before.event_exited["dapui_config"] = function()
+        dapui.close({})
+      end
+    end,
+  },
 }

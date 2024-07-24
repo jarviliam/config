@@ -1,20 +1,34 @@
-{ pkgs, lib, nixstaging, ... }:
+{
+  pkgs,
+  lib,
+  nixstaging,
+  ...
+}:
 let
-  py312 = pkgs.python312.overrideAttrs (old: { version = "3.12.3"; });
+  py312 = pkgs.python312.overrideAttrs (old: {
+    version = "3.12.4";
+  });
   # nixpkgs_staging = import <nixpkgs_staging> { };
   mypython312 = pkgs.python312Full.override {
     self = pkgs.python312Full;
-    version = "3.12.3";
+    version = "3.12.4";
     pythonAttr = "python312Full";
     bluezSupport = false;
   };
-in {
-  home.packages = with pkgs;
+  pyenv = pkgs.pyenv.overrideAttrs (old: {
+    version = "2.4.7";
+  });
+in
+{
+  home.packages =
+    with pkgs;
     [
       emacs
-      lua
-      luajitPackages.luarocks-nix
-      awscli2
+      lua51Packages.lua
+      lua51Packages.luarocks
+      lua51Packages.tiktoken_core
+      lua51Packages.busted
+      # awscli2
       coreutils
       github-cli
       wget
@@ -47,7 +61,8 @@ in {
       comma
       manix
       qbittorrent
-    ] ++ [
+    ]
+    ++ [
       docker
       docker-compose
       slack
@@ -58,9 +73,10 @@ in {
       lazydocker
       lazygit
       argocd
-    ] ++ [
+    ]
+    ++ [
       # Python
-      py312
+      python312
       codespell
       pre-commit
       poetry
@@ -80,6 +96,7 @@ in {
       nodePackages.typescript-language-server
 
       stylua
+      sqlc
       # Go
       go_1_21
       gotools
