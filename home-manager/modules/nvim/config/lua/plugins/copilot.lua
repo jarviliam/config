@@ -23,7 +23,7 @@ return {
       local user = vim.env.USER or "User"
       user = user:sub(1, 1):upper() .. user:sub(2)
       return {
-        model = "gpt-4-0125-preview",
+        model = "gpt-4o-2024-05-13",
         auto_insert_mode = true,
         show_help = true,
         question_header = "  " .. user .. " ",

@@ -8,6 +8,9 @@ return {
     "DiffviewRefresh",
     "DiffviewFileHistory",
   },
+  keys = {
+    { "<leader>glf", "<cmd>DiffviewFileHistory %<cr>", desc = "[g]it: file history" },
+  },
   dependencies = { "nvim-lua/plenary.nvim" },
   config = function()
     local actions = require("diffview.actions")

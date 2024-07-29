@@ -13,7 +13,7 @@ return {
       },
       update_debounce = 500,
       signcolumn = true, -- Toggle with `:Gitsigns toggle_signs`
-      numhl = true, -- Toggle with `:Gitsigns toggle_numhl`
+      numhl = true,      -- Toggle with `:Gitsigns toggle_numhl`
       sign_priority = 10,
       count_chars = {
         [1] = "",
@@ -75,12 +75,6 @@ return {
             gs.prev_hunk()
           end
         end, "Prev hunk")
-        map("<leader>gl", function()
-          require("float").float_term("lazygit", {
-            size = { width = 0.85, height = 0.8 },
-            cwd = vim.b.gitsigns_status_dict.root,
-          })
-        end, "Lazygit")
       end,
     },
   },

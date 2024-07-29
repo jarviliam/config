@@ -25,7 +25,7 @@ c.inactive_pane_hsb = {
 }
 c.color_scheme = "Github Dark New"
 c.window_decorations = "RESIZE"
-c.window_background_opacity = 0.9
+c.window_background_opacity = 0.8
 c.macos_window_background_blur = 20
 c.native_macos_fullscreen_mode = false
 c.hide_tab_bar_if_only_one_tab = true

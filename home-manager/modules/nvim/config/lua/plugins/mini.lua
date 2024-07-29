@@ -48,7 +48,7 @@ return {
   },
   {
     "echasnovski/mini.bracketed",
-    enable= false,
+    enable = false,
     config = function()
       require("mini.bracketed").setup({})
     end,
@@ -241,5 +241,10 @@ return {
         },
       }
     end,
+  },
+  {
+    "echasnovski/mini.pairs",
+    event = "BufEnter",
+    config = true,
   },
 }

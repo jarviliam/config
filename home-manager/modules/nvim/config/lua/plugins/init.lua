@@ -7,6 +7,15 @@ return {
     opts = { default = true },
   },
   {
+    "m4xshen/hardtime.nvim",
+    command = "Hardtime",
+    event = "BufEnter",
+    dependencies = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim" },
+    opts = {
+      disabled_filetypes = { "copilot-chat" ,"minifiles"},
+    },
+  },
+  {
     "mbbill/undotree",
     branch = "search",
     cmd = "UndotreeToggle",
@@ -70,6 +79,6 @@ return {
   { "sainnhe/sonokai", lazy = conf.theme ~= "sonokai", dev = true },
   { "sainnhe/edge", lazy = conf.theme ~= "edge" },
   { "sainnhe/everforest", lazy = conf.theme ~= "everforest" },
-  { "sainnhe/gruvbox-material", lazy = false },
+  { "sainnhe/gruvbox-material", lazy = false},
   { "projekt0n/github-nvim-theme" },
 }

@@ -102,6 +102,7 @@ in
       gotools
       gopls
       delve
+      golangci-lint
 
       yaml-language-server # YAML
       nodePackages.typescript-language-server # Typescript/javascript
