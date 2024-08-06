@@ -9,14 +9,27 @@ return {
     "DiffviewFileHistory",
   },
   keys = {
-    { "<leader>glf", "<cmd>DiffviewFileHistory %<cr>", desc = "[g]it: file history" },
+    { "<leader>gdc", ":DiffviewOpen origin/main...HEAD", desc = "Compare commits" },
+    { "<leader>gdq", ":DiffviewClose<CR>", desc = "Close Diffview tab" },
+    { "<leader>gdh", ":DiffviewFileHistory %<CR>", desc = "File history" },
+    { "<leader>gdH", ":DiffviewFileHistory<CR>", desc = "Repo history" },
+    { "<leader>gdm", ":DiffviewOpen<CR>", desc = "Solve merge conflicts" },
+    { "<leader>gdo", ":DiffviewOpen main", desc = "DiffviewOpen" },
+    { "<leader>gdt", ":DiffviewOpen<CR>", desc = "DiffviewOpen this" },
+    { "<leader>gdp", ":DiffviewOpen origin/main...HEAD --imply-local", desc = "Review current PR" },
+    {
+      "<leader>gdP",
+      ":DiffviewFileHistory --range=origin/main...HEAD --right-only --no-merges --reverse",
+      desc = "Review current PR (per commit)",
+    },
   },
   dependencies = { "nvim-lua/plenary.nvim" },
   config = function()
     local actions = require("diffview.actions")
+
     require("diffview").setup({
       diff_binaries = false, -- Show diffs for binaries
-      enhanced_diff_hl = false, -- See ':h diffview-config-enhanced_diff_hl'
+      enhanced_diff_hl = true, -- See ':h diffview-config-enhanced_diff_hl'
       use_icons = true, -- Requires nvim-web-devicons
       icons = { -- Only applies when use_icons is true.
         folder_closed = "",

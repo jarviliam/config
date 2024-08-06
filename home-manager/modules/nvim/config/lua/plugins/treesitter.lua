@@ -1,6 +1,7 @@
 return {
   {
     "nvim-treesitter/nvim-treesitter",
+    event = "VeryLazy",
     dependencies = {
       {
         "nvim-treesitter/nvim-treesitter-context",
@@ -53,7 +54,10 @@ return {
         "json5",
         "norg",
         "comment",
-        "go","gomod","gowork","gosum",
+        "go",
+        "gomod",
+        "gowork",
+        "gosum",
         "gitcommit",
         "git_config",
         "gitignore",

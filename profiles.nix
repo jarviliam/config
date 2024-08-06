@@ -1,12 +1,19 @@
-{ self, nixpkgs, lib }: rec {
+{ self
+, nixpkgs
+, lib
+,
+}:
+rec {
   liam =
-    let username = "liam.jarvis";
-    in {
+    let
+      username = "liam.jarvis";
+    in
+    {
       inherit username;
-
-      commonSpecialArgs = { inherit username nixpkgs; };
+      commonSpecialArgs = {
+        inherit username nixpkgs;
+      };
       modules = [ ./modules/nix.nix ];
-
       home-manager = {
         enable = true;
         inherit username;
@@ -21,17 +28,26 @@
           ./home-manager/modules/wezterm.nix
           ./home-manager/modules/nvim
         ];
-
-        extraConfig = { home.stateVersion = "22.11"; };
+        extraConfig = {
+          home.stateVersion = "22.11";
+        };
       };
-      extraConfig = { nixpkgs.overlays = [ self.overlays.default ]; };
+      extraConfig = {
+        nixpkgs.overlays = [ self.overlays.default ];
+      };
     };
+
   liam-linux =
-    let username = "liam";
-    in liam // {
+    let
+      username = "liam";
+    in
+    liam
+    // {
       inherit username;
-      modules = [ ./modules/linux/network.nix ./modules/linux/window.nix ]
-        ++ liam.modules;
+      modules = [
+        ./modules/linux/network.nix
+        ./modules/linux/window.nix
+      ] ++ liam.modules;
       home-manager = liam.home-manager // {
         inherit username;
         enable = true;
@@ -46,15 +62,17 @@
         flakePath = "/home/liam.jarvis/nix_dot";
       };
       extraConfig = liam.extraConfig // {
-        system.stateVersion = "22.11"; # Did you read the comment?
+        system.stateVersion = "22.11";
       };
     };
 
   liam-work = liam // {
     username = "liam.jarvis";
-    modules = [ ./modules/darwin ./modules/darwin/yabai ./modules/darwin/skhd ]
-      ++ liam.modules;
-
+    modules = [
+      ./modules/darwin
+      ./modules/darwin/yabai
+      ./modules/darwin/skhd
+    ] ++ liam.modules;
     home-manager = liam.home-manager // {
       modules = liam.home-manager.modules;
     };

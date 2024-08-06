@@ -1,4 +1,6 @@
 local diagnostic_icons = require("icons").diagnostics
+local workspace_diagnostics_enabled = false
+vim.g._workspace_diagnostics_enabled = workspace_diagnostics_enabled
 
 return {
   {
@@ -6,7 +8,7 @@ return {
     ft = "lua", -- only load on lua files
     opts = {
       library = {
-      { path = "wezterm-types", mods = { "wezterm" } },
+        { path = "wezterm-types", mods = { "wezterm" } },
         { path = "luassert-types/library", words = { "assert" } },
         { path = "busted-types/library", words = { "describe" } },
         { path = "luvit-meta/library", words = { "vim%.uv", "vim%.loop" } },
@@ -26,6 +28,11 @@ return {
     dependencies = {
       "mfussenegger/nvim-lsp-compl",
       "b0o/SchemaStore.nvim",
+      {
+        "artemave/workspace-diagnostics.nvim",
+        enabled = workspace_diagnostics_enabled,
+        dev = true,
+      },
     },
     config = function()
       local lspconfig = require("lspconfig")
@@ -71,5 +78,10 @@ return {
         lspconfig[server].setup(opts)
       end
     end,
+  },
+  {
+    "maxandron/goplements.nvim",
+    ft = "go",
+    opts = {},
   },
 }

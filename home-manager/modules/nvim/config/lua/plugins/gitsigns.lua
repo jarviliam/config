@@ -90,7 +90,7 @@ return {
     lazy = false,
     keys = {
       {
-        "<leader>gd",
+        "<leader>gD",
         function()
           require("mini.git").show_at_cursor({})
         end,

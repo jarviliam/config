@@ -1,4 +1,5 @@
-local efm = require("lint")
+local efm = require("plugins.lsp.lint")
+
 return {
   efm = efm,
   bashls = {},
@@ -28,6 +29,7 @@ return {
       },
     },
   },
+  golangci_lint_ls = {},
   gopls = {
     settings = {
       gopls = {

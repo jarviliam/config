@@ -197,6 +197,11 @@ local function on_attach(client, bufnr)
       range = true,
     }
   end
+  if vim.g._workspace_diagnostics_enabled then
+    if client.name == "gopls" then
+      require("workspace-diagnostics").populate_workspace_diagnostics(client, bufnr)
+    end
+  end
 end
 
 vim.diagnostic.config({
