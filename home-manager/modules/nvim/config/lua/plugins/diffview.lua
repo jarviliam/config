@@ -1,32 +1,36 @@
+local set = vim.keymap.set
+local function nset(key, cmd, desc)
+  set("n", "<leader>gd" .. key, cmd, { desc = desc })
+end
+
+local function get_git_trunk_branch()
+  local result = vim.fn.system("git remote show origin | grep 'HEAD branch' | awk '{print $NF}'")
+  return result:gsub("%s+", "")
+end
+
+local function apply_keymaps(remote)
+  remote = vim.g._remote_origin or "main"
+  nset("c", ":DiffviewOpen origin/" .. remote .. "...HEAD<CR>", "Compare commits")
+  nset("q", ":DiffviewClose<CR>", "Close Diffview tab")
+  nset("h", ":DiffviewFileHistory %<CR>", "File history")
+  nset("H", ":DiffviewFileHistory<CR>", "Repo history")
+  nset("m", ":DiffviewOpen<CR>", "Solve merge conflicts")
+  nset("o", ":DiffviewOpen " .. remote .. "<CR>", "DiffviewOpen")
+  nset("t", ":DiffviewOpen<CR>", "DiffviewOpen this")
+  nset("p", ":DiffviewOpen origin/" .. remote .. "...HEAD --imply-local<CR>", "Review current PR")
+  nset(
+    "P",
+    ":DiffviewFileHistory --range=origin/" .. remote .. "...HEAD --right-only --no-merges --reverse<CR>",
+    "Review current PR (per commit)"
+  )
+end
+
 return {
   "sindrets/diffview.nvim",
-  cmd = {
-    "DiffviewOpen",
-    "DiffviewClose",
-    "DiffviewToggleFiles",
-    "DiffviewFocusFiles",
-    "DiffviewRefresh",
-    "DiffviewFileHistory",
-  },
-  keys = {
-    { "<leader>gdc", ":DiffviewOpen origin/main...HEAD", desc = "Compare commits" },
-    { "<leader>gdq", ":DiffviewClose<CR>", desc = "Close Diffview tab" },
-    { "<leader>gdh", ":DiffviewFileHistory %<CR>", desc = "File history" },
-    { "<leader>gdH", ":DiffviewFileHistory<CR>", desc = "Repo history" },
-    { "<leader>gdm", ":DiffviewOpen<CR>", desc = "Solve merge conflicts" },
-    { "<leader>gdo", ":DiffviewOpen main", desc = "DiffviewOpen" },
-    { "<leader>gdt", ":DiffviewOpen<CR>", desc = "DiffviewOpen this" },
-    { "<leader>gdp", ":DiffviewOpen origin/main...HEAD --imply-local", desc = "Review current PR" },
-    {
-      "<leader>gdP",
-      ":DiffviewFileHistory --range=origin/main...HEAD --right-only --no-merges --reverse",
-      desc = "Review current PR (per commit)",
-    },
-  },
+  lazy = false, -- Diffview has lazyloading
   dependencies = { "nvim-lua/plenary.nvim" },
   config = function()
     local actions = require("diffview.actions")
-
     require("diffview").setup({
       diff_binaries = false, -- Show diffs for binaries
       enhanced_diff_hl = true, -- See ':h diffview-config-enhanced_diff_hl'
@@ -153,5 +157,12 @@ return {
         },
       },
     })
+    if not vim.g._remote_origin then
+      local remote = get_git_trunk_branch()
+      if remote then
+        vim.g._remote_origin = remote
+      end
+    end
+    apply_keymaps()
   end,
 }

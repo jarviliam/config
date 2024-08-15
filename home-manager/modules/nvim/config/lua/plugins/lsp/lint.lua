@@ -27,7 +27,6 @@ return {
   filetypes = vim.tbl_keys(languages),
   init_options = { documentFormatting = true, documentRangeFormatting = true },
   settings = {
-    logFile = "efmlog.txt",
     logLevel = 1,
     version = 2,
     rootMarkers = { ".git/" },

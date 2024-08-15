@@ -60,6 +60,7 @@
   "overseer.nvim": { "branch": "master", "commit": "cbcdcbae3704c21d3ff96a1927d952b8a966b08a" },
   "plenary.nvim": { "branch": "master", "commit": "a3e3bc82a3f95c5ed0d7201546d5d2c19b20d683" },
   "smart-splits.nvim": { "branch": "master", "commit": "209c136a5bee236094245196986ce94920dd3fdf" },
+  "trouble.nvim": { "branch": "main", "commit": "6efc446226679fda0547c0fd6a7892fd5f5b15d8" },
   "undotree": { "branch": "search", "commit": "dc1fc3bb09ad9544c9ce23378f028c056caa2597" },
   "wezterm-types": { "branch": "main", "commit": "1518752906ba3fac0060d9efab6e4d3ec15d4b5a" },
   "workspace-diagnostics.nvim": { "branch": "main", "commit": "29ed948a84076e9bed63ce298b5cc5264b72b341" },

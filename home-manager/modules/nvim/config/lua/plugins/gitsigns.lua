@@ -87,16 +87,5 @@ return {
     "echasnovski/mini-git",
     main = "mini.git",
     config = true,
-    lazy = false,
-    keys = {
-      {
-        "<leader>gD",
-        function()
-          require("mini.git").show_at_cursor({})
-        end,
-        desc = "Show info at cursor",
-        mode = { "n", "x" },
-      },
-    },
   },
 }

@@ -1,27 +1,31 @@
+local au = vim.api.nvim_create_autocmd
+local group = vim.api.nvim_create_augroup("JarviliamGroup", {})
+
 local function augroup(name)
   return vim.api.nvim_create_augroup("my_" .. name, { clear = true })
 end
-vim.api.nvim_create_autocmd("TextYankPost", {
-  group = vim.api.nvim_create_augroup("YankHighlight", { clear = true }),
-  desc = "Highlight on Yank",
+
+au("TextYankPost", {
+  group = group,
   callback = function()
-    vim.highlight.on_yank({ higroup = "Visual", priority = 250 })
+    vim.highlight.on_yank({ higroup = "Visual", timeout = 450 })
   end,
 })
 
-local cursorLineGroup = vim.api.nvim_create_augroup("CursorLineControl", { clear = true })
-vim.api.nvim_create_autocmd("WinLeave", {
-  group = cursorLineGroup,
+au("WinEnter", {
+  group = group,
   callback = function()
-    vim.opt_local.cursorline = false
+    vim.wo.cursorline = true
   end,
 })
-vim.api.nvim_create_autocmd("WinEnter", {
-  group = cursorLineGroup,
+
+au("WinLeave", {
+  group = group,
   callback = function()
-    vim.opt_local.cursorline = true
+    vim.wo.cursorline = false
   end,
 })
+
 ---Clears cmdline after a few seconds
 ---@return function
 local function clear_cmd()
@@ -38,14 +42,9 @@ local function clear_cmd()
   end
 end
 
-local clearCommands = vim.api.nvim_create_augroup("ClearCommandMessages", { clear = true })
-vim.api.nvim_create_autocmd({ "CmdlineLeave", "CmdlineChanged" }, {
-  group = clearCommands,
-  pattern = ":",
-  callback = clear_cmd(),
-})
+au({ "CmdlineLeave", "CmdlineChanged" }, { group = group, pattern = ":", callback = clear_cmd() })
 
-vim.api.nvim_create_autocmd("FileType", {
+au("FileType", {
   group = vim.api.nvim_create_augroup("QuickClose", { clear = true }),
   desc = "Close with q",
   pattern = {
@@ -118,14 +117,5 @@ vim.api.nvim_create_autocmd({ "VimResized" }, {
     local current_tab = vim.fn.tabpagenr()
     vim.cmd("tabdo wincmd =")
     vim.cmd("tabnext " .. current_tab)
-  end,
-})
--- Check if we need to reload the file when it changed
-vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
-  group = augroup("checktime"),
-  callback = function()
-    if vim.o.buftype ~= "nofile" then
-      vim.cmd("checktime")
-    end
   end,
 })

@@ -98,7 +98,7 @@ return {
   },
   { "sainnhe/sonokai", lazy = conf.theme ~= "sonokai", dev = true },
   { "sainnhe/edge", lazy = conf.theme ~= "edge" },
-  { "sainnhe/everforest", lazy = conf.theme ~= "everforest" },
+  { "sainnhe/everforest" },
   { "sainnhe/gruvbox-material", lazy = false },
   { "projekt0n/github-nvim-theme" },
 }

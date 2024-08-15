@@ -34,7 +34,7 @@ vim.o.pumheight = 10 -- Make popup menu smaller
 vim.o.ruler = false -- Don't show cursor position
 vim.o.shortmess = "aoOWFcSC" -- Disable certain messages from |ins-completion-menu|
 vim.o.showmode = false -- Don't show mode in command line
-vim.o.showtabline = 1 
+vim.o.showtabline = 1
 vim.o.signcolumn = "yes" -- Always show signcolumn or it would frequently shift
 vim.o.splitkeep = "screen"
 vim.o.splitbelow = true -- Horizontal splits will be below
@@ -44,19 +44,19 @@ vim.o.winblend = 10 -- Make floating windows slightly transparent
 vim.o.wrap = false -- Display long lines as just one line
 
 vim.o.fillchars = table.concat({
-   "horizup:┻",
-   "horiz:━",
-   "horizdown:┳",
-   "vert:┃",
-   "vertright:┣",
-   "vertleft:┫",
-   "verthoriz:╋",
-   "diff:╱",
-   "foldclose:".. arrows.right,
-   "foldopen:" .. arrows.down,
-   "foldsep: ",
+  "horizup:┻",
+  "horiz:━",
+  "horizdown:┳",
+  "vert:┃",
+  "vertright:┣",
+  "vertleft:┫",
+  "verthoriz:╋",
+  "diff:╱",
+  "foldclose:" .. arrows.right,
+  "foldopen:" .. arrows.down,
+  "foldsep: ",
   "fold:╌",
-},",")
+}, ",")
 
 vim.o.listchars = table.concat({
   "tab:⇥ ",
@@ -66,7 +66,7 @@ vim.o.listchars = table.concat({
   "nbsp:⍽",
   "extends:◣",
   "precedes:◢",
-},",")
+}, ",")
 
 -- Editing ====================================================================
 vim.o.autoindent = true -- Use auto indent
@@ -81,9 +81,9 @@ vim.o.smartindent = true -- Make indenting smart
 vim.o.tabstop = 2 -- Insert 2 spaces for a tab
 vim.o.virtualedit = "block" -- Allow going past the end of line in visual block mode
 
-vim.opt.complete:append('kspell') -- Add spellcheck options for autocomplete
-vim.opt.complete:remove('t')      -- Don't use tags for completion
-vim.opt.completeopt = 'menuone,noinsert,noselect,fuzzy'
+vim.opt.complete:append("kspell") -- Add spellcheck options for autocomplete
+vim.opt.complete:remove("t") -- Don't use tags for completion
+vim.opt.completeopt = "menu,menuone,noinsert,fuzzy,popup"
 
 -- Language {{{
 o.spelllang = "en"

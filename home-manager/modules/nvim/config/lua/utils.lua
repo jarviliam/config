@@ -1,8 +1,3 @@
-function _G.dump(...)
-  local object = vim.tbl_map(vim.inspect, { ... })
-  vim.pretty_print(unpack(object))
-end
-
 local M = {}
 
 function M.info(msg)
