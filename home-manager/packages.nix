@@ -141,7 +141,6 @@ in
       clippy
       rust-analyzer
 
-      vimPlugins.nvim-treesitter.withAllGrammars
       redis
       pgcli
 

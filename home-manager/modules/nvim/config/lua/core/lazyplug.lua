@@ -10,6 +10,7 @@ if not vim.uv.fs_stat(lazypath) then
   })
 end
 vim.opt.rtp:prepend(lazypath)
+
 local ok, lazy = pcall(require, "lazy")
 if not ok then
   return
@@ -29,4 +30,20 @@ lazy.setup("plugins", {
     },
   },
   debug = false,
+  performance = {
+    rtp = {
+      paths = {
+        vim.fs.joinpath(
+          vim.fn.stdpath("data") --[[@as string]],
+          "nvim",
+          "rocks",
+          "lib",
+          "luarocks",
+          "rocks-5.1",
+          "tree-sitter-*",
+          "*"
+        ),
+      },
+    },
+  },
 })

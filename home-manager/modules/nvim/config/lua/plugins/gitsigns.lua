@@ -13,7 +13,7 @@ return {
       },
       update_debounce = 500,
       signcolumn = true, -- Toggle with `:Gitsigns toggle_signs`
-      numhl = true,      -- Toggle with `:Gitsigns toggle_numhl`
+      numhl = true, -- Toggle with `:Gitsigns toggle_numhl`
       sign_priority = 10,
       count_chars = {
         [1] = "",
@@ -31,19 +31,11 @@ return {
         if vim.fn.expand("%:t") == "lsp.log" or vim.bo.filetype == "help" then
           return false
         end
-        local gitlinker = require("gitlinker")
         local gs = package.loaded.gitsigns
-        local miniclue = require("mini.clue")
-        miniclue.set_mapping_desc("v", "<leader>gc", "Copy GitHub link")
-        miniclue.set_mapping_desc("n", "<leader>gc", "Copy GitHub link")
 
         local function map(lhs, rhs, desc)
           vim.keymap.set("n", lhs, rhs, { desc = desc, buffer = bufnr })
         end
-
-        map("<leader>go", function()
-          gitlinker.get_buf_range_url("n", { action_callback = require("gitlinker.actions").open_in_browser })
-        end, "Open in browser")
 
         map("<leader>ghb", function()
           gs.blame_line({ full = true })
@@ -79,13 +71,10 @@ return {
     },
   },
   {
-    "ruifm/gitlinker.nvim",
-    lazy = true,
-    opts = { mappings = "<leader>gc" },
-  },
-  {
-    "echasnovski/mini-git",
-    main = "mini.git",
-    config = true,
+    "linrongbin16/gitlinker.nvim",
+    lazy = false,
+    config = function()
+      require("gitlinker").setup()
+    end,
   },
 }
