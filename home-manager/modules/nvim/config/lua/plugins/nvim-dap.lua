@@ -1,24 +1,12 @@
-local go_config = {
-  {
-    type = "go",
-    name = "Debug octopus server folder",
-    request = "launch",
-    program = "${workspaceFolder}/service/octopus-api/cmd/octopus-api",
-    cwd = "${workspaceFolder}",
-    showLog = true,
-    args = { "server" },
-  },
-}
-
 return {
   { "mfussenegger/nvim-dap-python" },
   { "jbyuki/one-small-step-for-vimkind" },
+  { "leoluz/nvim-dap-go" },
   {
     "mfussenegger/nvim-dap",
     dependencies = {
       "rcarriga/nvim-dap-ui",
       { "theHamsta/nvim-dap-virtual-text", opts = { virt_text_pos = "eol" } },
-      "leoluz/nvim-dap-go",
     },
     lazy = true,
     -- stylua: ignore
@@ -46,10 +34,6 @@ return {
     },
     config = function()
       vim.api.nvim_set_hl(0, "DapStoppedLine", { default = true, link = "Visual" })
-      require("dap-go").setup({
-        dap_configurations = go_config,
-      })
-
       local vscode = require("dap.ext.vscode")
       local json = require("plenary.json")
       vscode.json_decode = function(str)

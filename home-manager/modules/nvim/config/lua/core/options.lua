@@ -83,7 +83,7 @@ vim.o.virtualedit = "block" -- Allow going past the end of line in visual block 
 
 vim.opt.complete:append("kspell") -- Add spellcheck options for autocomplete
 vim.opt.complete:remove("t") -- Don't use tags for completion
-vim.opt.completeopt = "menu,menuone,noinsert,fuzzy,popup"
+vim.opt.completeopt = "menuone,noinsert,fuzzy,popup"
 
 -- Language {{{
 o.spelllang = "en"
@@ -98,10 +98,7 @@ vim.o.foldtext = ""
 o.foldcolumn = "1"
 o.foldnestmax = 3
 o.foldlevelstart = 99
--- NOTE: DISABLED DUE TO RELOAD BUG
--- o.foldmethod = "expr"
--- wo.foldtext = "v:lua.vim.treesitter.foldtext()"
--- wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+o.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 
 -- Disable Builtins
 local builtins = {
@@ -128,6 +125,7 @@ local builtins = {
 for _, plugin in ipairs(builtins) do
   vim.g["loaded_" .. plugin] = 1
 end
+vim.g.loaded_python3_provider = 0
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_ruby_provider = 0
 vim.g.loaded_node_provider = 0

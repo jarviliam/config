@@ -15,18 +15,18 @@ return {
       },
     },
   },
-  { "justinsgithub/wezterm-types", lazy = true },
+  { "justinsgithub/wezterm-types", dev = true, lazy = true },
   { "LuaCATS/luassert", name = "luassert-types", lazy = true },
   { "LuaCATS/busted", name = "busted-types", lazy = true },
   { "Bilal2453/luvit-meta", lazy = true },
   {
     "neovim/nvim-lspconfig",
+    enabled = true,
     event = "BufReadPre",
     keys = {
       { "<leader>cl", "<cmd>LspInfo<cr>", desc = "Lsp Info" },
     },
     dependencies = {
-      "mfussenegger/nvim-lsp-compl",
       "b0o/SchemaStore.nvim",
       {
         "artemave/workspace-diagnostics.nvim",
@@ -42,7 +42,7 @@ return {
         return vim.tbl_deep_extend(
           "force",
           vim.lsp.protocol.make_client_capabilities(),
-          require("lsp_compl").capabilities()
+          {}
         )
       end
 
@@ -79,9 +79,5 @@ return {
       end
     end,
   },
-  {
-    "maxandron/goplements.nvim",
-    ft = "go",
-    opts = {},
-  },
+  { "maxandron/goplements.nvim" },
 }

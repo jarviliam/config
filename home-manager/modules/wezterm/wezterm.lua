@@ -1,16 +1,8 @@
---@type wezterm
+---@type Wezterm
 local wezterm = require("wezterm")
 local c = wezterm.config_builder()
+local colors = require("colors")
 
-require("keys").apply(c)
-
-c.font = wezterm.font_with_fallback({
-  "CommitMono Nerd Font Mono",
-  "Hack Nerd Font Mono",
-  "Iosevka Nerd Font Mono",
-  "VictorMono Nerd Font",
-  "JetBrainsMono Nerd Font",
-})
 c.audible_bell = "Disabled"
 c.window_padding = {
   left = 0,
@@ -18,59 +10,17 @@ c.window_padding = {
   top = 0,
   bottom = 0,
 }
--- c.default_cursor_style = "BlinkingBar"
-c.inactive_pane_hsb = {
-  saturation = 1.0,
-  brightness = 0.8,
-}
-c.color_scheme = "Github Dark New"
 c.window_decorations = "RESIZE"
 c.window_background_opacity = 0.8
 c.macos_window_background_blur = 20
 c.native_macos_fullscreen_mode = false
-c.hide_tab_bar_if_only_one_tab = true
+c.hide_tab_bar_if_only_one_tab = false
 c.clean_exit_codes = { 130 }
-c.adjust_window_size_when_changing_font_size = false
 c.command_palette_font_size = 13.0
-c.window_frame = { font_size = 13.0 }
 
 c.tab_bar_at_bottom = true
 c.use_fancy_tab_bar = false
 c.tab_max_width = 32
-
-c.color_schemes = {
-  ["Github Dark New"] = {
-    background = "#30363d",
-    foreground = "#e6edf3",
-
-    cursor_bg = "#e6edf3",
-    cursor_border = "#e6edf3",
-    cursor_fg = "#30363d",
-
-    selection_bg = "#33588a",
-    selection_fg = "#e6edf3",
-    ansi = {
-      "#484f58",
-      "#ff7b72",
-      "#3fb950",
-      "#d29922",
-      "#58a6ff",
-      "#bc8cff",
-      "#39c5cf",
-      "#b1bac4",
-    },
-    brights = {
-      "#6e7681",
-      "#ffa198",
-      "#56d364",
-      "#e3b341",
-      "#79c0ff",
-      "#d2a8ff",
-      "#56d4dd",
-      "#ffffff",
-    },
-  },
-}
 
 c.hyperlink_rules = {
   {
@@ -99,6 +49,8 @@ c.hyperlink_rules = {
   },
 }
 
+colors.apply(c)
+
 local dividers = {
   slant_right = {
     left = utf8.char(0xe0be),
@@ -118,15 +70,25 @@ local dividers = {
   },
 }
 
+---@param tab MuxTabObj
 local function get_current_working_folder_name(tab)
   local cwd_uri = tab.active_pane.current_working_dir
 
-  if cwd_uri == nil or cwd_uri == "" then
+  if not cwd_uri then
     return ""
   end
+
+  if type(cwd_uri) == "userdata" then
+    cwd_uri = cwd_uri.file_path
+  end
+
   cwd_uri = cwd_uri:sub(8)
 
   local slash = cwd_uri:find("/")
+  if not slash then
+    return ""
+  end
+
   local cwd = cwd_uri:sub(slash)
   if cwd:sub(-1) == "/" then
     cwd = cwd:sub(1, -2)
@@ -140,8 +102,7 @@ local function get_current_working_folder_name(tab)
   return string.format("  %s", string.match(cwd, "[^/]+$"))
 end
 
-local scheme = wezterm.get_builtin_color_schemes()["Github Dark New"]
-
+local scheme = colors.color_scheme
 local function get_process(tab)
   local process_icons = {
     ["docker"] = {
@@ -185,7 +146,7 @@ local function get_process(tab)
       { Text = wezterm.nerdfonts.mdi_chart_donut_variant },
     },
     ["cargo"] = {
-      { Foreground = { Color = scheme.indexed[16] } },
+      { Foreground = { Color = "#f2d5cf" } },
       { Text = wezterm.nerdfonts.dev_rust },
     },
     ["go"] = {
@@ -197,7 +158,7 @@ local function get_process(tab)
       { Text = wezterm.nerdfonts.linux_docker },
     },
     ["git"] = {
-      { Foreground = { Color = scheme.indexed[16] } },
+      { Foreground = { Color = "#f2d5cf" } },
       { Text = wezterm.nerdfonts.dev_git },
     },
     ["lazygit"] = {
@@ -234,10 +195,13 @@ local function get_process(tab)
   end
 
   return wezterm.format(process_icons[process_name] or {
-    { Foreground = { Color = "#99d1db" } },
     { Text = string.format("[%s]", process_name) },
   })
 end
+
+wezterm.on("update-right-status", function(window, pane)
+  window:set_right_status(window:active_workspace())
+end)
 
 wezterm.on(
   "format-tab-title",
@@ -258,7 +222,7 @@ wezterm.on(
     -- TODO: make colors configurable
     local rainbow = {
       scheme.ansi[2],
-      scheme.indexed[16],
+      scheme.ansi[7],
       scheme.ansi[4],
       scheme.ansi[3],
       scheme.ansi[5],
@@ -267,10 +231,10 @@ wezterm.on(
 
     local i = tab.tab_index % 6
     local active_bg = rainbow[i + 1]
-    local active_fg = scheme.background
-    local inactive_bg = scheme.tab_bar.inactive_tab.bg_color
-    local inactive_fg = scheme.tab_bar.inactive_tab.fg_color
-    local new_tab_bg = scheme.tab_bar.new_tab.bg_color
+    local active_fg = scheme.selection_bg
+    local inactive_bg = scheme.background
+    local inactive_fg = scheme.foreground
+    local new_tab_bg = scheme.background
 
     local s_bg, s_fg, e_bg, e_fg
 
@@ -315,6 +279,34 @@ wezterm.on(
       { Foreground = { Color = e_fg } },
       { Text = dividers.slant_right.right },
     }
+  end
+)
+
+require("keys").apply(c)
+require("workspace").apply(c)
+require("font").apply(c)
+
+wezterm.on(
+  "smart_workspace_switcher.workspace_switcher.selected",
+  function(window, path)
+    wezterm.log_info("THIS IS EMITTED FROM THE CALLBACK")
+    local base_path = string.gsub(path, "(.*[/\\])(.*)", "%2")
+    window:set_right_status(wezterm.format({
+      { Foreground = { Color = scheme.ansi[5] } },
+      { Text = base_path .. "  " },
+    }))
+  end
+)
+
+wezterm.on(
+  "smart_workspace_switcher.workspace_switcher.created",
+  function(window, path)
+    wezterm.log_info("THIS IS EMITTED FROM THE CALLBACK")
+    local base_path = string.gsub(path, "(.*[/\\])(.*)", "%2")
+    window:set_right_status(wezterm.format({
+      { Foreground = { Color = scheme.ansi[5] } },
+      { Text = base_path .. "  " },
+    }))
   end
 )
 

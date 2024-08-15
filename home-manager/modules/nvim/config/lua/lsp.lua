@@ -40,19 +40,9 @@ local function on_attach(client, bufnr)
   local supports_inlayHint = client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint)
 
   if supports_completion then
-    local lsp_compl = require("lsp_compl")
-    if vim.lsp.completion then
-      vim.lsp.completion.enable(true, client.id, bufnr, { autotrigger = true })
-    else
-      lsp_compl.attach(client, bufnr, { server_side_fuzzy_completion = true })
-    end
-
+    vim.lsp.completion.enable(true, client.id, bufnr, { autotrigger = true })
     keymap("<cr>", function()
-      return lsp_compl.accept_pum() and "<C-y>" or "<cr>"
-    end, { expr = true }, "i")
-
-    keymap("/", function()
-      return pumvisible() and "<C-e>" or "/"
+      return pumvisible() and "<C-y>" or "<cr>"
     end, { expr = true }, "i")
 
     keymap("<C-n>", function()
@@ -86,6 +76,36 @@ local function on_attach(client, bufnr)
     keymap("<C-u>", "<C-x><C-n>", { desc = "Buffer completions" }, "i")
     -- Inside a snippet, use backspace to remove the placeholder.
     keymap("<BS>", "<C-o>s", {}, "s")
+
+    vim.api.nvim_create_autocmd("CompleteChanged", {
+      buffer = bufnr,
+      callback = function()
+        local info = vim.fn.complete_info({ "selected" })
+        local completionItem = vim.tbl_get(vim.v.completed_item, "user_data", "nvim", "lsp", "completion_item")
+        if nil == completionItem then
+          return
+        end
+
+        local resolvedItem =
+          vim.lsp.buf_request_sync(bufnr, vim.lsp.protocol.Methods.completionItem_resolve, completionItem, 500)
+        if resolvedItem == nil then
+          return
+        end
+        local docs = vim.tbl_get(resolvedItem[client.id], "result", "documentation", "value")
+        if nil == docs then
+          return
+        end
+
+        local winData = vim.api.nvim__complete_set(info["selected"], { info = docs })
+        if not winData.winid or not vim.api.nvim_win_is_valid(winData.winid) then
+          return
+        end
+
+        vim.api.nvim_win_set_config(winData.winid, { border = "rounded" })
+        vim.treesitter.start(winData.bufnr, "markdown")
+        vim.wo[winData.winid].conceallevel = 3
+      end,
+    })
   end
 
   keymap("grr", function()
