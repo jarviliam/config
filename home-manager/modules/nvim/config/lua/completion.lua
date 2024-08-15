@@ -1,4 +1,3 @@
-local Job = require("plenary.job")
 local M = {}
 
 --- @class RemoteInfo
@@ -51,6 +50,7 @@ end
 
 ---@param remote RemoteInfo
 M.get_issues = function(remote, callback)
+  local Job = require("plenary.job")
   local cmd = ""
   local args = {}
   local job = Job:new({
@@ -75,7 +75,7 @@ M.gh_complete = function()
   local line = vim.api.nvim_get_current_line()
   local word = vim.fn.matchstr(line, "\\w\\+\\%.c")
   local remote = M.get_remote()
-  if ~remote then
+  if not remote then
     vim.notify("No Remotes found")
   end
   local callback = function(items)

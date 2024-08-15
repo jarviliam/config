@@ -1,28 +1,32 @@
 local set = vim.keymap.set
 local function nset(key, cmd, desc)
-  set("n", "<leader>gd" .. key, cmd, { desc = desc })
+  set("n", "<leader>gd" .. key, cmd, { desc = desc, silent = true })
 end
 
-local function get_git_trunk_branch()
-  local result = vim.fn.system("git remote show origin | grep 'HEAD branch' | awk '{print $NF}'")
-  return result:gsub("%s+", "")
-end
-
-local function apply_keymaps(remote)
-  remote = vim.g._remote_origin or "main"
-  nset("c", ":DiffviewOpen origin/" .. remote .. "...HEAD<CR>", "Compare commits")
+local function apply_keymaps()
+  nset(
+    "c",
+    ":lua require('diffview').open('origin/' .. require('utils').get_trunk_branch() .. '...HEAD')<CR>",
+    "Compare commits"
+  )
   nset("q", ":DiffviewClose<CR>", "Close Diffview tab")
   nset("h", ":DiffviewFileHistory %<CR>", "File history")
   nset("H", ":DiffviewFileHistory<CR>", "Repo history")
   nset("m", ":DiffviewOpen<CR>", "Solve merge conflicts")
-  nset("o", ":DiffviewOpen " .. remote .. "<CR>", "DiffviewOpen")
+  nset("o", ":lua require('diffview').open(require('utils').get_trunk_branch())<CR>", "DiffviewOpen")
   nset("t", ":DiffviewOpen<CR>", "DiffviewOpen this")
-  nset("p", ":DiffviewOpen origin/" .. remote .. "...HEAD --imply-local<CR>", "Review current PR")
+  nset(
+    "p",
+    ":lua require('diffview').open('origin/' .. require('utils').get_trunk_branch() .. '...HEAD --imply-local')<CR>",
+    "Review current PR"
+  )
   nset(
     "P",
-    ":DiffviewFileHistory --range=origin/" .. remote .. "...HEAD --right-only --no-merges --reverse<CR>",
+    ":lua require('diffview').file_history('--range=origin/' .. require('utils').get_trunk_branch() .. '...HEAD --right-only --no-merges --reverse')<CR>",
     "Review current PR (per commit)"
   )
+
+  set("ca","Review","Diffview")
 end
 
 return {
@@ -157,12 +161,6 @@ return {
         },
       },
     })
-    if not vim.g._remote_origin then
-      local remote = get_git_trunk_branch()
-      if remote then
-        vim.g._remote_origin = remote
-      end
-    end
     apply_keymaps()
   end,
 }
