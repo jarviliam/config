@@ -30,20 +30,4 @@ lazy.setup("plugins", {
     },
   },
   debug = false,
-  performance = {
-    rtp = {
-      paths = {
-        vim.fs.joinpath(
-          vim.fn.stdpath("data") --[[@as string]],
-          "nvim",
-          "rocks",
-          "lib",
-          "luarocks",
-          "rocks-5.1",
-          "tree-sitter-*",
-          "*"
-        ),
-      },
-    },
-  },
 })
