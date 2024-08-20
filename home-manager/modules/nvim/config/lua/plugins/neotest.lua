@@ -1,7 +1,7 @@
 return {
   {
     "fredrikaverpil/neotest-golang",
-    dev=true,
+    dev = true,
   },
   {
     "nvim-neotest/neotest-jest",
@@ -14,6 +14,7 @@ return {
   },
   {
     "nvim-neotest/neotest-python",
+    dev = true,
   },
   {
     "nvim-neotest/neotest",
@@ -26,7 +27,7 @@ return {
         ["neotest-golang"] = {
           dap_go_enabled = true,
         },
-      ["neotest-vitest"] = {},
+        ["neotest-vitest"] = {},
         ["neotest-jest"] = {
           jestCommand = "yarn test",
           cwd = function(file)

@@ -13,3 +13,4 @@ vim.g.personal_dir = vim.env.HOME .. "/Coding"
 vim.g.do_filetype_lua = 1
 
 require("core")
+require("gh")

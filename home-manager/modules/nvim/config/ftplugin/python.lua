@@ -13,7 +13,7 @@ if root_dir then
   end
 end
 
-if not dap.adapters.python then
+if not dap.adapters.python and vim.env.VIRTUAL_ENV then
   dappy.setup(vim.env.VIRTUAL_ENV .. "/bin/python")
   dappy.test_runner = "pytest"
   vim.keymap.set("n", "<leader>dPt", dappy.test_method, { desc = "Debug Method", silent = true })

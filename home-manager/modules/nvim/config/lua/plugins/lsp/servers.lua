@@ -81,7 +81,9 @@ return {
   pyright = {
     init_options = { documentFormatting = false },
     before_init = function(params, config)
-      config.settings.python.pythonPath = vim.env.VIRTUAL_ENV .. "/bin/python"
+      if vim.env.VIRTUAL_ENV then
+        config.settings.python.pythonPath = vim.env.VIRTUAL_ENV .. "/bin/python"
+      end
     end,
   },
   lua_ls = {

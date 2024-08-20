@@ -96,8 +96,8 @@
     antidote = {
       enable = true;
       plugins = [
-        "jeffreytse/zsh-vi-mode kind"
-        "Aloxaf/fzf-tab kind"
+        "jeffreytse/zsh-vi-mode"
+        "Aloxaf/fzf-tab"
         "zsh-users/zsh-autosuggestions kind:defer"
         "zsh-users/zsh-completions kind:fpath"
         "zdharma-continuum/fast-syntax-highlighting kind:defer"
