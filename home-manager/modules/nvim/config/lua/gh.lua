@@ -1,10 +1,14 @@
 local M = {}
 local ns = vim.api.nvim_create_namespace("gh")
+
 function M.comments()
   local branch = vim.trim(vim.fn.system("git branch --show current"))
   local pr_out = vim.fn.system('gh pr list --head "' .. branch .. '" --json number')
   local prs = assert(vim.json.decode(pr_out), "gh pr list did not output")
-  local comments_cmd = 'gh api "repos/{owner}/{repo}/pulls/' .. prs[1].number .. "/comments"
+  if #prs == 0 then
+    vim.notify("No PRs found")
+  end
+  local comments_cmd = 'gh api "repos/{owner}/{repo}/pulls/' .. prs[1].number .. '/comments"'
   local comments = vim.json.decode(vim.fn.system(comments_cmd), { luanil = { object = true } })
   assert(comments)
   local buf_diag = vim.defaulttable()
