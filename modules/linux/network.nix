@@ -7,8 +7,8 @@
 
    services.openssh = {
    enable = true;
-   settings.passwordAuthentication = false;
-   settings.kbdInteractiveAuthentication = false;
+   settings.PasswordAuthentication = false;
+   settings.KbdInteractiveAuthentication = false;
    };
    programs.ssh.startAgent = true;
 

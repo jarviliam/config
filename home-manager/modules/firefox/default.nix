@@ -12,7 +12,6 @@
       extensions = with pkgs.nur.repos.rycee.firefox-addons; [
         privacy-badger
         bitwarden
-        bypass-paywalls-clean
         vimium
         reddit-enhancement-suite
         ublock-origin

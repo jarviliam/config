@@ -4,6 +4,7 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     nixstaging.url = "github:nixos/nixpkgs/staging";
+    hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -28,19 +29,19 @@
   };
 
   outputs =
-    {
-      self,
-      nixpkgs,
-      nixstaging,
-      flake-utils,
-      darwin,
-      home-manager,
-      nix-index-database,
-      nil-language-server,
-      nur,
-      nixvim,
-      neovim-nightly-overlay,
-      ...
+    { self
+    , nixpkgs
+    , nixstaging
+    , flake-utils
+    , darwin
+    , home-manager
+    , nix-index-database
+    , nil-language-server
+    , nur
+    , nixvim
+    , neovim-nightly-overlay
+    , hyprland
+    , ...
     }:
     let
       lib = import ./lib.nix {
@@ -61,8 +62,8 @@
       overlays.default = final: prev: {
         nil-language-server =
           nil-language-server.packages.${
-            final.stdenvNoCC.hostPlatform.system
-              or (throw "Unsupported platform ${final.stdenvNoCC.hostPlatform.system}")
+          final.stdenvNoCC.hostPlatform.system
+            or (throw "Unsupported platform ${final.stdenvNoCC.hostPlatform.system}")
           }.nil;
         vtsls = final.callPackage ./home-manager/vtsls.nix { };
         neomutt = prev.neomutt.overrideAttrs (oldAttrs: {
@@ -75,11 +76,12 @@
         nixtop = lib.createSystem profiles.liam-linux {
           system = "x86_64-linux";
           modules = [
-            { nixpkgs.overlays = [ nur.overlay ]; }
+            { nixpkgs.overlays = [ nur.overlay ] ++ [ neovim-nightly-overlay.overlays.default ]; }
             ./modules/linux/hardware/nixos-laptop.nix
             ./modules/linux/system.nix
           ];
           commonSpecialArgs = {
+            inherit hyprland;
             hostname = "nixos";
           };
         };

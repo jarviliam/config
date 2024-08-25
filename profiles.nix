@@ -4,6 +4,7 @@
 ,
 }:
 rec {
+  stateVersion = "24.11";
   liam =
     let
       username = "liam.jarvis";
@@ -29,7 +30,7 @@ rec {
           ./home-manager/modules/nvim
         ];
         extraConfig = {
-          home.stateVersion = "22.11";
+          home.stateVersion = stateVersion;
         };
       };
       extraConfig = {
@@ -62,7 +63,7 @@ rec {
         flakePath = "/home/liam.jarvis/nix_dot";
       };
       extraConfig = liam.extraConfig // {
-        system.stateVersion = "22.11";
+        system.stateVersion = stateVersion;
       };
     };
 

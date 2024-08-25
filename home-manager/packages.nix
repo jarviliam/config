@@ -1,8 +1,7 @@
-{
-  pkgs,
-  lib,
-  nixstaging,
-  ...
+{ pkgs
+, lib
+, nixstaging
+, ...
 }:
 let
   py312 = pkgs.python312.overrideAttrs (old: {
@@ -41,6 +40,7 @@ in
       source-code-pro
       (nerdfonts.override {
         fonts = [
+          "CommitMono"
           "FiraCode"
           "JetBrainsMono"
           "Iosevka"
@@ -61,18 +61,27 @@ in
       comma
       manix
       qbittorrent
+      clang
+      clang-tools
+    ] ++ lib.optionals pkgs.stdenvNoCC.isDarwin [
+      slack
+      terraform
+      argocd
+      # clamav
+      # release-please
+    ] ++ lib.optionals pkgs.stdenvNoCC.isLinux [
+      llvm
+      zathura
+      qmk
     ]
     ++ [
       docker
       docker-compose
-      slack
       gettext
       terraform-ls
       tflint
       kubectx
-      lazydocker
       lazygit
-      argocd
     ]
     ++ [
       # Python
@@ -91,7 +100,6 @@ in
       # Node
       actionlint
       prettierd
-      terraform # look into tfenv porting
       yamllint
       yarn
       nodePackages.typescript-language-server
@@ -109,24 +117,13 @@ in
       nodePackages.typescript-language-server # Typescript/javascript
       nodePackages.vscode-langservers-extracted # JSON/HTML
 
-      # sumneko-lua-language-server # Lua
       cmake-language-server # CMake
-
-      # C/C++
-      # nixstaging.clang-tools
-      # staging.clang
-      # clang
-      # pkg-config
       cmake
-      # meson
-      # llvm
-      # libcxxabi
 
       # Bash
       shellcheck
       nodePackages.bash-language-server
 
-      # release-please
       # Nix
       # rnix-lsp
       nil-language-server
@@ -143,8 +140,5 @@ in
 
       redis
       pgcli
-
-      # clamav
-      # zathura
     ];
 }
