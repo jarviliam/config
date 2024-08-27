@@ -1,19 +1,16 @@
+{ pkgs, username, ... }:
 {
-  pkgs,
-  config,
-  nixpkgs,
-  username,
-  ...
-}:
-{
-  # environment.profiles = ["liam.jarvis" "test"];
   services.nix-daemon.enable = true;
-  homebrew.enable = true;
-  homebrew.brews = [
-    "llvm"
-    "clamav"
-    "pyenv"
-  ];
+  homebrew = {
+    enable = true;
+    taps = [ "qmk/qmk"];
+    brews = [
+      "llvm"
+      "clamav"
+      "pyenv"
+      "qmk"
+    ];
+  };
   nix.settings.allowed-users = [
     "root"
     "liam.jarvis"
