@@ -20,6 +20,10 @@ return {
   { "LuaCATS/busted", name = "busted-types", lazy = true },
   { "Bilal2453/luvit-meta", lazy = true },
   {
+    "creativenull/efmls-configs-nvim",
+    dependencies = { "neovim/nvim-lspconfig" },
+  },
+  {
     "neovim/nvim-lspconfig",
     enabled = true,
     event = "BufReadPre",

@@ -56,10 +56,6 @@ return {
     end,
   },
   {
-    "creativenull/efmls-configs-nvim",
-    dependencies = { "neovim/nvim-lspconfig" },
-  },
-  {
     "rcarriga/nvim-notify",
     keys = {
       {

@@ -1,51 +1,51 @@
 vim.keymap.set(
   { "n", "v" },
-  "<leader>gl",
+  "<leader>gcl",
   "<cmd>GitLink<cr>",
   { silent = true, noremap = true, desc = "Yank git permlink" }
 )
 vim.keymap.set(
   { "n", "v" },
-  "<leader>gL",
+  "<leader>gcL",
   "<cmd>GitLink!<cr>",
   { silent = true, noremap = true, desc = "Open git permlink" }
 )
 -- blame
 vim.keymap.set(
   { "n", "v" },
-  "<leader>gb",
+  "<leader>gcb",
   "<cmd>GitLink blame<cr>",
   { silent = true, noremap = true, desc = "Yank git blame link" }
 )
 vim.keymap.set(
   { "n", "v" },
-  "<leader>gB",
+  "<leader>gcB",
   "<cmd>GitLink! blame<cr>",
   { silent = true, noremap = true, desc = "Open git blame link" }
 )
 -- default branch
 vim.keymap.set(
   { "n", "v" },
-  "<leader>gd",
+  "<leader>gcd",
   "<cmd>GitLink default_branch<cr>",
   { silent = true, noremap = true, desc = "Copy default branch link" }
 )
 vim.keymap.set(
   { "n", "v" },
-  "<leader>gD",
+  "<leader>gcD",
   "<cmd>GitLink! default_branch<cr>",
   { silent = true, noremap = true, desc = "Open default branch link" }
 )
 -- default branch
 vim.keymap.set(
   { "n", "v" },
-  "<leader>gc",
+  "<leader>gcc",
   "<cmd>GitLink current_branch<cr>",
   { silent = true, noremap = true, desc = "Copy current branch link" }
 )
 vim.keymap.set(
   { "n", "v" },
-  "<leader>gD",
+  "<leader>gcD",
   "<cmd>GitLink! current_branch<cr>",
   { silent = true, noremap = true, desc = "Open current branch link" }
 )

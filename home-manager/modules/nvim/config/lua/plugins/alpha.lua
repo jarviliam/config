@@ -1,19 +1,18 @@
 return {
   {
     "goolord/alpha-nvim",
-    event = "VimEnter",
     opts = function()
       local dashboard = require("alpha.themes.dashboard")
       local icons = require("icons")
       dashboard.opts.layout[1].val = 7
 
       local header = [[
-                      _   __                _         
-               / | / /__  ____ _   __(_)___ ___ 
+                      _   __                _
+               / | / /__  ____ _   __(_)___ ___
               /  |/ / _ \/ __ \ | / / / __ `__ \
              / /|  /  __/ /_/ / |/ / / / / / / /
-            /_/ |_/\___/\____/|___/_/_/ /_/ /_/ 
-                                                
+            /_/ |_/\___/\____/|___/_/_/ /_/ /_/
+
             ]]
       dashboard.section.header.val = vim.split(header, "\n")
       dashboard.section.header.opts.hl = "AlphaHeader"
