@@ -92,6 +92,19 @@ return {
       create_autocmd = true,
     },
   },
+  {
+    "ggandor/leap.nvim",
+    dependencies = { "tpope/vim-repeat" },
+    lazy = false,
+    config = function()
+      local leap = require("leap")
+      leap.opts.special_keys.next_target = "<enter>"
+      leap.opts.special_keys.prev_target = "<backspace>"
+
+      leap.create_default_mappings()
+    end,
+  },
+  { "tpope/vim-abolish", command = "S" },
   { "sainnhe/sonokai", lazy = conf.theme ~= "sonokai", dev = true },
   { "sainnhe/edge", lazy = conf.theme ~= "edge" },
   { "sainnhe/everforest" },
