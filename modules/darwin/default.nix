@@ -3,11 +3,10 @@
   services.nix-daemon.enable = true;
   homebrew = {
     enable = true;
-    taps = [ "qmk/qmk"];
+    taps = [ "qmk/qmk" ];
     brews = [
       "llvm"
       "clamav"
-      "pyenv"
       "qmk"
     ];
   };

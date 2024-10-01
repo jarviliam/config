@@ -49,7 +49,6 @@ return {
     "mbbill/undotree",
     branch = "search",
     cmd = "UndotreeToggle",
-    keys = { { mode = "n", "<leader>U", ":UndotreeToggle<CR>", { silent = true } } },
     init = function()
       vim.g.undotree_CustomUndotreeCmd = "vertical 40 new"
       vim.g.undotree_CustomDiffpanelCmd = "botright 15 new"

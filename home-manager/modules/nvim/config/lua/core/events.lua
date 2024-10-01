@@ -119,3 +119,20 @@ vim.api.nvim_create_autocmd({ "VimResized" }, {
     vim.cmd("tabnext " .. current_tab)
   end,
 })
+
+if vim.g.enable_session then
+  vim.api.nvim_create_autocmd({ "VimLeavePre" }, {
+    callback = function()
+      require("resession").save(vim.fn.getcwd(), { notify = true })
+    end,
+  })
+  vim.api.nvim_create_autocmd({ "VimEnter" }, {
+    callback = function()
+      if vim.fn.argc(-1) == 0 then
+        require("resession").load(vim.fn.getcwd(), { notify = true, silence_errors = true })
+      end
+    end,
+    nested = true,
+  })
+end
+

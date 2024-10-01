@@ -168,27 +168,19 @@ local function on_attach(client, bufnr)
   end
 
   if supports_inlayHint then
-    local inlay_hints_group = vim.api.nvim_create_augroup("Toggle_Inlay_Hints", { clear = false })
-    vim.defer_fn(function()
-      local mode = vim.api.nvim_get_mode().mode
-      vim.lsp.inlay_hint.enable(mode == "n" or mode == "v", { bufnr = bufnr })
-    end, 500)
-    vim.api.nvim_create_autocmd("InsertEnter", {
-      group = inlay_hints_group,
-      desc = "Enable inlay hints",
-      buffer = bufnr,
-      callback = function()
-        vim.lsp.inlay_hint.enable(false, { bufnr = bufnr })
-      end,
-    })
-    vim.api.nvim_create_autocmd("InsertLeave", {
-      group = inlay_hints_group,
-      desc = "Disable inlay hints",
-      buffer = bufnr,
-      callback = function()
-        vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-      end,
-    })
+    vim.keymap.set("n", "<leader>ci", function()
+      local enabled = vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr })
+      vim.lsp.inlay_hint.enable(not enabled, { bufnr = bufnr })
+      if not enabled then
+        vim.api.nvim_create_autocmd("InsertEnter", {
+          once = true,
+          buffer = bufnr,
+          callback = function()
+            vim.lsp.inlay_hint.enable(false, { bufnr = bufnr })
+          end,
+        })
+      end
+    end)
   end
 
   vim.keymap.set("n", "<leader>cf", function()
@@ -222,6 +214,11 @@ local function on_attach(client, bufnr)
       require("workspace-diagnostics").populate_workspace_diagnostics(client, bufnr)
     end
   end
+end
+
+for severity, icon in pairs(diagnostic_icons) do
+  local hl = "DiagnosticSign" .. severity:sub(1, 1) .. severity:sub(2):lower()
+  vim.fn.sign_define(hl, { text = icon, texthl = hl })
 end
 
 vim.diagnostic.config({
@@ -275,5 +272,15 @@ vim.api.nvim_create_autocmd("LspAttach", {
     on_attach(_client, args.buf)
   end,
 })
+
+--- Configure the lsp server via lspconfig
+---@param server string
+---@param settings? table
+function M.configure_server(server, settings)
+  local function capabilities()
+    return vim.tbl_deep_extend("force", vim.lsp.protocol.make_client_capabilities(), {})
+  end
+  require("lspconfig")[server].setup(vim.tbl_deep_extend("error", { capabilities = capabilities() }, settings or {}))
+end
 
 return M

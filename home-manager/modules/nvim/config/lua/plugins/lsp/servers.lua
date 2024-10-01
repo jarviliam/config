@@ -1,5 +1,14 @@
 local efm = require("plugins.lsp.lint")
 
+local js_settings = {
+  suggest = { completeFunctionCalls = true },
+  inlayHints = {
+    functionLikeReturnTypes = { enabled = true },
+    parameterNames = { enabled = "literals" },
+    variableTypes = { enabled = true },
+  },
+}
+
 return {
   efm = efm,
   bashls = {},
@@ -117,7 +126,6 @@ return {
             },
           },
         })
-
         client.notify("workspace/didChangeConfiguration", { settings = client.config.settings })
       end
       return true
@@ -127,62 +135,20 @@ return {
   rust_analyzer = {},
   terraformls = {},
   vtsls = {
-    filetypes = {
-      "javascript",
-      "javascriptreact",
-      "javascript.jsx",
-      "typescript",
-      "typescriptreact",
-      "typescript.tsx",
-    },
     settings = {
-      complete_function_calls = true,
       vtsls = {
-        enableMoveToFileCodeAction = true,
         autoUseWorkspaceTsdk = true,
         experimental = {
+          maxInlayHintLength = 30,
           completion = {
             enableServerSideFuzzyMatch = true,
           },
         },
       },
-      typescript = {
-        updateImportsOnFileMove = { enabled = "always" },
-        suggest = {
-          completeFunctionCalls = true,
-        },
-        inlayHints = {
-          enumMemberValues = { enabled = true },
-          functionLikeReturnTypes = { enabled = true },
-          parameterNames = { enabled = "literals" },
-          parameterTypes = { enabled = true },
-          propertyDeclarationTypes = { enabled = true },
-          variableTypes = { enabled = false },
-        },
-      },
-      javascript = {
-        updateImportsOnFileMove = { enabled = "always" },
-        suggest = {
-          completeFunctionCalls = true,
-        },
-        inlayHints = {
-          enumMemberValues = { enabled = true },
-          functionLikeReturnTypes = { enabled = true },
-          parameterNames = { enabled = "literals" },
-          parameterTypes = { enabled = true },
-          propertyDeclarationTypes = { enabled = true },
-          variableTypes = { enabled = false },
-        },
-      },
+      typescript = js_settings,
+      javascript = js_settings,
     },
   },
-  -- tsserver = {
-  --   init_options = {
-  --     documentFormatting = false,
-  --     hostInfo = "neovim",
-  --   },
-  -- },
-
   yamlls = {
     capabilities = {
       textDocument = {

@@ -1,12 +1,13 @@
-{ lib
-, buildNpmPackage
-, fetchFromGitHub
-, importNpmLock
+{
+  lib,
+  buildNpmPackage,
+  fetchFromGitHub,
+  importNpmLock,
 }:
 
 buildNpmPackage rec {
   pname = "vtsls";
-  version = "0.2.5";
+  version = "0.2.6";
 
   src = fetchFromGitHub {
     owner = "yioneko";

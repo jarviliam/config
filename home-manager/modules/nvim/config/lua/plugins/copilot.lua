@@ -1,3 +1,4 @@
+local codeCompanion = false
 return {
   {
     {
@@ -18,6 +19,7 @@ return {
     "CopilotC-Nvim/CopilotChat.nvim",
     branch = "canary",
     cmd = "CopilotChat",
+    enabled = not codeCompanion,
     dev = true,
     opts = function()
       local user = vim.env.USER or "User"
@@ -38,8 +40,8 @@ return {
       }
     end,
     keys = {
-      { "<c-s>",     "<CR>", ft = "copilot-chat", desc = "Submit Prompt", remap = true },
-      { "<leader>a", "",     desc = "+ai",        mode = { "n", "v" } },
+      { "<c-s>", "<CR>", ft = "copilot-chat", desc = "Submit Prompt", remap = true },
+      { "<leader>a", "", desc = "+ai", mode = { "n", "v" } },
       {
         "<leader>aa",
         function()
@@ -96,5 +98,16 @@ return {
       })
       chat.setup(opts)
     end,
+  },
+  {
+    "olimorris/codecompanion.nvim",
+    enabled = codeCompanion,
+    cmd = {
+      "CodeCompanion",
+      "CodeCompanionChat",
+      "CodeCompanionToggle",
+      "CodeCompanionActions",
+    },
+    opts = {},
   },
 }

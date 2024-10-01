@@ -1,3 +1,40 @@
+local internal_substitutions = {
+  { find = ":/", replace = "__" },
+  { find = "/", replace = "_" },
+}
+
+local function substitute_path(path, reverse)
+  reverse = reverse or false
+  for _, substitution in ipairs(internal_substitutions) do
+    if reverse then
+      path = path:gsub(substitution.replace, substitution.find)
+    else
+      path = path:gsub(substitution.find, substitution.path)
+    end
+  end
+  return path
+end
+
+local function fzf_session()
+  local fzf_lua = require("fzf-lua")
+  local resession = require("resession")
+  local list = resession.list({})
+  local formatted_list = vim.tbl_map(function(value)
+    return substitute_path(value, true)
+  end, list)
+  fzf_lua.fzf_exec(formatted_list, {
+    actions = {
+      ["ctrl-d"] = function(selected)
+        local origin_session = substitute_path(selected, false)
+        resession.delete(origin_session)
+      end,
+      ["default"] = function(selected)
+        local origin_session = substitute_path(selected, false)
+        resession.load(origin_session)
+      end,
+    },
+  })
+end
 return {
   "ibhagwan/fzf-lua",
   cmd = "FzfLua",
@@ -26,6 +63,7 @@ return {
     { "<leader>sk", "<cmd>FzfLua keymaps<cr>", desc = "Key Maps" },
     { "<leader>sq", "<cmd>FzfLua quickfix<cr>", desc = "Quickfix List" },
     { "<leader>sl", "<cmd>FzfLua loclist<cr>", desc = "Location List" },
+    { "<F7>", fzf_session, desc = "Sessions" },
     { "<leader>fb", "<cmd>FzfLua buffers sort_mru=true sort_lastused=true<cr>", desc = "Buffers" },
     {
       "<leader>ss",

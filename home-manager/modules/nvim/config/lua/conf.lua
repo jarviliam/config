@@ -1,7 +1,7 @@
 local M = {}
 
 -- Theme selector
-M.theme = "github_dark"
+M.theme = "gruvbox-material"
 -- Toggle Global Statusline
 M.global_statusline = false
 vim.g.colors_name = M.theme
@@ -29,8 +29,8 @@ end
 
 vim.g.gruvbox_material_transparent_background = 0
 vim.g.gruvbox_material_foreground = "mix"
-vim.g.gruvbox_material_background = "soft"    -- soft, medium, hard
-vim.g.gruvbox_material_ui_contrast = "high"   -- The contrast of line numbers, indent lines, etc.
+vim.g.gruvbox_material_background = "soft" -- soft, medium, hard
+vim.g.gruvbox_material_ui_contrast = "high" -- The contrast of line numbers, indent lines, etc.
 vim.g.gruvbox_material_float_style = "bright" -- Background of floating windows
 vim.g.gruvbox_material_statusline_style = "material"
 vim.g.gruvbox_material_cursor = "auto"

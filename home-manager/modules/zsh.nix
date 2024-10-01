@@ -76,21 +76,19 @@
       hml = "home-manager generations";
       hmr = "home-manager remove-generations";
     };
-    initExtra = "
-				zstyle ':fzf-tab:complete:_zlua:*' query-string input
-				zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
-				zstyle ':fzf-tab:complete:cd:*' popup-pad 30 0
-				zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
-				zstyle ':fzf-tab:*' switch-group ',' '.'
-				zstyle ':completion:*:git-checkout:*' sort false
-			";
+    initExtra = ''
+      zstyle ':fzf-tab:complete:_zlua:*' query-string input
+      zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
+      zstyle ':fzf-tab:complete:cd:*' popup-pad 30 0
+      zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
+      zstyle ':fzf-tab:*' switch-group ',' '.'
+      zstyle ':completion:*:git-checkout:*' sort false
+      export PATH="/opt/homebrew/bin:$PATH"
+    '';
     #
     # initExtra = ''
     #   alias my-opened-prs='gh pr list --search "is:open author:@me updated:$(date +"%Y-%m-%d")" --json number,title | jq -r ".[] | \"\(.number),\(.title)\"" | pbcopy'
     #   alias my-merged-prs='gh pr list --search "is:merged author:@me updated:$(date +"%Y-%m-%d")" --json number,title | jq -r ".[] | \"\(.number),\(.title)\"" | pbcopy'
-    #   export PYENV_ROOT="$HOME/.pyenv"
-    #   [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-    #   eval "$(pyenv init -)"
     #   eval "$(luarocks path --bin)"
     # '';
     antidote = {
@@ -105,7 +103,6 @@
         "MichaelAquilina/zsh-you-should-use kind:defer"
         "chisui/zsh-nix-shell"
         "wfxr/forgit"
-        "romkatv/zsh-bench kind:path"
         "getantidote/use-omz" # handle OMZ dependencies
         "ohmyzsh/ohmyzsh path:lib" # load OMZ's library
         "ohmyzsh/ohmyzsh path:plugins/colored-man-pages kind:defer" # load OMZ plugins

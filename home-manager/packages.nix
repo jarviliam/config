@@ -1,12 +1,14 @@
-{ pkgs
-, lib
-, nixstaging
-, ...
-}:
+{ pkgs, lib, ... }:
 let
-  py312 = pkgs.python312.overrideAttrs (old: {
-    version = "3.12.4";
-  });
+  py312 = pkgs.python312.override {
+    sourceVersion = {
+      major = "3";
+      minor = "12";
+      patch = "5";
+      suffix = "";
+    };
+    hash = "sha256-+oouEsXmILCfU+ZbzYdVDS5aHi4Ev4upkdzFUROHY5c=";
+  };
   # nixpkgs_staging = import <nixpkgs_staging> { };
   mypython312 = pkgs.python312Full.override {
     self = pkgs.python312Full;
@@ -15,7 +17,13 @@ let
     bluezSupport = false;
   };
   pyenv = pkgs.pyenv.overrideAttrs (old: {
-    version = "2.4.7";
+    version = "2.4.12";
+    src = pkgs.fetchFromGitHub {
+      owner = "pyenv";
+      repo = "pyenv";
+      rev = "refs/tags/v2.4.12";
+      hash = "sha256-ZvXtDD9HKwOJiUpR8ThqyCHWyMFs46dIrOgPMNpuHrY=";
+    };
   });
 in
 {
@@ -23,6 +31,7 @@ in
     with pkgs;
     [
       emacs
+      pyenv
       lua51Packages.lua
       lua51Packages.luarocks
       lua51Packages.tiktoken_core
@@ -63,13 +72,15 @@ in
       qbittorrent
       clang
       clang-tools
-    ] ++ lib.optionals pkgs.stdenvNoCC.isDarwin [
+    ]
+    ++ lib.optionals pkgs.stdenvNoCC.isDarwin [
       slack
       terraform
       argocd
       # clamav
       # release-please
-    ] ++ lib.optionals pkgs.stdenvNoCC.isLinux [
+    ]
+    ++ lib.optionals pkgs.stdenvNoCC.isLinux [
       llvm
       zathura
       qmk

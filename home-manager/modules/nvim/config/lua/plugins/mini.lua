@@ -155,7 +155,7 @@ return {
 
   {
     "echasnovski/mini.clue",
-    event = "VeryLazy",
+    enable = false,
     opts = function()
       local miniclue = require("mini.clue")
       return {
