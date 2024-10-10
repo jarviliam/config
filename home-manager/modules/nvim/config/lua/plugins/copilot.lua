@@ -1,4 +1,4 @@
-local codeCompanion = false
+local codeCompanion = true
 return {
   {
     {
@@ -108,6 +108,18 @@ return {
       "CodeCompanionToggle",
       "CodeCompanionActions",
     },
-    opts = {},
+    opts = {
+      strategies = {
+        chat = {
+          adapter = "copilot",
+        },
+        inline = {
+          adapter = "copilot",
+        },
+        agent = {
+          adapter = "copilot",
+        },
+      },
+    },
   },
 }
