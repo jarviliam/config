@@ -13,7 +13,7 @@ buildNpmPackage rec {
     owner = "yioneko";
     repo = "vtsls";
     rev = "server-v${version}";
-    hash = "sha256-4tuVM1mT3NvtJgFf6EdTZmW5PfdiMv7lj2wCSgOOvcc=";
+    hash = "sha256-HCi9WLh4IEfhgkQNUVk6IGkQfYagg805Rix78zG6xt0=";
     fetchSubmodules = true;
   };
 

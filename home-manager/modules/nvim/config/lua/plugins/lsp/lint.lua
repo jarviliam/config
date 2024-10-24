@@ -13,7 +13,7 @@ languages = vim.tbl_extend("force", languages, {
   yaml = {
     require("efmls-configs.formatters.prettier_d"),
     vim.tbl_extend("force", require("efmls-configs.linters.actionlint"), { parentMarkers = { ".github" } }),
-    require("efmls-configs.linters.yamllint"),
+    -- require("efmls-configs.linters.yamllint"),
   },
   html = { require("efmls-configs.formatters.prettier_d") },
 })
