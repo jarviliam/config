@@ -14,7 +14,7 @@ local function on_attach(client, bufnr)
   ---@param mode? string|string[]
   local function keymap(lhs, rhs, opts, mode)
     opts = type(opts) == "string" and { desc = opts }
-      or vim.tbl_extend("error", opts --[[@as table]], { buffer = bufnr })
+        or vim.tbl_extend("error", opts --[[@as table]], { buffer = bufnr })
     vim.keymap.set(mode or "n", lhs, rhs, opts)
   end
 
@@ -87,7 +87,7 @@ local function on_attach(client, bufnr)
         end
 
         local resolvedItem =
-          vim.lsp.buf_request_sync(bufnr, vim.lsp.protocol.Methods.completionItem_resolve, completionItem, 500)
+            vim.lsp.buf_request_sync(bufnr, vim.lsp.protocol.Methods.completionItem_resolve, completionItem, 500)
         if resolvedItem == nil then
           return
         end
@@ -186,18 +186,29 @@ local function on_attach(client, bufnr)
   vim.keymap.set("n", "<leader>cf", function()
     vim.lsp.buf.format({ async = true })
   end, { silent = true, buffer = bufnr, desc = "Format" })
+  vim.api.nvim_create_user_command("Format", function(args)
+    local range = nil
+    if args.count ~= -1 then
+      local end_line = vim.api.nvim_buf_get_lines(0, args.line2 - 1, args.line2, true)[1]
+      range = {
+        start = { args.line1, 0 },
+        ["end"] = { args.line2, end_line:len() },
+      }
+    end
+    require("conform").format({ async = true, lsp_format = "fallback", range = range })
+  end, { range = true })
 
-  local lsp_fmt_group = vim.api.nvim_create_augroup("LspFormattingGroup", {})
-  vim.api.nvim_create_autocmd("BufWritePost", {
-    group = lsp_fmt_group,
-    callback = function(ev)
-      local efm = vim.lsp.get_clients({ name = "efm", bufnr = ev.buf })
-      if vim.tbl_isempty(efm) then
-        return
-      end
-      vim.lsp.buf.format({ name = "efm" })
-    end,
-  })
+  -- local lsp_fmt_group = vim.api.nvim_create_augroup("LspFormattingGroup", {})
+  -- vim.api.nvim_create_autocmd("BufWritePost", {
+  --   group = lsp_fmt_group,
+  --   callback = function(ev)
+  --     local efm = vim.lsp.get_clients({ name = "efm", bufnr = ev.buf })
+  --     if vim.tbl_isempty(efm) then
+  --       return
+  --     end
+  --     vim.lsp.buf.format({ name = "efm" })
+  --   end,
+  -- })
 
   -- workaround for gopls not supporting semanticTokensProvider
   -- https://github.com/golang/go/issues/54531#issuecomment-1464982242
