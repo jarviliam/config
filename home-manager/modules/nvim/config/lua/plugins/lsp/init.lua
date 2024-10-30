@@ -12,7 +12,7 @@ return {
       },
     },
   },
-  { "justinsgithub/wezterm-types", dev = true, lazy = true },
+  -- { "justinsgithub/wezterm-types", dev = true, lazy = true },
   { "LuaCATS/luassert", name = "luassert-types", lazy = true },
   { "LuaCATS/busted", name = "busted-types", lazy = true },
   { "Bilal2453/luvit-meta", lazy = true },
@@ -40,104 +40,4 @@ return {
     end,
   },
   { "maxandron/goplements.nvim" },
-  {
-    "stevearc/conform.nvim",
-    event = { "BufWritePre" },
-    cmd = { "ConformInfo" },
-    keys = {
-      {
-        -- Customize or remove this keymap to your liking
-        "<leader>f",
-        function()
-          require("conform").format({ async = true })
-        end,
-        mode = "",
-        desc = "Format buffer",
-      },
-    },
-    -- This will provide type hinting with LuaLS
-    ---@module "conform"
-    ---@type conform.setupOpts
-    opts = {
-      -- Define your formatters
-      formatters_by_ft = {
-        lua = { "stylua" },
-        python = { "ruff_format" },
-        go = { "goimports", "gofmt" },
-        rust = { "rustfmt", lsp_format = "fallback" },
-        javascript = { "prettierd", "prettier", stop_after_first = true },
-        yaml = { "prettierd", "prettier", stop_after_first = true },
-        nix = { "nixfmt" },
-        terraform = { "terraform_fmt" },
-        html = { "prettierd" },
-      },
-      default_format_opts = {
-        lsp_format = "fallback",
-      },
-      -- Set up format-on-save
-      format_on_save = {
-        lsp_format = "fallback",
-        timeout_ms = 500,
-      },
-      -- Customize formatters
-      formatters = {
-        shfmt = {
-          prepend_args = { "-i", "2" },
-        },
-      },
-    },
-    init = function()
-      -- If you want the formatexpr, here is the place to set it
-      vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
-    end,
-  },
-  -- Improved quickfix UI.
-  {
-    "stevearc/quicker.nvim",
-    event = "VeryLazy",
-    opts = {},
-    keys = {
-      {
-        "<leader>xq",
-        function()
-          require("quicker").toggle()
-        end,
-        desc = "Toggle quickfix",
-      },
-      {
-        "<leader>xl",
-        function()
-          require("quicker").toggle({ loclist = true })
-        end,
-        desc = "Toggle loclist list",
-      },
-      {
-        "<leader>xd",
-        function()
-          local quicker = require("quicker")
-
-          if quicker.is_open() then
-            quicker.close()
-          else
-            vim.diagnostic.setqflist()
-          end
-        end,
-        desc = "Toggle diagnostics",
-      },
-      {
-        ">",
-        function()
-          require("quicker").expand({ before = 2, after = 2, add_to_existing = true })
-        end,
-        desc = "Expand context",
-      },
-      {
-        "<",
-        function()
-          require("quicker").collapse()
-        end,
-        desc = "Collapse context",
-      },
-    },
-  },
 }
