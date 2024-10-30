@@ -1,7 +1,6 @@
 return {
   {
     "fredrikaverpil/neotest-golang",
-    dev = true,
   },
   {
     "nvim-neotest/neotest-jest",

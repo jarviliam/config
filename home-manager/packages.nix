@@ -118,7 +118,7 @@ in
       stylua
       sqlc
       # Go
-      go_1_21
+      go
       gotools
       gopls
       delve

@@ -1,7 +1,7 @@
-local languages = require("efmls-configs.defaults").languages()
+-- local languages = require("efmls-configs.defaults").languages()
 
 -- NOTE: golang-ci-lint doesn't play well with efm
-languages = vim.tbl_extend("force", languages, {
+local languages = vim.tbl_extend("force", {}, {
   lua = { require("efmls-configs.linters.luacheck") },
   yaml = {
     vim.tbl_extend("force", require("efmls-configs.linters.actionlint"), { parentMarkers = { ".github" } }),

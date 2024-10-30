@@ -4,7 +4,6 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     nixstaging.url = "github:nixos/nixpkgs/staging";
-    hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -29,19 +28,19 @@
   };
 
   outputs =
-    { self
-    , nixpkgs
-    , nixstaging
-    , flake-utils
-    , darwin
-    , home-manager
-    , nix-index-database
-    , nil-language-server
-    , nur
-    , nixvim
-    , neovim-nightly-overlay
-    , hyprland
-    , ...
+    {
+      self,
+      nixpkgs,
+      nixstaging,
+      flake-utils,
+      darwin,
+      home-manager,
+      nix-index-database,
+      nil-language-server,
+      nur,
+      nixvim,
+      neovim-nightly-overlay,
+      ...
     }:
     let
       lib = import ./lib.nix {
@@ -62,8 +61,8 @@
       overlays.default = final: prev: {
         nil-language-server =
           nil-language-server.packages.${
-          final.stdenvNoCC.hostPlatform.system
-            or (throw "Unsupported platform ${final.stdenvNoCC.hostPlatform.system}")
+            final.stdenvNoCC.hostPlatform.system
+              or (throw "Unsupported platform ${final.stdenvNoCC.hostPlatform.system}")
           }.nil;
         vtsls = final.callPackage ./home-manager/vtsls.nix { };
         neomutt = prev.neomutt.overrideAttrs (oldAttrs: {
@@ -81,7 +80,6 @@
             ./modules/linux/system.nix
           ];
           commonSpecialArgs = {
-            inherit hyprland;
             hostname = "nixos";
           };
         };

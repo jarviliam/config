@@ -41,5 +41,7 @@
     keyboard = {
       enableKeyMapping = true; # Needed for skhd
     };
+    stateVersion = 5;
   };
+
 }
