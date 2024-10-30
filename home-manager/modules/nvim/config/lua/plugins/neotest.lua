@@ -13,7 +13,6 @@ return {
   },
   {
     "nvim-neotest/neotest-python",
-    dev = true,
   },
   {
     "nvim-neotest/neotest",

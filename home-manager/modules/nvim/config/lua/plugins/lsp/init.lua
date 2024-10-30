@@ -1,7 +1,4 @@
 local diagnostic_icons = require("icons").diagnostics
-local workspace_diagnostics_enabled = false
-vim.g._workspace_diagnostics_enabled = workspace_diagnostics_enabled
-
 return {
   {
     "folke/lazydev.nvim",
@@ -33,11 +30,6 @@ return {
     },
     dependencies = {
       "b0o/SchemaStore.nvim",
-      {
-        "artemave/workspace-diagnostics.nvim",
-        enabled = workspace_diagnostics_enabled,
-        dev = true,
-      },
     },
     config = function()
       require("lspconfig.ui.windows").default_options.border = "rounded"
@@ -98,5 +90,54 @@ return {
       -- If you want the formatexpr, here is the place to set it
       vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
     end,
+  },
+  -- Improved quickfix UI.
+  {
+    "stevearc/quicker.nvim",
+    event = "VeryLazy",
+    opts = {},
+    keys = {
+      {
+        "<leader>xq",
+        function()
+          require("quicker").toggle()
+        end,
+        desc = "Toggle quickfix",
+      },
+      {
+        "<leader>xl",
+        function()
+          require("quicker").toggle({ loclist = true })
+        end,
+        desc = "Toggle loclist list",
+      },
+      {
+        "<leader>xd",
+        function()
+          local quicker = require("quicker")
+
+          if quicker.is_open() then
+            quicker.close()
+          else
+            vim.diagnostic.setqflist()
+          end
+        end,
+        desc = "Toggle diagnostics",
+      },
+      {
+        ">",
+        function()
+          require("quicker").expand({ before = 2, after = 2, add_to_existing = true })
+        end,
+        desc = "Expand context",
+      },
+      {
+        "<",
+        function()
+          require("quicker").collapse()
+        end,
+        desc = "Collapse context",
+      },
+    },
   },
 }
