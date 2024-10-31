@@ -9,12 +9,12 @@ M.apply = function(c)
     mods = "ALT",
     action = workspace_switcher.switch_workspace(" | rg -FxNf ~/.projects"),
   })
-  workspace_switcher.set_workspace_formatter(function(label)
+  workspace_switcher.workspace_formatter = function(label)
     return wezterm.format({
       { Attribute = { Intensity = "Bold" } },
       { Text = "󱂬: " .. label },
     })
-  end)
+  end
 end
 
 return M

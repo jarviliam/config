@@ -1,4 +1,5 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, ... }:
+{
   programs.git = {
     enable = true;
     userName = "Liam Jarvis";
@@ -6,7 +7,7 @@
 
     signing = {
       signByDefault = true;
-      key = "31A0AF4F7B9AED13";
+      key = "E33BEE679A565815";
     };
     aliases = {
       gone = ''
@@ -14,9 +15,13 @@
               git branch -vv | awk '/: gone]/{print $1}' | xargs git branch -D; }; f'';
       today = ''!git log --author = Liam - -oneline - -since="midnight"'';
     };
-    delta = { enable = true; };
+    delta = {
+      enable = true;
+    };
     extraConfig = {
-      advice = { statusHints = true; };
+      advice = {
+        statusHints = true;
+      };
       init.defaultBranch = "master";
       credential.helper = "store";
       core.editor = "nvim";

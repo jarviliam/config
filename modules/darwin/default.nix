@@ -3,11 +3,9 @@
   services.nix-daemon.enable = true;
   homebrew = {
     enable = true;
-    taps = [ "qmk/qmk" ];
     brews = [
       "llvm"
       "clamav"
-      "qmk"
     ];
   };
   nix.settings.allowed-users = [
