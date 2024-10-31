@@ -31,7 +31,7 @@ in
     with pkgs;
     [
       emacs
-      pyenv
+      # pyenv
       lua51Packages.lua
       lua51Packages.luarocks
       lua51Packages.tiktoken_core
@@ -70,13 +70,14 @@ in
       comma
       manix
       qbittorrent
-      clang
-      clang-tools
     ]
     ++ lib.optionals pkgs.stdenvNoCC.isDarwin [
       slack
       terraform
       argocd
+      # darwin.CF
+      # darwin.Security
+      # darwin.apple_sdk
       # clamav
       # release-please
     ]
@@ -84,6 +85,8 @@ in
       llvm
       zathura
       qmk
+      clang
+      clang-tools
     ]
     ++ [
       docker

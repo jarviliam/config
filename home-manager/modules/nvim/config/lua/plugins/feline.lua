@@ -1,29 +1,60 @@
 -- configure feline
 local function config(_, opts)
   local colorscheme = vim.g.colors_name
-  local spec = require("github-theme.spec").load(colorscheme)
-  local palette = spec.palette
+  local theme
+  local palette
+  if colorscheme == "github" then
+    local spec = require("github-theme.spec").load(colorscheme)
+    palette = spec.palette
+    -- theme = {
+    --   fg = spec.fg1,
+    --   bg = spec.bg0,
+    --   black = palette.black.base,
+    --   skyblue = palette.blue.bright,
+    --   cyan = palette.cyan.base,
+    --   green = palette.green.base,
+    --   oceanblue = palette.blue.base,
+    --   magenta = palette.magenta.base,
+    --   orange = palette.orange.base,
+    --   red = palette.red.base,
+    --   violet = palette.magenta.bright,
+    --   white = palette.white.base,
+    --   yellow = palette.yellow.base,
+    -- }
+  else
+    local configuration = vim.fn["gruvbox_material#get_configuration"]()
+    palette = vim.fn["gruvbox_material#get_palette"](
+      configuration.background,
+      configuration.foreground,
+      configuration.colors_override
+    )
+
+    if configuration.transparent_background == 2 then
+      palette.bg_statusline1 = palette.none
+      palette.bg_statusline2 = palette.none
+    end
+    -- theme = {
+    --   fg = palette.fg1[1],
+    --   bg = palette.bg0[1],
+    --   black = palette.bg0[1],
+    --   skyblue = palette.blue[1],
+    --   cyan = palette.aqua[1],
+    --   green = palette.green[1],
+    --   oceanblue = palette.blue[1],
+    --   magenta = palette.purple[1],
+    --   orange = palette.orange[1],
+    --   red = palette.red[1],
+    --   violet = palette.purple[1],
+    --   white = palette.fg1[1],
+    --   yellow = palette.yellow[1],
+    -- }
+  end
+
   local feline = require("feline")
   local vi_mode = require("feline.providers.vi_mode")
   local file = require("feline.providers.file")
   local separators = require("feline.defaults").statusline.separators.default_value
   local lsp = require("feline.providers.lsp")
-
-  local theme = {
-    fg = spec.fg1,
-    bg = spec.bg0,
-    black = palette.black.base,
-    skyblue = palette.blue.bright,
-    cyan = palette.cyan.base,
-    green = palette.green.base,
-    oceanblue = palette.blue.base,
-    magenta = palette.magenta.base,
-    orange = palette.orange.base,
-    red = palette.red.base,
-    violet = palette.magenta.bright,
-    white = palette.white.base,
-    yellow = palette.yellow.base,
-  }
 
   local c = {
     -- left
@@ -31,11 +62,11 @@ local function config(_, opts)
       provider = function()
         return "  "
       end,
-      hl = { fg = spec.bg0, bg = palette.blue.base },
+      hl = { fg = palette.bg0[1], bg = palette.blue[1] },
       right_sep = {
         always_visible = true,
         str = separators.slant_right,
-        hl = { fg = palette.blue.base, bg = spec.bg0 },
+        hl = { fg = palette.blue[1], bg = palette.bg0[1] },
       },
     },
 
@@ -44,11 +75,11 @@ local function config(_, opts)
         name = "file_info",
         opts = { colored_icon = false },
       },
-      hl = { fg = spec.bg0, bg = palette.white.base },
+      hl = { fg = palette.bg0[1], bg = palette.fg1[1] },
       left_sep = {
         always_visible = true,
         str = string.format("%s ", separators.slant_right),
-        hl = { fg = spec.bg0, bg = palette.white.base },
+        hl = { fg = palette.bg0[1], bg = palette.fg1[1] },
       },
     },
 
@@ -64,16 +95,16 @@ local function config(_, opts)
         end
         return s
       end,
-      hl = { fg = spec.bg0, bg = spec.fg3 },
+      hl = { fg = palette.bg0[1], bg = palette.fg3[1] },
       left_sep = {
         always_visible = true,
         str = string.format("%s%s", separators.block, separators.slant_right),
-        hl = { fg = palette.white.base, bg = spec.fg3 },
+        hl = { fg = palette.fg1[1], bg = palette.fg3[1] },
       },
       right_sep = {
         always_visible = true,
         str = separators.slant_right,
-        hl = { fg = spec.fg3, bg = spec.bg0 },
+        hl = { fg = palette.fg3[1], bg = palette.bg0[1] },
       },
     },
 
@@ -86,18 +117,18 @@ local function config(_, opts)
       end,
       hl = function()
         if not lsp.is_lsp_attached() then
-          return { fg = spec.bg0, bg = spec.fg3 }
+          return { fg = palette.bg0[1], bg = palette.fg3[1] }
         end
-        return { fg = spec.bg0, bg = palette.green.base }
+        return { fg = palette.bg0[1], bg = palette.green[1] }
       end,
       left_sep = {
         always_visible = true,
         str = separators.slant_right,
         hl = function()
           if not lsp.is_lsp_attached() then
-            return { fg = spec.bg0, bg = spec.fg3 }
+            return { fg = palette.bg0[1], bg = palette.fg3[1] }
           end
-          return { fg = spec.bg0, bg = palette.green.base }
+          return { fg = palette.bg0[1], bg = palette.green[1] }
         end,
       },
       right_sep = {
@@ -105,9 +136,9 @@ local function config(_, opts)
         str = separators.slant_right,
         hl = function()
           if not lsp.is_lsp_attached() then
-            return { fg = spec.fg3, bg = "none" }
+            return { fg = palette.fg3[1], bg = "none" }
           end
-          return { fg = palette.green.base, bg = "none" }
+          return { fg = palette.green[1], bg = "none" }
         end,
       },
     },
@@ -118,7 +149,7 @@ local function config(_, opts)
         return string.format(" %s ", vi_mode.get_vim_mode())
       end,
       hl = function()
-        return { fg = spec.bg0, bg = vi_mode.get_mode_color() }
+        return { fg = palette.bg0[1], bg = vi_mode.get_mode_color() }
       end,
       left_sep = {
         always_visible = true,
@@ -131,7 +162,7 @@ local function config(_, opts)
         always_visible = true,
         str = separators.slant_left,
         hl = function()
-          return { fg = spec.bg0, bg = vi_mode.get_mode_color() }
+          return { fg = palette.bg0[1], bg = vi_mode.get_mode_color() }
         end,
       },
     },
@@ -147,12 +178,12 @@ local function config(_, opts)
         end
         return s
       end,
-      hl = { fg = spec.bg0, bg = spec.fg3 },
+      hl = { fg = palette.bg0[1], bg = palette.fg3[1] },
       left_sep = {
         always_visible = true,
         str = separators.slant_left,
         hl = function()
-          return { fg = spec.fg3, bg = spec.bg0 }
+          return { fg = palette.fg3[1], bg = palette.bg0[1] }
         end,
       },
     },
@@ -174,18 +205,18 @@ local function config(_, opts)
         local denominator = math.min(result.total, result.maxcount)
         return string.format(" [%d/%d] ", result.current, denominator)
       end,
-      hl = { fg = spec.bg0, bg = palette.white.base },
+      hl = { fg = palette.bg0[1], bg = palette.fg1[1] },
       left_sep = {
         always_visible = true,
         str = separators.slant_left,
         hl = function()
-          return { fg = palette.white.base, bg = spec.fg3 }
+          return { fg = palette.fg1[1], bg = palette.fg3[1] }
         end,
       },
       right_sep = {
         always_visible = true,
         str = separators.slant_left,
-        hl = { fg = spec.bg0, bg = palette.white.base },
+        hl = { fg = palette.bg0[1], bg = palette.fg1[1] },
       },
     },
 
@@ -194,18 +225,18 @@ local function config(_, opts)
         name = "position",
         opts = { padding = true },
       },
-      hl = { fg = spec.bg0, bg = palette.blue.base },
+      hl = { fg = palette.bg0[1], bg = palette.blue[1] },
       left_sep = {
         always_visible = true,
         str = string.format("%s%s", separators.slant_left, separators.block),
         hl = function()
-          return { fg = palette.blue.base, bg = spec.bg0 }
+          return { fg = palette.blue[1], bg = palette.bg0[1] }
         end,
       },
       right_sep = {
         always_visible = true,
         str = " ",
-        hl = { fg = spec.bg0, bg = palette.blue.base },
+        hl = { fg = palette.bg0[1], bg = palette.blue[1] },
       },
     },
 
@@ -214,7 +245,7 @@ local function config(_, opts)
         name = "scroll_bar",
         opts = { reverse = true },
       },
-      hl = { fg = palette.blue.bright, bg = palette.blue.base },
+      hl = { fg = palette.blue[1], bg = palette.blue[1] },
     },
 
     -- inactive statusline
@@ -226,16 +257,16 @@ local function config(_, opts)
           return file.file_type({}, { colored_icon = false, case = "lowercase" })
         end
       end,
-      hl = { fg = spec.bg0, bg = palette.blue.base },
+      hl = { fg = palette.bg0[1], bg = palette.blue[1] },
       left_sep = {
         always_visible = true,
         str = string.format("%s%s", separators.slant_left, separators.block),
-        hl = { fg = palette.blue.base, bg = "none" },
+        hl = { fg = palette.blue[1], bg = "none" },
       },
       right_sep = {
         always_visible = true,
         str = " ",
-        hl = { fg = spec.bg0, bg = palette.blue.base },
+        hl = { fg = palette.bg0[1], bg = palette.blue[1] },
       },
     },
   }
@@ -278,6 +309,5 @@ return {
     "kyazdani42/nvim-web-devicons",
     "lewis6991/gitsigns.nvim",
   },
-  opts = {
-  },
+  opts = {},
 }
