@@ -7,7 +7,9 @@ M.apply = function(c)
   table.insert(c.keys, {
     key = "s",
     mods = "ALT",
-    action = workspace_switcher.switch_workspace(" | rg -FxNf ~/.projects"),
+    action = workspace_switcher.switch_workspace({
+      extra_args = " | rg -FxNf ~/.projects",
+    }),
   })
   workspace_switcher.workspace_formatter = function(label)
     return wezterm.format({

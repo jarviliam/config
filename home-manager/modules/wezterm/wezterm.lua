@@ -289,8 +289,7 @@ require("font").apply(c)
 
 wezterm.on(
   "smart_workspace_switcher.workspace_switcher.selected",
-  function(window, path)
-    wezterm.log_info("THIS IS EMITTED FROM THE CALLBACK")
+  function(window, path, label)
     local base_path = string.gsub(path, "(.*[/\\])(.*)", "%2")
     window:set_right_status(wezterm.format({
       { Foreground = { Color = scheme.ansi[5] } },
@@ -301,8 +300,7 @@ wezterm.on(
 
 wezterm.on(
   "smart_workspace_switcher.workspace_switcher.created",
-  function(window, path)
-    wezterm.log_info("THIS IS EMITTED FROM THE CALLBACK")
+  function(window, path, label)
     local base_path = string.gsub(path, "(.*[/\\])(.*)", "%2")
     window:set_right_status(wezterm.format({
       { Foreground = { Color = scheme.ansi[5] } },

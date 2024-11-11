@@ -18,6 +18,7 @@ return {
   { "Bilal2453/luvit-meta", lazy = true },
   {
     "creativenull/efmls-configs-nvim",
+    enabled = false,
     dependencies = { "neovim/nvim-lspconfig" },
   },
   { "yioneko/nvim-vtsls" },
@@ -40,4 +41,19 @@ return {
     end,
   },
   { "maxandron/goplements.nvim" },
+  {
+    "mfussenegger/nvim-lint",
+    config = function()
+      require("lint").linters_by_ft = {
+        python = { "ruff" },
+        lua = { "luacheck" },
+        terraform = { "tflint" },
+      }
+      vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+        callback = function()
+          require("lint").try_lint()
+        end,
+      })
+    end,
+  },
 }
