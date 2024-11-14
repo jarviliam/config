@@ -12,6 +12,25 @@ return {
     event = "VeryLazy",
     dependencies = { "MunifTanjim/nui.nvim", { "nvim-lua/plenary.nvim", lazy = true } },
     opts = {
+      max_time = 1000,
+      max_count = 3,
+      disable_mouse = 3,
+      hint = true,
+      allow_different_keys = true,
+      restricted_keys = {
+        ["-"] = {},
+        ["<C-M>"] = {},
+        ["<C-N>"] = {},
+        ["<C-P>"] = {},
+        ["<CR>"] = {},
+      },
+      resetting_keys = {
+        ["s"] = {},
+        ["S"] = {},
+      },
+      disabled_keys = {
+        ["<CR>"] = {},
+      },
       disabled_filetypes = {
         "NvimTree",
         "TelescopePrompt",
@@ -83,15 +102,6 @@ return {
     },
   },
   {
-    "garymjr/nvim-snippets",
-    enabled = false,
-    dependencies = { "rafamadriz/friendly-snippets" },
-    opts = {
-      friendly_snippets = true,
-      create_autocmd = true,
-    },
-  },
-  {
     "ggandor/leap.nvim",
     dependencies = { "tpope/vim-repeat" },
     lazy = false,
@@ -105,7 +115,6 @@ return {
   },
   { "tpope/vim-abolish", command = "S" },
   { "sainnhe/sonokai", lazy = conf.theme ~= "sonokai", dev = true },
-  { "sainnhe/edge", lazy = conf.theme ~= "edge" },
   { "sainnhe/everforest" },
   { "sainnhe/gruvbox-material", lazy = false },
   { "projekt0n/github-nvim-theme" },

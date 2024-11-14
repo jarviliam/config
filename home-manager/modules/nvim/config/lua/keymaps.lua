@@ -11,7 +11,9 @@ map({ "n", "x" }, "k", "v:count == 0 ? 'gk' : 'k'", { desc = "Up", expr = true, 
 map({ "n", "x" }, "<Up>", "v:count == 0 ? 'gk' : 'k'", { desc = "Up", expr = true, silent = true })
 
 map("n", "<C-d>", "<C-d>zz", { desc = "Scroll downwards" })
+map("n", "<C-f>", "<C-f>zz", { desc = "Scroll downwards, fullpage" })
 map("n", "<C-u>", "<C-u>zz", { desc = "Scroll upwards" })
+map("n", "<C-b>", "<C-b>zz", { desc = "Scroll upwards, fullpage" })
 
 -- https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n
 map("n", "n", "'Nn'[v:searchforward].'zv'", { expr = true, desc = "Next Search Result" })

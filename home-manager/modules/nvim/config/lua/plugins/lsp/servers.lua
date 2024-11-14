@@ -1,4 +1,4 @@
-local efm = require("plugins.lsp.lint")
+-- local efm = require("plugins.lsp.lint")
 
 local js_settings = {
   suggest = { completeFunctionCalls = true },
@@ -10,7 +10,7 @@ local js_settings = {
 }
 
 return {
-  efm = efm,
+  -- efm = efm,
   bashls = {},
   cmake = {},
   clangd = {
@@ -131,7 +131,7 @@ return {
       return true
     end,
   },
-  ruff_lsp = {},
+  ruff = {},
   rust_analyzer = {},
   terraformls = {},
   vtsls = {
