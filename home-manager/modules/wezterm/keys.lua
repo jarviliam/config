@@ -121,7 +121,6 @@ M.apply = function(c)
   map("o", { "LEADER", "SUPER" }, openUrl)
   map("p", { "LEADER", "SUPER" }, act.PaneSelect({ alphabet = "asdfghjkl;" }))
   map("R", { "LEADER", "SUPER" }, act.ReloadConfiguration)
-  map("u", "SHIFT|CTRL", act.CharSelect)
   map("p", { "SHIFT|CTRL", "SHIFT|SUPER" }, act.ActivateCommandPalette)
 
   map("Enter", "ALT", act.ToggleFullScreen)
@@ -132,7 +131,7 @@ M.apply = function(c)
   map("f", "LEADER", act.EmitEvent("switch-font"))
   map("l", "SHIFT|CTRL", act.ShowDebugOverlay)
   map(
-    "F12",
+    "F11",
     "",
     wezterm.action_callback(function(_, pane)
       local tab = pane:tab()

@@ -10,7 +10,7 @@ local map_split = function(buf_id, lhs, direction)
     end
     -- Make new window and set it as target
     local new_target_window
-    vim.api.nvim_win_call(minifiles.get_target_window() or 0, function()
+    vim.api.nvim_win_call(minifiles.get_explorer_state().target_window or 0, function()
       vim.cmd(direction .. " split")
       new_target_window = vim.api.nvim_get_current_win()
     end)
@@ -164,7 +164,8 @@ return {
 
   {
     "echasnovski/mini.clue",
-    enable = false,
+    enable = true,
+    event = "VeryLazy",
     opts = function()
       local miniclue = require("mini.clue")
       return {
@@ -215,13 +216,18 @@ return {
           { mode = "n", keys = "<leader>d", desc = "+debug" },
           { mode = "n", keys = "<leader>f", desc = "+find" },
           { mode = "x", keys = "<leader>f", desc = "+find" },
-          { mode = "n", keys = "<leader>g", desc = "+git" },
-          { mode = "n", keys = "<leader>h", desc = "+hunk" },
+          { mode = "n", keys = "gc", desc = "+comment" },
+          { mode = "n", keys = "<leader>gd", desc = "+diff" },
+          { mode = "n", keys = "<leader>gh", desc = "+hunk" },
+          { mode = "n", keys = "<leader>gc", desc = "+gitlink" },
           { mode = "n", keys = "<leader>o", desc = "+overseer" },
+          { mode = "n", keys = "<leader>s", desc = "+search" },
+          { mode = "n", keys = "<leader>S", desc = "+session" },
           { mode = "n", keys = "<leader>T", desc = "+tabs" },
           { mode = "n", keys = "<leader>t", desc = "+tests" },
           { mode = "n", keys = "<leader>u", desc = "+ui" },
           { mode = "n", keys = "<leader>x", desc = "+loclist/quickfix" },
+          { mode = "n", keys = "<leader>z", desc = "+fold" },
           miniclue.gen_clues.builtin_completion(),
           miniclue.gen_clues.g(),
           miniclue.gen_clues.marks(),

@@ -26,20 +26,37 @@ M.symbol_kinds = {
   String = "󰀬",
   TypeParameter = "󰊄",
   Unit = "",
+  Color = "󰏘",
+  Constant = "󰏿",
+  Enum = "",
+  EnumMember = "",
+  Event = "",
+  Field = "󰜢",
+  Function = "󰆧",
+  Interface = "",
+  Keyword = "󰌋",
+  Method = "󰆧",
+  Module = "",
+  Operator = "󰆕",
+  Struct = "",
+  Text = "",
+  Value = "",
+  Variable = "󰀫",
 }
 
 M.misc = {
   bug = "",
   git = "",
+  ellipsis = "…",
   search = "",
   vertical_bar = "│",
 }
 
 M.arrows = {
-    right = '',
-    left = '',
-    up = '',
-    down = '',
+  right = "",
+  left = "",
+  up = "",
+  down = "",
 }
 
 return M

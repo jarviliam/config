@@ -1,5 +1,22 @@
 local M = {}
 
+---@param filter 'Function' | 'Module' | 'Struct'
+local function filtered_document_symbol(filter)
+  vim.lsp.buf.document_symbol()
+  vim.cmd.Cfilter(("[[%s]]"):format(filter))
+end
+local function symbol_methods()
+  filtered_document_symbol("Function")
+end
+
+local function symbol_modules()
+  filtered_document_symbol("Module")
+end
+
+local function symbol_structs()
+  filtered_document_symbol("Struct")
+end
+
 --- Sets up the Keymaps and autocommands
 ---@param client vim.lsp.Client
 ---@param bufnr integer
@@ -26,7 +43,7 @@ function M.on_attach(client, bufnr)
     return tonumber(vim.fn.pumvisible()) ~= 0
   end
 
-  if client.server_capabilities.signatureHelpProvider then
+  if vim.g._native_compl and client.server_capabilities.signatureHelpProvider then
     client.server_capabilities.signatureHelpProvider.triggerCharacters = {}
   end
 
@@ -39,72 +56,77 @@ function M.on_attach(client, bufnr)
   local supports_inlayHint = client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint)
 
   if supports_completion then
-    vim.lsp.completion.enable(true, client.id, bufnr, { autotrigger = true })
-    keymap("<cr>", function()
-      return pumvisible() and "<C-y>" or "<cr>"
-    end, { expr = true }, "i")
+    if vim.g._native_compl then
+      vim.lsp.completion.enable(true, client.id, bufnr, { autotrigger = true })
+      keymap("<cr>", function()
+        return pumvisible() and "<C-y>" or "<cr>"
+      end, { expr = true }, "i")
 
-    keymap("<C-n>", function()
-      if pumvisible() then
-        feedkeys("<C-n>")
-      else
-        vim.lsp.completion.trigger()
-      end
-    end, "Trigger/select next completion", "i")
+      keymap("<C-n>", function()
+        if pumvisible() then
+          feedkeys("<C-n>")
+        else
+          vim.lsp.completion.trigger()
+        end
+      end, "Trigger/select next completion", "i")
 
-    keymap("<Tab>", function()
-      if pumvisible() then
-        feedkeys("<C-n>")
-      elseif vim.snippet.active({ direction = 1 }) then
-        vim.snippet.jump(1)
-      else
-        feedkeys("<Tab>")
-      end
-    end, {}, { "i", "s" })
+      keymap("<Tab>", function()
+        if pumvisible() then
+          feedkeys("<C-n>")
+        elseif vim.snippet.active({ direction = 1 }) then
+          vim.snippet.jump(1)
+        else
+          feedkeys("<Tab>")
+        end
+      end, {}, { "i", "s" })
 
-    keymap("<S-Tab>", function()
-      if pumvisible() then
-        feedkeys("<C-p>")
-      elseif vim.snippet.active({ direction = -1 }) then
-        vim.snippet.jump(-1)
-      else
-        feedkeys("<S-Tab>")
-      end
-    end, {}, { "i", "s" })
+      keymap("<S-Tab>", function()
+        if pumvisible() then
+          feedkeys("<C-p>")
+        elseif vim.snippet.active({ direction = -1 }) then
+          vim.snippet.jump(-1)
+        else
+          feedkeys("<S-Tab>")
+        end
+      end, {}, { "i", "s" })
+    end
 
     keymap("<C-u>", "<C-x><C-n>", { desc = "Buffer completions" }, "i")
+
     -- Inside a snippet, use backspace to remove the placeholder.
     keymap("<BS>", "<C-o>s", {}, "s")
 
-    vim.api.nvim_create_autocmd("CompleteChanged", {
-      buffer = bufnr,
-      callback = function()
-        local info = vim.fn.complete_info({ "selected" })
-        local completionItem = vim.tbl_get(vim.v.completed_item, "user_data", "nvim", "lsp", "completion_item")
-        if nil == completionItem then
-          return
-        end
+    if vim.g._native_compl then
+      vim.api.nvim_create_autocmd("CompleteChanged", {
+        buffer = bufnr,
+        callback = function()
+          local info = vim.fn.complete_info({ "selected" })
+          local completionItem = vim.tbl_get(vim.v.completed_item, "user_data", "nvim", "lsp", "completion_item")
+          if nil == completionItem then
+            return
+          end
 
-        local resolvedItem =
-          vim.lsp.buf_request_sync(bufnr, vim.lsp.protocol.Methods.completionItem_resolve, completionItem, 500)
-        if resolvedItem == nil then
-          return
-        end
-        local docs = vim.tbl_get(resolvedItem[client.id], "result", "documentation", "value")
-        if nil == docs then
-          return
-        end
+          local resolvedItem =
+            vim.lsp.buf_request_sync(bufnr, vim.lsp.protocol.Methods.completionItem_resolve, completionItem, 500)
+          if resolvedItem == nil then
+            return
+          end
+          local docs = vim.tbl_get(resolvedItem[client.id], "result", "documentation", "value")
+          if nil == docs then
+            return
+          end
 
-        local winData = vim.api.nvim__complete_set(info["selected"], { info = docs })
-        if not winData.winid or not vim.api.nvim_win_is_valid(winData.winid) then
-          return
-        end
+          local winData = vim.api.nvim__complete_set(info["selected"], { info = docs })
+          if not winData.winid or not vim.api.nvim_win_is_valid(winData.winid) then
+            return
+          end
 
-        vim.api.nvim_win_set_config(winData.winid, { border = "rounded" })
-        vim.treesitter.start(winData.bufnr, "markdown")
-        vim.wo[winData.winid].conceallevel = 3
-      end,
-    })
+          vim.api.nvim_win_set_config(winData.winid, { border = "rounded" })
+          vim.treesitter.start(winData.bufnr, "markdown")
+          vim.wo[winData.winid].conceallevel = 3
+        end,
+      })
+    end
   end
 
   keymap("grr", function()
@@ -143,6 +165,14 @@ function M.on_attach(client, bufnr)
 
   if supports_signatureHelp then
     keymap("<C-k>", function()
+      if not vim.g._native_compl then
+        local cmp = require("cmp")
+        if cmp.visible() then
+          cmp.close()
+        end
+        vim.lsp.buf.signature_help()
+        return
+      end
       if pumvisible() then
         feedkeys("<C-e>")
       end
@@ -179,35 +209,8 @@ function M.on_attach(client, bufnr)
           end,
         })
       end
-    end)
+    end, { desc = "Toggle Inlay Hints" })
   end
-
-  vim.keymap.set("n", "<leader>cf", function()
-    vim.lsp.buf.format({ async = true })
-  end, { silent = true, buffer = bufnr, desc = "Format" })
-  vim.api.nvim_create_user_command("Format", function(args)
-    local range = nil
-    if args.count ~= -1 then
-      local end_line = vim.api.nvim_buf_get_lines(0, args.line2 - 1, args.line2, true)[1]
-      range = {
-        start = { args.line1, 0 },
-        ["end"] = { args.line2, end_line:len() },
-      }
-    end
-    require("conform").format({ async = true, lsp_format = "fallback", range = range })
-  end, { range = true })
-
-  -- local lsp_fmt_group = vim.api.nvim_create_augroup("LspFormattingGroup", {})
-  -- vim.api.nvim_create_autocmd("BufWritePost", {
-  --   group = lsp_fmt_group,
-  --   callback = function(ev)
-  --     local efm = vim.lsp.get_clients({ name = "efm", bufnr = ev.buf })
-  --     if vim.tbl_isempty(efm) then
-  --       return
-  --     end
-  --     vim.lsp.buf.format({ name = "efm" })
-  --   end,
-  -- })
 
   -- workaround for gopls not supporting semanticTokensProvider
   -- https://github.com/golang/go/issues/54531#issuecomment-1464982242
@@ -219,11 +222,10 @@ function M.on_attach(client, bufnr)
       range = true,
     }
   end
-  if vim.g._workspace_diagnostics_enabled then
-    if client.name == "gopls" then
-      require("workspace-diagnostics").populate_workspace_diagnostics(client, bufnr)
-    end
-  end
+
+  keymap("<space>sf", symbol_methods, { desc = "symbols: [f]unction" })
+  keymap("<space>sss", symbol_structs, { desc = "symbols: [s]tructs" })
+  keymap("<space>ssi", symbol_modules, { desc = "symbols: [i]mports" })
 end
 
 --- Configure the lsp server via lspconfig
@@ -231,7 +233,15 @@ end
 ---@param settings? table
 function M.configure_server(server, settings)
   local function capabilities()
-    return vim.tbl_deep_extend("force", vim.lsp.protocol.make_client_capabilities(), {})
+    if vim.g._native_compl then
+      return vim.tbl_deep_extend("force", vim.lsp.protocol.make_client_capabilities(), {})
+    end
+    return vim.tbl_deep_extend(
+      "force",
+      vim.lsp.protocol.make_client_capabilities(),
+      require("cmp_nvim_lsp").default_capabilities(),
+      {}
+    )
   end
   require("lspconfig")[server].setup(vim.tbl_deep_extend("error", { capabilities = capabilities() }, settings or {}))
 end

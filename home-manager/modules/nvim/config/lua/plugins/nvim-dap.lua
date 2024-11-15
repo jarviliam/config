@@ -1,3 +1,36 @@
+local winID = nil
+local D = {}
+
+function D.goToWin() end
+if winID ~= nil and vim.api.nvim_win_is_valid(winID) then
+  vim.api.nvim_set_current_win(winID)
+  return true
+end
+function D.Close()
+  if winID == nil then
+    return
+  end
+  if not vim.api.nvim_win_is_valid(winID) then
+    winID = nil
+    return
+  end
+  local tab = vim.api.nvim_tabpage_get_number(vim.api.nvim_win_get_tabpage(winID))
+  require("dapui").close()
+  vim.cmd.tabclose(tab)
+end
+
+function D.Open()
+  if D.goToWin() then
+    vim.notify(winID)
+    return
+  end
+  vim.notify("New Window")
+  vim.cmd.tabedit("%")
+  vim.wo.scrolloff = 10
+  winID = vim.fn.win_getid()
+  require("dapui").open()
+end
+
 return {
   { "mfussenegger/nvim-dap-python" },
   { "jbyuki/one-small-step-for-vimkind" },
@@ -53,6 +86,7 @@ return {
     opts = {},
     config = function(_, opts)
       local dap = require("dap")
+      dap.defaults.switch_buf = "uselast"
       local dapui = require("dapui")
       dapui.setup(opts)
       dap.listeners.after.event_initialized["dapui_config"] = function()
@@ -64,6 +98,7 @@ return {
       dap.listeners.before.event_exited["dapui_config"] = function()
         dapui.close({})
       end
+      -- dap.listeners.before.event_stopped["dap-tab"] = D.Open
     end,
   },
 }

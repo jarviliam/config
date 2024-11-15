@@ -7,5 +7,6 @@ return {
       vim.g.netrw_nogx = 1 -- disable netrw gx
     end,
     config = true,
+    submodules = false,
   },
 }
