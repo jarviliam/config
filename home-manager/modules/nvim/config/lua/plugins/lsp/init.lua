@@ -48,6 +48,10 @@ return {
         -- python = { "ruff" },
         lua = { "luacheck" },
         terraform = { "tflint" },
+        javascript = { "eslint_d" },
+        javascriptreact = { "eslint_d" },
+        typescript = { "eslint_d" },
+        typescriptreact = { "eslint_d" },
       }
       vim.api.nvim_create_autocmd({ "BufWritePost" }, {
         callback = function()

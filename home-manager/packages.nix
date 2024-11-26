@@ -70,6 +70,7 @@ in
       comma
       manix
       qbittorrent
+      eslint_d
     ]
     ++ lib.optionals pkgs.stdenvNoCC.isDarwin [
       slack
@@ -82,11 +83,8 @@ in
       # release-please
     ]
     ++ lib.optionals pkgs.stdenvNoCC.isLinux [
-      llvm
       zathura
       qmk
-      clang
-      clang-tools
     ]
     ++ [
       docker
