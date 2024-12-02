@@ -50,6 +50,7 @@ return {
     { "<leader>fW", "<cmd>FzfLua grep_cWORD<cr>", desc = "grep <WORD> (project)" },
     { "<leader>fz", "<cmd>FzfLua spell_suggest<cr>", desc = "spell" },
     { "<leader>fg", "<cmd>FzfLua git_files<cr>", desc = "Find Files (Git)" },
+    { "<leader>gb", "<cmd>FzfLua git_branches<cr>", desc = "Find Branches (Git)" },
     { '<leader>s"', "<cmd>FzfLua registers<cr>", desc = "Registers" },
     { "<leader>sa", "<cmd>FzfLua autocmds<cr>", desc = "Auto Commands" },
     { "<leader>sC", "<cmd>FzfLua commands<cr>", desc = "Commands" },

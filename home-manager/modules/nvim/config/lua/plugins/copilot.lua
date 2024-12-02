@@ -31,6 +31,17 @@ return {
       -- { "v", "ga", "<cmd>CodeCompanionChat Add<CR>", desc = "Add to chat" },
     },
     opts = {
+      -- adapters = {
+      --   copilot = function()
+      --     return require("codecompanion.adapters").extend("copilot", {
+      --       schema = {
+      --         model = {
+      --           default = "claude-3.5-sonnet",
+      --         },
+      --       },
+      --     })
+      --   end,
+      -- },
       strategies = {
         chat = {
           adapter = "copilot",

@@ -45,6 +45,7 @@ in
       unar
       neovim
       file
+      zls
       nodePackages.npm
       source-code-pro
       (nerdfonts.override {
