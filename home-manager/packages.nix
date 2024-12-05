@@ -45,6 +45,7 @@ in
       unar
       neovim
       file
+      zig
       zls
       nodePackages.npm
       source-code-pro

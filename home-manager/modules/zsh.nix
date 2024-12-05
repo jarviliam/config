@@ -77,23 +77,31 @@
       hmr = "home-manager remove-generations";
     };
     initExtra = ''
-      zstyle ':fzf-tab:complete:_zlua:*' query-string input
-      zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
-      zstyle ':fzf-tab:complete:cd:*' popup-pad 30 0
-      zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
-      zstyle ':fzf-tab:*' switch-group ',' '.'
-      zstyle ':completion:*:git-checkout:*' sort false
-      export PATH="/opt/homebrew/bin:$PATH"
-      export PYENV_ROOT="$HOME/.pyenv"
-      [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-      eval "$(pyenv init -)"
+        zstyle ':fzf-tab:complete:_zlua:*' query-string input
+        zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
+        zstyle ':fzf-tab:complete:cd:*' popup-pad 30 0
+        zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
+        zstyle ':fzf-tab:*' switch-group ',' '.'
+        zstyle ':completion:*:git-checkout:*' sort false
+        export PATH="/opt/homebrew/bin:$PATH"
+        export PYENV_ROOT="$HOME/.pyenv"
+        [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+        eval "$(pyenv init -)"
+
+      #compdef gt
+      ###-begin-gt-completions-###
+      _gt_yargs_completions()
+      {
+        local reply
+        local si=$IFS
+        IFS=$'\n' reply=($(COMP_CWORD="$((CURRENT-1))" COMP_LINE="$BUFFER" COMP_POINT="$CURSOR" gt --get-yargs-completions "$${words[@]}"))
+        IFS=$si
+        _describe 'values' reply
+      }
+      ###-end-gt-completions-###
+      compdef _gt_yargs_completions gt
+
     '';
-    #
-    # initExtra = ''
-    #   alias my-opened-prs='gh pr list --search "is:open author:@me updated:$(date +"%Y-%m-%d")" --json number,title | jq -r ".[] | \"\(.number),\(.title)\"" | pbcopy'
-    #   alias my-merged-prs='gh pr list --search "is:merged author:@me updated:$(date +"%Y-%m-%d")" --json number,title | jq -r ".[] | \"\(.number),\(.title)\"" | pbcopy'
-    #   eval "$(luarocks path --bin)"
-    # '';
     antidote = {
       enable = true;
       plugins = [

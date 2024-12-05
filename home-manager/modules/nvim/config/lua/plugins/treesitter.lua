@@ -20,6 +20,7 @@ return {
         "norg",
         "comment",
         "go",
+        "graphql",
         "gomod",
         "gowork",
         "gosum",
