@@ -114,7 +114,6 @@ return {
     end,
   },
   { "tpope/vim-abolish", command = "S" },
-  { "sainnhe/sonokai", lazy = conf.theme ~= "sonokai", dev = true },
   { "sainnhe/everforest" },
   { "sainnhe/gruvbox-material", lazy = false },
   { "projekt0n/github-nvim-theme" },

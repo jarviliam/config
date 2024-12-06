@@ -20,12 +20,8 @@
   fonts = {
     packages = with pkgs; [
       noto-fonts-emoji
-      (nerdfonts.override {
-        fonts = [
-          "FiraCode"
-          "NerdFontsSymbolsOnly"
-        ];
-      })
+      nerd-fonts.fira-code
+      nerd-fonts.symbols-only
       victor-mono
       ibm-plex
     ];

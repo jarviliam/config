@@ -1,12 +1,3 @@
-local function graphQL()
-  local extractors = require("neogen.utilities.extractors")
-  return {
-    parent = {
-      type = { "type_function" },
-    },
-    data = {},
-  }
-end
 return {
   "danymat/neogen",
   cmd = { "Neogen" },
@@ -19,9 +10,9 @@ return {
     enabled = true,
     input_after_comment = true,
     snippet_engine = "nvim",
-    languages = {
-      graphql = graphQL(),
-    },
+    -- languages = {
+    --   -- graphql = graphQL(),
+    -- },
   },
   version = "*",
 }

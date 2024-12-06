@@ -49,17 +49,10 @@ in
       zls
       nodePackages.npm
       source-code-pro
-      (nerdfonts.override {
-        fonts = [
-          "CommitMono"
-          "FiraCode"
-          "JetBrainsMono"
-          "Iosevka"
-          "FantasqueSansMono"
-          "Hack"
-          "IntelOneMono"
-        ];
-      })
+      nerd-fonts.fira-code
+      nerd-fonts.jetbrains-mono
+      nerd-fonts.hack
+      nerd-fonts.commit-mono
       nodejs
       openssh
       ripgrep

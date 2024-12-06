@@ -38,6 +38,7 @@ end
 return {
   "ibhagwan/fzf-lua",
   cmd = "FzfLua",
+  commit = "def1d778de3ca4f3933a292fd56ec3cfea1325e8",
   lazy = false,
   keys = {
     { "<leader>:", "<cmd>FzfLua command_history<cr>", desc = "Command History" },
