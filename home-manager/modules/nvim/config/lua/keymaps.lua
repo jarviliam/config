@@ -53,41 +53,13 @@ map_toggle("w", "<Cmd>setlocal wrap!<CR>", "Toggle 'wrap'")
 
 map({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save File" })
 
-map("n", "<leader>K", "<cmd>norm! K<cr>", { desc = "Keywordprg" })
-map("n", "<leader>l", "<cmd>Lazy<cr>", { desc = "Lazy" })
-
 map("n", "<leader>xl", "<cmd>lopen<cr>", { desc = "Location List" })
 map("n", "<leader>xq", "<cmd>copen<cr>", { desc = "Quickfix List" })
-
--- commenting
-map("n", "gco", "o<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>", { desc = "Add Comment Below" })
-map("n", "gcO", "O<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>", { desc = "Add Comment Above" })
-
-local function foldexpr(value)
-  return function()
-    vim.opt_local.foldmethod = value
-  end
-end
-
-local function opts(desc)
-  return { silent = true, desc = desc }
-end
-
-vim.keymap.set("n", "<leader>zm", foldexpr("manual"), opts("Set local foldmethod to manual"))
-vim.keymap.set("n", "<leader>ze", foldexpr("expr"), opts("Set local foldmethod to expr"))
-vim.keymap.set("n", "<leader>zi", foldexpr("indent"), opts("Set local foldmethod to indent"))
-vim.keymap.set("n", "<leader>zk", foldexpr("marker"), opts("Set local foldmethod to marker"))
-vim.keymap.set("n", "<leader>zs", foldexpr("syntax"), opts("Set local foldmethod to syntax"))
 
 -- Tab navigation.
 vim.keymap.set("n", "<leader>Tc", "<cmd>tabclose<cr>", { desc = "Close tab page" })
 vim.keymap.set("n", "<leader>Tn", "<cmd>tab split<cr>", { desc = "New tab page" })
 vim.keymap.set("n", "<leader>To", "<cmd>tabonly<cr>", { desc = "Close other tab pages" })
-vim.keymap.set("n", "<leader>gg", function()
-  require("float").float_term("lazygit", {
-    size = { width = 0.85, height = 0.8 },
-  })
-end, { desc = "Lazygit" })
 
 local diagnostic_goto = function(next, severity)
   local jump = next and 1 or -1
@@ -96,6 +68,7 @@ local diagnostic_goto = function(next, severity)
     vim.diagnostic.jump({ count = jump, severity = severity })
   end
 end
+
 map("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
 map("n", "]d", diagnostic_goto(true), { desc = "Next Diagnostic" })
 map("n", "[d", diagnostic_goto(false), { desc = "Prev Diagnostic" })

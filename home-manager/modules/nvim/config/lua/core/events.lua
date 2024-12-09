@@ -1,25 +1,25 @@
-local au = vim.api.nvim_create_autocmd
+local autocmd = vim.api.nvim_create_autocmd
 local group = vim.api.nvim_create_augroup("JarviliamGroup", {})
 
 local function augroup(name)
   return vim.api.nvim_create_augroup("my_" .. name, { clear = true })
 end
 
-au("TextYankPost", {
+autocmd("TextYankPost", {
   group = group,
   callback = function()
     vim.highlight.on_yank({ higroup = "Visual", timeout = 450 })
   end,
 })
 
-au("WinEnter", {
+autocmd("WinEnter", {
   group = group,
   callback = function()
     vim.wo.cursorline = true
   end,
 })
 
-au("WinLeave", {
+autocmd("WinLeave", {
   group = group,
   callback = function()
     vim.wo.cursorline = false
@@ -42,9 +42,9 @@ local function clear_cmd()
   end
 end
 
-au({ "CmdlineLeave", "CmdlineChanged" }, { group = group, pattern = ":", callback = clear_cmd() })
+autocmd({ "CmdlineLeave", "CmdlineChanged" }, { group = group, pattern = ":", callback = clear_cmd() })
 
-au("FileType", {
+autocmd("FileType", {
   group = vim.api.nvim_create_augroup("QuickClose", { clear = true }),
   desc = "Close with q",
   pattern = {
@@ -135,4 +135,3 @@ if vim.g.enable_session then
     nested = true,
   })
 end
-

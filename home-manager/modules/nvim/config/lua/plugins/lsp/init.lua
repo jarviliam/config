@@ -1,4 +1,3 @@
-local diagnostic_icons = require("icons").diagnostics
 return {
   {
     "folke/lazydev.nvim",
@@ -11,15 +10,11 @@ return {
         { path = "luvit-meta/library", words = { "vim%.uv", "vim%.loop" } },
       },
     },
-  },
-  -- { "justinsgithub/wezterm-types", dev = true, lazy = true },
-  { "LuaCATS/luassert", name = "luassert-types", lazy = true },
-  { "LuaCATS/busted", name = "busted-types", lazy = true },
-  { "Bilal2453/luvit-meta", lazy = true },
-  {
-    "creativenull/efmls-configs-nvim",
-    enabled = false,
-    dependencies = { "neovim/nvim-lspconfig" },
+    dependencies = {
+      { "LuaCATS/luassert", name = "luassert-types" },
+      { "LuaCATS/busted", name = "busted-types" },
+      { "Bilal2453/luvit-meta" },
+    },
   },
   { "yioneko/nvim-vtsls" },
   {
@@ -45,6 +40,8 @@ return {
     "mfussenegger/nvim-lint",
     lazy = false,
     config = function()
+      local lua = require("lint").linters.luacheck
+      lua.args = { "--globals", "vim", "--formatter", "plain", "--codes", "--ranges", "-" }
       require("lint").linters_by_ft = {
         -- python = { "ruff" },
         lua = { "luacheck" },

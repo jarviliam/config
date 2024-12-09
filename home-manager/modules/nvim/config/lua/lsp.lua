@@ -236,12 +236,20 @@ function M.configure_server(server, settings)
     if vim.g._native_compl then
       return vim.tbl_deep_extend("force", vim.lsp.protocol.make_client_capabilities(), {})
     end
+    if vim.g._blink then
+      return require("blink.cmp").get_lsp_capabilities(settings)
+    end
     return vim.tbl_deep_extend(
       "force",
       vim.lsp.protocol.make_client_capabilities(),
       require("cmp_nvim_lsp").default_capabilities(),
       {}
     )
+  end
+  if vim.g._blink then
+    settings.capabilities = require("blink.cmp").get_lsp_capabilities(settings.capabilities)
+    require("lspconfig")[server].setup(settings)
+    return
   end
   require("lspconfig")[server].setup(vim.tbl_deep_extend("error", { capabilities = capabilities() }, settings or {}))
 end

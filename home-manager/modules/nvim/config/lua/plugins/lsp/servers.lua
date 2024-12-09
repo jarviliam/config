@@ -111,16 +111,9 @@ return {
               enable = true,
               arrayIndex = "Disable",
             },
-            completion = {
-              callSnippet = "Replace",
-            },
             workspace = {
               checkThirdParty = false,
-              library = {
-                vim.env.VIMRUNTIME,
-                "${3rd}/luv/library",
-                "${3rd}/busted/library",
-              },
+              library = vim.api.nvim_get_runtime_file("", true),
             },
           },
         })

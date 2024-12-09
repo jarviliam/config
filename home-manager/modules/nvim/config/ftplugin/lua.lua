@@ -1,6 +1,6 @@
 local dap = require("dap")
 
-dap.adapters.osv = function(callback, conf)
+dap.adapters.nlua = function(callback, conf)
   local port = conf["port"]
   local adapter = {
     type = "server",
@@ -32,14 +32,14 @@ end
 
 dap.configurations.lua = {
   {
-    type = "osv",
+    type = "nlua",
     request = "attach",
     name = "nvim:file",
     port = free_port(),
     start_neovim = {},
   },
   {
-    type = "osv",
+    type = "nlua",
     request = "attach",
     name = "nvim:prompt-cwd",
     port = free_port,
@@ -48,7 +48,7 @@ dap.configurations.lua = {
     },
   },
   {
-    type = "osv",
+    type = "nlua",
     request = "attach",
     name = "Attach to running Neovim instance",
     port = function()
