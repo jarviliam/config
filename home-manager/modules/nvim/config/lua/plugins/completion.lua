@@ -73,7 +73,7 @@ return {
       end, { desc = "Select choice" })
 
       vim.api.nvim_create_autocmd("ModeChanged", {
-        group = vim.api.nvim_create_augroup("mariasolos/unlink_snippet", { clear = true }),
+        group = vim.api.nvim_create_augroup("unlink_snippet", { clear = true }),
         desc = "Cancel the snippet session when leaving insert mode",
         pattern = { "s:n", "i:*" },
         callback = function(args)
@@ -260,7 +260,7 @@ return {
     opts = {
       sources = {
         completion = {
-          enabled_providers = { "lsp", "path", "luasnip", "buffer" },
+          enabled_providers = { "lazydev", "lsp", "path", "luasnip", "buffer" },
         },
         providers = {
           snippets = {
@@ -285,6 +285,13 @@ return {
             opts = {
               get_cwd = vim.uv.cwd,
             },
+          },
+          lsp = {
+            fallback_for = { "lazydev" },
+          },
+          lazydev = {
+            name = "LazyDev",
+            module = "lazydev.integrations.blink",
           },
           buffer = {
             -- disable being fallback for LSP, but limit its display via
