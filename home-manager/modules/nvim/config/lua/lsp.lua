@@ -216,11 +216,13 @@ function M.on_attach(client, bufnr)
   -- https://github.com/golang/go/issues/54531#issuecomment-1464982242
   if client.name == "gopls" and not client.server_capabilities.semanticTokensProvider then
     local semantic = client.config.capabilities.textDocument.semanticTokens
-    client.server_capabilities.semanticTokensProvider = {
-      full = true,
-      legend = { tokenModifiers = semantic.tokenModifiers, tokenTypes = semantic.tokenTypes },
-      range = true,
-    }
+    if semantic then
+      client.server_capabilities.semanticTokensProvider = {
+        full = true,
+        legend = { tokenModifiers = semantic.tokenModifiers, tokenTypes = semantic.tokenTypes },
+        range = true,
+      }
+    end
   end
 
   keymap("<space>sf", symbol_methods, { desc = "symbols: [f]unction" })
@@ -246,12 +248,14 @@ function M.configure_server(server, settings)
       {}
     )
   end
-  if vim.g._blink then
+  if vim.g._blink and settings then
     settings.capabilities = require("blink.cmp").get_lsp_capabilities(settings.capabilities)
     require("lspconfig")[server].setup(settings)
     return
   end
-  require("lspconfig")[server].setup(vim.tbl_deep_extend("error", { capabilities = capabilities() }, settings or {}))
+  require("lspconfig")[server].setup(
+    vim.tbl_deep_extend("error", { capabilities = capabilities(), silent = true }, settings or {})
+  )
 end
 
 return M

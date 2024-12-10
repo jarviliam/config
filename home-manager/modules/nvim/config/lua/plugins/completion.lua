@@ -240,7 +240,6 @@ return {
 
         return {}
       end
-
       -- Inside a snippet, use backspace to remove the placeholder.
       vim.keymap.set("s", "<BS>", "<C-O>s")
 
@@ -251,7 +250,7 @@ return {
   {
     "saghen/blink.cmp",
     event = "InsertEnter",
-    dev = false,
+    dev = true,
     enabled = vim.g._blink,
     version = "*", -- REQUIRED `version` needed to download pre-built binary
     dependencies = { "L3MON4D3/LuaSnip" },
@@ -292,6 +291,11 @@ return {
           lazydev = {
             name = "LazyDev",
             module = "lazydev.integrations.blink",
+          },
+          codecompanion = {
+            name = "CodeCompanion",
+            module = "codecompanion.providers.completion.blink",
+            enabled = false,
           },
           buffer = {
             -- disable being fallback for LSP, but limit its display via
@@ -341,10 +345,6 @@ return {
         documentation = {
           auto_show = true,
           auto_show_delay_ms = 200,
-          window = {
-            max_height = math.floor(vim.o.lines * 0.5),
-            max_width = math.floor(vim.o.columns * 0.4),
-          },
         },
         menu = {
           draw = {

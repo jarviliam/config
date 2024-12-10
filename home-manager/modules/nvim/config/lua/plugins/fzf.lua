@@ -35,6 +35,31 @@ local function fzf_session()
     },
   })
 end
+
+local function reload_lazy()
+  local plugins = require("lazy").plugins()
+  local names = {}
+  for _, plugin in ipairs(plugins) do
+    table.insert(names, plugin.name)
+  end
+  require("fzf-lua").fzf_exec(names, {
+    prompt = "Select a plugin > ",
+    actions = {
+      ["default"] = function(selected)
+        vim.cmd("Lazy reload " .. selected[1])
+      end,
+    },
+    winopts = {
+      title = " Reload Plugins ",
+      title_pos = "center",
+      preview = { hidden = "hidden" },
+      height = 0.50, -- window height
+      width = 0.40, -- window width
+      row = 0.50, -- window row position (0=top, 1=bottom)
+      col = 0.50, -- window col position (0=left, 1=right)
+    },
+  })
+end
 return {
   "ibhagwan/fzf-lua",
   cmd = "FzfLua",
@@ -66,6 +91,7 @@ return {
     { "<leader>sq", "<cmd>FzfLua quickfix<cr>", desc = "Quickfix List" },
     { "<leader>sl", "<cmd>FzfLua loclist<cr>", desc = "Location List" },
     { "<F7>", fzf_session, desc = "Sessions" },
+    { "<leader>lr", reload_lazy, desc = "Lazy Reload" },
     { "<leader>fb", "<cmd>FzfLua buffers sort_mru=true sort_lastused=true<cr>", desc = "Buffers" },
     {
       "<leader>ss",

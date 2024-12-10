@@ -1,14 +1,22 @@
-local conf = require("conf")
-
 return {
   "nvim-lua/plenary.nvim",
   {
-    "kyazdani42/nvim-web-devicons",
-    opts = { default = true },
+    "echasnovski/mini.icons",
+    init = function()
+      package.preload["nvim-web-devicons"] = function()
+        require("mini.icons").mock_nvim_web_devicons()
+        return package.loaded["nvim-web-devicons"]
+      end
+    end,
+    lazy = false,
+    opts = {
+      glyph = true,
+    },
   },
   {
     "m4xshen/hardtime.nvim",
     command = "Hardtime",
+    enabled = false,
     event = "VeryLazy",
     dependencies = { "MunifTanjim/nui.nvim", { "nvim-lua/plenary.nvim", lazy = true } },
     opts = {
@@ -74,45 +82,61 @@ return {
     end,
   },
   {
-    "rcarriga/nvim-notify",
-    enabled = false,
-    keys = {
-      {
-        "<leader>un",
-        function()
-          require("notify").dismiss({ silent = true, pending = true })
-        end,
-        desc = "Dismiss All Notifications",
+    "folke/flash.nvim",
+    event = "VeryLazy",
+    opts = {
+      jump = { nohlsearch = true },
+      prompt = {
+        -- Place the prompt above the statusline.
+        win_config = { row = -3 },
+      },
+      search = {
+        exclude = {
+          "cmp_menu",
+          "flash_prompt",
+          "qf",
+          function(win)
+            -- Floating windows from bqf.
+            if vim.api.nvim_buf_get_name(vim.api.nvim_win_get_buf(win)):match("BqfPreview") then
+              return true
+            end
+
+            -- Non-focusable windows.
+            return not vim.api.nvim_win_get_config(win).focusable
+          end,
+        },
+      },
+      modes = {
+        -- Enable flash when searching with ? or /
+        search = { enabled = true },
       },
     },
-    init = function()
-      vim.notify = require("notify")
-    end,
-    opts = {
-      stages = "static",
-      timeout = 3000,
-      max_height = function()
-        return math.floor(vim.o.lines * 0.75)
-      end,
-      max_width = function()
-        return math.floor(vim.o.columns * 0.75)
-      end,
-      on_open = function(win)
-        vim.api.nvim_win_set_config(win, { zindex = 100 })
-      end,
+    keys = {
+      {
+        "s",
+        mode = { "n", "x", "o" },
+        function()
+          require("flash").jump()
+        end,
+        desc = "Flash",
+      },
+      {
+        "r",
+        mode = "o",
+        function()
+          require("flash").treesitter_search()
+        end,
+        desc = "Treesitter Search",
+      },
+      {
+        "R",
+        mode = "o",
+        function()
+          require("flash").remote()
+        end,
+        desc = "Remote Flash",
+      },
     },
-  },
-  {
-    "ggandor/leap.nvim",
-    dependencies = { "tpope/vim-repeat" },
-    lazy = false,
-    config = function()
-      local leap = require("leap")
-      leap.opts.special_keys.next_target = "<enter>"
-      leap.opts.special_keys.prev_target = "<backspace>"
-
-      leap.create_default_mappings()
-    end,
   },
   { "tpope/vim-abolish", command = "S" },
   { "sainnhe/everforest" },

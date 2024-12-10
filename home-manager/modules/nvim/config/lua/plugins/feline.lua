@@ -305,7 +305,6 @@ return {
   config = config,
   event = { "UIEnter" },
   dependencies = {
-    "kyazdani42/nvim-web-devicons",
     "lewis6991/gitsigns.nvim",
   },
   opts = {},

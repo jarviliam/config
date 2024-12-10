@@ -1,7 +1,7 @@
 return {
   "stevearc/aerial.nvim",
   keys = {
-    { "<leader>so", ":lua require('aerial').toggle()<cr>", desc = "Symbols Outline" },
+    { "<leader>co", "<cmd>AerialToggle<cr>", desc = "Symbols Outline" },
   },
   opts = {
     attach_mode = "global",

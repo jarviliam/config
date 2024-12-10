@@ -1,4 +1,3 @@
-local codeCompanion = true
 return {
   {
     {
@@ -17,7 +16,6 @@ return {
   },
   {
     "olimorris/codecompanion.nvim",
-    enabled = codeCompanion,
     cmd = {
       "CodeCompanion",
       "CodeCompanionChat",
@@ -25,9 +23,33 @@ return {
       "CodeCompanionActions",
     },
     keys = {
-      { "<leader>ap", "<cmd>CodeCompanionActions<CR>", desc = "Actions" },
+      { "<leader>aa", "<cmd>CodeCompanionActions<CR>", desc = "Actions" },
       { "<leader>aq", "<cmd>CodeCompanionChat<CR>", desc = "New Chat" },
-      { "<leader>aa", "<cmd>CodeCompanionChat Toggle<CR>", desc = "Toggle chat" },
+      { "<leader>ac", "<cmd>CodeCompanionChat Toggle<CR>", desc = "Toggle chat" },
+      {
+        "<leader>ad",
+        function()
+          require("codecompanion").prompt("lsp")
+        end,
+        mode = { "n", "x" },
+        desc = "Debug Diagnostics",
+      },
+      {
+        "<leader>af",
+        function()
+          require("codecompanion").prompt("fix")
+        end,
+        mode = { "n", "x" },
+        desc = "Fix Code",
+      },
+      {
+        "<leader>ao",
+        function()
+          require("codecompanion").prompt("optimize")
+        end,
+        mode = { "n", "x" },
+        desc = "Optimize",
+      },
       -- { "v", "ga", "<cmd>CodeCompanionChat Add<CR>", desc = "Add to chat" },
     },
     opts = {

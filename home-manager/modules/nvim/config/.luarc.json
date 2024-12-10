@@ -1,9 +1,11 @@
 {
-    "$schema": "https://raw.githubusercontent.com/LuaLS/vscode-lua/master/setting/schema.json""workspace.checkThirdParty": false,
+    "$schema": "https://raw.githubusercontent.com/LuaLS/vscode-lua/master/setting/schema.json",
+    "workspace.checkThirdParty": false,
     "runtime.version": "LuaJIT",
     "diagnostics": {
         "globals": [
-            "vim"
+            "vim",
+            "Snacks"
         ],
         "unusedLocalExclude": [
             "_*"

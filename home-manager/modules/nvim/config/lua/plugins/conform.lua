@@ -25,6 +25,7 @@ return {
       nix = { "nixfmt" },
       terraform = { "terraform_fmt" },
       html = { "prettierd" },
+      ["_"] = { "trim_whitespace", "trim_newlines" },
     },
     default_format_opts = {
       lsp_format = "fallback",

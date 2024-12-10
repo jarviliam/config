@@ -24,30 +24,9 @@ end
 
 return {
   {
-    "echasnovski/mini.jump",
-    branch = "stable",
-    event = "BufReadPre",
-    opts = {
-      mappings = {
-        forward = "f",
-        backward = "F",
-        forward_till = "t",
-        backward_till = "T",
-        repeat_jump = "",
-      },
-    },
-  },
-  {
     "echasnovski/mini.move",
     event = "VeryLazy",
     config = true,
-  },
-  {
-    "echasnovski/mini.bracketed",
-    enable = false,
-    config = function()
-      require("mini.bracketed").setup({})
-    end,
   },
   {
     "echasnovski/mini.ai",
