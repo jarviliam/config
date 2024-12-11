@@ -28,7 +28,12 @@ return {
       "b0o/SchemaStore.nvim",
     },
     config = function()
-      require("lspconfig.ui.windows").default_options.border = "rounded"
+      require("lspconfig.ui.windows").default_options.border = ui.border.name
+
+      vim.api.nvim_create_user_command("LspLogClear", function()
+        vim.uv.fs_unlink(vim.fs.joinpath(tostring(vim.fn.stdpath("state")), "lsp.log"))
+      end, { desc = "Clear LSP Log" })
+
       local configure_server = require("lsp").configure_server
       for server, opts in pairs(require("plugins.lsp.servers")) do
         configure_server(server, opts)
@@ -41,7 +46,7 @@ return {
     lazy = false,
     config = function()
       local lua = require("lint").linters.luacheck
-      lua.args = { "--globals", "vim", "--formatter", "plain", "--codes", "--ranges", "-" }
+      lua.args = { "--globals", "vim", "Snacks", "--formatter", "plain", "--codes", "--ranges", "-" }
       require("lint").linters_by_ft = {
         -- python = { "ruff" },
         lua = { "luacheck" },

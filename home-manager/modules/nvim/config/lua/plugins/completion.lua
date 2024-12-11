@@ -249,24 +249,21 @@ return {
   ---@diagnostic disable: missing-fields
   {
     "saghen/blink.cmp",
-    event = "InsertEnter",
+    lazy = false,
     dev = true,
     enabled = vim.g._blink,
-    version = "*", -- REQUIRED `version` needed to download pre-built binary
+    version = "*",
     dependencies = { "L3MON4D3/LuaSnip" },
     ---@module "blink.cmp"
     ---@type blink.cmp.Config
     opts = {
       sources = {
-        completion = {
-          enabled_providers = { "lazydev", "lsp", "path", "luasnip", "buffer" },
-        },
+        default = { "lazydev", "lsp", "path", "luasnip", "buffer" },
         providers = {
           snippets = {
             -- don't show when triggered manually (= length 0), useful
             -- when manually show completions to see available JSON keys
             min_keyword_length = 1,
-            score_offset = -1,
             expand = function(snippet)
               require("luasnip").lsp_expand(snippet)
             end,
@@ -285,12 +282,10 @@ return {
               get_cwd = vim.uv.cwd,
             },
           },
-          lsp = {
-            fallback_for = { "lazydev" },
-          },
           lazydev = {
             name = "LazyDev",
             module = "lazydev.integrations.blink",
+            fallback = { "lsp" },
           },
           codecompanion = {
             name = "CodeCompanion",
@@ -298,9 +293,6 @@ return {
             enabled = false,
           },
           buffer = {
-            -- disable being fallback for LSP, but limit its display via
-            -- the other settings
-            fallback_for = {},
             max_items = 4,
             min_keyword_length = 4,
             score_offset = -3,
@@ -331,11 +323,6 @@ return {
         preset = "default",
       },
       completion = {
-        keyword = {
-          -- Remove `\`, so it does not trigger completion.
-          -- Useful when breaking up lines in bash/zsh.
-          regex = "[%w_-]",
-        },
         list = {
           cycle = { from_top = false }, -- cycle at bottom, but not at the top
         },
@@ -345,6 +332,9 @@ return {
         documentation = {
           auto_show = true,
           auto_show_delay_ms = 200,
+          window = {
+            border = ui.border.name,
+          },
         },
         menu = {
           draw = {
@@ -415,7 +405,7 @@ return {
         -- supported: tokyonight
         -- not supported: nightfox, gruvbox-material
         use_nvim_cmp_as_default = true,
-        kind_icons = require("icons").symbol_kinds,
+        kind_icons = ui.icons.symbol_kinds,
       },
     },
   },

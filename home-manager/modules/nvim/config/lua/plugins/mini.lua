@@ -126,6 +126,14 @@ return {
           map_split(buffer, "<C-v>", "belowright vertical")
         end,
       })
+
+      vim.api.nvim_create_autocmd("User", {
+        desc = "LSP Rename on File rename",
+        pattern = "MiniFilesActionRename",
+        callback = function(event)
+          Snacks.rename.on_rename_file(event.data.from, event.data.to)
+        end,
+      })
     end,
   },
 
@@ -192,6 +200,7 @@ return {
           { mode = "n", keys = "<leader>S", desc = "+session" },
           { mode = "n", keys = "<leader>T", desc = "+tabs" },
           { mode = "n", keys = "<leader>t", desc = "+tests" },
+          { mode = "n", keys = "\\", desc = "+toggle" },
           { mode = "n", keys = "<leader>u", desc = "+ui" },
           { mode = "n", keys = "<leader>x", desc = "+loclist/quickfix" },
           { mode = "n", keys = "<leader>z", desc = "+fold" },

@@ -1,10 +1,12 @@
 local M = {}
 
 M.diagnostics = {
-  ERROR = "",
-  WARN = "",
-  HINT = "",
-  INFO = "",
+  error = "󰅚",
+  warn = "󰀪",
+  info = "",
+  hint = "󰌶",
+  debug = "",
+  trace = "",
 }
 
 M.symbol_kinds = {

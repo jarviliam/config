@@ -1,5 +1,4 @@
 local o = vim.opt
-local arrows = require("icons").arrows
 
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
@@ -42,31 +41,6 @@ vim.o.splitright = true -- Vertical splits will be to the right
 vim.o.termguicolors = true -- Enable gui colors
 vim.o.winblend = 10 -- Make floating windows slightly transparent
 vim.o.wrap = false -- Display long lines as just one line
-
-vim.o.fillchars = table.concat({
-  "horizup:┻",
-  "horiz:━",
-  "horizdown:┳",
-  "vert:┃",
-  "vertright:┣",
-  "vertleft:┫",
-  "verthoriz:╋",
-  "diff:╱",
-  "foldclose:" .. arrows.right,
-  "foldopen:" .. arrows.down,
-  "foldsep: ",
-  "fold:╌",
-}, ",")
-
-vim.o.listchars = table.concat({
-  "tab:⇥ ",
-  "leadmultispace:┊ ",
-  "multispace:│ ",
-  "trail:␣",
-  "nbsp:⍽",
-  "extends:◣",
-  "precedes:◢",
-}, ",")
 
 -- Editing ====================================================================
 vim.o.autoindent = true -- Use auto indent

@@ -7,9 +7,7 @@ require("commands")
 require("completion")
 require("core.lazyplug")
 
-local diagnostic_icons = require("icons").diagnostics
-
-for severity, icon in pairs(diagnostic_icons) do
+for severity, icon in pairs(_G.ui.icons.diagnostics) do
   local hl = "DiagnosticSign" .. severity:sub(1, 1) .. severity:sub(2):lower()
   vim.fn.sign_define(hl, { text = icon, texthl = hl })
 end
@@ -17,16 +15,16 @@ end
 vim.diagnostic.config({
   signs = {
     text = {
-      [vim.diagnostic.severity.ERROR] = diagnostic_icons.ERROR,
-      [vim.diagnostic.severity.WARN] = diagnostic_icons.WARN,
-      [vim.diagnostic.severity.HINT] = diagnostic_icons.HINT,
-      [vim.diagnostic.severity.INFO] = diagnostic_icons.INFO,
+      [vim.diagnostic.severity.ERROR] = _G.ui.icons.diagnostics.ERROR,
+      [vim.diagnostic.severity.WARN] = _G.ui.icons.diagnostics.WARN,
+      [vim.diagnostic.severity.HINT] = _G.ui.icons.diagnostics.HINT,
+      [vim.diagnostic.severity.INFO] = _G.ui.icons.diagnostics.INFO,
     },
   },
   virtual_text = {
     prefix = "",
     format = function(diagnostic)
-      local icon = diagnostic_icons[vim.diagnostic.severity[diagnostic.severity]]
+      local icon = _G.ui.icons.diagnostics[vim.diagnostic.severity[diagnostic.severity]]
       local message = vim.split(diagnostic.message, "\n")[1]
       return string.format("%s %s ", icon, message)
     end,

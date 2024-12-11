@@ -1,7 +1,28 @@
-_G.__as_global_callbacks = __as_global_callbacks or {}
-_G.as = {
-  _store = __as_global_callbacks,
+--- Creates a namespace
+---@param name string
+_G.ns = function(name)
+  return vim.api.nvim_create_namespace(name)
+end
+
+_G.ui = {
+  icons = require("icons"),
+  border = {
+    name = "single",
+    chars = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
+  },
 }
+--- Create a floating window via snacks
+---@param options table
+---@param lines string[]
+vim.ui.float = function(options, lines)
+  local snacks = require("snacks")
+
+  ---@param self snacks.win
+  local on_buf = function(self)
+    vim.api.nvim_buf_set_lines(self.buf, 0, -1, false, lines)
+  end
+  return snacks.win.new(vim.tbl_deep_extend("force", {}, options or {}, { on_buf = on_buf }))
+end
 
 function _G.reload(name, children)
   children = children or false

@@ -41,15 +41,7 @@ local map_toggle = function(lhs, rhs, desc)
   map("n", [[\]] .. lhs, rhs, { desc = desc })
 end
 map_toggle("b", '<Cmd>lua vim.o.bg = vim.o.bg == "dark" and "light" or "dark"<CR>', "Toggle 'background'")
-map_toggle("c", "<Cmd>setlocal cursorline!<CR>", "Toggle 'cursorline'")
-map_toggle("C", "<Cmd>setlocal cursorcolumn!<CR>", "Toggle 'cursorcolumn'")
 map_toggle("h", "<Cmd>let v:hlsearch = 1 - v:hlsearch<CR>", "Toggle search highlight")
-map_toggle("i", "<Cmd>setlocal ignorecase!<CR>", "Toggle 'ignorecase'")
-map_toggle("l", "<Cmd>setlocal list!<CR>", "Toggle 'list'")
-map_toggle("n", "<Cmd>setlocal number!<CR>", "Toggle 'number'")
-map_toggle("r", "<Cmd>setlocal relativenumber!<CR>", "Toggle 'relativenumber'")
-map_toggle("s", "<Cmd>setlocal spell!<CR>", "Toggle 'spell'")
-map_toggle("w", "<Cmd>setlocal wrap!<CR>", "Toggle 'wrap'")
 
 map({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save File" })
 

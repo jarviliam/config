@@ -6,7 +6,7 @@ return {
     cmd = "GrugFar",
     keys = {
       {
-        "<leader>sr",
+        "<leader>s/",
         function()
           local grug = require("grug-far")
           local ext = vim.bo.buftype == "" and vim.fn.expand("%:e")
@@ -19,6 +19,17 @@ return {
         end,
         mode = { "n", "v" },
         desc = "Search and Replace",
+      },
+    },
+  },
+  {
+    "chrisgrieser/nvim-tinygit",
+    enabled = false,
+    opts = {
+      commitMsg = {
+        conventionalCommits = {
+          enforce = true,
+        },
       },
     },
   },
