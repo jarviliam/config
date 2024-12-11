@@ -164,20 +164,7 @@ function M.on_attach(client, bufnr)
   end
 
   if supports_signatureHelp then
-    keymap("<C-k>", function()
-      if not vim.g._native_compl then
-        local cmp = require("cmp")
-        if cmp.visible() then
-          cmp.close()
-        end
-        vim.lsp.buf.signature_help()
-        return
-      end
-      if pumvisible() then
-        feedkeys("<C-e>")
-      end
-      vim.lsp.buf.signature_help()
-    end, "signature help", "i")
+    keymap("<C-k>", vim.lsp.buf.signature_help, "signature help", "i")
   end
 
   if supports_documentHighlight then
@@ -234,28 +221,9 @@ end
 ---@param server string
 ---@param settings? table
 function M.configure_server(server, settings)
-  local function capabilities()
-    if vim.g._native_compl then
-      return vim.tbl_deep_extend("force", vim.lsp.protocol.make_client_capabilities(), {})
-    end
-    if vim.g._blink then
-      return require("blink.cmp").get_lsp_capabilities(settings)
-    end
-    return vim.tbl_deep_extend(
-      "force",
-      vim.lsp.protocol.make_client_capabilities(),
-      require("cmp_nvim_lsp").default_capabilities(),
-      {}
-    )
-  end
-  if vim.g._blink and settings then
-    settings.capabilities = require("blink.cmp").get_lsp_capabilities(settings.capabilities)
-    require("lspconfig")[server].setup(settings)
-    return
-  end
-  require("lspconfig")[server].setup(
-    vim.tbl_deep_extend("error", { capabilities = capabilities(), silent = true }, settings or {})
-  )
+  settings = settings or {}
+  settings.capabilities = require("blink.cmp").get_lsp_capabilities(settings.capabilities)
+  require("lspconfig")[server].setup(settings)
 end
 
 return M
