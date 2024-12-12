@@ -25,6 +25,7 @@ return {
         changedelete = { text = "▚", show_count = true },
         untracked = { text = "┆" },
       },
+      trouble = true,
       on_attach = function(bufnr)
         if vim.fn.expand("%:t") == "lsp.log" or vim.bo.filetype == "help" then
           return false

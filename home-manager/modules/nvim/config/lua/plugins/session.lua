@@ -18,5 +18,17 @@ return {
       desc = "Load cur dirsession",
     },
   },
-  opts = {},
+  opts = {
+    buf_filter = function(bufnr)
+      local buftype = vim.bo[bufnr].buftype
+      local ignored_bufs = { "trouble" }
+      if buftype ~= "" and buftype ~= "acwrite" then
+        return false
+      end
+      if vim.tbl_contains(ignored_bufs, buftype) then
+        return false
+      end
+      return vim.bo[bufnr].buflisted
+    end,
+  },
 }

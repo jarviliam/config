@@ -1,3 +1,12 @@
+local function getMiniIcons()
+  local lsp = require("mini.icons").list("lsp")
+  local lsp_glyphs = {}
+  for key, value in pairs(lsp) do
+    lsp_glyphs[key] = value.glyph
+  end
+  return lsp_glyphs
+end
+
 return {
   {
     "L3MON4D3/LuaSnip",
@@ -182,63 +191,27 @@ return {
         menu = {
           draw = {
             treesitter = true,
-            columns = { { "label", "label_description", gap = 1 }, { "kind_icon", "kind" } },
+            columns = { { "label", "label_description", gap = 1 }, { "kind_icon", "kind", gap = 1 } },
             components = {
               kind_icon = {
                 ellipsis = false,
-                text = function(ctx)
-                  return ctx.kind_icon .. ctx.icon_gap
-                end,
               },
 
               kind = {
                 ellipsis = false,
                 width = { fill = true },
-                text = function(ctx)
-                  return ctx.kind
-                end,
               },
 
               label = {
                 width = { fill = true, max = 60 },
-                text = function(ctx)
-                  return ctx.label .. ctx.label_detail
-                end,
-                highlight = function(ctx)
-                  -- label and label details
-                  local highlights = {
-                    { 0, #ctx.label, group = ctx.deprecated and "BlinkCmpLabelDeprecated" or "BlinkCmpLabel" },
-                  }
-                  if ctx.label_detail then
-                    table.insert(
-                      highlights,
-                      { #ctx.label, #ctx.label + #ctx.label_detail, group = "BlinkCmpLabelDetail" }
-                    )
-                  end
-
-                  -- characters matched on the label by the fuzzy matcher
-                  for _, idx in ipairs(ctx.label_matched_indices) do
-                    table.insert(highlights, { idx, idx + 1, group = "BlinkCmpLabelMatch" })
-                  end
-
-                  return highlights
-                end,
               },
 
               label_description = {
                 width = { max = 30 },
-                text = function(ctx)
-                  return ctx.label_description
-                end,
-                highlight = "BlinkCmpLabelDescription",
               },
 
               source_name = {
                 width = { max = 30 },
-                text = function(ctx)
-                  return ctx.source_name
-                end,
-                highlight = "BlinkCmpSource",
               },
             },
           },
@@ -248,7 +221,7 @@ return {
         -- supported: tokyonight
         -- not supported: nightfox, gruvbox-material
         use_nvim_cmp_as_default = true,
-        kind_icons = ui.icons.symbol_kinds,
+        kind_icons = getMiniIcons(),
       },
     },
   },

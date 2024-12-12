@@ -15,10 +15,10 @@ end
 vim.diagnostic.config({
   signs = {
     text = {
-      [vim.diagnostic.severity.ERROR] = _G.ui.icons.diagnostics.ERROR,
-      [vim.diagnostic.severity.WARN] = _G.ui.icons.diagnostics.WARN,
-      [vim.diagnostic.severity.HINT] = _G.ui.icons.diagnostics.HINT,
-      [vim.diagnostic.severity.INFO] = _G.ui.icons.diagnostics.INFO,
+      [vim.diagnostic.severity.ERROR] = _G.ui.icons.diagnostics.error,
+      [vim.diagnostic.severity.WARN] = _G.ui.icons.diagnostics.warn,
+      [vim.diagnostic.severity.HINT] = _G.ui.icons.diagnostics.hint,
+      [vim.diagnostic.severity.INFO] = _G.ui.icons.diagnostics.info,
     },
   },
   virtual_text = {
@@ -36,6 +36,13 @@ vim.diagnostic.config({
     focusable = true,
     source = "if_many",
     border = "rounded",
+    suffix = function(diag)
+      local text = ""
+      if package.loaded["rulebook"] then
+        text = require("rulebook").hasDocs(diag) and "  " or ""
+      end
+      return text, ""
+    end,
   },
 })
 

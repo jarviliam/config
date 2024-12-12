@@ -39,6 +39,7 @@ return {
       bigfile = { enabled = true },
       notifier = { enabled = true },
       quickfile = { enabled = true },
+      input = { enabled = true },
       indent = { enabled = true, scope = {
         animate = {
           enabled = false,
