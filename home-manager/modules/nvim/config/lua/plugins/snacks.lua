@@ -40,11 +40,14 @@ return {
       notifier = { enabled = true },
       quickfile = { enabled = true },
       input = { enabled = true },
-      indent = { enabled = true, scope = {
-        animate = {
-          enabled = false,
+      indent = {
+        enabled = true,
+        scope = {
+          animate = {
+            enabled = false,
+          },
         },
-      } },
+      },
       statuscolumn = {
         enabled = true,
         left = { "git" },
@@ -75,6 +78,11 @@ return {
             .option("conceallevel", { off = 0, on = vim.o.conceallevel > 0 and vim.o.conceallevel or 2 })
             :map("\\c")
         end,
+        vim.api.nvim_create_user_command(
+          "Notifications",
+          Snacks.notifier.show_history,
+          { desc = "Show Notification History" }
+        ),
       })
     end,
   },

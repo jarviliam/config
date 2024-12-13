@@ -10,6 +10,7 @@ end
 return {
   {
     "L3MON4D3/LuaSnip",
+    version = "v2.*",
     dependencies = {
       "rafamadriz/friendly-snippets",
     },
@@ -105,7 +106,6 @@ return {
     dev = true,
     enabled = vim.g._blink,
     version = "*",
-    dependencies = { "L3MON4D3/LuaSnip" },
     ---@module "blink.cmp"
     ---@type blink.cmp.Config
     opts = {
@@ -116,18 +116,6 @@ return {
             -- don't show when triggered manually (= length 0), useful
             -- when manually show completions to see available JSON keys
             min_keyword_length = 1,
-            expand = function(snippet)
-              require("luasnip").lsp_expand(snippet)
-            end,
-            active = function(filter)
-              if filter and filter.direction then
-                return require("luasnip").jumpable(filter.direction)
-              end
-              return require("luasnip").in_snippet()
-            end,
-            jump = function(direction)
-              require("luasnip").jump(direction)
-            end,
           },
           path = {
             opts = {
@@ -137,7 +125,7 @@ return {
           lazydev = {
             name = "LazyDev",
             module = "lazydev.integrations.blink",
-            fallback = { "lsp" },
+            fallbacks = { "lsp" },
           },
           codecompanion = {
             name = "CodeCompanion",
@@ -170,6 +158,20 @@ return {
             },
           },
         },
+      },
+      snippets = {
+        expand = function(snippet)
+          require("luasnip").lsp_expand(snippet)
+        end,
+        active = function(filter)
+          if filter and filter.direction then
+            return require("luasnip").jumpable(filter.direction)
+          end
+          return require("luasnip").in_snippet()
+        end,
+        jump = function(direction)
+          require("luasnip").jump(direction)
+        end,
       },
       keymap = {
         preset = "default",
