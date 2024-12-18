@@ -31,6 +31,7 @@ return {
   {
     "echasnovski/mini.hipatterns",
     event = "BufReadPost",
+    enable = false,
     opts = function()
       local highlighters = {}
       for _, word in ipairs({ "todo", "note", "hack" }) do

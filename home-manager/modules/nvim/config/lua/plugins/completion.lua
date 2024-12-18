@@ -110,7 +110,10 @@ return {
     ---@type blink.cmp.Config
     opts = {
       sources = {
-        default = { "lazydev", "lsp", "path", "luasnip", "buffer" },
+        default = { "lazydev", "lsp", "path", "luasnip", "buffer", "codecompanion" },
+        cmdline = {
+          preset = "super-tab",
+        },
         providers = {
           snippets = {
             -- don't show when triggered manually (= length 0), useful
@@ -130,7 +133,7 @@ return {
           codecompanion = {
             name = "CodeCompanion",
             module = "codecompanion.providers.completion.blink",
-            enabled = false,
+            enabled = true,
           },
           buffer = {
             max_items = 4,

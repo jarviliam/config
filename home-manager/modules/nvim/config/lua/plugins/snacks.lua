@@ -42,10 +42,11 @@ return {
       input = { enabled = true },
       indent = {
         enabled = true,
+        animate = {
+          enabled = false,
+        },
         scope = {
-          animate = {
-            enabled = false,
-          },
+          enabled = true,
         },
       },
       statuscolumn = {
@@ -78,11 +79,9 @@ return {
             .option("conceallevel", { off = 0, on = vim.o.conceallevel > 0 and vim.o.conceallevel or 2 })
             :map("\\c")
         end,
-        vim.api.nvim_create_user_command(
-          "Notifications",
-          Snacks.notifier.show_history,
-          { desc = "Show Notification History" }
-        ),
+        vim.api.nvim_create_user_command("Notifications", function()
+          Snacks.notifier.show_history()
+        end, { desc = "Show Notification History" }),
       })
     end,
   },

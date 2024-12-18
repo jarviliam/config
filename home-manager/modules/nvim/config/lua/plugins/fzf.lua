@@ -141,6 +141,7 @@ return {
         actions = {
           ["alt-i"] = { actions.toggle_ignore },
           ["alt-h"] = { actions.toggle_hidden },
+          ["alt-t"] = { require("trouble.sources.fzf").actions.open },
         },
       },
       grep = {

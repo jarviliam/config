@@ -2,6 +2,9 @@ return {
   {
     "stevearc/dressing.nvim",
     opts = {
+      input = {
+        enabled = false,
+      },
       select = {
         trim_prompt = true,
         get_config = function(opts)
