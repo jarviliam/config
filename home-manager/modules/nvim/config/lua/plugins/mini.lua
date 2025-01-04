@@ -200,6 +200,7 @@ return {
   },
   {
     "echasnovski/mini.pairs",
+    event = "InsertEnter",
     config = function(_, opts)
       local pairs = require("mini.pairs")
       require("snacks").toggle
