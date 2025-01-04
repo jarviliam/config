@@ -9,22 +9,6 @@ let
     };
     hash = "sha256-+oouEsXmILCfU+ZbzYdVDS5aHi4Ev4upkdzFUROHY5c=";
   };
-  # nixpkgs_staging = import <nixpkgs_staging> { };
-  mypython312 = pkgs.python312Full.override {
-    self = pkgs.python312Full;
-    version = "3.12.4";
-    pythonAttr = "python312Full";
-    bluezSupport = false;
-  };
-  pyenv = pkgs.pyenv.overrideAttrs (old: {
-    version = "2.4.12";
-    src = pkgs.fetchFromGitHub {
-      owner = "pyenv";
-      repo = "pyenv";
-      rev = "refs/tags/v2.4.12";
-      hash = "sha256-ZvXtDD9HKwOJiUpR8ThqyCHWyMFs46dIrOgPMNpuHrY=";
-    };
-  });
 in
 {
   home.packages =
@@ -49,6 +33,7 @@ in
       zls
       nodePackages.npm
       source-code-pro
+      clang-tools
       nerd-fonts.fira-code
       nerd-fonts.jetbrains-mono
       nerd-fonts.hack
