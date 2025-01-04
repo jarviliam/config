@@ -1,7 +1,7 @@
-{ self
-, nixpkgs
-, lib
-,
+{
+  self,
+  nixpkgs,
+  lib,
 }:
 rec {
   stateVersion = "24.11";
@@ -46,6 +46,7 @@ rec {
     // {
       inherit username;
       modules = [
+        ./hosts/modules/common.nix
         ./modules/linux/network.nix
         ./modules/linux/window.nix
       ] ++ liam.modules;
@@ -56,6 +57,7 @@ rec {
           ./home-manager/modules/linux/x.nix
           ./home-manager/modules/firefox
           ./home-manager/modules/linux/poly.nix
+          ./home-manager/modules/hyprland.nix
         ] ++ liam.home-manager.modules;
       };
       commonSpecialArgs = liam.commonSpecialArgs // {

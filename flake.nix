@@ -23,6 +23,10 @@
     nur = {
       url = "github:nix-community/NUR";
     };
+    lanzaboote = {
+      url = "github:nix-community/lanzaboote/v0.4.1";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nil-language-server.url = "github:oxalica/nil";
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
   };
@@ -37,6 +41,7 @@
       home-manager,
       nix-index-database,
       nil-language-server,
+      lanzaboote,
       nur,
       nixvim,
       neovim-nightly-overlay,
@@ -78,6 +83,31 @@
             { nixpkgs.overlays = [ nur.overlay ] ++ [ neovim-nightly-overlay.overlays.default ]; }
             ./modules/linux/hardware/nixos-laptop.nix
             ./modules/linux/system.nix
+          ];
+          commonSpecialArgs = {
+            hostname = "nixos";
+          };
+        };
+        nixbox = lib.createSystem profiles.liam-linux {
+          system = "x86_64-linux";
+          modules = [
+            { nixpkgs.overlays = [ nur.overlay ] ++ [ neovim-nightly-overlay.overlays.default ]; }
+            lanzaboote.nixosModules.lanzaboote
+            ./hosts/nixbox/configuration.nix
+            ./modules/linux/system.nix
+            (
+              { pkgs, lib, ... }:
+              {
+                environment.systemPackages = [
+                  pkgs.sbctl
+                ];
+                # boot.loader.systemd-boot.enable = lib.mkForce false;
+                # boot.lanzaboote = {
+                #   enable = true;
+                #   pkiBundle = "/var/lib/sbctl";
+                # };
+              }
+            )
           ];
           commonSpecialArgs = {
             hostname = "nixos";

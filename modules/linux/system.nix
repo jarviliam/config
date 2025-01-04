@@ -1,10 +1,19 @@
-{ config, pkgs, username, ... }: {
+{
+  config,
+  pkgs,
+  username,
+  ...
+}:
+{
   environment = {
     systemPackages = with pkgs; [
       vim
       git
       wget
       xclip
+      sbctl
+      niv
+      kitty # Initial hypr
     ];
   };
   boot = {
@@ -12,10 +21,9 @@
     loader = {
       efi = {
         canTouchEfiVariables = true;
-        efiSysMountPoint = "/boot/efi";
       };
       grub = {
-        enable = true;
+        enable = false;
         device = "nodev";
         devices = [ "nodev" ];
         efiSupport = true;
@@ -23,6 +31,7 @@
         configurationLimit = 5;
       };
       timeout = 5;
+      systemd-boot.enable = true;
     };
   };
 
@@ -66,7 +75,14 @@
   programs.zsh.enable = true;
   users.users.${username} = {
     isNormalUser = true;
-    extraGroups = [ "networkmanager" "wheel" "audio" "video" "lp" "scanner" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "audio"
+      "video"
+      "lp"
+      "scanner"
+    ];
     shell = pkgs.zsh;
   };
 }
