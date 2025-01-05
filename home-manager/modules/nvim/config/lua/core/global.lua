@@ -15,13 +15,11 @@ _G.ui = {
 ---@param options table
 ---@param lines string[]
 vim.ui.float = function(options, lines)
-  local snacks = require("snacks")
-
   ---@param self snacks.win
   local on_buf = function(self)
     vim.api.nvim_buf_set_lines(self.buf, 0, -1, false, lines)
   end
-  return snacks.win.new(vim.tbl_deep_extend("force", {}, options or {}, { on_buf = on_buf }))
+  return Snacks.win.new(vim.tbl_deep_extend("force", {}, options or {}, { on_buf = on_buf }))
 end
 
 function _G.reload(name, children)

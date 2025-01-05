@@ -2,19 +2,6 @@ return {
   {
     "lewis6991/gitsigns.nvim",
     event = "BufReadPre",
-    init = function()
-      require("snacks")
-        .toggle({
-          name = "Git Signs",
-          get = function()
-            return require("gitsigns.config").config.signcolumn
-          end,
-          set = function(state)
-            require("gitsigns").toggle_signs(state)
-          end,
-        })
-        :map("\\g")
-    end,
     opts = {
       attach_to_untracked = true,
       signs = {
@@ -27,6 +14,15 @@ return {
       },
       trouble = true,
       on_attach = function(bufnr)
+        Snacks.toggle({
+          name = "Git Signs",
+          get = function()
+            return require("gitsigns.config").config.signcolumn
+          end,
+          set = function(state)
+            require("gitsigns").toggle_signs(state)
+          end,
+        }):map("\\g")
         if vim.fn.expand("%:t") == "lsp.log" or vim.bo.filetype == "help" then
           return false
         end

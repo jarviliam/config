@@ -8,6 +8,7 @@ return {
         { path = "luassert-types/library", words = { "assert" } },
         { path = "busted-types/library", words = { "describe" } },
         { path = "luvit-meta/library", words = { "vim%.uv", "vim%.loop" } },
+        { path = "snacks.nvim", words = { "Snacks" } },
       },
     },
     dependencies = {
@@ -46,7 +47,7 @@ return {
     lazy = false,
     config = function()
       local lua = require("lint").linters.luacheck
-      lua.args = { "--globals", "vim", "Snacks", "--formatter", "plain", "--codes", "--ranges", "-" }
+      lua.args = { "--globals", "vim", "--formatter", "plain", "--codes", "--ranges", "-" }
       require("lint").linters_by_ft = {
         -- python = { "ruff" },
         lua = { "luacheck" },
