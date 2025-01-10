@@ -9,6 +9,8 @@ return {
       -- Words
       { "]]", function() Snacks.words.jump(vim.v.count1) end, desc = "snacks: goto next reference", },
       { "[[", function() Snacks.words.jump(-vim.v.count1) end, desc = "snacks: goto prev reference", },
+      { "<leader>z",  function() Snacks.zen() end, desc = "Toggle Zen Mode" },
+      { "<leader>Z",  function() Snacks.zen.zoom() end, desc = "Toggle Zoom" },
 
       -- Windows
       { "<leader>N", desc = "Neovim News",

@@ -23,17 +23,6 @@ return {
     },
   },
   {
-    "chrisgrieser/nvim-tinygit",
-    enabled = false,
-    opts = {
-      commitMsg = {
-        conventionalCommits = {
-          enforce = true,
-        },
-      },
-    },
-  },
-  {
     "chrisgrieser/nvim-rulebook",
         -- stylua: ignore
         keys = {
@@ -42,6 +31,7 @@ return {
             { "<leader>ry", function() require("rulebook").yankDiagnosticCode() end, desc = "Yank Diagnostic" },
         },
   },
+  {},
   {
     "folke/trouble.nvim",
     cmd = { "Trouble" },

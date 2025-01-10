@@ -110,7 +110,7 @@ return {
     ---@type blink.cmp.Config
     opts = {
       sources = {
-        default = { "lazydev", "lsp", "path", "buffer", "codecompanion" },
+        default = { "lazydev", "lsp", "snippets", "path", "buffer", "codecompanion" },
         cmdline = {
           preset = "super-tab",
         },

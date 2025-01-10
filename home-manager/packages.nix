@@ -51,6 +51,7 @@ in
       manix
       qbittorrent
       eslint_d
+      dwt1-shell-color-scripts
     ]
     ++ lib.optionals pkgs.stdenvNoCC.isDarwin [
       slack
