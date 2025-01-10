@@ -47,13 +47,13 @@ function M.on_attach(client, bufnr)
     client.server_capabilities.signatureHelpProvider.triggerCharacters = {}
   end
 
-  local supports_signatureHelp = client.supports_method(methods.textDocument_signatureHelp)
-  local supports_completion = client.supports_method(methods.textDocument_completion)
-  local supports_implementation = client.supports_method(methods.textDocument_implementation)
-  local supports_codeAction = client.supports_method(methods.textDocument_codeAction)
-  local supports_definition = client.supports_method(methods.textDocument_definition)
-  local supports_documentHighlight = client.supports_method(methods.textDocument_documentHighlight)
-  local supports_inlayHint = client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint)
+  local supports_signatureHelp = client:supports_method(methods.textDocument_signatureHelp)
+  local supports_completion = client:supports_method(methods.textDocument_completion)
+  local supports_implementation = client:supports_method(methods.textDocument_implementation)
+  local supports_codeAction = client:supports_method(methods.textDocument_codeAction)
+  local supports_definition = client:supports_method(methods.textDocument_definition)
+  local supports_documentHighlight = client:supports_method(methods.textDocument_documentHighlight)
+  local supports_inlayHint = client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint)
 
   if supports_completion then
     if vim.g._native_compl then
