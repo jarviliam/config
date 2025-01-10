@@ -100,7 +100,7 @@ M.apply = function(c)
     })
   )
   for i = 1, 9 do
-    map(tostring(i), { "LEADER", "SUPER" }, act.ActivateTab(i - 1))
+    map(tostring(i), { "LEADER" }, act.ActivateTab(i - 1))
   end
   map("c", "LEADER", act.SpawnTab("CurrentPaneDomain"))
   map("x", { "LEADER", "SHIFT|CTRL" }, act.CloseCurrentPane({ confirm = true }))

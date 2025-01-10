@@ -1,4 +1,10 @@
-{ lib, pkgs, config, ... }: {
+{
+  lib,
+  pkgs,
+  config,
+  ...
+}:
+{
   services.skhd = {
     enable = true;
     package = pkgs.skhd;
@@ -50,6 +56,18 @@
         cmd - f5 : yabai -m space --focus 5
         cmd - f6 : yabai -m space --focus 6
         cmd - f7 : yabai -m space --focus 7
+
+        cmd - 1 : yabai -m space --focus 1
+        cmd - 2 : yabai -m space --focus 2
+        cmd - 3 : yabai -m space --focus 3
+        cmd - 4 : yabai -m space --focus 4
+        cmd - 5 : yabai -m space --focus 5
+        cmd - 6 : yabai -m space --focus 6
+        cmd - 7 : yabai -m space --focus 7
+
+        shift + cmd - left : yabai -m space --focus previous
+        shift + cmd - right : yabai -m space --focus next
+        
 
       # move window and focus desktop
           shift + cmd - f1 : yabai -m window --space 1 && yabai -m space --focus 1

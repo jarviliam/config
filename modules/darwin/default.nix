@@ -1,7 +1,13 @@
-{ pkgs, username, ... }:
+{
+  pkgs,
+  username,
+  nixpkgs,
+  ...
+}:
 {
   services.nix-daemon.enable = true;
   security.pam.enableSudoTouchIdAuth = true;
+  nixpkgs.config.allowUnfree = true;
   homebrew = {
     enable = true;
     brews = [

@@ -120,7 +120,7 @@ vim.api.nvim_create_autocmd({ "VimResized" }, {
   end,
 })
 
-if vim.g.enable_session then
+if vim.g.enable_session == 1 then
   vim.api.nvim_create_autocmd({ "VimLeavePre" }, {
     callback = function()
       require("resession").save(vim.fn.getcwd(), { notify = true })

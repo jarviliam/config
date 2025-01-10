@@ -94,6 +94,7 @@ in
       prettierd
       yamllint
       yarn
+      pnpm
       nodePackages.typescript-language-server
 
       stylua

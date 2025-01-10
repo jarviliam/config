@@ -110,7 +110,7 @@ return {
     ---@type blink.cmp.Config
     opts = {
       sources = {
-        default = { "lazydev", "lsp", "path", "luasnip", "buffer", "codecompanion" },
+        default = { "lazydev", "lsp", "path", "buffer", "codecompanion" },
         cmdline = {
           preset = "super-tab",
         },
@@ -163,21 +163,10 @@ return {
         },
       },
       snippets = {
-        expand = function(snippet)
-          require("luasnip").lsp_expand(snippet)
-        end,
-        active = function(filter)
-          if filter and filter.direction then
-            return require("luasnip").jumpable(filter.direction)
-          end
-          return require("luasnip").in_snippet()
-        end,
-        jump = function(direction)
-          require("luasnip").jump(direction)
-        end,
+        preset = "luasnip",
       },
       keymap = {
-        preset = "default",
+        preset = "super-tab",
       },
       completion = {
         list = {
