@@ -57,7 +57,7 @@ return {
         right = { "sign" },
         git = { patterns = { "GitSign" } },
       },
-      dashboard = { enabled = true, example = "github" },
+      dashboard = { enabled = true },
       words = { enabled = true },
     },
     init = function()

@@ -117,7 +117,7 @@ return {
   opts = function()
     local actions = require("fzf-lua.actions")
     return {
-      "fzf-native",
+      "ivy",
       fzf_colors = true,
       defaults = {
         cwd_header = true,
