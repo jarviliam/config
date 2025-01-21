@@ -26,7 +26,7 @@ return {
       { "<leader>cl", "<cmd>LspInfo<cr>", desc = "Lsp Info" },
     },
     dependencies = {
-      "b0o/SchemaStore.nvim",
+      { "b0o/SchemaStore.nvim", version = false },
     },
     config = function()
       require("lspconfig.ui.windows").default_options.border = ui.border.name
