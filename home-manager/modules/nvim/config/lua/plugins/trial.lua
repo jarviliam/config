@@ -59,22 +59,7 @@ return {
         { "[t", function() require("todo-comments").jump_prev() end, desc = "Previous todo comment" },
         { "<leader>ft", function () require("todo-comments.fzf").todo() end, desc = "TODOs" },
     },
-    event = "BufReadPost",
-    opts = {
-      highlight = {
-        -- https://github.com/folke/todo-comments.nvim/pull/199
-        keyword = "bg",
-        pattern = [[.{-}<(\s?(KEYWORDS):)]],
-      },
-      keywords = {
-        BUG = { icon = "🐛", color = "error", alt = { "BROKEN", "FIXME", "ISSUE" } },
-        HACK = { icon = "🔥", color = "warning" },
-        IDEA = { icon = "💡", color = "test" },
-        NOTE = { icon = "ℹ️", color = "hint", alt = { "INFO" } },
-        TEST = { icon = "🧪", color = "test", alt = { "EXPERIMENT", "TESTING" } },
-        TODO = { icon = "✅", color = "info" },
-        WARN = { icon = "⚠️", color = "warning", alt = { "WARNING", "XXX" } },
-      },
-    },
+    event = "VeryLazy",
+    lazy = true,
   },
 }

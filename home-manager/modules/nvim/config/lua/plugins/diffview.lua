@@ -4,34 +4,19 @@ local function nset(key, cmd, desc)
 end
 
 local function apply_keymaps()
-  nset(
-    "c",
-    ":lua require('diffview').open('origin/' .. require('utils').get_trunk_branch() .. '...HEAD')<CR>",
-    "Compare commits"
-  )
   nset("q", ":DiffviewClose<CR>", "Close Diffview tab")
   nset("h", ":DiffviewFileHistory %<CR>", "File history")
   nset("H", ":DiffviewFileHistory<CR>", "Repo history")
-  nset("m", ":DiffviewOpen<CR>", "Solve merge conflicts")
   nset("o", ":lua require('diffview').open(require('utils').get_trunk_branch())<CR>", "DiffviewOpen")
-  nset("t", ":DiffviewOpen<CR>", "DiffviewOpen this")
-  nset(
-    "p",
-    ":lua require('diffview').open('origin/' .. require('utils').get_trunk_branch() .. '...HEAD --imply-local')<CR>",
-    "Review current PR"
-  )
-  nset(
-    "P",
-    ":lua require('diffview').file_history('--range=origin/' .. require('utils').get_trunk_branch() .. '...HEAD --right-only --no-merges --reverse')<CR>",
-    "Review current PR (per commit)"
-  )
-
-  set("ca","Review","Diffview")
 end
 
 return {
   "sindrets/diffview.nvim",
   lazy = false, -- Diffview has lazyloading
+  keys = {
+    { "<leader>gf", "<cmd>DiffviewFileHistory<cr>", desc = "File history" },
+    { "<leader>gd", "<cmd>DiffviewOpen<cr>", desc = "Diff view" },
+  },
   dependencies = { "nvim-lua/plenary.nvim" },
   config = function()
     local actions = require("diffview.actions")
@@ -84,14 +69,18 @@ return {
           height = 16,
         },
       },
-      commit_log_panel = {
-        win_config = {}, -- See ':h diffview-config-win_config'
-      },
       default_args = { -- Default args prepended to the arg-list for the listed commands
-        DiffviewOpen = {},
-        DiffviewFileHistory = {},
+        DiffviewFileHistory = { "%" },
       },
-      hooks = {}, -- See ':h diffview-config-hooks'
+      hooks = {
+        diff_buf_read = function(bufnr)
+          vim.b[bufnr].miniclue_config = {
+            clues = {
+              { mode = "n", keys = "<leader>G", desc = "+diffview" },
+            },
+          }
+        end,
+      },
       keymaps = {
         disable_defaults = false, -- Disable the default keymaps
         view = {

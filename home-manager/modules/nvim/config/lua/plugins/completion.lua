@@ -67,7 +67,6 @@ return {
     end,
     config = function(_, opts)
       local luasnip = require("luasnip")
-
       luasnip.setup(opts)
 
       -- Load my custom snippets:
