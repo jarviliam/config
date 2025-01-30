@@ -8,7 +8,7 @@ require("completion")
 require("core.lazyplug")
 
 for severity, icon in pairs(_G.ui.icons.diagnostics) do
-  local hl = "DiagnosticSign" .. severity:sub(1, 1) .. severity:sub(2):lower()
+  local hl = "DiagnosticSign" .. severity:sub(1, 1):upper() .. severity:sub(2):lower()
   vim.fn.sign_define(hl, { text = icon, texthl = hl })
 end
 
@@ -21,10 +21,11 @@ vim.diagnostic.config({
       [vim.diagnostic.severity.INFO] = _G.ui.icons.diagnostics.info,
     },
   },
+  virtual_lines = false,
   virtual_text = {
     prefix = "",
     format = function(diagnostic)
-      local icon = _G.ui.icons.diagnostics[vim.diagnostic.severity[diagnostic.severity]]
+      local icon = _G.ui.icons.diagnostics[vim.diagnostic.severity[diagnostic.severity]:lower()]
       local message = vim.split(diagnostic.message, "\n")[1]
       return string.format("%s %s ", icon, message)
     end,
@@ -45,6 +46,18 @@ vim.diagnostic.config({
     end,
   },
 })
+
+Snacks.toggle
+  .new({
+    name = "DiagnosticLine",
+    get = function()
+      return vim.diagnostic.config().virtual_lines
+    end,
+    set = function(state)
+      vim.diagnostic.config({ virtual_lines = state })
+    end,
+  })
+  :map("\\l")
 
 -- Override the virtual text diagnostic handler so that the most severe diagnostic is shown first.
 local show_handler = vim.diagnostic.handlers.virtual_text.show

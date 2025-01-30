@@ -34,5 +34,5 @@ vim.g.gruvbox_material_ui_contrast = "high" -- The contrast of line numbers, ind
 vim.g.gruvbox_material_float_style = "bright" -- Background of floating windows
 vim.g.gruvbox_material_statusline_style = "material"
 vim.g.gruvbox_material_cursor = "auto"
-
+vim.g.gruvbox_material_diagnostic_virtual_text = "colored"
 return M

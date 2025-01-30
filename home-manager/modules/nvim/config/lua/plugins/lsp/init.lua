@@ -47,7 +47,7 @@ return {
     lazy = false,
     config = function()
       local lua = require("lint").linters.luacheck
-      lua.args = { "--globals", "vim", "--formatter", "plain", "--codes", "--ranges", "-" }
+      lua.args = { "--globals", "vim", "Snacks", "--formatter", "plain", "--codes", "--ranges", "-" }
       require("lint").linters_by_ft = {
         -- python = { "ruff" },
         lua = { "luacheck" },

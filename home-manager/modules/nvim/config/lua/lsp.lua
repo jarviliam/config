@@ -1,5 +1,4 @@
 local M = {}
-
 ---@param filter 'Function' | 'Module' | 'Struct'
 local function filtered_document_symbol(filter)
   vim.lsp.buf.document_symbol()

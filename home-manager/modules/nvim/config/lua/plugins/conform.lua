@@ -28,7 +28,7 @@ return {
       ["_"] = { "trim_whitespace", "trim_newlines" },
     },
     default_format_opts = {
-      lsp_format = "falloack",
+      lsp_format = "fallback",
     },
     -- Set up format-on-save
     format_on_save = function(bufnr)
