@@ -13,6 +13,7 @@ for severity, icon in pairs(_G.ui.icons.diagnostics) do
 end
 
 vim.diagnostic.config({
+  jump = { float = true },
   signs = {
     text = {
       [vim.diagnostic.severity.ERROR] = _G.ui.icons.diagnostics.error,
@@ -23,7 +24,10 @@ vim.diagnostic.config({
   },
   virtual_lines = false,
   virtual_text = {
-    prefix = "",
+    severity = { min = vim.diagnostic.severity.WARN },
+    prefix = function(_, _, total)
+      return (total > 1 and "• " or "")
+    end,
     format = function(diagnostic)
       local icon = _G.ui.icons.diagnostics[vim.diagnostic.severity[diagnostic.severity]:lower()]
       local message = vim.split(diagnostic.message, "\n")[1]
