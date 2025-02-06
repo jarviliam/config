@@ -16,12 +16,16 @@ if not ok then
   return
 end
 
-lazy.setup("plugins", {
+lazy.setup({
   defaults = { lazy = true },
   dev = { path = vim.g.personal_dir },
   lockfile = vim.env.HOME .. "/.lazy-lock.json",
   install = { colorscheme = { "nightfly", "lua-embark" } },
   checker = { enabled = false },
+  spec = {
+    { import = "plugins" },
+    { import = "plugins.ai" },
+  },
   ui = {
     border = "rounded",
     custom_keys = {
