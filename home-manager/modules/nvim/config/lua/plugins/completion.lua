@@ -1,12 +1,3 @@
-local function getMiniIcons()
-  local lsp = require("mini.icons").list("lsp")
-  local lsp_glyphs = {}
-  for key, value in pairs(lsp) do
-    lsp_glyphs[key] = value.glyph
-  end
-  return lsp_glyphs
-end
-
 return {
   {
     "L3MON4D3/LuaSnip",
@@ -109,7 +100,16 @@ return {
     ---@type blink.cmp.Config
     opts = {
       sources = {
-        default = { "lazydev", "lsp", "snippets", "path", "buffer", "codecompanion" },
+        default = { "lsp", "snippets", "path", "buffer" },
+        per_filetype = {
+          codecompanion = { "codecompanion" },
+          lua = {
+            "lazydev",
+            "lsp",
+            "path",
+            "snippets",
+          },
+        },
         cmdline = {
           preset = "super-tab",
         },
@@ -170,13 +170,17 @@ return {
       completion = {
         list = {
           cycle = { from_top = false }, -- cycle at bottom, but not at the top
+          selection = {
+            auto_insert = false,
+            preselect = false,
+          },
         },
         accept = {
           auto_brackets = { enabled = true }, -- experimental
         },
         documentation = {
           auto_show = true,
-          auto_show_delay_ms = 200,
+          auto_show_delay_ms = 100,
           window = {
             border = ui.border.name,
           },
@@ -188,6 +192,12 @@ return {
             components = {
               kind_icon = {
                 ellipsis = false,
+                text = function(ctx)
+                  return select(1, require("mini.icons").get("lsp", ctx.kind))
+                end,
+                highlight = function(ctx)
+                  return select(2, require("mini.icons").get("lsp", ctx.kind))
+                end,
               },
 
               kind = {
@@ -211,10 +221,8 @@ return {
         },
       },
       appearance = {
-        -- supported: tokyonight
-        -- not supported: nightfox, gruvbox-material
         use_nvim_cmp_as_default = true,
-        kind_icons = getMiniIcons(),
+        nerd_font_variant = "mono",
       },
     },
   },

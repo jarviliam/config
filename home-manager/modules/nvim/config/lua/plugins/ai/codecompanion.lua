@@ -16,6 +16,7 @@ return {
     { "<leader>af", function() require("codecompanion").prompt("fix") end, mode = "v", desc = "Fix Code"},
     { "<leader>ap", function() require("codecompanion").prompt("pr") end, desc = "Pull Request"},
     { "<leader>ao", function() require("codecompanion").prompt("optimize") end, mode = "v", desc = "Optimize"},
+    { "<leader>ar", function() require("codecompanion").prompt("refactor") end, mode = "v", desc = "Refactor"},
     { "<leader>at", function() require("codecompanion").prompt("tests") end, desc = "Generate Tests" },
     -- stylua: ignore end
     {
