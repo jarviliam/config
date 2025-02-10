@@ -19,10 +19,7 @@ return {
       local types = require("luasnip.util.types")
 
       return {
-        -- Check if the current snippet was deleted.
         delete_check_events = "TextChanged",
-        -- Display a cursor-like placeholder in unvisited nodes
-        -- of the snippet.
         ext_opts = {
           [types.insertNode] = {
             unvisited = {
@@ -38,8 +35,6 @@ return {
           },
         },
         snip_env = {
-          -- Helper function for showing a snippet if the Treesitter node
-          -- satisfies a given predicate.
           ts_show = function(pred)
             return function()
               local row, col = unpack(vim.api.nvim_win_get_cursor(0))
@@ -95,12 +90,15 @@ return {
     lazy = false,
     dev = true,
     enabled = vim.g._blink,
+    dependencies = {
+      { "fang2hou/blink-copilot" },
+    },
     version = "*",
     ---@module "blink.cmp"
     ---@type blink.cmp.Config
     opts = {
       sources = {
-        default = { "lsp", "snippets", "path", "buffer" },
+        default = { "lsp", "snippets", "copilot", "path", "buffer" },
         per_filetype = {
           codecompanion = { "codecompanion" },
           lua = {
@@ -108,6 +106,7 @@ return {
             "lsp",
             "path",
             "snippets",
+            "copilot",
           },
         },
         cmdline = {
@@ -115,7 +114,7 @@ return {
         },
         providers = {
           snippets = {
-            -- don't show when triggered manually (= length 0), useful
+            -- don't show when triggered manually (= length ), useful
             -- when manually show completions to see available JSON keys
             min_keyword_length = 1,
           },
@@ -159,6 +158,12 @@ return {
               end,
             },
           },
+          copilot = {
+            name = "copilot",
+            module = "blink-copilot",
+            score_offset = 100,
+            async = true,
+          },
         },
       },
       snippets = {
@@ -187,7 +192,7 @@ return {
         },
         menu = {
           draw = {
-            treesitter = { "lsp" },
+            treesitter = { "lsp", "copilot" },
             columns = { { "label", "label_description", gap = 1 }, { "kind_icon", "kind", gap = 1 } },
             components = {
               kind_icon = {

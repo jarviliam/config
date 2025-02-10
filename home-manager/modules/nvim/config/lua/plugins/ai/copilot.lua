@@ -3,7 +3,7 @@ return {
     {
       "github/copilot.vim",
       cmd = "Copilot",
-      enabled = true,
+      enabled = false,
       build = ":Copilot auth",
       opts = {
         suggestion = { enabled = false },
@@ -17,8 +17,22 @@ return {
   },
   {
     "zbirenbaum/copilot.lua",
-    init = function() end,
-    enabled = false,
+    enabled = true,
+    init = function()
+      vim.api.nvim_create_autocmd({ "User" }, {
+        pattern = { "BlinkCmpMenuOpen" },
+        callback = function()
+          require("copilot.suggestion").dismiss()
+          vim.b.copilot_suggestion_hidden = true
+        end,
+      })
+      vim.api.nvim_create_autocmd("User", {
+        pattern = { "BlinkCmpMenuClose" },
+        callback = function()
+          vim.b.copilot_suggestion_hidden = false
+        end,
+      })
+    end,
     opts = {
       filetypes = {
         ["*"] = false, -- Disable for all other filetypes and ignore default `filetypes`

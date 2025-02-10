@@ -1,27 +1,3 @@
-local map_split = function(buf_id, lhs, direction)
-  local minifiles = require("mini.files")
-
-  local rhs = function()
-    local window = minifiles.get_explorer_state().target_window
-
-    -- Noop if the explorer isn't open or the cursor is on a directory.
-    if window == nil or minifiles.get_fs_entry().fs_type == "directory" then
-      return
-    end
-    -- Make new window and set it as target
-    local new_target_window
-    vim.api.nvim_win_call(minifiles.get_explorer_state().target_window or 0, function()
-      vim.cmd(direction .. " split")
-      new_target_window = vim.api.nvim_get_current_win()
-    end)
-    minifiles.set_target_window(new_target_window)
-    -- Go in and close the explorer.
-    minifiles.go_in({ close_on_file = true })
-  end
-  local desc = "Split " .. string.sub(direction, 12)
-  vim.keymap.set("n", lhs, rhs, { buffer = buf_id, desc = desc })
-end
-
 return {
   {
     "echasnovski/mini.move",
@@ -42,66 +18,6 @@ return {
       end
 
       return { highlighters = highlighters }
-    end,
-  },
-  {
-    "echasnovski/mini.files",
-    enable = false,
-    keys = {
-      {
-        "<leader>e",
-        function()
-          local bufname = vim.api.nvim_buf_get_name(0)
-          local path = vim.fn.fnamemodify(bufname, ":p")
-          if path and vim.uv.fs_stat(path) then
-            require("mini.files").open(bufname, false)
-          end
-        end,
-        desc = "File explorer",
-      },
-    },
-    opts = {
-      mappings = {
-        show_help = "?",
-        go_in_plus = "<cr>",
-        go_out_plus = "<tab>",
-      },
-      content = {
-        filter = function(entry)
-          return entry.fs_type ~= "file" or entry.name ~= ".DS_Store"
-        end,
-        windows = { width_nofocus = 25 },
-        options = { permanent_delete = false },
-      },
-    },
-    config = function(_, opts)
-      local minifiles = require("mini.files")
-      minifiles.setup(opts)
-      vim.api.nvim_create_autocmd("User", {
-        desc = "Add rounded corners",
-        pattern = "MiniFilesWindowOpen",
-        callback = function(args)
-          vim.api.nvim_win_set_config(args.data.win_id, { border = "rounded" })
-        end,
-      })
-
-      vim.api.nvim_create_autocmd("User", {
-        desc = "Add minifiles split keymaps",
-        pattern = "MiniFilesBufferCreate",
-        callback = function(args)
-          local buffer = args.data.buf_id
-          map_split(buffer, "<C-s>", "belowright horizontal")
-          map_split(buffer, "<C-v>", "belowright vertical")
-        end,
-      })
-
-      vim.api.nvim_create_autocmd("User", {
-        desc = "LSP Rename on File rename",
-        pattern = "MiniFilesActionRename",
-        callback = function(event)
-          Snacks.rename.on_rename_file(event.data.from, event.data.to)
-        end,
-      })
     end,
   },
   {

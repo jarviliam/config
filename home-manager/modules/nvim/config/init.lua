@@ -12,7 +12,7 @@ vim.g.enable_session = 0
 if vim.env.PROF then
   local snacks = vim.fn.stdpath("data") .. "/lazy/snacks.nvim"
   vim.opt.rtp:append(snacks)
-  require("snacks.profiler").startup({
+  require("snacks.profiler").startup({ ---@diagnostic disable-line: missing-fields
     startup = {
       event = "VimEnter",
     },
