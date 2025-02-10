@@ -46,6 +46,7 @@ return {
   },
   {
     "echasnovski/mini.files",
+    enable = false,
     keys = {
       {
         "<leader>e",

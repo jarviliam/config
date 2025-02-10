@@ -1,9 +1,10 @@
 local o = vim.opt
 
+vim.g.ts_path = vim.fs.joinpath(tostring(vim.fn.stdpath("data")), "ts-install")
+
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
-vim.g.skip_ts_context_commentstring_module = true
 o.cmdheight = 1
 
 o.mouse = nil
@@ -103,3 +104,6 @@ vim.g.loaded_python3_provider = 0
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_ruby_provider = 0
 vim.g.loaded_node_provider = 0
+
+-- Work around: https://github.com/neovim/neovim/issues/31675
+vim.hl = vim.highlight

@@ -14,10 +14,7 @@ return {
         ["neotest-jest"] = {
           jestCommand = "yarn test",
           cwd = function(file)
-            if string.find(file, "/packages/") then
-              return string.match(file, "(.-/[^/]+/)src")
-            end
-            return vim.fn.getcwd()
+            return string.find(file, "/packages/") and string.match(file, "(.-/[^/]+/)src") or vim.fn.getcwd()
           end,
         },
         ["neotest-plenary"] = {},
@@ -37,6 +34,7 @@ return {
           end,
         },
       }, neotest_ns)
+
       if opts.adapters then
         local adapters = {}
         for name, config in pairs(opts.adapters or {}) do

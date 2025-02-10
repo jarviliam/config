@@ -4,8 +4,8 @@ require("keymaps")
 require("core.events")
 require("winbar")
 require("commands")
-require("completion")
-require("core.lazyplug")
+-- require("completion")
+require("core.lazyplug").setup()
 
 for severity, icon in pairs(_G.ui.icons.diagnostics) do
   local hl = "DiagnosticSign" .. severity:sub(1, 1):upper() .. severity:sub(2):lower()

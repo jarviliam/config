@@ -7,10 +7,6 @@
 -- /___/
 --
 ----------------------------------------------------
-
-vim.g.work_dir = vim.env.HOME .. "/work"
-vim.g.personal_dir = vim.env.HOME .. "/Coding"
-vim.g.do_filetype_lua = 1
 vim.g.enable_session = 0
 
 if vim.env.PROF then

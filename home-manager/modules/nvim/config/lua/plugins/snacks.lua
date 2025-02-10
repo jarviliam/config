@@ -4,8 +4,10 @@ return {
     priority = 1000,
     lazy = false,
     -- stylua: ignore
-    keys = { { "<leader>gg", function() Snacks.lazygit() end, desc = "Lazygit", },
+    keys = {
+      { "<leader>gg", function() Snacks.lazygit() end, desc = "Lazygit", },
       { "<leader>bd", function() Snacks.bufdelete() end, desc = "Delete Buffer", },
+      { "<leader>e", function() Snacks.explorer.open() end, desc = "File Explorer", },
       -- Words
       { "]]", function() Snacks.words.jump(vim.v.count1) end, desc = "snacks: goto next reference", },
       { "[[", function() Snacks.words.jump(-vim.v.count1) end, desc = "snacks: goto prev reference", },
@@ -41,6 +43,9 @@ return {
       bigfile = { enabled = true },
       notifier = { enabled = true },
       quickfile = { enabled = true },
+      explorer = {
+        replace_netrw = true,
+      },
       input = { enabled = true },
       indent = {
         enabled = true,
