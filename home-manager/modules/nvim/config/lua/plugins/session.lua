@@ -1,23 +1,17 @@
 return {
+  ---@module "stevearc/resession.nvim"
   "stevearc/resession.nvim",
-  keys = {
-    { "<leader>Sl", ":lua require('resession').load('Last Session')<CR>", desc = "Load last session" },
-    { "<leader>Ss", ":lua require('resession').save()<CR>", desc = "Save this session" },
-    {
-      "<leader>SS",
-      ":lua require('resession').save(vim.fn.getcwd(), { dir = 'dirsession'})<CR>",
-      desc = "Save this dirsession",
-    },
-    { "<leader>Sd", ":lua require('resession').delete()<CR>", desc = "Delete a session" },
-    { "<leader>SD", ":lua require('resession').delete(nil, {dir = 'dirsession'})<CR>", desc = "Delete a dirsession" },
-    { "<leader>Sf", ":lua require('resession').load()<CR>", desc = "Load a session" },
-    { "<leader>SF", ":lua require('resession').load(nil,{dir = 'dirsession')<CR>", desc = "Load a dirsession" },
-    {
-      "<leader>S.",
-      ":lua require('resession').load(vim.fn.getcwd(),{dir = 'dirsession'})<CR>",
-      desc = "Load cur dirsession",
-    },
-  },
+  priority = 100,
+  init = function()
+    vim.api.nvim_create_user_command("SessionLoad", function()
+      require("resession").load(Snacks.git.get_root(), { silence_errors = false })
+    end, { desc = "Load session" })
+    vim.api.nvim_create_autocmd("VimLeavePre", {
+      callback = function()
+        require("resession").save(Snacks.git.get_root(), { notify = false })
+      end,
+    })
+  end,
   opts = {
     buf_filter = function(bufnr)
       local buftype = vim.bo[bufnr].buftype
@@ -31,4 +25,7 @@ return {
       return vim.bo[bufnr].buflisted
     end,
   },
+  config = function(opts)
+    require("resession").setup(opts)
+  end,
 }

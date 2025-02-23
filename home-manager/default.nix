@@ -1,9 +1,8 @@
-{ pkgs,... }:
+{ pkgs, ... }:
 
 {
   nixpkgs.config = {
     allowUnfree = true;
-    experimental-features = "nix-command flakes";
   };
 
   xdg.configFile."nixpkgs/config.nix".text = ''
@@ -27,7 +26,9 @@
       enable = false;
       # vimKeys = true;
     };
-    gpg = { enable = true; };
+    gpg = {
+      enable = true;
+    };
     btop = {
       enable = true;
       settings = {

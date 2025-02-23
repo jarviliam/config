@@ -2,6 +2,7 @@
   self,
   nixpkgs,
   lib,
+  nix-index-database,
 }:
 rec {
   stateVersion = "24.11";
@@ -12,7 +13,7 @@ rec {
     {
       inherit username;
       commonSpecialArgs = {
-        inherit username nixpkgs;
+        inherit username nixpkgs nix-index-database;
       };
       modules = [ ./modules/nix.nix ];
       home-manager = {

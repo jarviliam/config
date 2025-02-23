@@ -129,14 +129,14 @@ function M.on_attach(client, bufnr)
   end
 
   keymap("grr", function()
-    fzf.lsp_references({ jump_to_single_result = true })
+    fzf.lsp_references({ jump1 = true })
   end, "Go to references")
 
   keymap("gy", "<cmd>FzfLua lsp_typedefs<cr>", "goto type definition [LSP]")
 
   if supports_implementation then
     local op = function()
-      fzf.lsp_implementations({ jump_to_single_result = true })
+      fzf.lsp_implementations({ jump1 = true })
     end
     keymap("<leader>gi", op, "Go to implementation")
   end
@@ -157,7 +157,7 @@ function M.on_attach(client, bufnr)
 
   if supports_definition then
     keymap("gd", function()
-      fzf.lsp_definitions({ jump_to_single_result = true })
+      fzf.lsp_definitions({ jump1 = true })
     end, "Go to definition")
     keymap("gD", fzf.lsp_definitions, "Peek definition")
   end

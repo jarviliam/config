@@ -57,9 +57,9 @@ function M.setup()
           "spellfile_plugin",
           "matchit",
         },
-        paths = {
-          vim.fs.joinpath(tostring(vim.fn.stdpath("data")), "ts-install"),
-        },
+        -- paths = {
+        --   vim.fs.joinpath(tostring(vim.fn.stdpath("data")), "ts-install"),
+        -- },
       },
     },
     debug = false,

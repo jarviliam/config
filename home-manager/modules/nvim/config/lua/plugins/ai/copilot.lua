@@ -18,6 +18,8 @@ return {
   {
     "zbirenbaum/copilot.lua",
     enabled = true,
+    cmd = "Copilot",
+    build = ":Copilot auth",
     init = function()
       vim.api.nvim_create_autocmd({ "User" }, {
         pattern = { "BlinkCmpMenuOpen" },

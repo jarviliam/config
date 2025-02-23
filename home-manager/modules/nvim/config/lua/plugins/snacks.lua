@@ -7,7 +7,6 @@ return {
     keys = {
       { "<leader>gg", function() Snacks.lazygit() end, desc = "Lazygit", },
       { "<leader>bd", function() Snacks.bufdelete() end, desc = "Delete Buffer", },
-      { "<leader>e", function() Snacks.explorer.open() end, desc = "File Explorer", },
       -- Words
       { "]]", function() Snacks.words.jump(vim.v.count1) end, desc = "snacks: goto next reference", },
       { "[[", function() Snacks.words.jump(-vim.v.count1) end, desc = "snacks: goto prev reference", },
@@ -62,7 +61,68 @@ return {
         right = { "sign" },
         git = { patterns = { "GitSign" } },
       },
-      dashboard = { enabled = true },
+      dashboard = {
+        enabled = true,
+        preset = {
+          --- @type snacks.dashboard.Item[]
+          keys = {
+            { icon = "󰁯 ", key = "l", desc = "Load Session", action = ":SessionLoad", label = "[l]" },
+            { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert", label = "[n]" },
+            {
+              icon = "󰱼 ",
+              key = "f",
+              desc = "Find File",
+              action = ":FzfLua files",
+              label = "[f]",
+            },
+            {
+              icon = " ",
+              key = "g",
+              desc = "Find Text",
+              action = ":FzfLua live_grep_glob",
+              label = "[g]",
+            },
+            {
+              icon = " ",
+              key = "p",
+              desc = "Profile Plugins",
+              action = ":Lazy profile",
+              enabled = package.loaded.lazy ~= nil,
+              label = "[p]",
+            },
+            {
+              icon = " ",
+              key = "u",
+              desc = "Update Plugins",
+              action = ":Lazy sync",
+              enabled = package.loaded.lazy ~= nil,
+              label = "[u]",
+            },
+            { icon = " ", key = "q", desc = "Quit", action = ":qa!", label = "[q]" },
+          },
+        },
+        sections = {
+          {
+            align = "center",
+            text = { "[ Recent Files ]", hl = "Function" } --[[@as snacks.dashboard.Text]],
+            padding = 1,
+          },
+          { section = "recent_files", indent = 1, padding = 1 },
+          {
+            align = "center",
+            text = { string.rep("─", 50), hl = "FloatBorder" } --[[@as snacks.dashboard.Text]],
+            padding = 1,
+          },
+          { section = "keys", indent = 1 },
+          {
+            align = "center",
+            text = { string.rep("─", 50), hl = "FloatBorder" } --[[@as snacks.dashboard.Text]],
+            padding = 1,
+          },
+          { section = "startup" },
+        },
+        width = 80,
+      },
       words = { enabled = true },
     },
     init = function()

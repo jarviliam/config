@@ -1,41 +1,3 @@
-local internal_substitutions = {
-  { find = ":/", replace = "__" },
-  { find = "/", replace = "_" },
-}
-
-local function substitute_path(path, reverse)
-  reverse = reverse or false
-  for _, substitution in ipairs(internal_substitutions) do
-    if reverse then
-      path = path:gsub(substitution.replace, substitution.find)
-    else
-      path = path:gsub(substitution.find, substitution.path)
-    end
-  end
-  return path
-end
-
-local function fzf_session()
-  local fzf_lua = require("fzf-lua")
-  local resession = require("resession")
-  local list = resession.list({})
-  local formatted_list = vim.tbl_map(function(value)
-    return substitute_path(value, true)
-  end, list)
-  fzf_lua.fzf_exec(formatted_list, {
-    actions = {
-      ["ctrl-d"] = function(selected)
-        local origin_session = substitute_path(selected, false)
-        resession.delete(origin_session)
-      end,
-      ["default"] = function(selected)
-        local origin_session = substitute_path(selected, false)
-        resession.load(origin_session)
-      end,
-    },
-  })
-end
-
 local function reload_lazy()
   local plugins = require("lazy").plugins()
   local names = {}
@@ -63,6 +25,9 @@ end
 return {
   "ibhagwan/fzf-lua",
   cmd = "FzfLua",
+  init = function()
+    require("fzf-lua").register_ui_select()
+  end,
   lazy = false,
   keys = {
     { "<leader>:", "<cmd>FzfLua command_history<cr>", desc = "Command History" },
@@ -97,7 +62,6 @@ return {
     { "<leader>sj", "<cmd>FzfLua jumps<cr>", desc = "Jumplist" },
     { "<leader>fk", "<cmd>FzfLua keymaps<cr>", desc = "Key Maps" },
     { "<leader>fq", "<cmd>FzfLua quickfix<cr>", desc = "Quickfix List" },
-    { "<F7>", fzf_session, desc = "Sessions" },
     { "<leader>lr", reload_lazy, desc = "Lazy Reload" },
     {
       "<leader>ss",

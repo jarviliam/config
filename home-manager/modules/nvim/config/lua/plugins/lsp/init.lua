@@ -46,6 +46,16 @@ return {
     "mfussenegger/nvim-lint",
     lazy = false,
     config = function()
+      vim.g.lint_enabled = true
+      Snacks.toggle({
+        name = "Lint",
+        get = function()
+          return vim.g.lint_enabled
+        end,
+        set = function(value)
+          vim.g.lint_enabled = value
+        end,
+      }):map("\\u")
       local lua = require("lint").linters.luacheck
       lua.args = { "--globals", "vim", "Snacks", "--formatter", "plain", "--codes", "--ranges", "-" }
       require("lint").linters_by_ft = {
@@ -59,6 +69,9 @@ return {
       }
       vim.api.nvim_create_autocmd({ "BufWritePost" }, {
         callback = function()
+          if not vim.g.lint_enabled then
+            return
+          end
           require("lint").try_lint()
         end,
       })

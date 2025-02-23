@@ -1,38 +1,6 @@
 return {
   { "tpope/vim-sleuth", event = "BufReadPre" },
   {
-    "MagicDuck/grug-far.nvim",
-    opts = { headerMaxWidth = 80 },
-    cmd = "GrugFar",
-    keys = {
-      {
-        "<leader>s/",
-        function()
-          local grug = require("grug-far")
-          local ext = vim.bo.buftype == "" and vim.fn.expand("%:e")
-          grug.open({
-            transient = true,
-            prefills = {
-              filesFilter = ext and ext ~= "" and "*." .. ext or nil,
-            },
-          })
-        end,
-        mode = { "n", "v" },
-        desc = "Search and Replace",
-      },
-    },
-  },
-  {
-    "chrisgrieser/nvim-rulebook",
-        -- stylua: ignore
-        keys = {
-            { "<leader>ri", function() require("rulebook").ignoreRule() end, desc = "Ignore" },
-            { "<leader>rl", function() require("rulebook").lookupRule() end, desc = "Look Up" },
-            { "<leader>ry", function() require("rulebook").yankDiagnosticCode() end, desc = "Yank Diagnostic" },
-        },
-  },
-  {},
-  {
     "folke/trouble.nvim",
     cmd = { "Trouble" },
     keys = {
@@ -61,5 +29,31 @@ return {
     },
     event = "VeryLazy",
     lazy = true,
+  },
+  {
+    "MeanderingProgrammer/render-markdown.nvim",
+    opts = {
+      checkbox = {
+        enabled = false,
+      },
+    },
+    ft = { "markdown", "codecompanion" },
+    config = function(_, opts)
+      require("render-markdown").setup(opts)
+      Snacks.toggle({
+        name = "Render Markdown",
+        get = function()
+          return require("render-markdown.state").enabled
+        end,
+        set = function(enabled)
+          local m = require("render-markdown")
+          if enabled then
+            m.enable()
+          else
+            m.disable()
+          end
+        end,
+      }):map("\\m")
+    end,
   },
 }

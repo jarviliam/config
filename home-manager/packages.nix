@@ -81,7 +81,7 @@ in
       python312
       codespell
       pre-commit
-      poetry
+      (poetry.withPlugins (ps: with ps; [ poetry-plugin-export ]))
       pyright
       ruff
       ruff-lsp

@@ -97,6 +97,23 @@ return {
     ---@module "blink.cmp"
     ---@type blink.cmp.Config
     opts = {
+      cmdline = {
+        enabled = true,
+        keymap = {
+          preset = "super-tab",
+        },
+        sources = function()
+          -- Search forward and backward
+          if type == "/" or type == "?" then
+            return {}
+          end
+          -- Commands
+          if type == ":" or type == "@" then
+            return { "cmdline" }
+          end
+          return {}
+        end,
+      },
       sources = {
         default = { "lsp", "snippets", "copilot", "path", "buffer" },
         per_filetype = {
@@ -108,9 +125,6 @@ return {
             "snippets",
             "copilot",
           },
-        },
-        cmdline = {
-          preset = "super-tab",
         },
         providers = {
           snippets = {

@@ -1,5 +1,6 @@
 return {
   "olimorris/codecompanion.nvim",
+  dev = true,
   cmd = {
     "CodeCompanion",
     "CodeCompanionChat",
@@ -17,7 +18,7 @@ return {
     { "<leader>ap", function() require("codecompanion").prompt("pr") end, desc = "Pull Request"},
     { "<leader>ao", function() require("codecompanion").prompt("optimize") end, mode = "v", desc = "Optimize"},
     { "<leader>ar", function() require("codecompanion").prompt("refactor") end, mode = "v", desc = "Refactor"},
-    { "<leader>at", function() require("codecompanion").prompt("tests") end, desc = "Generate Tests" },
+    { "<leader>at", function() require("codecompanion").prompt("tests") end, mode = "v",desc = "Generate Tests" },
     -- stylua: ignore end
     {
       "<leader>aq",
@@ -70,8 +71,8 @@ return {
           schema = {
             ---@see https://github.com/copilot
             model = {
-              -- default = "o3-mini-2025-01-31",
-              -- choices = { "o3-mini-2025-01-31", "claude-3.5-sonnet" },
+              default = "o3-mini-2025-01-31",
+              choices = { "o3-mini-2025-01-31", "gpt-4o-2024-08-06" },
               max_tokens = {
                 default = 8192,
               },
@@ -98,4 +99,15 @@ return {
       },
     },
   },
+  config = function(_, opts)
+    vim.api.nvim_set_hl(0, "CodeCompanionChatHeader", { link = "@markup.heading.2.markdown", default = true })
+    vim.api.nvim_set_hl(0, "CodeCompanionChatSeparator", { link = "@punctuation.special.markdown", default = true })
+    vim.api.nvim_set_hl(0, "CodeCompanionChatTokens", { link = "Comment", default = true })
+    vim.api.nvim_set_hl(0, "CodeCompanionChatAgent", { link = "Constant", default = true })
+    vim.api.nvim_set_hl(0, "CodeCompanionChatTool", { link = "Special", default = true })
+    vim.api.nvim_set_hl(0, "CodeCompanionChatVariable", { link = "Identifier", default = true })
+    vim.api.nvim_set_hl(0, "CodeCompanionVirtualText", { link = "Comment", default = true })
+
+    require("codecompanion").setup(opts)
+  end,
 }

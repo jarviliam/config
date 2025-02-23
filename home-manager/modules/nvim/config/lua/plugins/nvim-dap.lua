@@ -1,36 +1,3 @@
-local winID = nil
-local D = {}
-
-function D.goToWin() end
-if winID ~= nil and vim.api.nvim_win_is_valid(winID) then
-  vim.api.nvim_set_current_win(winID)
-  return true
-end
-function D.Close()
-  if winID == nil then
-    return
-  end
-  if not vim.api.nvim_win_is_valid(winID) then
-    winID = nil
-    return
-  end
-  local tab = vim.api.nvim_tabpage_get_number(vim.api.nvim_win_get_tabpage(winID))
-  require("dapui").close()
-  vim.cmd.tabclose(tab)
-end
-
-function D.Open()
-  if D.goToWin() then
-    vim.notify(winID)
-    return
-  end
-  vim.notify("New Window")
-  vim.cmd.tabedit("%")
-  vim.wo.scrolloff = 10
-  winID = vim.fn.win_getid()
-  require("dapui").open()
-end
-
 return {
   { "mfussenegger/nvim-dap-python" },
   { "jbyuki/one-small-step-for-vimkind" },
@@ -43,12 +10,10 @@ return {
     lazy = true,
     -- stylua: ignore
     keys = {
-      { "<leader>d",  "",                                                                                   desc = "+debug",                 mode = { "n", "v" } },
       { "<leader>dB", function() require("dap").set_breakpoint(vim.fn.input('Breakpoint condition: ')) end, desc = "Breakpoint Condition" },
       { "<leader>db", function() require("dap").toggle_breakpoint() end,                                    desc = "Toggle Breakpoint" },
       { "<leader>dc", function() require("dap").continue() end,                                             desc = "Continue" },
       { "<F5>",       "<cmd>DapContinue<cr>",                                                               desc = "Continue" },
-      -- { "<leader>da", function() require("dap").continue({ before = get_args }) end, desc = "Run with Args" },
       { "<leader>dC", function() require("dap").run_to_cursor() end,                                        desc = "Run to Cursor" },
       { "<leader>dg", function() require("dap").goto_() end,                                                desc = "Go to Line (No Execute)" },
       { "<leader>di", function() require("dap").step_into() end,                                            desc = "Step Into" },
@@ -63,6 +28,8 @@ return {
       { "<leader>dt", function() require("dap").terminate() end,                                            desc = "Terminate" },
       { "<leader>dw", function() require("dap.ui.widgets").hover() end,                                     desc = "Widgets" },
       { "<leader>td", function() require("neotest").run.run({ strategy = "dap" }) end,                      desc = "Debug Nearest" },
+      { "<leader>fdb", function() require("fzf-lua").dap_breakpoints() end,                      desc = "Dap BreakPoints" },
+      { "<leader>fdv", function() require("fzf-lua").dap_variables() end,                      desc = "Dap Vars" },
     },
     config = function()
       vim.api.nvim_set_hl(0, "DapStoppedLine", { default = true, link = "Visual" })
@@ -98,7 +65,6 @@ return {
       dap.listeners.before.event_exited["dapui_config"] = function()
         dapui.close({})
       end
-      -- dap.listeners.before.event_stopped["dap-tab"] = D.Open
     end,
   },
 }

@@ -1,13 +1,13 @@
 {
   pkgs,
   username,
-  nixpkgs,
   ...
 }:
 {
-  services.nix-daemon.enable = true;
+  nix.enable = true;
+  # services.nix-daemon.enable = true;
   security.pam.enableSudoTouchIdAuth = true;
-  nixpkgs.config.allowUnfree = true;
+
   homebrew = {
     enable = true;
     brews = [
@@ -38,6 +38,7 @@
     home = "/Users/${username}";
     shell = pkgs.zsh;
   };
+
   system = {
     keyboard = {
       enableKeyMapping = true; # Needed for skhd
