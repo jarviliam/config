@@ -58,7 +58,8 @@ vim.o.virtualedit = "block" -- Allow going past the end of line in visual block 
 
 vim.opt.complete:append("kspell") -- Add spellcheck options for autocomplete
 vim.opt.complete:remove("t") -- Don't use tags for completion
-vim.opt.completeopt = "menuone,noinsert,fuzzy,popup"
+-- borked on nightly
+-- vim.opt.completeopt = "menuone,noinsert,fuzzy,popup"
 
 -- Language {{{
 o.spelllang = "en"

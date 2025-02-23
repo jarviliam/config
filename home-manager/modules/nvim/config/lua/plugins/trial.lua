@@ -1,6 +1,13 @@
 return {
   { "tpope/vim-sleuth", event = "BufReadPre" },
   {
+    "fredrikaverpil/godoc.nvim",
+    version = "*",
+    build = "go install github.com/lotusirous/gostdsym/stdsym@latest", -- optional
+    cmd = { "GoDoc" },
+    opts = {},
+  },
+  {
     "folke/trouble.nvim",
     cmd = { "Trouble" },
     keys = {
