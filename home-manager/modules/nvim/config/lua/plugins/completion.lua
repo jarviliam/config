@@ -100,7 +100,7 @@ return {
       cmdline = {
         enabled = true,
         keymap = {
-          preset = "super-tab",
+          preset = "cmdline",
         },
         sources = function()
           -- Search forward and backward

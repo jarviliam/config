@@ -3,6 +3,7 @@ return {
     "nvim-neotest/neotest",
     dependencies = {
       "nvim-lua/plenary.nvim",
+      "antoinemadec/FixCursorHold.nvim",
       "nvim-neotest/nvim-nio",
     },
     opts = {
@@ -22,6 +23,12 @@ return {
       },
       status = { virtual_text = true },
       output = { open_on_run = true },
+      discovery = {
+        enabled = true,
+      },
+      running = {
+        concurrent = true,
+      },
     },
     config = function(_, opts)
       local neotest_ns = vim.api.nvim_create_namespace("neotest")
@@ -68,12 +75,15 @@ return {
     end,
     -- stylua: ignore
     keys = {
+    { "<leader>ta", function() require("neotest").run.attach() end, desc = "Attach" },
     { "<leader>tf", function() require("neotest").run.run(vim.fn.expand("%")) end, desc = "Run File" },
     { "<leader>tt", function() require("neotest").run.run() end, desc = "Run Nearest" },
     { "<leader>tx", function() require("neotest").run.stop() end, desc = "Stop" },
     { "<leader>tl", function() require("neotest").run.run_last() end, desc = "Run Last" },
     { "<leader>ts", function() require("neotest").summary.toggle() end, desc = "Toggle Summary" },
     { "<leader>tw", function() require("neotest").watch.toggle(vim.fn.expand("%")) end, desc = "Toggle Watch" },
+    { "<leader>to", function() require("neotest").output.open({ enter = true, auto_close = true }) end, desc = "Show Output" },
+    { "<leader>tO", function() require("neotest").output_panel.toggle() end, desc = "Toggle Output Panel" },
     },
   },
   { "fredrikaverpil/neotest-golang" },
