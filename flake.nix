@@ -62,8 +62,16 @@
       inherit lib;
 
       overlays.default = final: prev: {
-        inherit nil-language-server;
-        inherit neovim-nightly-overlay;
+        neovim =
+          neovim-nightly-overlay.packages.${
+            final.stdenvNoCC.hostPlatform.system
+              or (throw "Unsupported platform ${final.stdenvNoCC.hostPlatform.system}")
+          }.default;
+        nil-language-server =
+          nil-language-server.packages.${
+            final.stdenvNoCC.hostPlatform.system
+              or (throw "Unsupported platform ${final.stdenvNoCC.hostPlatform.system}")
+          }.nil;
         vtsls = final.callPackage ./home-manager/vtsls.nix { };
       };
 

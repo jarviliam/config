@@ -1,4 +1,6 @@
+local methods = vim.lsp.protocol.Methods
 local M = {}
+
 ---@param filter 'Function' | 'Module' | 'Struct'
 local function filtered_document_symbol(filter)
   vim.lsp.buf.document_symbol()
@@ -21,7 +23,6 @@ end
 ---@param bufnr integer
 function M.on_attach(client, bufnr)
   local fzf = require("fzf-lua")
-  local methods = vim.lsp.protocol.Methods
 
   ---@param lhs string
   ---@param rhs string|function
@@ -33,100 +34,18 @@ function M.on_attach(client, bufnr)
     vim.keymap.set(mode or "n", lhs, rhs, opts)
   end
 
-  --- @param keys string
-  local function feedkeys(keys)
-    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(keys, true, false, true), "n", true)
-  end
-
-  local function pumvisible()
-    return tonumber(vim.fn.pumvisible()) ~= 0
-  end
-
-  if vim.g._native_compl and client.server_capabilities.signatureHelpProvider then
-    client.server_capabilities.signatureHelpProvider.triggerCharacters = {}
-  end
-
-  local supports_signatureHelp = client:supports_method(methods.textDocument_signatureHelp)
-  local supports_completion = client:supports_method(methods.textDocument_completion)
-  local supports_implementation = client:supports_method(methods.textDocument_implementation)
-  local supports_codeAction = client:supports_method(methods.textDocument_codeAction)
-  local supports_definition = client:supports_method(methods.textDocument_definition)
-  local supports_documentHighlight = client:supports_method(methods.textDocument_documentHighlight)
-  local supports_inlayHint = client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint)
-
-  if supports_completion then
-    if vim.g._native_compl then
-      vim.lsp.completion.enable(true, client.id, bufnr, { autotrigger = true })
-      keymap("<cr>", function()
-        return pumvisible() and "<C-y>" or "<cr>"
-      end, { expr = true }, "i")
-
-      keymap("<C-n>", function()
-        if pumvisible() then
-          feedkeys("<C-n>")
-        else
-          vim.lsp.completion.trigger()
-        end
-      end, "Trigger/select next completion", "i")
-
-      keymap("<Tab>", function()
-        if pumvisible() then
-          feedkeys("<C-n>")
-        elseif vim.snippet.active({ direction = 1 }) then
-          vim.snippet.jump(1)
-        else
-          feedkeys("<Tab>")
-        end
-      end, {}, { "i", "s" })
-
-      keymap("<S-Tab>", function()
-        if pumvisible() then
-          feedkeys("<C-p>")
-        elseif vim.snippet.active({ direction = -1 }) then
-          vim.snippet.jump(-1)
-        else
-          feedkeys("<S-Tab>")
-        end
-      end, {}, { "i", "s" })
-    end
-
-    keymap("<C-u>", "<C-x><C-n>", { desc = "Buffer completions" }, "i")
-
-    -- Inside a snippet, use backspace to remove the placeholder.
-    keymap("<BS>", "<C-o>s", {}, "s")
-
-    if vim.g._native_compl then
-      vim.api.nvim_create_autocmd("CompleteChanged", {
-        buffer = bufnr,
-        callback = function()
-          local info = vim.fn.complete_info({ "selected" })
-          local completionItem = vim.tbl_get(vim.v.completed_item, "user_data", "nvim", "lsp", "completion_item")
-          if nil == completionItem then
-            return
-          end
-
-          local resolvedItem =
-            vim.lsp.buf_request_sync(bufnr, vim.lsp.protocol.Methods.completionItem_resolve, completionItem, 500)
-          if resolvedItem == nil then
-            return
-          end
-          local docs = vim.tbl_get(resolvedItem[client.id], "result", "documentation", "value")
-          if nil == docs then
-            return
-          end
-
-          local winData = vim.api.nvim__complete_set(info["selected"], { info = docs })
-          if not winData.winid or not vim.api.nvim_win_is_valid(winData.winid) then
-            return
-          end
-
-          vim.api.nvim_win_set_config(winData.winid, { border = "rounded" })
-          vim.treesitter.start(winData.bufnr, "markdown")
-          vim.wo[winData.winid].conceallevel = 3
-        end,
-      })
-    end
-  end
+  keymap("[d", function()
+    vim.diagnostic.jump({ count = -1 })
+  end, "Previous diagnostic")
+  keymap("]d", function()
+    vim.diagnostic.jump({ count = 1 })
+  end, "Next diagnostic")
+  keymap("[e", function()
+    vim.diagnostic.jump({ count = -1, severity = vim.diagnostic.severity.ERROR })
+  end, "Previous error")
+  keymap("]e", function()
+    vim.diagnostic.jump({ count = 1, severity = vim.diagnostic.severity.ERROR })
+  end, "Next error")
 
   keymap("grr", function()
     fzf.lsp_references({ jump1 = true })
@@ -134,14 +53,14 @@ function M.on_attach(client, bufnr)
 
   keymap("gy", "<cmd>FzfLua lsp_typedefs<cr>", "goto type definition [LSP]")
 
-  if supports_implementation then
+  if client:supports_method(methods.textDocument_implementation) then
     local op = function()
       fzf.lsp_implementations({ jump1 = true })
     end
     keymap("<leader>gi", op, "Go to implementation")
   end
 
-  if supports_codeAction then
+  if client:supports_method(methods.textDocument_codeAction) then
     keymap("gra", function()
       fzf.lsp_code_actions({
         winopts = {
@@ -155,18 +74,32 @@ function M.on_attach(client, bufnr)
     end, "lsp: code actions")
   end
 
-  if supports_definition then
+  if client:supports_method(methods.textDocument_definition) then
     keymap("gd", function()
       fzf.lsp_definitions({ jump1 = true })
     end, "Go to definition")
-    keymap("gD", fzf.lsp_definitions, "Peek definition")
+    keymap("gD", function()
+      fzf.lsp_definitions({ jump1 = false })
+    end, "Peek definition")
   end
 
-  if supports_signatureHelp then
-    keymap("<C-k>", vim.lsp.buf.signature_help, "signature help", "i")
+  if client:supports_method(methods.textDocument_signatureHelp) then
+    local blink_window = require("blink.cmp.completion.windows.menu")
+    local blink = require("blink.cmp")
+
+    keymap("<C-k>", function()
+      -- Close the completion menu first (if open).
+      if blink_window.win:is_open() then
+        blink.hide()
+      end
+
+      vim.lsp.buf.signature_help()
+    end, "Signature help", "i")
   end
 
-  if supports_documentHighlight then
+  keymap("<leader>grn", vim.lsp.buf.rename, "Rename symbol")
+
+  if client:supports_method(methods.textDocument_documentHighlight) then
     local hl_group = vim.api.nvim_create_augroup("jarviliam/cursor_highlights", { clear = false })
     vim.api.nvim_create_autocmd({ "CursorHold", "InsertLeave", "BufEnter" }, {
       group = hl_group,
@@ -182,7 +115,7 @@ function M.on_attach(client, bufnr)
     })
   end
 
-  if supports_inlayHint then
+  if client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
     vim.keymap.set("n", "<leader>ci", function()
       local enabled = vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr })
       vim.lsp.inlay_hint.enable(not enabled, { bufnr = bufnr })

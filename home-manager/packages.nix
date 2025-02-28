@@ -86,7 +86,7 @@ in
       ruff
       ruff-lsp
       vtsls
-      git-spice
+      # git-spice
 
       lua53Packages.luacheck
       lua-language-server
