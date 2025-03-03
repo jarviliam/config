@@ -39,8 +39,6 @@ return {
             return function()
               local row, col = unpack(vim.api.nvim_win_get_cursor(0))
               local ok, node = pcall(vim.treesitter.get_node, { pos = { row - 1, col - 1 } })
-
-              -- Show the snippet if Treesitter bails.
               if not ok or not node then
                 return true
               end

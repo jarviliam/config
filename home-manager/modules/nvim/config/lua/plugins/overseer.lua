@@ -16,6 +16,10 @@ return {
     "OverseerClearCache",
   },
   opts = {
+    templates = {
+      "builtin",
+      "go",
+    },
     dap = false,
     form = {
       win_opts = { winblend = 0 },

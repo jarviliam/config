@@ -51,32 +51,43 @@ return {
         "yaml",
       },
       ignore_install = { "unsupported" },
+      textobjects = {
+        swap = {
+          enable = true,
+          swap_next = {
+            ["<leader>ca"] = "@parameter.inner",
+          },
+          swap_previous = {
+            ["<leader>cA"] = "@parameter.inner",
+          },
+        },
+        move = {
+          enable = true,
+          set_jumps = true, -- whether to set jumps in the jumplist
+          goto_next_start = {
+            ["]m"] = "@function.outer",
+            ["]P"] = "@parameter.outer",
+          },
+          goto_next_end = {
+            ["]m"] = "@function.outer",
+            ["]P"] = "@parameter.outer",
+          },
+          goto_previous_start = {
+            ["[m"] = "@function.outer",
+            ["[P"] = "@parameter.outer",
+          },
+          goto_previous_end = {
+            ["[m"] = "@function.outer",
+            ["[P"] = "@parameter.outer",
+          },
+        },
+      },
       fold = {
         enable = true,
       },
       highlight = {
         enable = true,
         additional_vim_regex_highlighting = { "markdown" },
-      },
-      move = {
-        enable = true,
-        set_jumps = true, -- whether to set jumps in the jumplist
-        goto_next_start = {
-          ["]m"] = "@function.outer",
-          ["]P"] = "@parameter.outer",
-        },
-        goto_next_end = {
-          ["]m"] = "@function.outer",
-          ["]P"] = "@parameter.outer",
-        },
-        goto_previous_start = {
-          ["[m"] = "@function.outer",
-          ["[P"] = "@parameter.outer",
-        },
-        goto_previous_end = {
-          ["[m"] = "@function.outer",
-          ["[P"] = "@parameter.outer",
-        },
       },
       incremental_selection = {
         enable = true,

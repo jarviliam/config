@@ -1,23 +1,6 @@
 local methods = vim.lsp.protocol.Methods
 local M = {}
 
----@param filter 'Function' | 'Module' | 'Struct'
-local function filtered_document_symbol(filter)
-  vim.lsp.buf.document_symbol()
-  vim.cmd.Cfilter(("[[%s]]"):format(filter))
-end
-local function symbol_methods()
-  filtered_document_symbol("Function")
-end
-
-local function symbol_modules()
-  filtered_document_symbol("Module")
-end
-
-local function symbol_structs()
-  filtered_document_symbol("Struct")
-end
-
 --- Sets up the Keymaps and autocommands
 ---@param client vim.lsp.Client
 ---@param bufnr integer
@@ -143,10 +126,6 @@ function M.on_attach(client, bufnr)
       }
     end
   end
-
-  keymap("<space>sf", symbol_methods, { desc = "symbols: [f]unction" })
-  keymap("<space>sss", symbol_structs, { desc = "symbols: [s]tructs" })
-  keymap("<space>ssi", symbol_modules, { desc = "symbols: [i]mports" })
 end
 
 --- Configure the lsp server via lspconfig

@@ -1,7 +1,9 @@
-{ pkgs, lib, nixvim, ... }:
+{
+  config,
+  ...
+}:
 {
   xdg.configFile.nvim = {
-    source = ./config;
-    recursive = true;
+    source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.setup/home-manager/modules/nvim/config";
   };
 }
