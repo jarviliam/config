@@ -54,9 +54,7 @@ return {
       luasnip.setup(opts)
 
       -- Load my custom snippets:
-      require("luasnip.loaders.from_vscode").lazy_load({
-        -- paths = vim.fn.stdpath("config") .. "/codesnippets",
-      })
+      require("luasnip.loaders.from_vscode").lazy_load({})
 
       -- Use <C-c> to select a choice in a snippet.
       vim.keymap.set({ "i", "s" }, "<C-c>", function()
