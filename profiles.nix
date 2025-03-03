@@ -82,7 +82,7 @@ rec {
     };
     commonSpecialArgs = liam.commonSpecialArgs // {
       username = "liam.jarvis";
-      flakePath = "/Users/liam.jarvis/nix_dot";
+      flakePath = "/Users/liam.jarvis/.setup";
     };
     extraConfig = liam.extraConfig;
   };
