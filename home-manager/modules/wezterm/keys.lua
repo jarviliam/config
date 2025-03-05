@@ -1,17 +1,13 @@
---@type wezterm
-local wezterm = require("wezterm")
-local act = wezterm.action
+local wezterm = require("wezterm") --[[@as Wezterm]]
 
-local function is_vim(pane)
-  -- this is set by the plugin, and unset on ExitPre in Neovim
+local act = wezterm.action
+local M = {}
+
+function M.is_vim(pane)
   return pane:get_user_vars().IS_NVIM == "true"
+    or pane:get_foreground_process_name():find("nvim")
 end
 
--- {
---   key = "9",
---   mods = "ALT",
---   action = wezterm.action({ ActivateTab = 8 }),
--- },
 local keys = {}
 local function map(key, mods, action)
   if type(mods) == "string" then
@@ -43,12 +39,27 @@ local direction_keys = {
   l = "Right",
 }
 
-local function split_nav(resize_or_move, key)
+M.smart_split = wezterm.action_callback(function(window, pane)
+  local dim = pane:get_dimensions()
+  if dim.pixel_height > dim.pixel_width then
+    window:perform_action(
+      act.SplitVertical({ domain = "CurrentPaneDomain" }),
+      pane
+    )
+  else
+    window:perform_action(
+      act.SplitHorizontal({ domain = "CurrentPaneDomain" }),
+      pane
+    )
+  end
+end)
+
+function M.split_nav(resize_or_move, key)
   return {
     key = key,
     mods = resize_or_move == "resize" and "META" or "CTRL",
     action = wezterm.action_callback(function(win, pane)
-      if is_vim(pane) then
+      if M.is_vim(pane) then
         win:perform_action({
           SendKey = {
             key = key,
@@ -72,24 +83,34 @@ local function split_nav(resize_or_move, key)
   }
 end
 
-local M = {}
-M.apply = function(c)
-  c.leader = {
+function M.setup(config)
+  config.disable_default_key_bindings = true
+  config.leader = {
     key = " ",
     mods = "CTRL",
     timeout_milliseconds = math.maxinteger,
   }
-  map([[\]], "LEADER", act.SplitHorizontal({ domain = "CurrentPaneDomain" }))
+  table.insert(
+    keys,
+    { key = "k", mods = "SHIFT|SUPER", action = act.ScrollByPage(-0.5) }
+  )
+  table.insert(
+    keys,
+    { key = "j", mods = "SHIFT|SUPER", action = act.ScrollByPage(0.5) }
+  )
+  map("Enter", "SHIFT|SUPER", M.smart_split)
+  map("w", "SHIFT|SUPER", act({ ActivateTabRelative = 1 }))
+  map("b", "SHIFT|SUPER", act({ ActivateTabRelative = -1 }))
+
   map(
-    [[|]],
+    "|",
     "LEADER",
-    act.SplitPane({
-      top_level = true,
-      direction = "Right",
-      size = { Percent = 50 },
+    act.SplitHorizontal({
+      domain = "CurrentPaneDomain",
     })
   )
-  map("-", "ALT", act.SplitVertical({ domain = "CurrentPaneDomain" }))
+  map("_", "ALT", act.SplitVertical({ domain = "CurrentPaneDomain" }))
+
   map(
     "_",
     "LEADER",
@@ -102,34 +123,24 @@ M.apply = function(c)
   for i = 1, 9 do
     map(tostring(i), { "LEADER" }, act.ActivateTab(i - 1))
   end
-  map("c", "LEADER", act.SpawnTab("CurrentPaneDomain"))
-  map("x", { "LEADER", "SHIFT|CTRL" }, act.CloseCurrentPane({ confirm = true }))
-  map("t", { "SHIFT|CTRL", "SUPER" }, act.SpawnTab("CurrentPaneDomain"))
-  map("w", { "SHIFT|CTRL", "SUPER" }, act.CloseCurrentTab({ confirm = true }))
-  map("n", { "SHIFT|CTRL", "SUPER" }, act.SpawnWindow)
+
+  map("t", { "SHIFT|SUPER" }, act.SpawnTab("CurrentPaneDomain"))
   map("z", { "LEADER", "SHIFT|CTRL" }, act.TogglePaneZoomState)
   map("v", "LEADER", act.ActivateCopyMode)
-  map("c", { "SHIFT|CTRL", "SUPER" }, act.CopyTo("Clipboard"))
-  map("v", { "SHIFT|CTRL", "SUPER" }, act.PasteFrom("Clipboard"))
-  map(
-    "f",
-    { "SHIFT|CTRL", "SUPER" },
-    act.Search({ CaseInSensitiveString = "" })
-  )
-  map("e", { "LEADER", "SUPER" }, act.RotatePanes("Clockwise"))
-  map(" ", "LEADER", act.QuickSelect)
-  map("o", { "LEADER", "SUPER" }, openUrl)
-  map("p", { "LEADER", "SUPER" }, act.PaneSelect({ alphabet = "asdfghjkl;" }))
-  map("R", { "LEADER", "SUPER" }, act.ReloadConfiguration)
-  map("p", { "SHIFT|CTRL", "SHIFT|SUPER" }, act.ActivateCommandPalette)
 
-  map("Enter", "ALT", act.ToggleFullScreen)
-  map("-", { "CTRL", "SUPER" }, act.DecreaseFontSize)
-  map("=", { "CTRL", "SUPER" }, act.IncreaseFontSize)
-  map("0", { "CTRL", "SUPER" }, act.ResetFontSize)
+  map("c", { "SHIFT|SUPER", "SUPER" }, act.CopyTo("Clipboard"))
+  map("v", { "SHIFT|SUPER" }, act.PasteFrom("Clipboard"))
 
-  map("f", "LEADER", act.EmitEvent("switch-font"))
-  map("l", "SHIFT|CTRL", act.ShowDebugOverlay)
+  map("f", { "SHIFT|SUPER" }, act.Search({ CaseInSensitiveString = "" }))
+  map("r", { "LEADER", "SUPER" }, act.RotatePanes("Clockwise"))
+
+  map(" ", "SHIFT|SUPER", act.QuickSelect)
+  map("o", { "SHIFT|SUPER" }, openUrl)
+  map("s", { "SHIFT|SUPER" }, act.PaneSelect({ alphabet = "asdfghjkl;" }))
+
+  map("p", "SHIFT|SUPER", act.ActivateCommandPalette)
+  map("d", "SHIFT|SUPER", act.ShowDebugOverlay)
+
   map(
     "F11",
     "",
@@ -147,17 +158,17 @@ M.apply = function(c)
       end
     end)
   )
-  c.keys = {
-    split_nav("move", "h"),
-    split_nav("move", "j"),
-    split_nav("move", "k"),
-    split_nav("move", "l"),
-    split_nav("resize", "h"),
-    split_nav("resize", "j"),
-    split_nav("resize", "k"),
-    split_nav("resize", "l"),
+  config.keys = {
+    M.split_nav("move", "h"),
+    M.split_nav("move", "j"),
+    M.split_nav("move", "k"),
+    M.split_nav("move", "l"),
+    M.split_nav("resize", "h"),
+    M.split_nav("resize", "j"),
+    M.split_nav("resize", "k"),
+    M.split_nav("resize", "l"),
     table.unpack(keys),
   }
-  c.disable_default_key_bindings = true
 end
+
 return M

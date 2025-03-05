@@ -1,7 +1,7 @@
 return {
   "MagicDuck/grug-far.nvim",
   opts = { headerMaxWidth = 80 },
-  cmd = "GrugFar",
+  cmd = { "GrugFar", "GrugFarWord" },
   init = function()
     vim.api.nvim_create_autocmd("FileType", {
       pattern = "grug-far",
@@ -15,6 +15,9 @@ return {
           },
         }
       end,
+      vim.api.nvim_create_user_command("GrugFarWord", function()
+        require("grug-far").open({ prefills = { search = vim.fn.expand("<cword>") } })
+      end, { desc = "Search and Replace word under cursor" }),
     })
   end,
   keys = {

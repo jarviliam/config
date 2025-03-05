@@ -36,7 +36,7 @@ M.apply = function(c)
     saturation = 1.0,
     brightness = 0.8,
   }
-  c.color_scheme = "Github Dark New"
+  c.color_scheme = "Gruvbox dark, soft (base16)"
   c.color_schemes = {
     ["Github Dark New"] = M.color_scheme,
   }

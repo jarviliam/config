@@ -24,6 +24,9 @@ return {
       end
       return vim.bo[bufnr].buflisted
     end,
+    extensions = {
+      overseer = {},
+    },
   },
   config = function(opts)
     require("resession").setup(opts)
