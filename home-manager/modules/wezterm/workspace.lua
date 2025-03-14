@@ -7,7 +7,7 @@ M.apply = function(c)
   )
   table.insert(c.keys, {
     key = "s",
-    mods = "ALT",
+    mods = "SHIFT|SUPER",
     action = workspace_switcher.switch_workspace({
       extra_args = " | rg -FxNf ~/.projects",
     }),

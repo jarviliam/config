@@ -7,8 +7,6 @@
 -- /___/
 --
 ----------------------------------------------------
-vim.g.enable_session = 0
-
 if vim.env.PROF then
   local snacks = vim.fn.stdpath("data") .. "/lazy/snacks.nvim"
   vim.opt.rtp:append(snacks)
@@ -19,6 +17,5 @@ if vim.env.PROF then
   })
 end
 
-vim.cmd.packadd("cfilter")
 require("core")
 require("gh")

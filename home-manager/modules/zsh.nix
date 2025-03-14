@@ -7,10 +7,6 @@
     enableCompletion = false;
     defaultKeymap = "viins";
     historySubstringSearch.enable = true;
-    # Hack because /etc/static isn't in $NIX_PROFILE
-    # initExtraBeforeCompInit = ''
-    #   fpath+=(/etc/static/profiles/per-user/liam.jarvis/share/zsh/site-functions /etc/static/profiles/per-user/liam.jarvis/share/zsh/$ZSH_VERSION/functions /etc/static/profiles/per-user/liam.jarvis/share/zsh/vendor-completions )
-    # '';
     history = {
       expireDuplicatesFirst = true;
       extended = true;
@@ -86,7 +82,6 @@
         export PATH="/opt/homebrew/bin:$PATH"
         export PYENV_ROOT="$HOME/.pyenv"
         [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-        eval "$(pyenv init -)"
 
       #compdef gt
       ###-begin-gt-completions-###

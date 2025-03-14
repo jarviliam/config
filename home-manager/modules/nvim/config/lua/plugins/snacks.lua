@@ -29,7 +29,7 @@ return {
         end, },
       { [[<C-/>]], function() Snacks.terminal.toggle(vim.env.SHELL) end, mode = { "n", "t" }, desc = "Terminal", },
       -- Git
-      { "<leader>go", function() Snacks.gitbrowse.open() end, desc = "Open Git URL" },
+      { "<leader>go", function() Snacks.gitbrowse.open() end, mode = {"n","v"},desc = "Open Git URL" },
       { "<leader>gC", function()
           Snacks.gitbrowse({ open = function(url) vim.fn.setreg("+", url) end, notify = false })
       end, desc = "Copy Git URL" },
@@ -39,7 +39,7 @@ return {
       { "<leader>.", function() Snacks.scratch() end, desc = "Toggle Scratch Buffer", },
     },
     opts = {
-      bigfile = { enabled = true },
+      bigfile = { enabled = true, notify = true },
       notifier = { enabled = true },
       quickfile = { enabled = true },
       explorer = {

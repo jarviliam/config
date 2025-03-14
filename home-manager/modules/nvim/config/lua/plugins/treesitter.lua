@@ -2,16 +2,13 @@ return {
   {
     "nvim-treesitter/nvim-treesitter",
     lazy = false,
+    branch = "main",
     keys = { { "<leader>i", vim.show_pos, desc = "Inspect Position" } },
     event = { "VeryLazy" },
     build = function()
       local install = require("nvim-treesitter.install")
       install.compilers = { "gcc", "clang", "cl" }
       install.update({ with_sync = true })()
-    end,
-    init = function(plugin)
-      require("lazy.core.loader").add_to_rtp(plugin)
-      require("nvim-treesitter.query_predicates")
     end,
     opts = {
       ensure_install = {

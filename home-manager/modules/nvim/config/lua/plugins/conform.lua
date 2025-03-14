@@ -1,3 +1,4 @@
+--- @LazySpec
 return {
   "stevearc/conform.nvim",
   event = { "BufWritePre" },
@@ -10,8 +11,6 @@ return {
       desc = "Format buffer",
     },
   },
-  -- This will provide type hinting with LuaLS
-  ---@module "conform"
   ---@type conform.setupOpts
   opts = {
     -- Define your formatters
@@ -33,6 +32,9 @@ return {
     -- Set up format-on-save
     format_on_save = function(bufnr)
       if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
+        return
+      end
+      if vim.bo[bufnr].modifiable == false then
         return
       end
       return {

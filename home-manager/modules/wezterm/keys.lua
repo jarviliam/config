@@ -124,19 +124,23 @@ function M.setup(config)
     map(tostring(i), { "LEADER" }, act.ActivateTab(i - 1))
   end
 
+  map("x", { "SHIFT|SUPER" }, act.CloseCurrentTab({ confirm = true }))
+  map(">", { "SHIFT|SUPER" }, act.MoveTabRelative(1))
+  map("<", { "SHIFT|SUPER" }, act.MoveTabRelative(-1))
+
   map("t", { "SHIFT|SUPER" }, act.SpawnTab("CurrentPaneDomain"))
   map("z", { "LEADER", "SHIFT|CTRL" }, act.TogglePaneZoomState)
-  map("v", "LEADER", act.ActivateCopyMode)
+  -- map("X", "SHIFT|SUPER", act.ActivateCopyMode)
 
   map("c", { "SHIFT|SUPER", "SUPER" }, act.CopyTo("Clipboard"))
   map("v", { "SHIFT|SUPER" }, act.PasteFrom("Clipboard"))
 
   map("f", { "SHIFT|SUPER" }, act.Search({ CaseInSensitiveString = "" }))
-  map("r", { "LEADER", "SUPER" }, act.RotatePanes("Clockwise"))
+  map("r", { "SHIFT|SUPER" }, act.RotatePanes("Clockwise"))
 
   map(" ", "SHIFT|SUPER", act.QuickSelect)
   map("o", { "SHIFT|SUPER" }, openUrl)
-  map("s", { "SHIFT|SUPER" }, act.PaneSelect({ alphabet = "asdfghjkl;" }))
+  -- map("s", { "SHIFT|SUPER" }, act.PaneSelect({ alphabet = "asdfghjkl;" }))
 
   map("p", "SHIFT|SUPER", act.ActivateCommandPalette)
   map("d", "SHIFT|SUPER", act.ShowDebugOverlay)
@@ -158,6 +162,7 @@ function M.setup(config)
       end
     end)
   )
+
   config.keys = {
     M.split_nav("move", "h"),
     M.split_nav("move", "j"),

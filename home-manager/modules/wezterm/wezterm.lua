@@ -20,7 +20,7 @@ config.webgpu_power_preference = "HighPerformance"
 config.cursor_blink_ease_in = "Constant"
 config.cursor_blink_ease_out = "Constant"
 
-config.underline_thickness = 3
+config.underline_thickness = 2
 config.cursor_thickness = 4
 config.underline_position = -6
 
