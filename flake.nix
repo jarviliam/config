@@ -73,6 +73,7 @@
               or (throw "Unsupported platform ${final.stdenvNoCC.hostPlatform.system}")
           }.nil;
         vtsls = final.callPackage ./home-manager/vtsls.nix { };
+        better-commits = final.callPackage ./home-manager/bettercommit.nix { };
       };
 
       nixosConfigurations = {

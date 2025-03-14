@@ -52,6 +52,7 @@ in
       qbittorrent
       eslint_d
       dwt1-shell-color-scripts
+      better-commits
     ]
     ++ lib.optionals pkgs.stdenvNoCC.isDarwin [
       slack

@@ -17,6 +17,7 @@
       share = true;
     };
     shellAliases = {
+      bc = "better-commits";
       nv = "nvim";
       # builtins
       size = "du -sh";
