@@ -4,7 +4,7 @@
     enable = true;
     autocd = true;
     autosuggestion.enable = true;
-    enableCompletion = false;
+    enableCompletion = false; # Handled by plugin
     defaultKeymap = "viins";
     historySubstringSearch.enable = true;
     history = {
@@ -37,21 +37,10 @@
       pip = "python3 -m pip";
       venv = "python3 -m venv";
 
-      kc = "kubectl";
-      kca = "kubectl apply -f";
-      ku = "kubie";
       dk = "docker";
       dc = "docker-compose";
-      pd = "podman";
-      pc = "podman-compose";
-      li = "lima nerdctl";
-      lc = "limactl";
       poe = "poetry";
-
-      ca = "cargo";
-      tf = "terraform";
       diff = "delta";
-      nr = "npm run";
       py = "python";
       psf = "ps -aux | grep";
 
@@ -73,47 +62,98 @@
       hml = "home-manager generations";
       hmr = "home-manager remove-generations";
     };
+
+    initExtraBeforeCompInit = '''';
     initExtra = ''
-        zstyle ':fzf-tab:complete:_zlua:*' query-string input
-        zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
-        zstyle ':fzf-tab:complete:cd:*' popup-pad 30 0
-        zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
-        zstyle ':fzf-tab:*' switch-group ',' '.'
-        zstyle ':completion:*:git-checkout:*' sort false
-        export PATH="/opt/homebrew/bin:$PATH"
+      # Fixes FZF shell integration
+      zvm_after_init(){
+           source <(${pkgs.fzf}/bin/fzf --zsh)
+        }
+            # disable sorting when completing any command
+            zstyle ':completion:complete:*:options' sort false
+
+            # switch group using `<` and `>`
+            zstyle ':fzf-tab:*' switch-group '<' '>'
+
+            # trigger continuous trigger with space key
+            zstyle ':fzf-tab:*' continuous-trigger 'space'
+
+            # bind tab key to accept event
+            zstyle ':fzf-tab:*' fzf-bindings 'tab:accept'
+
+            # accept and run suggestion with enter key
+            zstyle ':fzf-tab:*' accept-line enter
+
+            #### FZF-TAB SUGGESTION ADDITIONS ####
+            # give a preview of commandline arguments when completing `kill`
+            zstyle ':completion:*:*:*:*:processes' command "ps -u $USER -o pid,user,comm -w -w"
+            zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-preview \
+              '[[ $group == "[process ID]" ]] && ps --pid=$word -o cmd --no-headers -w -w'
+            zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-flags --preview-window=down:3:wrap
+
+             # preview environment variable
+            zstyle ':fzf-tab:complete:(-command-|-parameter-|-brace-parameter-|export|unset|expand):*' \
+              fzf-preview 'echo ''${(P)word}'
+
+            # Show systemd unit status
+            zstyle ':fzf-tab:complete:systemctl-*:*' fzf-preview 'SYSTEMD_COLORS=1 systemctl status $word'
+
+            # Show git
+            # it is an example. you can change it
+            zstyle ':fzf-tab:complete:git-(add|diff|restore):*' fzf-preview \
+              'git diff $word | delta'
+            zstyle ':fzf-tab:complete:git-log:*' fzf-preview \
+              'git log --color=always $word'
+            zstyle ':fzf-tab:complete:git-help:*' fzf-preview \
+              'git help $word | bat -plman --color=always'
+            zstyle ':fzf-tab:complete:git-show:*' fzf-preview \
+              'case "$group" in
+              "commit tag") git show --color=always $word ;;
+              *) git show --color=always $word | delta ;;
+              esac'
+            zstyle ':fzf-tab:complete:git-checkout:*' fzf-preview \
+              'case "$group" in
+              "modified file") git diff $word | delta ;;
+              "recent commit object name") git show --color=always $word | delta ;;
+              *) git log --color=always $word ;;
+              esac'
+
+            # Preview tldr
+            zstyle ':fzf-tab:complete:tldr:argument-1' fzf-preview 'tldr --color always $word'
+
+            # Show command preview
+            zstyle ':fzf-tab:complete:-command-:*' fzf-preview \
+              '(out=$(tldr --color always "$word") 2>/dev/null && echo $out) || (out=$(MANWIDTH=$FZF_PREVIEW_COLUMNS man "$word") 2>/dev/null && echo $out) || (out=$(which "$word") && echo $out) || echo "''${(P)word}"'
+
+        # Exa
+        zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
+        zstyle ':fzf-tab:complete:*:*' fzf-preview 'eza -1 --color=always ''${(Q)realpath}'
+
+         # Initialize homebrew
+      if [[ -d "/opt/homebrew" ]]; then
+        eval "$(/opt/homebrew/bin/brew shellenv)"
+      fi
         export PYENV_ROOT="$HOME/.pyenv"
         [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-
-      #compdef gt
-      ###-begin-gt-completions-###
-      _gt_yargs_completions()
-      {
-        local reply
-        local si=$IFS
-        IFS=$'\n' reply=($(COMP_CWORD="$((CURRENT-1))" COMP_LINE="$BUFFER" COMP_POINT="$CURSOR" gt --get-yargs-completions "$${words[@]}"))
-        IFS=$si
-        _describe 'values' reply
-      }
-      ###-end-gt-completions-###
-      compdef _gt_yargs_completions gt
 
     '';
     antidote = {
       enable = true;
+      useFriendlyNames = true;
       plugins = [
         "jeffreytse/zsh-vi-mode"
         "Aloxaf/fzf-tab"
-        "zsh-users/zsh-autosuggestions kind:defer"
         "zsh-users/zsh-completions kind:fpath"
-        "zdharma-continuum/fast-syntax-highlighting kind:defer"
-        "zsh-users/zsh-history-substring-search kind:defer"
         "MichaelAquilina/zsh-you-should-use kind:defer"
         "chisui/zsh-nix-shell"
         "wfxr/forgit"
-        "getantidote/use-omz" # handle OMZ dependencies
         "ohmyzsh/ohmyzsh path:lib" # load OMZ's library
-        "ohmyzsh/ohmyzsh path:plugins/colored-man-pages kind:defer" # load OMZ plugins
-        "ohmyzsh/ohmyzsh path:plugins/fancy-ctrl-z kind:defer"
+        "ohmyzsh/ohmyzsh path:plugins/fancy-ctrl-z"
+        "ohmyzsh/ohmyzsh path:plugins/kubectl"
+
+        "zdharma-continuum/fast-syntax-highlighting kind:defer"
+        "zsh-users/zsh-autosuggestions kind:defer"
+        "zsh-users/zsh-history-substring-search"
       ];
     };
     sessionVariables = {

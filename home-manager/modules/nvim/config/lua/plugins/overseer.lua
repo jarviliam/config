@@ -15,7 +15,7 @@ return {
     "OverseerTaskAction",
     "OverseerClearCache",
   },
-  dev = true,
+  dev = false,
   opts = {
     templates = {
       "builtin",
