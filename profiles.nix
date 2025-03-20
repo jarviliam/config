@@ -26,6 +26,7 @@ rec {
           ./home-manager/modules/zsh.nix
           ./home-manager/modules/bat.nix
           ./home-manager/modules/fzf.nix
+          ./home-manager/modules/bitwarden.nix
           ./home-manager/modules/tmux.nix
           ./home-manager/modules/wezterm.nix
           ./home-manager/modules/nvim
@@ -63,7 +64,8 @@ rec {
       };
       commonSpecialArgs = liam.commonSpecialArgs // {
         inherit username;
-        flakePath = "/home/liam.jarvis/nix_dot";
+        flakePath = "/home/liam/.setup";
+        homeDirectory = "/home/liam/";
       };
       extraConfig = liam.extraConfig // {
         system.stateVersion = stateVersion;
@@ -83,6 +85,7 @@ rec {
     commonSpecialArgs = liam.commonSpecialArgs // {
       username = "liam.jarvis";
       flakePath = "/Users/liam.jarvis/.setup";
+      homeDirectory = "/Users/liam.jarvis";
     };
     extraConfig = liam.extraConfig;
   };

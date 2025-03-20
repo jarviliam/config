@@ -17,8 +17,6 @@
   services.devmon.enable = true;
   services.gvfs.enable = true;
   nix = {
-    package = pkgs.nixVersions.latest;
-    registry.nixpkgs.flake = nixpkgs;
     gc = {
       automatic = true;
       options = "--delete-older-than 7d";

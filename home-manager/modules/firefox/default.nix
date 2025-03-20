@@ -9,16 +9,16 @@
     enable = true;
     profiles.default = {
       # bookmarks = [{}]
-      extensions = with pkgs.nur.repos.rycee.firefox-addons; [
-        privacy-badger
-        bitwarden
-        vimium
-        reddit-enhancement-suite
-        ublock-origin
-        refined-github
-        darkreader
-        mailvelope
-      ];
+      # extensions = with pkgs.nur.repos.rycee.firefox-addons; [
+      #   privacy-badger
+      #   bitwarden
+      #   vimium
+      #   reddit-enhancement-suite
+      #   ublock-origin
+      #   refined-github
+      #   darkreader
+      #   mailvelope
+      # ];
       search = {
         force = true;
         engines = {
