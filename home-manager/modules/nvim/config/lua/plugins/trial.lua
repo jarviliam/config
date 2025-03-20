@@ -9,7 +9,7 @@ return {
   },
   {
     "fredrikaverpil/godoc.nvim",
-    dev = true,
+    dev = false,
     version = "*",
     build = "go install github.com/lotusirous/gostdsym/stdsym@latest", -- optional
     cmd = { "GoDoc" },

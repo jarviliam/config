@@ -1,7 +1,7 @@
 return {
   "saghen/blink.cmp",
   lazy = false,
-  dev = true,
+  dev = false,
   dependencies = {
     { "fang2hou/blink-copilot" },
   },
