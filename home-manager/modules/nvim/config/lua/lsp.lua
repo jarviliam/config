@@ -4,7 +4,7 @@ local M = {}
 --- Sets up the Keymaps and autocommands
 ---@param client vim.lsp.Client
 ---@param bufnr integer
-function M.on_attach(client, bufnr)
+local function on_attach(client, bufnr)
   local fzf = require("fzf-lua")
 
   ---@param lhs string
@@ -154,9 +154,22 @@ function M.setup()
       if not _client then
         return
       end
-      M.on_attach(_client, args.buf)
+      on_attach(_client, args.buf)
     end,
   })
+
+  -- Update mappings when registering dynamic capabilities.
+  local register_capability = vim.lsp.handlers[methods.client_registerCapability]
+  vim.lsp.handlers[methods.client_registerCapability] = function(err, res, ctx)
+    local client = vim.lsp.get_client_by_id(ctx.client_id)
+    if not client then
+      return
+    end
+
+    on_attach(client, vim.api.nvim_get_current_buf())
+
+    return register_capability(err, res, ctx)
+  end
 
   vim.api.nvim_create_user_command("LspLogClear", function()
     vim.uv.fs_unlink(vim.fs.joinpath(tostring(vim.fn.stdpath("state")), "lsp.log"))

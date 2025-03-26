@@ -4,7 +4,6 @@ require("keymaps")
 require("core.events")
 require("winbar")
 require("commands")
--- require("completion")
 require("core.lazyplug").setup()
 
 for severity, icon in pairs(_G.ui.icons.diagnostics) do
