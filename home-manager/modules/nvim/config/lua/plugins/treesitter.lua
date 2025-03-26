@@ -7,7 +7,7 @@ return {
     event = { "VeryLazy" },
     build = function()
       local install = require("nvim-treesitter.install")
-      install.compilers = { "gcc", "clang", "cl" }
+      -- install.compilers = { "gcc", "clang", "cl" }
       install.update({ with_sync = true })()
     end,
     opts = {

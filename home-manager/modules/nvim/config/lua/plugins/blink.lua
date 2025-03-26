@@ -1,13 +1,11 @@
 return {
   "saghen/blink.cmp",
   lazy = false,
-  dev = true,
-  dependencies = {
-    { "fang2hou/blink-copilot" },
-  },
+  dev = false,
+  build = "cargo build --release",
+  event = { "InsertEnter", "CmdlineEnter" },
+  dependencies = {},
   version = "*",
-  ---@module "blink.cmp"
-  ---@type blink.cmp.Config
   opts = {
     cmdline = {
       keymap = {
@@ -18,6 +16,7 @@ return {
       default = { "lsp", "snippets", "copilot", "path", "buffer" },
       per_filetype = {
         codecompanion = { "codecompanion" },
+        gitcommit = { "conventional_commits" },
         lua = {
           "lazydev",
           "lsp",
@@ -41,6 +40,13 @@ return {
           name = "LazyDev",
           module = "lazydev.integrations.blink",
           fallbacks = { "lsp" },
+        },
+        conventional_commits = {
+          name = "Conventional Commits",
+          module = "blink-cmp-conventional-commits",
+          enabled = function()
+            return vim.bo.filetype == "gitcommit"
+          end,
         },
         codecompanion = {
           name = "CodeCompanion",
@@ -95,7 +101,7 @@ return {
         },
       },
       accept = {
-        auto_brackets = { enabled = true }, -- experimental
+        auto_brackets = { enabled = true },
       },
       documentation = {
         auto_show = true,
@@ -144,4 +150,7 @@ return {
       nerd_font_variant = "mono",
     },
   },
+  { "fang2hou/blink-copilot" },
+  { "Kaiser-Yang/blink-cmp-git" },
+  { "disrupted/blink-cmp-conventional-commits" },
 }
