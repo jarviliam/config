@@ -2,11 +2,11 @@
 return {
   cmd = { "yaml-language-server", "--stdio" },
   filetypes = { "yaml" },
-  -- on_new_config = function(config)
-  --   config.settings = vim.tbl_deep_extend("force", config.settings, {
-  --     yaml = { schemas = require("schemastore").yaml.schemas() },
-  --   })
-  -- end,
+  on_new_config = function(config)
+    config.settings = vim.tbl_deep_extend("force", config.settings, {
+      yaml = { schemas = require("schemastore").yaml.schemas() },
+    })
+  end,
   settings = {
     redhat = { telemetry = { enabled = false } },
     yaml = {
