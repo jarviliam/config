@@ -128,6 +128,9 @@ return {
             kind = {
               ellipsis = false,
               width = { fill = true },
+              highlight = function(ctx)
+                return select(2, require("mini.icons").get("lsp", ctx.kind))
+              end,
             },
 
             label = {
