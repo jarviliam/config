@@ -3,7 +3,6 @@
   home.packages =
     with pkgs;
     [
-      ghostty
       tmux
       # pyenv
       lua51Packages.lua
