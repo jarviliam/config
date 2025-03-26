@@ -127,5 +127,6 @@
 
       redis
       pgcli
+      bitwarden-cli
     ];
 }
