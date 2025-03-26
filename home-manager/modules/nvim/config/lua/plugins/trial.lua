@@ -1,5 +1,4 @@
 return {
-  { "jarviliam/jq.nvim", dev = true },
   { "tpope/vim-sleuth", event = "BufReadPre" },
   {
     "j-hui/fidget.nvim",
