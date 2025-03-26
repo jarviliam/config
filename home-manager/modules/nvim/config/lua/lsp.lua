@@ -128,13 +128,39 @@ function M.on_attach(client, bufnr)
   end
 end
 
---- Configure the lsp server via lspconfig
----@param server string
----@param settings? table
-function M.configure_server(server, settings)
-  settings = settings or {}
-  settings.capabilities = require("blink.cmp").get_lsp_capabilities(settings.capabilities)
-  require("lspconfig")[server].setup(settings)
+function M.setup()
+  if vim.g._lsp_setup == 1 then
+    return
+  end
+  vim.g._lsp_setup = 1
+
+  vim.lsp.config("*", {
+    root_markers = { ".git" },
+  } --[[@as vim.lsp.Config]])
+
+  vim
+    .iter(vim.api.nvim_get_runtime_file("lsp/*.lua", true))
+    :map(function(config_path)
+      return vim.fs.basename(config_path):match("^(.*)%.lua$")
+    end)
+    :each(function(server_name)
+      vim.lsp.enable(server_name)
+    end)
+
+  vim.api.nvim_create_autocmd("LspAttach", {
+    desc = "Configure LSP Keymaps",
+    callback = function(args)
+      local _client = vim.lsp.get_client_by_id(args.data.client_id)
+      if not _client then
+        return
+      end
+      M.on_attach(_client, args.buf)
+    end,
+  })
+
+  vim.api.nvim_create_user_command("LspLogClear", function()
+    vim.uv.fs_unlink(vim.fs.joinpath(tostring(vim.fn.stdpath("state")), "lsp.log"))
+  end, { desc = "Clear LSP Log" })
 end
 
 return M

@@ -18,29 +18,7 @@ return {
     },
   },
   { "yioneko/nvim-vtsls" },
-  {
-    "neovim/nvim-lspconfig",
-    enabled = true,
-    event = "BufReadPre",
-    keys = {
-      { "<leader>cl", "<cmd>LspInfo<cr>", desc = "Lsp Info" },
-    },
-    dependencies = {
-      { "b0o/SchemaStore.nvim", version = false },
-    },
-    config = function()
-      require("lspconfig.ui.windows").default_options.border = ui.border.name
-
-      vim.api.nvim_create_user_command("LspLogClear", function()
-        vim.uv.fs_unlink(vim.fs.joinpath(tostring(vim.fn.stdpath("state")), "lsp.log"))
-      end, { desc = "Clear LSP Log" })
-
-      local configure_server = require("lsp").configure_server
-      for server, opts in pairs(require("plugins.lsp.servers")) do
-        configure_server(server, opts)
-      end
-    end,
-  },
+  { "b0o/SchemaStore.nvim", version = false },
   { "maxandron/goplements.nvim" },
   {
     "mfussenegger/nvim-lint",

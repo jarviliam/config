@@ -51,6 +51,8 @@ vim.diagnostic.config({
   },
 })
 
+require("lsp").setup()
+
 Snacks.toggle
   .new({
     name = "DiagnosticLine",
@@ -76,17 +78,6 @@ vim.diagnostic.handlers.virtual_text = {
   end,
   hide = hide_handler,
 }
-
-vim.api.nvim_create_autocmd("LspAttach", {
-  desc = "Configure LSP Keymaps",
-  callback = function(args)
-    local _client = vim.lsp.get_client_by_id(args.data.client_id)
-    if not _client then
-      return
-    end
-    require("lsp").on_attach(_client, args.buf)
-  end,
-})
 
 local conf = require("conf")
 vim.cmd(string.format("colorscheme %s", conf.theme))

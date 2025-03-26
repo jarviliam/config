@@ -136,6 +136,7 @@ return {
             Snacks.debug.backtrace()
           end
           vim.print = _G.dd
+
           Snacks.toggle.diagnostics():map("\\d")
           Snacks.toggle.inlay_hints():map("\\i")
           Snacks.toggle.line_number():map("\\n")

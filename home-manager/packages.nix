@@ -88,6 +88,8 @@ in
       ruff-lsp
       vtsls
       # git-spice
+      marksman
+      basedpyright
 
       lua53Packages.luacheck
       lua-language-server
