@@ -1,20 +1,10 @@
 { pkgs, lib, ... }:
-let
-  py312 = pkgs.python312.override {
-    sourceVersion = {
-      major = "3";
-      minor = "12";
-      patch = "5";
-      suffix = "";
-    };
-    hash = "sha256-+oouEsXmILCfU+ZbzYdVDS5aHi4Ev4upkdzFUROHY5c=";
-  };
-in
 {
   home.packages =
     with pkgs;
     [
-      emacs
+      ghostty
+      tmux
       # pyenv
       lua51Packages.lua
       lua51Packages.luarocks

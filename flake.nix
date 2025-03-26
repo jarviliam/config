@@ -15,14 +15,6 @@
       url = "github:Mic92/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nixvim = {
-      url = "github:pta2002/nixvim";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    lanzaboote = {
-      url = "github:nix-community/lanzaboote/v0.4.1";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     nil-language-server.url = "github:oxalica/nil";
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
   };
@@ -98,11 +90,6 @@
                 environment.systemPackages = [
                   pkgs.sbctl
                 ];
-                # boot.loader.systemd-boot.enable = lib.mkForce false;
-                # boot.lanzaboote = {
-                #   enable = true;
-                #   pkiBundle = "/var/lib/sbctl";
-                # };
               }
             )
           ];
