@@ -3,7 +3,6 @@
   home.packages =
     with pkgs;
     [
-      tmux
       # pyenv
       lua51Packages.lua
       lua51Packages.luarocks

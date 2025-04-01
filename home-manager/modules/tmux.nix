@@ -1,9 +1,9 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 {
   programs.tmux = {
     enable = true;
     shortcut = "Space";
-    # shortcut = "C-Space";
+    shell = "zsh";
     baseIndex = 1;
     terminal = "screen-256color";
     keyMode = "vi";
@@ -14,8 +14,10 @@
 
     plugins = with pkgs.tmuxPlugins; [
       sensible
-      nord
+      gruvbox
       fzf-tmux-url
+      tmux-fzf
+      tmux-which-key
     ];
 
     extraConfig = ''
@@ -28,11 +30,6 @@
       set -g bell-action none
       set -g status-position top
       set -g status-interval 5
-      # set -g prefix C-Space
-      # bind C-Space send-prefix
-
-      # unbind-key n
-      # unbind-key "c"
 
       set -g @fzf-url-bind 'x'
       bind-key -n M-n new-window -c "#{pane_current_path}"
@@ -123,50 +120,6 @@
       bind-key -T copy-mode-vi 'C-\' select-pane -l
 
       set -g @emulate-scroll-for-no-mouse-alternate-buffer "on"
-
-      set -g window-status-separator ""
-      set -g status-right-length 100
-      set -g status-left-length 100
-      set -g status-left ""
-      set -g status-right ""
-      set -g status-justify left
-
-      rosewater="#F5E0DC"
-      flamingo="#F2CDCD"
-      pink="#F5C2E7"
-      mauve="#CBA6F7"
-      red="#F38BA8"
-      maroon="#EBA0AC"
-      peach="#FAB387"
-      yellow="#F9E2AF"
-      green="#A6E3A1"
-      teal="#94E2D5"
-      sky="#89DCEB"
-      sapphire="#74C7EC"
-      blue="#89B4FA"
-      lavender="#B4BEFE"
-
-      text="#CDD6F4"
-      subtext1="#BAC2DE"
-      subtext0="#A6ADC8"
-      overlay2="#9399B2"
-      overlay1="#7F849C"
-      overlay0="#6C7086"
-      surface2="#585B70"
-      surface1="#45475A"
-      surface0="#313244"
-
-      base="#1E1E2E"
-      mantle="#181825"
-      crust="#11111B"
-
-      set -g status-style fg=$subtext1,bg=$mantle
-
-      set -g window-status-current-format "#[fg=$surface2,bg=$base] #I  #(~/go/bin/despell -c #W)  #[fg=white,bold] #{s|$HOME|~|;s|.*/||:pane_current_path} #[fg=$base]▕"
-      set -g window-status-format "#[fg=$surface2] #I  #(~/go/bin/despell -c #W)  #[fg=brightblack,bold] #{s|$HOME|~|;s|.*/||:pane_current_path} #[fg=$base]▕"
-
-      set -g pane-border-style fg=$surface0
-      set -g pane-active-border-style fg=$surface0
     '';
   };
 }
