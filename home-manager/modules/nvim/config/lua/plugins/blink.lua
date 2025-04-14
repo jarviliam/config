@@ -37,7 +37,7 @@ return {
           lazydev = {
             name = "LazyDev",
             module = "lazydev.integrations.blink",
-            fallbacks = { "lsp" },
+            score_offset = 100,
           },
           conventional_commits = {
             name = "Conventional Commits",

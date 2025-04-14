@@ -27,6 +27,7 @@ function M.setup()
     spec = {
       { import = "plugins" },
       { import = "plugins.ai" },
+      { import = "plugins.languages" },
     },
     ui = {
       border = "rounded",
