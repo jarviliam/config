@@ -1,3 +1,4 @@
+---@type LazySpec[]
 return {
   {
     "folke/snacks.nvim",
@@ -27,6 +28,7 @@ return {
             },
           })
         end, },
+
       { [[<C-/>]], function() Snacks.terminal.toggle(vim.env.SHELL) end, mode = { "n", "t" }, desc = "Terminal", },
       -- Git
       { "<leader>go", function() Snacks.gitbrowse.open() end, mode = {"n","v"},desc = "Open Git URL" },
@@ -38,20 +40,27 @@ return {
       { "<leader>pS", function() Snacks.profiler.scratch() end, desc = "Profiler Scratch Buffer", },
       { "<leader>.", function() Snacks.scratch() end, desc = "Toggle Scratch Buffer", },
     },
+    ---@type snacks.Config
     opts = {
       bigfile = { enabled = true, notify = true },
+      terminal = {
+        enabled = true,
+        shell = "zsh",
+      },
       notifier = { enabled = true },
       quickfile = { enabled = true },
       explorer = {
         replace_netrw = true,
       },
       input = { enabled = true },
-      indent = {
+      scope = {
         enabled = true,
+      },
+      indent = {
         animate = {
           enabled = false,
         },
-        scope = {
+        indent = {
           enabled = true,
         },
       },
@@ -128,6 +137,7 @@ return {
     init = function()
       vim.api.nvim_create_autocmd("User", {
         pattern = "VeryLazy",
+        once = true,
         callback = function()
           _G.dd = function(...)
             Snacks.debug.inspect(...)

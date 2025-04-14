@@ -22,12 +22,9 @@ local map_split = function(buf_id, lhs, direction)
   vim.keymap.set("n", lhs, rhs, { buffer = buf_id, desc = desc })
 end
 
+---@type LazySpec[]
 return {
-  {
-    "echasnovski/mini.move",
-    event = "VeryLazy",
-    config = true,
-  },
+  { "echasnovski/mini.nvim" },
   {
     "echasnovski/mini.hipatterns",
     event = "BufReadPost",
@@ -43,6 +40,7 @@ return {
 
       return { highlighters = highlighters }
     end,
+    virtual = true,
   },
   {
     "echasnovski/mini.files",
@@ -102,10 +100,11 @@ return {
         end,
       })
     end,
+    virtual = true,
   },
   {
     "echasnovski/mini.ai",
-    event = "VeryLazy",
+    event = "LazyFile",
     config = function(_, _)
       local ai = require("mini.ai")
       require("mini.ai").setup({
@@ -127,11 +126,10 @@ return {
         },
       })
     end,
+    virtual = true,
   },
-
   {
     "echasnovski/mini.clue",
-    enable = true,
     event = "VeryLazy",
     opts = function()
       local miniclue = require("mini.clue")
@@ -224,12 +222,28 @@ return {
         },
       }
     end,
+    virtual = true,
+  },
+  {
+    "echasnovski/mini.icons",
+    init = function()
+      package.preload["nvim-web-devicons"] = function()
+        require("mini.icons").mock_nvim_web_devicons()
+        return package.loaded["nvim-web-devicons"]
+      end
+    end,
+    lazy = false,
+    opts = {
+      glyph = true,
+    },
+    virtual = true,
   },
   {
     "echasnovski/mini.pairs",
     event = "InsertEnter",
     config = function(_, opts)
       local pairs = require("mini.pairs")
+      pairs.setup(opts)
       require("snacks").toggle
         .new({
           name = "Mini Pairs",
@@ -241,8 +255,21 @@ return {
           end,
         })
         :map("\\p")
-
-      pairs.setup(opts)
     end,
+    virtual = true,
+  },
+  {
+    "echasnovski/mini.align",
+    keys = {
+      { "g=", desc = "mini.align: align", mode = { "n", "v" } },
+      { "g+", desc = "mini.align: align with preview", mode = { "n", "" } },
+    },
+    opts = {
+      mappings = {
+        start = "g=",
+        start_with_preview = "g+",
+      },
+    },
+    virtual = true,
   },
 }

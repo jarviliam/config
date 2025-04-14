@@ -23,6 +23,7 @@ local function setupDiagnostics()
     float = {
       focusable = true,
       source = "if_many",
+      severity_sort = true,
       border = "rounded",
       suffix = function(diag)
         local text = ""
@@ -164,8 +165,12 @@ end
 ---@type LazySpec
 return {
   "lsp",
-  event = { "BufReadPost", "BufNewFile", "BufWritePre" },
+  event = "LazyFile",
   config = function()
+    vim.uv.fs_unlink(vim.lsp.get_log_path())
+    vim.lsp.log.set_level(vim.lsp.log.levels.WARN)
+    vim.lsp.log.set_format_func(vim.inspect)
+
     setupDiagnostics()
 
     vim.lsp.config("*", {
@@ -211,6 +216,10 @@ return {
 
       return register_capability(err, res, ctx)
     end
+
+    vim.api.nvim_create_user_command("LspLog", function()
+      vim.cmd.tabnew(vim.lsp.get_log_path())
+    end, { desc = "Open LSP log" })
   end,
   virtual = true,
 }

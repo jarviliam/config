@@ -1,4 +1,5 @@
 local M = {}
+
 function M.bootstrap()
   local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
@@ -16,11 +17,20 @@ function M.bootstrap()
   vim.opt.rtp:prepend(lazypath)
 end
 
+function M.lazy_file()
+  -- Add support for the LazyFile event
+  local Event = require("lazy.core.handler.event")
+  Event.mappings.LazyFile = { id = "LazyFile", event = { "BufReadPost", "BufNewFile", "BufWritePre" } }
+  Event.mappings["User LazyFile"] = Event.mappings.LazyFile
+end
+
 function M.setup()
   M.bootstrap()
+  M.lazy_file()
+
   require("lazy").setup({
     defaults = { lazy = true },
-    dev = { path = vim.env.HOME .. "/Coding" },
+    dev = { path = vim.env.HOME .. "/Coding", fallback = true },
     lockfile = vim.env.HOME .. "/.lazy-lock.json",
     install = { colorscheme = { "nightfly", "lua-embark" } },
     checker = { enabled = false },

@@ -1,21 +1,5 @@
 return {
   {
-    {
-      "github/copilot.vim",
-      cmd = "Copilot",
-      enabled = false,
-      build = ":Copilot auth",
-      opts = {
-        suggestion = { enabled = false },
-        panel = { enabled = false },
-        filetypes = {
-          markdown = true,
-          help = true,
-        },
-      },
-    },
-  },
-  {
     "zbirenbaum/copilot.lua",
     enabled = true,
     cmd = "Copilot",

@@ -51,4 +51,3 @@ vim.keymap.set("n", "<leader>Tn", "<cmd>tab split<cr>", { desc = "New tab page" 
 vim.keymap.set("n", "<leader>To", "<cmd>tabonly<cr>", { desc = "Close other tab pages" })
 
 map("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
-map("n", "<leader>qq", "<cmd>qa<cr>", { desc = "Quit All" })

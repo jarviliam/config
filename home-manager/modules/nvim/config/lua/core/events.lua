@@ -118,3 +118,10 @@ vim.api.nvim_create_autocmd({ "VimResized" }, {
     vim.cmd("tabnext " .. current_tab)
   end,
 })
+
+vim.api.nvim_create_autocmd({ "FileType" }, {
+  callback = function(event)
+    pcall(vim.treesitter.start, event.buf)
+  end,
+  desc = "Start treesitter for filetype",
+})
