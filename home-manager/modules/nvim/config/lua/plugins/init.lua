@@ -1,5 +1,6 @@
 return {
   "nvim-lua/plenary.nvim",
+  { "b0o/SchemaStore.nvim", version = false },
   {
     "echasnovski/mini.icons",
     init = function()
