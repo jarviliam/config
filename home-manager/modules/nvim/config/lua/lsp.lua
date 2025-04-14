@@ -113,19 +113,6 @@ local function on_attach(client, bufnr)
       end
     end, { desc = "Toggle Inlay Hints" })
   end
-
-  -- workaround for gopls not supporting semanticTokensProvider
-  -- https://github.com/golang/go/issues/54531#issuecomment-1464982242
-  if client.name == "gopls" and not client.server_capabilities.semanticTokensProvider then
-    local semantic = client.config.capabilities.textDocument.semanticTokens
-    if semantic then
-      client.server_capabilities.semanticTokensProvider = {
-        full = true,
-        legend = { tokenModifiers = semantic.tokenModifiers, tokenTypes = semantic.tokenTypes },
-        range = true,
-      }
-    end
-  end
 end
 
 function M.setup()

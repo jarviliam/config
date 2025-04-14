@@ -4,11 +4,9 @@ return {
     ft = "lua", -- only load on lua files
     opts = {
       library = {
-        { path = "wezterm-types", mods = { "wezterm" } },
-        { path = "luassert-types/library", words = { "assert" } },
-        { path = "busted-types/library", words = { "describe" } },
-        { path = "luvit-meta/library", words = { "vim%.uv", "vim%.loop" } },
-        { path = "snacks.nvim", words = { "Snacks" } },
+        { path = "snacks.nvim", words = { "Snacks", "snacks" } },
+        { path = "blink.nvim", words = { "blink" } },
+        { path = "lazy.nvim", words = { "LazyConfig", "LazySpec", "package" } },
       },
     },
     dependencies = {
@@ -44,6 +42,11 @@ return {
         javascriptreact = { "eslint_d" },
         typescript = { "eslint_d" },
         typescriptreact = { "eslint_d" },
+        gitcommit = { "commitlint" },
+        github = { "actionlint" },
+        yaml = { "yamllint" },
+        markdown = { "markdownlint-cli2" },
+        -- text = { "write_good" },
       }
       vim.api.nvim_create_autocmd({ "BufWritePost" }, {
         callback = function()

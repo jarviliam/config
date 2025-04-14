@@ -11,7 +11,7 @@ return {
         },
       },
       sources = {
-        default = { "lsp", "snippets", "copilot", "path", "buffer" },
+        default = { "lsp", "snippets", "path", "buffer" },
         per_filetype = {
           codecompanion = { "codecompanion" },
           gitcommit = { "conventional_commits" },
