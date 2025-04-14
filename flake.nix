@@ -65,6 +65,7 @@
               or (throw "Unsupported platform ${final.stdenvNoCC.hostPlatform.system}")
           }.nil;
         vtsls = final.callPackage ./home-manager/vtsls.nix { };
+        github-actions-languageserver = final.callPackage ./home-manager/gha.nix { };
         better-commits = final.callPackage ./home-manager/bettercommit.nix { };
         bitwarden-cli = prev.bitwarden-cli.overrideAttrs (oldAttrs: {
           nativeBuildInputs = (oldAttrs.nativeBuildInputs or [ ]) ++ [ prev.llvmPackages_18.stdenv.cc ];

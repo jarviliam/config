@@ -23,17 +23,14 @@ return {
     lazy = false,
     config = function()
       vim.g.lint_enabled = true
-      Snacks.toggle({
-        name = "Lint",
-        get = function()
-          return vim.g.lint_enabled
-        end,
-        set = function(value)
-          vim.g.lint_enabled = value
-        end,
-      }):map("\\u")
-      local lua = require("lint").linters.luacheck
-      lua.args = { "--globals", "vim", "Snacks", "--formatter", "plain", "--codes", "--ranges", "-" }
+      local lint = require("lint")
+
+      lint.linters.luacheck.args = { "--globals", "vim", "--formatter", "plain", "--codes", "--ranges", "-" }
+      lint.linters.yamllint.args = {
+        "--config",
+        "~/.config/yamllint.yml",
+      }
+
       require("lint").linters_by_ft = {
         -- python = { "ruff" },
         lua = { "luacheck" },
@@ -48,6 +45,17 @@ return {
         markdown = { "markdownlint-cli2" },
         -- text = { "write_good" },
       }
+
+      Snacks.toggle({
+        name = "Lint",
+        get = function()
+          return vim.g.lint_enabled
+        end,
+        set = function(value)
+          vim.g.lint_enabled = value
+        end,
+      }):map("\\u")
+
       vim.api.nvim_create_autocmd({ "BufWritePost" }, {
         callback = function()
           if not vim.g.lint_enabled then

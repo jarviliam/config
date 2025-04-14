@@ -1,4 +1,8 @@
-{ pkgs, ... }:
+{
+  config,
+  flakePath,
+  ...
+}:
 
 {
   nixpkgs.config = {
@@ -36,5 +40,8 @@
         vim_keys = true;
       };
     };
+  };
+  xdg.configFile."yamllint.yml" = {
+    source = config.lib.file.mkOutOfStoreSymlink "${flakePath}/config/yamllint.yml";
   };
 }

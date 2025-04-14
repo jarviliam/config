@@ -26,5 +26,8 @@ return {
     end,
   },
   root_markers = { ".github" },
+  init_options = {
+    sessionToken = vim.env.GITHUB_API_TOKEN,
+  },
   single_file_support = true,
 }
