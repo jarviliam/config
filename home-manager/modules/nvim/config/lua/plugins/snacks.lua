@@ -6,6 +6,7 @@ return {
     lazy = false,
     -- stylua: ignore
     keys = {
+      { "<leader>fu",function () Snacks.picker.undo() end, desc = "Undo"},
       { "<leader>gg", function() Snacks.lazygit() end, desc = "Lazygit", },
       { "<leader>bd", function() Snacks.bufdelete() end, desc = "Delete Buffer", },
       -- Words
@@ -28,8 +29,7 @@ return {
             },
           })
         end, },
-
-      { [[<C-/>]], function() Snacks.terminal.toggle(vim.env.SHELL) end, mode = { "n", "t" }, desc = "Terminal", },
+      { "<C-/>", function() Snacks.terminal() end, desc = "Terminal", },
       -- Git
       { "<leader>go", function() Snacks.gitbrowse.open() end, mode = {"n","v"},desc = "Open Git URL" },
       { "<leader>gC", function()

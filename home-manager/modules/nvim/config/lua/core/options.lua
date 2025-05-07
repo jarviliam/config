@@ -16,6 +16,8 @@ vim.o.undofile = true -- Enable persistent undo
 vim.opt.wildmode = "longest:full,full"
 vim.opt.wildignorecase = true
 
+vim.opt.grepprg = "rg --engine auto --vimgrep --smart-case --hidden"
+vim.opt.grepformat = "%f:%l:%c:%m"
 o.clipboard = "unnamedplus"
 
 vim.cmd("filetype plugin indent on") -- Enable all filetype plugins

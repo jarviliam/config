@@ -18,6 +18,7 @@ return {
         if vim.fn.expand("%:t") == "lsp.log" or vim.bo.filetype == "help" then
           return false
         end
+        local gs = package.loaded.gitsigns
 
         Snacks.toggle({
           name = "Git Signs",
@@ -29,9 +30,7 @@ return {
           end,
         }):map("\\g")
 
-        local gs = package.loaded.gitsigns
-
-        local function map(keys, func, desc, mode)
+        local function bmap(keys, func, desc, mode)
           vim.keymap.set(mode or "n", keys, func, { desc = desc, buffer = bufnr })
         end
 
@@ -47,18 +46,18 @@ return {
           return false
         end
 
-        map("<leader>gb", function()
+        bmap("<leader>gb", function()
           gs.blame_line({ full = true, ignore_whitespace = true })
         end, "Blame Line")
-        map("<leader>gB", gs.toggle_current_line_blame, "Git Blame Toggle")
-        map("<leader>gR", gs.reset_buffer, "Reset buffer")
-        map("<leader>gp", gs.preview_hunk, "Preview hunk")
-        map("<leader>gU", gs.undo_stage_hunk, "Stage hunk")
-        map("<leader>gD", gs.toggle_deleted, "Git Toggle Deleted")
-        map("<leader>gs", stage_or_reset_hunk("stage_hunk", "Stage hunk Line"))
-        map("<leader>gr", stage_or_reset_hunk("reset_hunk", "Reset Hunk Line"))
+        bmap("<leader>gB", gs.toggle_current_line_blame, "Git Blame Toggle")
+        bmap("<leader>gR", gs.reset_buffer, "Reset buffer")
+        bmap("<leader>gp", gs.preview_hunk, "Preview hunk")
+        bmap("<leader>gU", gs.undo_stage_hunk, "Stage hunk")
+        bmap("<leader>gD", gs.toggle_deleted, "Git Toggle Deleted")
+        bmap("<leader>gs", stage_or_reset_hunk("stage_hunk", "Stage hunk Line"))
+        bmap("<leader>gr", stage_or_reset_hunk("reset_hunk", "Reset Hunk Line"))
 
-        map("]h", function()
+        bmap("]h", function()
           if vim.wo.diff then
             vim.cmd.normal({ "]c", bang = true })
           else
@@ -66,7 +65,7 @@ return {
           end
         end, "Next hunk")
 
-        map("[h", function()
+        bmap("[h", function()
           if vim.wo.diff then
             vim.cmd.normal({ "[c", bang = true })
           else

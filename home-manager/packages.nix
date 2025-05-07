@@ -3,6 +3,7 @@
   home.packages =
     with pkgs;
     [
+      zine
       # pyenv
       lua51Packages.lua
       lua51Packages.luarocks
@@ -41,6 +42,7 @@
       eslint_d
       dwt1-shell-color-scripts
       better-commits
+      taskwarrior3
     ]
     ++ lib.optionals pkgs.stdenvNoCC.isDarwin [
       slack

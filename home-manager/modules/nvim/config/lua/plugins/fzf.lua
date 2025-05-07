@@ -1,27 +1,4 @@
-local function reload_lazy()
-  local plugins = require("lazy").plugins()
-  local names = {}
-  for _, plugin in ipairs(plugins) do
-    table.insert(names, plugin.name)
-  end
-  require("fzf-lua").fzf_exec(names, {
-    prompt = "Select a plugin > ",
-    actions = {
-      ["default"] = function(selected)
-        vim.cmd("Lazy reload " .. selected[1])
-      end,
-    },
-    winopts = {
-      title = " Reload Plugins ",
-      title_pos = "center",
-      preview = { hidden = "hidden" },
-      height = 0.50, -- window height
-      width = 0.40, -- window width
-      row = 0.50, -- window row position (0=top, 1=bottom)
-      col = 0.50, -- window col position (0=left, 1=right)
-    },
-  })
-end
+---@type LazySpec
 return {
   "ibhagwan/fzf-lua",
   cmd = "FzfLua",
@@ -37,8 +14,29 @@ return {
     { "<leader>fb", "<cmd>FzfLua buffers sort_mru=true sort_lastused=true<cr>", desc = "Buffer Picker" },
     { "<leader>fC", "<cmd>FzfLua git_bcommits<cr>", desc = "Buffer Commits" },
 
-    { "<leader>f/", "<cmd>FzfLua lgrep_curbuf<cr>", desc = "live grep (buffer)" },
+    {
+      "<leader>f/",
+      function()
+        require("fzf-lua").lgrep_curbuf({
+          winopts = {
+            preview = {
+              layout = "vertical",
+              vertical = "up:60%",
+            },
+          },
+        })
+      end,
+      desc = "live grep (buffer)",
+    },
     { "<leader>/", "<cmd>FzfLua live_grep_glob<cr>", desc = "Live grep" },
+    {
+      "<leader>fr",
+      function()
+        vim.cmd("shada")
+        require("fzf-lua").oldfiles()
+      end,
+      desc = "Recently Opened Files",
+    },
 
     { "<leader>fw", "<cmd>FzfLua grep_cword<cr>", desc = "grep <word> (project)" },
     { "<leader>fW", "<cmd>FzfLua grep_cWORD<cr>", desc = "grep <WORD> (project)" },
@@ -52,17 +50,15 @@ return {
     { "<leader>sM", "<cmd>FzfLua man_pages<cr>", desc = "Man Pages" },
 
     { "<leader>fG", "<cmd>FzfLua git_files<cr>", desc = "Find Files (Git)" },
-    { "<leader>fc", "<cmd>FzfLua git_commits<cr>", desc = "Git Commits" },
-    { "<leader>gb", "<cmd>FzfLua git_branches<cr>", desc = "Find Branches (Git)" },
+    { "<leader>fgc", "<cmd>FzfLua git_commits<cr>", desc = "Git Commits" },
+    { "<leader>fgb", "<cmd>FzfLua git_branches<cr>", desc = "Find Branches (Git)" },
 
-    { "<leader>sd", "<cmd>FzfLua diagnostics_document<cr>", desc = "Document Diagnostics" },
-    { "<leader>sD", "<cmd>FzfLua diagnostics_workspace<cr>", desc = "Workspace Diagnostics" },
-    { "<leader>sh", "<cmd>FzfLua help_tags<cr>", desc = "Help Pages" },
-    { "<leader>sH", "<cmd>FzfLua highlights<cr>", desc = "Search Highlight Groups" },
-    { "<leader>sj", "<cmd>FzfLua jumps<cr>", desc = "Jumplist" },
+    { "<leader>fd", "<cmd>FzfLua diagnostics_document<cr>", desc = "Document Diagnostics" },
+    { "<leader>fD", "<cmd>FzfLua diagnostics_workspace<cr>", desc = "Workspace Diagnostics" },
+    { "<leader>fh", "<cmd>FzfLua help_tags<cr>", desc = "Help Pages" },
+    { "<leader>fc", "<cmd>FzfLua highlights<cr>", desc = "Search Highlight Groups" },
     { "<leader>fk", "<cmd>FzfLua keymaps<cr>", desc = "Key Maps" },
     { "<leader>fq", "<cmd>FzfLua quickfix<cr>", desc = "Quickfix List" },
-    { "<leader>lr", reload_lazy, desc = "Lazy Reload" },
     {
       "<leader>ss",
       function()
@@ -89,6 +85,11 @@ return {
         formatter = "path.filename_first",
         headers = { "actions", "cwd" },
         no_header_i = true, -- hide interactive header
+        winopts = {
+          preview = {
+            default = "bat_native",
+          },
+        },
       },
       fzf_opts = {
         ["--info"] = "default",

@@ -22,6 +22,7 @@ return {
       yaml = { "prettierd", "prettier", stop_after_first = true },
       nix = { "nixfmt" },
       terraform = { "terraform_fmt" },
+      markdown = { "prettierd" },
       html = { "prettierd" },
       ["_"] = { "trim_whitespace", "trim_newlines" },
     },

@@ -11,16 +11,27 @@ return {
         },
       },
       sources = {
-        default = { "lsp", "snippets", "path", "buffer" },
+        default = function()
+          local default = { "lsp", "buffer" }
+          local ok, node = pcall(vim.treesitter.get_node)
+          if ok and node then
+            if not vim.tbl_contains({ "comment", "line_comment", "block_comment" }, node:type()) then
+              table.insert(default, "path")
+            end
+            if node:type() ~= "string" then
+              table.insert(default, "snippets")
+            end
+          end
+          return default
+        end,
         per_filetype = {
           codecompanion = { "codecompanion" },
-          gitcommit = { "conventional_commits" },
+          gitcommit = { "conventional_commits", "git" },
           lua = {
             "lazydev",
             "lsp",
             "path",
             "snippets",
-            "copilot",
           },
         },
         providers = {

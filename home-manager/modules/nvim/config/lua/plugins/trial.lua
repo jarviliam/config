@@ -1,12 +1,10 @@
 return {
-  { "tpope/vim-sleuth", event = "BufReadPre" },
   {
-    "fredrikaverpil/godoc.nvim",
-    dev = false,
-    version = "*",
-    build = "go install github.com/lotusirous/gostdsym/stdsym@latest", -- optional
-    cmd = { "GoDoc" },
-    opts = {},
+    "nvim-neorg/neorg",
+    enabled = false,
+    lazy = false, -- Disable lazy loading as some `lazy.nvim` distributions set `lazy = true` by default
+    version = "*", -- Pin Neorg to the latest stable release
+    config = true,
   },
   {
     "folke/trouble.nvim",
@@ -33,9 +31,8 @@ return {
     keys = {
         { "]t", function() require("todo-comments").jump_next() end, desc = "Next todo comment" },
         { "[t", function() require("todo-comments").jump_prev() end, desc = "Previous todo comment" },
-        { "<leader>ft", function () require("todo-comments.fzf").todo() end, desc = "TODOs" },
+        { "<leader>ft", function () require("todo-comments.fzf").todo({keywords={""}}) end, desc = "TODOs" },
     },
     event = "VeryLazy",
-    lazy = true,
   },
 }

@@ -1,15 +1,6 @@
 return {
   "nvim-lua/plenary.nvim",
   { "b0o/SchemaStore.nvim", version = false },
-  {
-    "mbbill/undotree",
-    branch = "search",
-    cmd = "UndotreeToggle",
-    init = function()
-      vim.g.undotree_CustomUndotreeCmd = "vertical 40 new"
-      vim.g.undotree_CustomDiffpanelCmd = "botright 15 new"
-    end,
-  },
   { "tpope/vim-abolish", command = "S" },
   { "sainnhe/everforest" },
   {
