@@ -129,6 +129,8 @@ local function onAttach(client, bufnr)
 
   keymap("<leader>grn", vim.lsp.buf.rename, "Rename symbol")
 
+  vim.lsp.document_color.enable(true, bufnr)
+
   if client:supports_method(methods.textDocument_documentHighlight) then
     local hl_group = vim.api.nvim_create_augroup("jarviliam/cursor_highlights", { clear = false })
     vim.api.nvim_create_autocmd({ "CursorHold", "InsertLeave", "BufEnter" }, {

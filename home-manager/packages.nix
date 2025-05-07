@@ -75,7 +75,6 @@
       (poetry.withPlugins (ps: with ps; [ poetry-plugin-export ]))
       pyright
       ruff
-      ruff-lsp
       vtsls
       github-actions-languageserver
       # git-spice
