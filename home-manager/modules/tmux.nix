@@ -3,7 +3,7 @@
   programs.tmux = {
     enable = true;
     shortcut = "Space";
-    shell = "zsh";
+    shell = "${pkgs.zsh}/bin/zsh";
     baseIndex = 1;
     terminal = "screen-256color";
     keyMode = "vi";

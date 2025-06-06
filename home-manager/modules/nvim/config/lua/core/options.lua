@@ -5,20 +5,19 @@ vim.g.ts_path = vim.fs.joinpath(tostring(vim.fn.stdpath("data")), "ts-install")
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
-o.cmdheight = 1
+vim.opt.cmdheight = 1
+vim.opt.mouse = nil
 
-o.mouse = nil
 vim.o.backup = false
 vim.o.writebackup = false -- Don't store backup
 vim.o.undofile = true -- Enable persistent undo
--- Wildmenu {{{
--- enable ctrl-n and ctrl-p to scroll through matches
+
 vim.opt.wildmode = "longest:full,full"
 vim.opt.wildignorecase = true
 
 vim.opt.grepprg = "rg --engine auto --vimgrep --smart-case --hidden"
 vim.opt.grepformat = "%f:%l:%c:%m"
-o.clipboard = "unnamedplus"
+vim.opt.clipboard = "unnamedplus"
 
 vim.cmd("filetype plugin indent on") -- Enable all filetype plugins
 
@@ -60,8 +59,6 @@ vim.o.virtualedit = "block" -- Allow going past the end of line in visual block 
 
 vim.opt.complete:append("kspell") -- Add spellcheck options for autocomplete
 vim.opt.complete:remove("t") -- Don't use tags for completion
--- borked on nightly
--- vim.opt.completeopt = "menuone,noinsert,fuzzy,popup"
 
 -- Language {{{
 o.spelllang = "en"

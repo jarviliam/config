@@ -167,7 +167,7 @@ end
 ---@type LazySpec
 return {
   "lsp",
-  event = "LazyFile",
+  event = "VeryLazy",
   config = function()
     vim.uv.fs_unlink(vim.lsp.get_log_path())
     vim.lsp.log.set_level(vim.lsp.log.levels.WARN)

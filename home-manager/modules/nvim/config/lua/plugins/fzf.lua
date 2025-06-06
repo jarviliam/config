@@ -32,7 +32,7 @@ return {
     {
       "<leader>fr",
       function()
-        vim.cmd("shada")
+        vim.cmd("rshada!")
         require("fzf-lua").oldfiles()
       end,
       desc = "Recently Opened Files",
@@ -77,7 +77,7 @@ return {
   opts = function()
     local actions = require("fzf-lua.actions")
     return {
-      "ivy",
+      { "ivy", "hide" },
       fzf_colors = true,
       defaults = {
         cwd_header = true,
@@ -103,16 +103,8 @@ return {
       },
       files = {
         cwd_prompt = false,
-        actions = {
-          ["alt-i"] = { actions.toggle_ignore },
-          ["alt-h"] = { actions.toggle_hidden },
-          ["alt-t"] = { require("trouble.sources.fzf").actions.open },
-        },
-      },
-      grep = {
-        actions = {
-          ["alt-i"] = { actions.toggle_ignore },
-          ["alt-h"] = { actions.toggle_hidden },
+        winopts = {
+          preview = { hidden = true },
         },
       },
       lsp = {
@@ -124,6 +116,13 @@ return {
           ignore_current_line = true,
           includeDeclaration = false,
           jump_to_single_result = true,
+        },
+      },
+      dignostics = { multiline = 1 },
+      oldfiles = {
+        include_current_session = true,
+        winopts = {
+          preview = { hidden = true },
         },
       },
     }

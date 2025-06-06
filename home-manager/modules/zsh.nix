@@ -64,7 +64,8 @@
     };
 
     initExtraBeforeCompInit = '''';
-    initExtra = ''
+    initContent = ''
+      export XDG_CONFIG_HOME="$HOME/.config"
       # Fixes FZF shell integration
       zvm_after_init(){
            source <(${pkgs.fzf}/bin/fzf --zsh)
@@ -162,7 +163,6 @@
       HOMEBREW_NO_ANALYTICS = 1;
       EDITOR = "nvim";
       VISUAL = "nvim";
-      XDG_CONFIG_HOME = "~/.config";
     };
   };
   programs.zoxide = {

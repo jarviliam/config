@@ -43,6 +43,24 @@ return {
     virtual = true,
   },
   {
+    "echasnovski/mini.splitjoin",
+    virtual = true,
+    keys = {
+      {
+        "<leader>cj",
+        function()
+          require("mini.splitjoin").toggle()
+        end,
+        desc = "Join/split code block",
+      },
+    },
+    opts = {
+      mappings = {
+        toggle = "<leader>cj",
+      },
+    },
+  },
+  {
     "echasnovski/mini.files",
     keys = {
       {

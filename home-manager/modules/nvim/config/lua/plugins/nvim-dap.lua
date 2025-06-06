@@ -6,6 +6,16 @@ return {
     "mfussenegger/nvim-dap",
     dependencies = {
       { "theHamsta/nvim-dap-virtual-text", opts = { virt_text_pos = "eol" } },
+      {
+        "igorlfs/nvim-dap-view",
+        opts = {
+          winbar = {
+            sections = { "scopes", "breakpoints", "threads", "exceptions", "repl", "console" },
+            default_section = "scopes",
+          },
+          windows = { height = 18 },
+        },
+      },
     },
     lazy = true,
     -- stylua: ignore
@@ -26,45 +36,29 @@ return {
       { "<leader>dr", function() require("dap").run_last() end,                                             desc = "Run Last" },
       { "<leader>ds", function() require("dap").session() end,                                              desc = "Session" },
       { "<leader>dt", function() require("dap").terminate() end,                                            desc = "Terminate" },
-      { "<leader>dw", function() require("dap.ui.widgets").hover() end,                                     desc = "Widgets" },
       { "<leader>td", function() require("neotest").run.run({ strategy = "dap" }) end,                      desc = "Debug Nearest" },
       { "<leader>fdb", function() require("fzf-lua").dap_breakpoints() end,                      desc = "Dap BreakPoints" },
       { "<leader>fdv", function() require("fzf-lua").dap_variables() end,                      desc = "Dap Vars" },
     },
     config = function()
-      vim.api.nvim_set_hl(0, "DapStoppedLine", { default = true, link = "Visual" })
-      local vscode = require("dap.ext.vscode")
-      local json = require("plenary.json")
-      vscode.json_decode = function(str)
-        return vim.json.decode(json.json_strip_comments(str, {}))
-      end
-      require("overseer").enable_dap()
-    end,
-  },
-  {
-    "rcarriga/nvim-dap-ui",
-    dependencies = { "nvim-neotest/nvim-nio" },
-    lazy = true,
-    -- stylua: ignore
-    keys = {
-      { "<leader>du", function() require("dapui").toggle({}) end, desc = "Dap UI" },
-      { "<leader>de", function() require("dapui").eval() end,     desc = "Eval",  mode = { "n", "v" } },
-    },
-    opts = {},
-    config = function(_, opts)
       local dap = require("dap")
-      dap.defaults.switch_buf = "uselast"
-      local dapui = require("dapui")
-      dapui.setup(opts)
-      dap.listeners.after.event_initialized["dapui_config"] = function()
-        dapui.open({})
+      local dv = require("dap-view")
+
+      dap.listeners.before.attach["dap-view-config"] = function()
+        dv.open()
       end
-      dap.listeners.before.event_terminated["dapui_config"] = function()
-        dapui.close({})
+      dap.listeners.before.launch["dap-view-config"] = function()
+        dv.open()
       end
-      dap.listeners.before.event_exited["dapui_config"] = function()
-        dapui.close({})
+      dap.listeners.before.event_terminated["dap-view-config"] = function()
+        dv.close()
       end
+      dap.listeners.before.event_exited["dap-view-config"] = function()
+        dv.close()
+      end
+
+      require("overseer").patch_dap(true)
+      require("dap.ext.vscode").json_decode = require("overseer.json").decode
     end,
   },
 }
