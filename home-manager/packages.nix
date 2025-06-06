@@ -1,4 +1,8 @@
-{ pkgs, lib, ... }:
+{ pkgs, ... }:
+let
+  isDarwin = pkgs.stdenvNoCC.isDarwin;
+  isLinux = pkgs.stdenvNoCC.isLinux;
+in
 {
   home.packages =
     with pkgs;
@@ -44,17 +48,11 @@
       better-commits
       taskwarrior3
     ]
-    ++ lib.optionals pkgs.stdenvNoCC.isDarwin [
+    ++ isDarwin [
       slack
       terraform
-      argocd
-      # darwin.CF
-      # darwin.Security
-      # darwin.apple_sdk
-      # clamav
-      # release-please
     ]
-    ++ lib.optionals pkgs.stdenvNoCC.isLinux [
+    ++ isLinux [
       zathura
       qmk
     ]
@@ -74,15 +72,16 @@
       pre-commit
       (poetry.withPlugins (ps: with ps; [ poetry-plugin-export ]))
       pyright
+      basedpyright
       ruff
       vtsls
+
       github-actions-languageserver
-      # git-spice
       marksman
-      basedpyright
 
       lua53Packages.luacheck
       lua-language-server
+
       # Node
       actionlint
       prettierd
@@ -90,9 +89,8 @@
       yarn
       pnpm
       nodePackages.typescript-language-server
-
       stylua
-      sqlc
+
       # Go
       go
       gotools
@@ -112,7 +110,6 @@
       nodePackages.bash-language-server
 
       # Nix
-      # rnix-lsp
       nil-language-server
       nixfmt-rfc-style
       nixpkgs-fmt

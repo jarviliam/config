@@ -49,29 +49,28 @@
           ;
       };
     in
-    {
+    rec {
       packages = lib.packagesFromOverlay self.overlays.default;
       inherit lib;
 
-      overlays.default = final: prev: {
-        neovim =
-          neovim-nightly-overlay.packages.${
+      overlays.default =
+        final: prev:
+        let
+          system =
             final.stdenvNoCC.hostPlatform.system
-              or (throw "Unsupported platform ${final.stdenvNoCC.hostPlatform.system}")
-          }.default;
-        nil-language-server =
-          nil-language-server.packages.${
-            final.stdenvNoCC.hostPlatform.system
-              or (throw "Unsupported platform ${final.stdenvNoCC.hostPlatform.system}")
-          }.nil;
-        vtsls = final.callPackage ./home-manager/vtsls.nix { };
-        github-actions-languageserver = final.callPackage ./home-manager/gha.nix { };
-        better-commits = final.callPackage ./home-manager/bettercommit.nix { };
-        bitwarden-cli = prev.bitwarden-cli.overrideAttrs (oldAttrs: {
-          nativeBuildInputs = (oldAttrs.nativeBuildInputs or [ ]) ++ [ prev.llvmPackages_18.stdenv.cc ];
-          stdenv = prev.llvmPackages_18.stdenv;
-        });
-      };
+              or (throw "Unsupported platform ${final.stdenvNoCC.hostPlatform.system}");
+        in
+        {
+          neovim = neovim-nightly-overlay.packages.${system}.default;
+          nil-language-server = nil-language-server.packages.${system}.nil;
+          vtsls = final.callPackage ./home-manager/vtsls.nix { };
+          github-actions-languageserver = final.callPackage ./home-manager/gha.nix { };
+          better-commits = final.callPackage ./home-manager/bettercommit.nix { };
+          bitwarden-cli = prev.bitwarden-cli.overrideAttrs (oldAttrs: {
+            nativeBuildInputs = (oldAttrs.nativeBuildInputs or [ ]) ++ [ prev.llvmPackages_18.stdenv.cc ];
+            stdenv = prev.llvmPackages_18.stdenv;
+          });
+        };
 
       nixosConfigurations = {
         nixtop = lib.createSystem profiles.liam-linux {

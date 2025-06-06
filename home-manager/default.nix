@@ -26,10 +26,6 @@
       enable = true;
       nix-direnv.enable = true;
     };
-    neomutt = {
-      enable = false;
-      # vimKeys = true;
-    };
     gpg = {
       enable = true;
     };

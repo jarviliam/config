@@ -1,16 +1,14 @@
+{ ... }:
 {
-  pkgs,
-  lib,
-  ...
-}:
-let
-  cfg = ../../config/hypr/hyperland.conf;
-in
-{
-  imports = [
-    ./waybar.nix
-    ./wofi.nix
-  ];
+  programs.waybar.enable = true;
+  programs.wofi = {
+    enable = true;
+    settings = {
+      prompt = "Search ...";
+      width = "50%";
+      height = "40%";
+    };
+  };
   xdg.configFile = {
     # "hypr/hyperland.conf" = {
     #   source = "${cfg}";
