@@ -103,9 +103,9 @@ rec {
         modules = liam.home-manager.modules;
       };
       commonSpecialArgs = liam.commonSpecialArgs // {
-        username = "liam.jarvis";
-        flakePath = "/Users/liam.jarvis/.setup";
-        homeDirectory = "/Users/liam.jarvis";
+        username = "liam";
+        flakePath = "/home/liam/.setup";
+        homeDirectory = "/home/liam";
       };
       extraConfig = liam.extraConfig;
     };

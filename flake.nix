@@ -102,6 +102,12 @@
             hostname = "nixos";
           };
         };
+        snowball = lib.createSystem profiles.vm {
+          system = "x86_64-linux";
+          modules = [
+            ./hosts/snowball/configuration.nix
+          ];
+        };
       };
 
       darwinConfigurations = {
