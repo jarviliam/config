@@ -15,7 +15,7 @@ let
     python312
     codespell
     pre-commit
-    (poetry.withPlugins [ poetry-plugin-export ])
+    poetry
     pyright
     basedpyright
     ruff
