@@ -32,6 +32,7 @@ in
   services.gpg-agent = {
     enable = isLinux;
     pinentry.package = pkgs.pinentry-tty;
+    enableSshSupport = true;
     # cache the keys forever so we don't get asked for a password
     defaultCacheTtl = 31536000;
     maxCacheTtl = 31536000;
