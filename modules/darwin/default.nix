@@ -8,7 +8,7 @@
   # services.nix-daemon.enable = true;
   security.pam.services.sudo_local.touchIdAuth = true;
 
-	system.primaryUser = "liam.jarvis";
+  system.primaryUser = "liam.jarvis";
   homebrew = {
     enable = true;
     brews = [

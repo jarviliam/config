@@ -28,7 +28,6 @@ rec {
           ./home-manager/modules/fzf.nix
           ./home-manager/modules/bitwarden.nix
           ./home-manager/modules/tmux.nix
-          ./home-manager/modules/wezterm.nix
           ./home-manager/modules/nvim
         ];
         extraConfig = {
@@ -51,7 +50,8 @@ rec {
         ./hosts/modules/common.nix
         ./modules/linux/network.nix
         ./modules/linux/window.nix
-      ] ++ liam.modules;
+      ]
+      ++ liam.modules;
       home-manager = liam.home-manager // {
         inherit username;
         enable = true;
@@ -60,7 +60,8 @@ rec {
           ./home-manager/modules/firefox
           ./home-manager/modules/linux/poly.nix
           ./home-manager/modules/hyprland.nix
-        ] ++ liam.home-manager.modules;
+        ]
+        ++ liam.home-manager.modules;
       };
       commonSpecialArgs = liam.commonSpecialArgs // {
         inherit username;
@@ -78,7 +79,8 @@ rec {
       ./modules/darwin
       ./modules/darwin/yabai
       ./modules/darwin/skhd
-    ] ++ liam.modules;
+    ]
+    ++ liam.modules;
     home-manager = liam.home-manager // {
       modules = liam.home-manager.modules;
     };
@@ -89,4 +91,22 @@ rec {
     };
     extraConfig = liam.extraConfig;
   };
+
+  vm =
+    let
+      username = "liam";
+    in
+    {
+      inherit username;
+      modules = [ ] ++ liam.modules;
+      home-manager = liam.home-manager // {
+        modules = liam.home-manager.modules;
+      };
+      commonSpecialArgs = liam.commonSpecialArgs // {
+        username = "liam.jarvis";
+        flakePath = "/Users/liam.jarvis/.setup";
+        homeDirectory = "/Users/liam.jarvis";
+      };
+      extraConfig = liam.extraConfig;
+    };
 }

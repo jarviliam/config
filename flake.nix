@@ -64,6 +64,7 @@
           neovim = neovim-nightly-overlay.packages.${system}.default;
           nil-language-server = nil-language-server.packages.${system}.nil;
           vtsls = final.callPackage ./home-manager/vtsls.nix { };
+          release-please = final.callPackage ./home-manager/release-please.nix { };
           github-actions-languageserver = final.callPackage ./home-manager/gha.nix { };
           better-commits = final.callPackage ./home-manager/bettercommit.nix { };
           bitwarden-cli = prev.bitwarden-cli.overrideAttrs (oldAttrs: {

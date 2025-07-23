@@ -92,15 +92,7 @@ local function onAttach(client, bufnr)
 
   if client:supports_method(methods.textDocument_codeAction) then
     keymap("gra", function()
-      fzf.lsp_code_actions({
-        winopts = {
-          relative = "cursor",
-          row = 1.01,
-          col = 0,
-          height = 0.20,
-          width = 0.55,
-        },
-      })
+      require("tiny-code-action").code_action()
     end, "lsp: code actions")
   end
 

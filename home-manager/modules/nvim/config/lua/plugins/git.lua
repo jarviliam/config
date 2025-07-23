@@ -12,7 +12,9 @@ return {
         changedelete = { text = "▚", show_count = true },
         untracked = { text = "┆" },
       },
+      gh = true,
       _new_sign_calc = true,
+      current_line_blame = true,
       trouble = true,
       on_attach = function(bufnr)
         if vim.fn.expand("%:t") == "lsp.log" or vim.bo.filetype == "help" then

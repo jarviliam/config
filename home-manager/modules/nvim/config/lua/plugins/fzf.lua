@@ -91,6 +91,14 @@ return {
           },
         },
       },
+      keymap = {
+        fzf = {
+          true,
+          ["ctrl-d"] = "preview-page-down",
+          ["ctrl-u"] = "preview-page-up",
+          ["ctrl-q"] = "select-all+accept",
+        },
+      },
       fzf_opts = {
         ["--info"] = "default",
         ["--layout"] = "reverse-list",
@@ -108,9 +116,6 @@ return {
         },
       },
       lsp = {
-        code_actions = {
-          previewer = vim.fn.executable("delta") == 1 and "codeaction_native" or nil,
-        },
         document_symbols = {
           fzf_cli_args = "--nth 2..",
           ignore_current_line = true,

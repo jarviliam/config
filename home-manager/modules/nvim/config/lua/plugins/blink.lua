@@ -2,7 +2,7 @@ return {
   {
     "saghen/blink.cmp",
     events = { "InsertEnter" },
-    dev = true,
+    -- dev = true,
     version = "*",
     opts = {
       cmdline = {

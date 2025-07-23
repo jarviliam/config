@@ -1,4 +1,4 @@
 ---@type LazySpec[]
 return {
-  { "yioneko/nvim-vtsls" },
+  { "yioneko/nvim-vtsls", enabled = false },
 }

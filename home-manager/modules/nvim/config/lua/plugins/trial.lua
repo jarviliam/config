@@ -7,6 +7,13 @@ return {
     config = true,
   },
   {
+    "rachartier/tiny-code-action.nvim",
+    event = "LspAttach",
+    opts = {
+      picker = { "buffer", opts = { hotkeys = true } },
+    },
+  },
+  {
     "folke/trouble.nvim",
     cmd = { "Trouble" },
     keys = {

@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 {
   programs.tmux = {
     enable = true;
@@ -11,18 +11,28 @@
     escapeTime = 0;
     customPaneNavigationAndResize = true;
     resizeAmount = 5;
-
     plugins = with pkgs.tmuxPlugins; [
       sensible
       gruvbox
       fzf-tmux-url
-      tmux-fzf
-      tmux-which-key
+      {
+        plugin = tmux-fzf;
+        extraConfig = "set -g @fzf-url-bind 'x'";
+      }
+      {
+        plugin = tmux-which-key;
+      }
+      {
+        plugin = resurrect;
+      }
+      {
+        plugin = session-wizard;
+        extraConfig = "set -g @session-wizard 'T'";
+      }
     ];
 
     extraConfig = ''
       set -g status on
-      set -g destroy-unattached on
       set -g monitor-activity off
       set -g visual-activity off
       set -g -w automatic-rename on
@@ -31,7 +41,6 @@
       set -g status-position top
       set -g status-interval 5
 
-      set -g @fzf-url-bind 'x'
       bind-key -n M-n new-window -c "#{pane_current_path}"
       bind-key -n M-[ previous-window
       bind-key -n M-] next-window
@@ -88,7 +97,7 @@
       bind-key -T copy-mode-vi WheelDownPane select-pane \; send-keys -t '{mouse}' -X clear-selection \; send-keys -t '{mouse}' -X -N 5 scroll-down
 
       bind-key '/' copy-mode \; send-keys "/"
-      bind-key '?' copy-mode \; send-keys "?"
+      bind-key '!' copy-mode \; send-keys "?"
 
       bind-key -T copy-mode-vi M-h select-pane -L
       bind-key -T copy-mode-vi M-j select-pane -D
@@ -119,7 +128,10 @@
       bind-key -T copy-mode-vi 'C-l' select-pane -R
       bind-key -T copy-mode-vi 'C-\' select-pane -l
 
+
       set -g @emulate-scroll-for-no-mouse-alternate-buffer "on"
+
+      set -g default-shell "${pkgs.zsh}/bin/zsh"
     '';
   };
 }
