@@ -100,10 +100,11 @@ rec {
       inherit username;
       modules = [ ] ++ liam.modules;
       home-manager = liam.home-manager // {
+        inherit username;
         modules = liam.home-manager.modules;
       };
       commonSpecialArgs = liam.commonSpecialArgs // {
-        username = "liam";
+        inherit username;
         flakePath = "/home/liam/.setup";
         homeDirectory = "/home/liam";
       };
