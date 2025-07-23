@@ -5,17 +5,6 @@
 }:
 
 {
-  nixpkgs.config = {
-    allowUnfree = true;
-  };
-
-  xdg.configFile."nixpkgs/config.nix".text = ''
-    {
-      allowUnfree = true;
-      experimental-features = "nix-command flakes";
-    }
-  '';
-
   home.sessionVariables = {
     EDITOR = "nvim";
     PAGER = "bat";
