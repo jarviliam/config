@@ -1,9 +1,12 @@
 {
   config,
   flakePath,
+  pkgs,
   ...
 }:
-
+let
+  isLinux = pkgs.stdenvNoCC.isLinux;
+in
 {
   home.sessionVariables = {
     EDITOR = "nvim";
@@ -25,6 +28,13 @@
         vim_keys = true;
       };
     };
+  };
+  services.gpg-agent = {
+    enable = isLinux;
+    pinentry.package = pkgs.pinentry-tty;
+    # cache the keys forever so we don't get asked for a password
+    defaultCacheTtl = 31536000;
+    maxCacheTtl = 31536000;
   };
   xdg.configFile."yamllint.yml" = {
     source = config.lib.file.mkOutOfStoreSymlink "${flakePath}/config/yamllint.yml";

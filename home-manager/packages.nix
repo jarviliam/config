@@ -56,6 +56,7 @@ let
     tasksh
     neovim
     zine
+    lazygit
   ];
 
   node = with pkgs; [
@@ -65,7 +66,6 @@ let
     nodePackages.typescript-language-server
     nodePackages.vscode-langservers-extracted
     actionlint
-    prettierd
     yamllint
     eslint_d
     marksman
@@ -74,12 +74,10 @@ let
     nodePackages.bash-language-server
   ];
 
-  go = with pkgs; [
+  goPkg = with pkgs; [
     go
-    gotools
     gopls
     delve
-    golangci-lint
   ];
 
   nix = with pkgs; [
@@ -124,20 +122,12 @@ let
         terraform
       ]
     else
-      [ ];
+      with pkgs;
+      [
+        gcr
+      ];
 in
 {
   home.packages =
-    fonts
-    ++ cliUtils
-    ++ python
-    ++ lua
-    ++ node
-    ++ go
-    ++ nix
-    ++ rust
-    ++ cloud
-    ++ cmake
-    ++ db
-    ++ osSpecific;
+    fonts ++ cliUtils ++ python ++ lua ++ node ++ goPkg ++ nix ++ rust ++ cloud ++ db ++ osSpecific;
 }
