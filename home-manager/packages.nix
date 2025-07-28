@@ -55,6 +55,7 @@ let
     taskwarrior-tui
     tasksh
     neovim
+    tree-sitter
     zine
     lazygit
   ];

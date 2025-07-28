@@ -26,12 +26,15 @@ return {
         end,
         per_filetype = {
           codecompanion = { "codecompanion" },
-          gitcommit = { "conventional_commits", "git" },
+          gitcommit = { "conventional_commits", "dictionary" },
           lua = {
             "lazydev",
             "lsp",
             "path",
             "snippets",
+          },
+          txt = {
+            "dictionary",
           },
         },
         providers = {
@@ -61,6 +64,15 @@ return {
             name = "CodeCompanion",
             module = "codecompanion.providers.completion.blink",
             enabled = true,
+          },
+          dictionary = {
+            module = "blink-cmp-dictionary",
+            name = "Dict",
+            min_keyword_length = 3,
+            opts = {},
+            should_show_items = function()
+              return vim.tbl_contains({ "gitcommit", "markdown", "txt" }, vim.o.filetype)
+            end,
           },
           buffer = {
             max_items = 4,
@@ -165,5 +177,6 @@ return {
   },
   { "fang2hou/blink-copilot" },
   { "Kaiser-Yang/blink-cmp-git" },
+  { "Kaiser-Yang/blink-cmp-dictionary" },
   { "disrupted/blink-cmp-conventional-commits" },
 }

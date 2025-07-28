@@ -14,10 +14,10 @@
     plugins = with pkgs.tmuxPlugins; [
       sensible
       gruvbox
-      fzf-tmux-url
+      # fzf-tmux-url
       {
         plugin = tmux-fzf;
-        extraConfig = "set -g @fzf-url-bind 'x'";
+        # extraConfig = "set -g @fzf-url-bind 'x'";
       }
       {
         plugin = tmux-which-key;

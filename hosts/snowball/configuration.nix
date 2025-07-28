@@ -41,7 +41,13 @@
 
   users.users.liam = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBUHLke8RZ9M9aToilmZwlIwkZ9G5MTqSbipqndhOb9F jarviliam@gmail.com"
+    ];
+    extraGroups = [
+      "wheel"
+      "docker"
+    ]; # Enable ‘sudo’ for the user.
   };
 
   # programs.firefox.enable = true;
@@ -51,6 +57,8 @@
   environment.systemPackages = with pkgs; [
     vim
     git
+    gcc
+    nettools
   ];
 
   # Some programs need SUID wrappers, can be configured further or are

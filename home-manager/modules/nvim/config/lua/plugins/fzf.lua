@@ -28,7 +28,7 @@ return {
       end,
       desc = "live grep (buffer)",
     },
-    { "<leader>/", "<cmd>FzfLua live_grep_glob<cr>", desc = "Live grep" },
+    { "<leader>/", "<cmd>FzfLua live_grep<cr>", desc = "Live grep" },
     {
       "<leader>fr",
       function()

@@ -1,16 +1,14 @@
 return {
   {
+    ---@module "nvim-treesitter"
     "nvim-treesitter/nvim-treesitter",
     lazy = false,
     branch = "main",
     keys = { { "<leader>i", vim.show_pos, desc = "Inspect Position" } },
-    event = { "VeryLazy" },
-    build = function()
-      local install = require("nvim-treesitter.install")
-      -- install.compilers = { "gcc", "clang", "cl" }
-      install.update({ with_sync = true })()
-    end,
+    build = ":TSUpdate",
+    priority = 500,
     opts = {
+      sync_install = true,
       ensure_install = {
         "bash",
         "c",

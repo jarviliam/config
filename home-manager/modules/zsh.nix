@@ -141,8 +141,6 @@
           export PYENV_ROOT="$HOME/.pyenv"
           [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
 
-          source ~/.config/gh/token
-
       sap() {
               unset AWS_ACCESS_KEY_ID
               unset AWS_SECRET_ACCESS_KEY
@@ -154,6 +152,7 @@
       enable = true;
       useFriendlyNames = true;
       plugins = [
+        "getantidote/use-omz"
         "jeffreytse/zsh-vi-mode"
         "Aloxaf/fzf-tab"
         "zsh-users/zsh-completions kind:fpath"
