@@ -53,6 +53,7 @@ let
     qbittorrent
     taskwarrior3
     taskwarrior-tui
+    bugwarrior-dev
     tasksh
     neovim
     tree-sitter

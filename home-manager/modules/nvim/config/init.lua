@@ -16,6 +16,7 @@ if vim.env.PROF then
     },
   })
 end
+vim.g._useTsgo = 0
 
 require("core")
 require("gh")

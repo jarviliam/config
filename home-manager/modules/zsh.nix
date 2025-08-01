@@ -163,6 +163,7 @@
         "ohmyzsh/ohmyzsh path:plugins/fancy-ctrl-z"
         "ohmyzsh/ohmyzsh path:plugins/kubectl"
         "ohmyzsh/ohmyzsh path:plugins/taskwarrior"
+        "ohmyzsh/ohmyzsh path:plugins/ssh-agent"
 
         "zdharma-continuum/fast-syntax-highlighting kind:defer"
         "zsh-users/zsh-autosuggestions kind:defer"

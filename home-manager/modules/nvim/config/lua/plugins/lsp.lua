@@ -119,9 +119,21 @@ local function onAttach(client, bufnr)
     end, "Signature help", "i")
   end
 
-  keymap("<leader>grn", vim.lsp.buf.rename, "Rename symbol")
+  if client:supports_method(methods.textDocument_colorPresentation) then
+    vim.lsp.document_color.enable(true, bufnr)
+    -- keymap("grc", function() end, "Color presentation", { "n", "x" })
+    Snacks.toggle({
+      name = "Color",
+      get = function()
+        return vim.lsp.document_color.is_enabled()
+      end,
+      set = function(state)
+        vim.lsp.document_color.enable(not state)
+      end,
+    }):map("\\c")
+  end
 
-  vim.lsp.document_color.enable(true, bufnr)
+  keymap("<leader>grn", vim.lsp.buf.rename, "Rename symbol")
 
   if client:supports_method(methods.textDocument_documentHighlight) then
     local hl_group = vim.api.nvim_create_augroup("jarviliam/cursor_highlights", { clear = false })
