@@ -1,4 +1,7 @@
 vim.filetype.add({
+  extension = {
+    prr = "prr",
+  },
   filename = {
     [".envrc"] = "direnv",
   },

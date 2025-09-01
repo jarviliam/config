@@ -20,3 +20,4 @@ vim.g._useTsgo = 0
 
 require("core")
 require("gh")
+require("marks")

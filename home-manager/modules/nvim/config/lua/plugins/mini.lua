@@ -24,9 +24,9 @@ end
 
 ---@type LazySpec[]
 return {
-  { "echasnovski/mini.nvim" },
+  { "nvim-mini/mini.nvim" },
   {
-    "echasnovski/mini.hipatterns",
+    "nvim-mini/mini.hipatterns",
     event = "BufReadPost",
     enable = false,
     opts = function()
@@ -43,7 +43,7 @@ return {
     virtual = true,
   },
   {
-    "echasnovski/mini.splitjoin",
+    "nvim-mini/mini.splitjoin",
     virtual = true,
     keys = {
       {
@@ -61,7 +61,7 @@ return {
     },
   },
   {
-    "echasnovski/mini.files",
+    "nvim-mini/mini.files",
     keys = {
       {
         "<leader>e",
@@ -121,7 +121,7 @@ return {
     virtual = true,
   },
   {
-    "echasnovski/mini.ai",
+    "nvim-mini/mini.ai",
     event = "LazyFile",
     config = function(_, _)
       local ai = require("mini.ai")
@@ -147,7 +147,7 @@ return {
     virtual = true,
   },
   {
-    "echasnovski/mini.clue",
+    "nvim-mini/mini.clue",
     event = "VeryLazy",
     opts = function()
       local miniclue = require("mini.clue")
@@ -243,7 +243,7 @@ return {
     virtual = true,
   },
   {
-    "echasnovski/mini.icons",
+    "nvim-mini/mini.icons",
     init = function()
       package.preload["nvim-web-devicons"] = function()
         require("mini.icons").mock_nvim_web_devicons()
@@ -257,7 +257,7 @@ return {
     virtual = true,
   },
   {
-    "echasnovski/mini.pairs",
+    "nvim-mini/mini.pairs",
     event = "InsertEnter",
     config = function(_, opts)
       local pairs = require("mini.pairs")
@@ -277,7 +277,7 @@ return {
     virtual = true,
   },
   {
-    "echasnovski/mini.align",
+    "nvim-mini/mini.align",
     keys = {
       { "g=", desc = "mini.align: align", mode = { "n", "v" } },
       { "g+", desc = "mini.align: align with preview", mode = { "n", "" } },

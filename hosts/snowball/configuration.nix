@@ -6,6 +6,7 @@
   config,
   lib,
   pkgs,
+  options,
   ...
 }:
 
@@ -20,7 +21,8 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "dev"; # Define your hostname.
-
+  networking.timeServers = options.networking.timeServers.default ++ [ "time.apple.com" ];
+  hardware.keyboard.qmk.enable = true;
   # Set your time zone.
   # time.timeZone = "Europe/Amsterdam";
 

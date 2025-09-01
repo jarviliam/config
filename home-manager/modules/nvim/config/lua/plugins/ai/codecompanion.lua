@@ -6,6 +6,7 @@ return {
       "CodeCompanionChat",
       "CodeCompanionToggle",
       "CodeCompanionActions",
+      "CodeCompanionHistory",
     },
     keys = {
     -- stylua: ignore start
@@ -66,26 +67,30 @@ return {
         ["Refactor"] = require("plugins.ai.prompts.refactor"),
         ["Documentation"] = require("plugins.ai.prompts.documentation"),
       },
-      -- adapters = {
-      --   copilot = function()
-      --     return require("codecompanion.adapters").extend("copilot", {
-      --       schema = {
-      --         ---@see https://github.com/copilot
-      --         model = {
-      --           default = "o3-mini-2025-01-31",
-      --           max_tokens = {
-      --             default = 8192,
-      --           },
-      --         },
-      --       },
-      --     })
-      --   end,
-      -- },
+      adapters = {
+        copilot = function()
+          return require("codecompanion.adapters").extend("copilot", {
+            schema = {
+              ---@see https://github.com/copilot
+              -- model = {
+              --   default = "o3-mini-2025-01-31",
+              --   claude-sonnet-4-20250514
+              -- },
+            },
+          })
+        end,
+      },
       extensions = {
         history = {
           enabled = true,
           auto_generate_title = true,
           auto_save = false,
+          title_generation_opts = {
+            adapter = "copilot",
+            model = "gpt-4.1",
+            refresh_every_n_prompts = 0, -- e.g., 3 to refresh after every 3rd user prompt
+            max_refreshes = 3,
+          },
           chat_filter = function(chat_data)
             local seven_days_ago = os.time() - (7 * 24 * 60 * 60)
             return (chat_data.updated_at >= seven_days_ago) and (chat_data.cwd == vim.fn.getcwd())
@@ -93,7 +98,7 @@ return {
           continue_last_chat = false,
           delete_on_clearing_chat = false,
           keymap = "gh",
-          picker = "snacks",
+          picker = "fzf-lua",
           save_chat_keymap = "sc",
         },
         vectorcode = {

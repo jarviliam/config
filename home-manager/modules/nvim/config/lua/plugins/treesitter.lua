@@ -35,6 +35,7 @@ return {
         "markdown_inline",
         "nix",
         "po",
+        "prr",
         "python",
         "query",
         "regex",

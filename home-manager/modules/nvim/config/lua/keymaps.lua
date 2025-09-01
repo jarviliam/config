@@ -11,28 +11,18 @@ map({ "n", "x" }, "k", "v:count == 0 ? 'gk' : 'k'", { desc = "Up", expr = true, 
 map({ "n", "x" }, "<Up>", "v:count == 0 ? 'gk' : 'k'", { desc = "Up", expr = true, silent = true })
 
 map("n", "<C-d>", "<C-d>zz", { desc = "Scroll downwards" })
-map("n", "<C-f>", "<C-f>zz", { desc = "Scroll downwards, fullpage" })
 map("n", "<C-u>", "<C-u>zz", { desc = "Scroll upwards" })
-map("n", "<C-b>", "<C-b>zz", { desc = "Scroll upwards, fullpage" })
+vim.keymap.set("n", "n", "nzzzv", { desc = "Next result" })
+vim.keymap.set("n", "N", "Nzzzv", { desc = "Previous result" })
 
--- https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n
-map("n", "n", "'Nn'[v:searchforward].'zv'", { expr = true, desc = "Next Search Result" })
-map("x", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next Search Result" })
-map("o", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next Search Result" })
-map("n", "N", "'nN'[v:searchforward].'zv'", { expr = true, desc = "Prev Search Result" })
-map("x", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev Search Result" })
-map("o", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev Search Result" })
-
--- Add undo break-points
-map("i", ",", ",<c-g>u")
-map("i", ".", ".<c-g>u")
-map("i", ";", ";<c-g>u")
-
------------------------------------------------------------------------------//
--- buffers {{{1
------------------------------------------------------------------------------//
-map("n", "<TAB>", ":bnext<CR>", { silent = true, desc = "buffer: cycle forward" })
-map("n", "<S-TAB>", ":bprevious<CR>", { silent = true, desc = "buffer: cycle backward" })
+-- Poweful <esc>.
+vim.keymap.set({ "i", "s", "n" }, "<esc>", function()
+  if require("luasnip").expand_or_jumpable() then
+    require("luasnip").unlink_current()
+  end
+  vim.cmd("noh")
+  return "<esc>"
+end, { desc = "Escape, clear hlsearch, and stop snippet session", expr = true })
 
 map("n", "vv", "V")
 map("n", "V", "v$")

@@ -36,6 +36,9 @@ let
     coreutils
     wget
     ripgrep
+    awscli2
+    # vectorcode
+    prr
     htop
     unar
     file

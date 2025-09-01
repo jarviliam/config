@@ -66,4 +66,14 @@ return {
     },
     opts = {},
   },
+  {
+    "danobi/prr",
+    ft = { "prr" },
+    init = function()
+      vim.filetype.add({ extension = { name = "prr" } })
+    end,
+    config = function(plugin)
+      vim.opt.rtp:append(plugin.dir .. "/vim")
+    end,
+  },
 }

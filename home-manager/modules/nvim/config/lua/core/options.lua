@@ -60,20 +60,15 @@ vim.o.virtualedit = "block" -- Allow going past the end of line in visual block 
 vim.opt.complete:append("kspell") -- Add spellcheck options for autocomplete
 vim.opt.complete:remove("t") -- Don't use tags for completion
 
--- Language {{{
 o.spelllang = "en"
 o.spell = false
 vim.opt.dictionary = {
   "~/.local/share/dict/words-insane",
 }
---}}}
---
 
-vim.o.foldtext = ""
 o.foldcolumn = "1"
-o.foldnestmax = 3
 o.foldlevelstart = 99
-o.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+vim.wo.foldtext = ""
 
 -- Disable Builtins
 local builtins = {
