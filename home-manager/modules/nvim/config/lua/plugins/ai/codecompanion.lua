@@ -68,17 +68,19 @@ return {
         ["Documentation"] = require("plugins.ai.prompts.documentation"),
       },
       adapters = {
-        copilot = function()
-          return require("codecompanion.adapters").extend("copilot", {
-            schema = {
-              ---@see https://github.com/copilot
-              -- model = {
-              --   default = "o3-mini-2025-01-31",
-              --   claude-sonnet-4-20250514
-              -- },
-            },
-          })
-        end,
+        http = {
+          copilot = function()
+            return require("codecompanion.adapters").extend("copilot", {
+              schema = {
+                ---@see https://github.com/copilot
+                -- model = {
+                --   default = "o3-mini-2025-01-31",
+                --   claude-sonnet-4-20250514
+                -- },
+              },
+            })
+          end,
+        },
       },
       extensions = {
         history = {

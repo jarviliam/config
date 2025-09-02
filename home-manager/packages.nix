@@ -65,7 +65,7 @@ let
   ];
 
   node = with pkgs; [
-    nodePackages.npm
+    # nodePackages.npm causes node build
     yarn
     pnpm
     nodePackages.typescript-language-server

@@ -173,7 +173,7 @@ return {
   "lsp",
   event = "VeryLazy",
   config = function()
-    vim.uv.fs_unlink(vim.lsp.get_log_path())
+    vim.uv.fs_unlink(vim.lsp.log.get_filename())
     vim.lsp.log.set_level(vim.lsp.log.levels.WARN)
     vim.lsp.log.set_format_func(vim.inspect)
 
@@ -224,7 +224,7 @@ return {
     end
 
     vim.api.nvim_create_user_command("LspLog", function()
-      vim.cmd.tabnew(vim.lsp.get_log_path())
+      vim.cmd.tabnew(vim.lsp.log.get_filename())
     end, { desc = "Open LSP log" })
   end,
   virtual = true,
