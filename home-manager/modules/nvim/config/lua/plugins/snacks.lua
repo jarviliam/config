@@ -9,9 +9,6 @@ return {
       { "<leader>fu",function () Snacks.picker.undo() end, desc = "Undo"},
       { "<leader>gg", function() Snacks.lazygit() end, desc = "Lazygit", },
       { "<leader>bd", function() Snacks.bufdelete() end, desc = "Delete Buffer", },
-      -- Words
-      { "]]", function() Snacks.words.jump(vim.v.count1) end, desc = "snacks: goto next reference", },
-      { "[[", function() Snacks.words.jump(-vim.v.count1) end, desc = "snacks: goto prev reference", },
       { "<leader>z",  function() Snacks.zen() end, desc = "Toggle Zen Mode" },
       { "<leader>Z",  function() Snacks.zen.zoom() end, desc = "Toggle Zoom" },
 
@@ -132,7 +129,7 @@ return {
         },
         width = 80,
       },
-      words = { enabled = true },
+      words = { enabled = false },
     },
     init = function()
       vim.api.nvim_create_autocmd("User", {

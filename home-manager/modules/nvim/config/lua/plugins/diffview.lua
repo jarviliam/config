@@ -13,6 +13,7 @@ end
 return {
   "sindrets/diffview.nvim",
   lazy = false, -- Diffview has lazyloading
+  enabled = false,
   keys = {
     { "<leader>gf", "<cmd>DiffviewFileHistory<cr>", desc = "File history" },
     { "<leader>gd", "<cmd>DiffviewOpen<cr>", desc = "Diff view" },

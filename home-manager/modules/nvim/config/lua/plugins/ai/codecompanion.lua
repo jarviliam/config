@@ -55,7 +55,7 @@ return {
         },
         diff = {
           layout = "vertical", ---@type "horizontal"|"vertical"
-          provider = "default", ---@type "default"|"mini_diff"
+          provider = "mini_diff", ---@type "default"|"mini_diff"
         },
         inline = {
           layout = "vertical", ---@type "vertical"|"horizontal"|"buffer"

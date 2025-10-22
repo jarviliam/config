@@ -1,5 +1,6 @@
 local o = vim.opt
 
+vim.o.winborder = "rounded"
 vim.g.ts_path = vim.fs.joinpath(tostring(vim.fn.stdpath("data")), "ts-install")
 
 vim.g.mapleader = " "

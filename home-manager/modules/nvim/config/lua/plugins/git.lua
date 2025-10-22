@@ -2,6 +2,7 @@ return {
   {
     "lewis6991/gitsigns.nvim",
     event = { "BufReadPost", "BufWritePre", "BufNewFile" },
+    enabled = false,
     opts = {
       attach_to_untracked = true,
       signs = {

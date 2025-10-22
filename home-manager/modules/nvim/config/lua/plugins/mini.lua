@@ -26,6 +26,31 @@ end
 return {
   { "nvim-mini/mini.nvim" },
   {
+    "nvim-mini/mini.diff",
+    virtual = true,
+    lazy = false,
+    config = function()
+      require("mini.diff").setup({})
+    end,
+  },
+  {
+    "nvim-mini/mini.surround",
+    virtual = true,
+    opts = {
+      mappings = {
+        add = "yz", -- Add surrounding in Normal and Visual modes
+        delete = "ds", -- Delete surrounding
+        find = "", -- Find surrounding (to the right)
+        find_left = "", -- Find surrounding (to the left)
+        highlight = "", -- Highlight surrounding
+        replace = "cs", -- Replace surrounding
+
+        suffix_last = "", -- Suffix to search with "prev" method
+        suffix_next = "", -- Suffix to search with "next" method
+      },
+    },
+  },
+  {
     "nvim-mini/mini.hipatterns",
     event = "BufReadPost",
     enable = false,
@@ -232,9 +257,8 @@ return {
             max_width = max_width + 2
 
             return {
-              border = "rounded",
-              -- Dynamic width capped at 45.
-              width = math.min(45, max_width),
+              -- Dynamic width capped at 70.
+              width = math.min(70, max_width),
             }
           end,
         },
@@ -289,5 +313,32 @@ return {
       },
     },
     virtual = true,
+  },
+  {
+    {
+      "nvim-mini/mini.bracketed",
+      keys = {
+        { "[c", desc = "comment previous " },
+        { "]c", desc = "comment next" },
+        { "[w", desc = "window previous" },
+        { "]w", desc = "window next" },
+        { "[x", desc = "conflict marker previous" },
+        { "]x", desc = "conflict marker next" },
+      },
+      opts = {
+        buffer = { suffix = "" },
+        file = { suffix = "" },
+        diagnostic = { suffix = "" }, -- Built in.
+        indent = { suffix = "" },
+        jump = { suffix = "" },
+        location = { suffix = "" },
+        oldfile = { suffix = "" },
+        quickfix = { suffix = "" },
+        treesitter = { suffix = "" },
+        undo = { suffix = "" },
+        yank = { suffix = "" },
+      },
+      virtual = true,
+    },
   },
 }

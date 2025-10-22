@@ -36,7 +36,7 @@ let
     coreutils
     wget
     ripgrep
-    awscli2
+    # awscli2
     # vectorcode
     prr
     htop
@@ -54,14 +54,15 @@ let
     better-commits
     dwt1-shell-color-scripts
     qbittorrent
-    taskwarrior3
-    taskwarrior-tui
-    bugwarrior-dev
-    tasksh
+    # taskwarrior3
+    # taskwarrior-tui
+    # bugwarrior-dev
+    # tasksh
     neovim
     tree-sitter
     zine
     lazygit
+    graphite-cli
   ];
 
   node = with pkgs; [
@@ -77,12 +78,14 @@ let
     github-actions-languageserver
     prettierd
     nodePackages.bash-language-server
+    yaml-language-server
   ];
 
   goPkg = with pkgs; [
     go
     gopls
     delve
+    go-testfixtures
   ];
 
   nix = with pkgs; [

@@ -67,6 +67,7 @@
           release-please = final.callPackage ./home-manager/release-please.nix { };
           github-actions-languageserver = final.callPackage ./home-manager/gha.nix { };
           better-commits = final.callPackage ./home-manager/bettercommit.nix { };
+          go-testfixtures = final.callPackage ./home-manager/testfixtures.nix { };
           bitwarden-cli = prev.bitwarden-cli.overrideAttrs (oldAttrs: {
             nativeBuildInputs = (oldAttrs.nativeBuildInputs or [ ]) ++ [ prev.llvmPackages_18.stdenv.cc ];
             stdenv = prev.llvmPackages_18.stdenv;

@@ -1,14 +1,83 @@
+---@type LazySpec[]
 return {
   {
     "saghen/blink.cmp",
+    build = "nix run --accept-flake-config .#build-plugin",
     events = { "InsertEnter" },
-    -- dev = true,
-    version = "*",
+    ---@type blink.cmp.Config
     opts = {
       cmdline = {
         keymap = {
           preset = "cmdline",
         },
+      },
+      snippets = {
+        preset = "luasnip",
+      },
+      keymap = {
+        preset = "default",
+        ["<CR>"] = { "accept", "fallback" },
+        ["<C-q>"] = { "hide", "fallback" },
+        ["<C-n>"] = { "select_next", "show" },
+        ["<Tab>"] = { "snippet_forward", "fallback" },
+        ["<C-p>"] = { "select_prev" },
+        ["<C-b>"] = { "scroll_documentation_up", "fallback" },
+        ["<C-f>"] = { "scroll_documentation_down", "fallback" },
+      },
+      completion = {
+        list = {
+          selection = {
+            auto_insert = false,
+            preselect = false,
+          },
+        },
+        accept = {
+          auto_brackets = { enabled = true },
+        },
+        documentation = {
+          auto_show = true,
+          auto_show_delay_ms = 100,
+        },
+        ---@type blink.cmp.CompletionMenuConfig
+        menu = {
+          scrollbar = false,
+          ---@type blink.cmp.Draw
+          draw = {
+            treesitter = { "lsp" },
+            align_to = "cursor",
+            columns = { { "label", "label_description", gap = 1 }, { "kind_icon", "kind", gap = 1 } },
+            components = {
+              kind_icon = {
+                text = function(ctx)
+                  return select(1, require("mini.icons").get("lsp", ctx.kind))
+                end,
+                highlight = function(ctx)
+                  return select(2, require("mini.icons").get("lsp", ctx.kind))
+                end,
+              },
+              kind = {
+                highlight = function(ctx)
+                  return select(2, require("mini.icons").get("lsp", ctx.kind))
+                end,
+              },
+              label = {
+                ---@param ctx blink.cmp.DrawItemContext
+                highlight = function(ctx)
+                  return require("colorful-menu").blink_components_highlight(ctx)
+                end,
+                ---@param ctx blink.cmp.DrawItemContext
+                text = function(ctx)
+                  return require("colorful-menu").blink_components_text(ctx)
+                end,
+                width = { fill = false },
+              },
+            },
+          },
+        },
+      },
+      appearance = {
+        use_nvim_cmp_as_default = true,
+        nerd_font_variant = "mono",
       },
       sources = {
         default = function()
@@ -107,82 +176,11 @@ return {
           },
         },
       },
-      snippets = {
-        preset = "luasnip",
-      },
-      keymap = {
-        ["<CR>"] = { "accept", "fallback" },
-        ["<C-\\>"] = { "hide", "fallback" },
-        ["<C-n>"] = { "select_next", "show" },
-        ["<Tab>"] = { "select_next", "snippet_forward", "fallback" },
-        ["<C-p>"] = { "select_prev" },
-        ["<C-b>"] = { "scroll_documentation_up", "fallback" },
-        ["<C-f>"] = { "scroll_documentation_down", "fallback" },
-      },
-      completion = {
-        list = {
-          cycle = { from_top = false }, -- cycle at bottom, but not at the top
-          selection = {
-            auto_insert = false,
-            preselect = false,
-          },
-        },
-        accept = {
-          auto_brackets = { enabled = true },
-        },
-        documentation = {
-          auto_show = true,
-          auto_show_delay_ms = 100,
-          window = {
-            border = ui.border.name,
-          },
-        },
-        menu = {
-          draw = {
-            treesitter = { "lsp", "copilot" },
-            columns = { { "label", "label_description", gap = 1 }, { "kind_icon", "kind", gap = 1 } },
-            components = {
-              kind_icon = {
-                ellipsis = false,
-                text = function(ctx)
-                  return select(1, require("mini.icons").get("lsp", ctx.kind))
-                end,
-                highlight = function(ctx)
-                  return select(2, require("mini.icons").get("lsp", ctx.kind))
-                end,
-              },
-
-              kind = {
-                ellipsis = false,
-                width = { fill = true },
-                highlight = function(ctx)
-                  return select(2, require("mini.icons").get("lsp", ctx.kind))
-                end,
-              },
-
-              label = {
-                width = { fill = true, max = 60 },
-              },
-
-              label_description = {
-                width = { max = 30 },
-              },
-
-              source_name = {
-                width = { max = 30 },
-              },
-            },
-          },
-        },
-      },
-      appearance = {
-        use_nvim_cmp_as_default = true,
-        nerd_font_variant = "mono",
-      },
     },
   },
   { "fang2hou/blink-copilot" },
   { "Kaiser-Yang/blink-cmp-git" },
   { "Kaiser-Yang/blink-cmp-dictionary" },
+  { "xzbdmw/colorful-menu.nvim" },
   { "disrupted/blink-cmp-conventional-commits" },
 }

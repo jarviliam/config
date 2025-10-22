@@ -2,31 +2,17 @@
 return {
   cmd = { "yaml-language-server", "--stdio" },
   filetypes = { "yaml" },
-  handlers = {
-    ["yaml/schema/store/initialized"] = function(...)
-      require("schema-companion.lsp").store_initialized(...)
-    end,
-  },
-  on_new_config = function(config)
-    config.settings = vim.tbl_deep_extend("force", config.settings, {
-      yaml = { schemas = require("schemastore").yaml.schemas() },
-    })
-  end,
-  --- @param client vim.lsp.Client
-  --- @param bufnr integer
-  on_attach = function(client, bufnr)
-    local context = require("schema-companion.context")
-    context.setup(bufnr, client)
-  end,
   settings = {
+    -- https://github.com/redhat-developer/vscode-redhat-telemetry#how-to-disable-telemetry-reporting
     redhat = { telemetry = { enabled = false } },
-    yaml = {
-      validate = true,
-      hover = true,
-      schemas = {
-        -- GitHub CI workflows
-        ["https://json.schemastore.org/github-workflow.json"] = "/.github/workflows/*",
-      },
-    },
+    -- formatting disabled by default in yaml-language-server; enable it
+    yaml = { format = { enable = true } },
   },
+  on_init = function(client)
+    --- https://github.com/neovim/nvim-lspconfig/pull/4016
+    --- Since formatting is disabled by default if you check `client:supports_method('textDocument/formatting')`
+    --- during `LspAttach` it will return `false`. This hack sets the capability to `true` to facilitate
+    --- autocmd's which check this capability
+    client.server_capabilities.documentFormattingProvider = true
+  end,
 }

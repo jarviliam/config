@@ -5,8 +5,8 @@ return {
     ft = "lua", -- only load on lua files
     opts = {
       library = {
-        { path = "snacks.nvim", words = { "Snacks", "snacks" } },
         { path = "blink.nvim", words = { "blink" } },
+        { path = "snacks.nvim", words = { "Snacks", "snacks" } },
         { path = "lazy.nvim", words = { "LazyConfig", "LazySpec", "package" } },
       },
     },

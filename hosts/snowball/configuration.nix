@@ -81,8 +81,8 @@
   programs.gnupg.agent = {
     enable = true;
     enableSSHSupport = true;
-
   };
+  programs.nix-ld.enable = true;
   users.users.root.initialPassword = "root";
 
   networking.firewall.enable = false;
@@ -97,7 +97,7 @@
 
   # Virtualization settings
   virtualisation.docker.enable = true;
-  virtualisation.lxd = {
+  virtualisation.incus = {
     enable = true;
   };
   services.tailscale.enable = true;

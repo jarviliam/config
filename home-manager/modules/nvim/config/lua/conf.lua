@@ -27,4 +27,9 @@ if M.theme == "sonokai" or M.theme == "edge" or M.theme == "everforest" then
   vim.g.edge_diagnostic_virtual_text = "colored"
 end
 
+if M.theme == "gruvbox-material" then
+  vim.api.nvim_set_hl(0, "BlinkCmpMenu", { bg = "#32302f" })
+  vim.api.nvim_set_hl(0, "BlinkCmpMenuBorder", { bg = "#32302f" })
+end
+
 return M
