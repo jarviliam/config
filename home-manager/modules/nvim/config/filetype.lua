@@ -1,6 +1,7 @@
 vim.filetype.add({
   extension = {
     prr = "prr",
+    hujson = "json5",
   },
   filename = {
     [".envrc"] = "direnv",

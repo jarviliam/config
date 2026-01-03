@@ -95,7 +95,7 @@ return {
         end,
         per_filetype = {
           codecompanion = { "codecompanion" },
-          gitcommit = { "conventional_commits", "dictionary" },
+          gitcommit = { "git", "conventional_commits", "dictionary" },
           lua = {
             "lazydev",
             "lsp",
@@ -133,6 +133,25 @@ return {
             name = "CodeCompanion",
             module = "codecompanion.providers.completion.blink",
             enabled = true,
+          },
+          git = {
+            module = "blink-cmp-git",
+            name = "Git",
+            opts = {
+              before_reload_cache = function() end, -- silence cache-reload notification
+              commit = { enable = false },
+              git_centers = {
+                github = {
+                  pull_request = { enable = false },
+                  mention = { enable = false },
+                  issue = {
+                    get_documentation = function()
+                      return ""
+                    end,
+                  }, -- disable doc window
+                },
+              },
+            },
           },
           dictionary = {
             module = "blink-cmp-dictionary",
@@ -178,7 +197,6 @@ return {
       },
     },
   },
-  { "fang2hou/blink-copilot" },
   { "Kaiser-Yang/blink-cmp-git" },
   { "Kaiser-Yang/blink-cmp-dictionary" },
   { "xzbdmw/colorful-menu.nvim" },

@@ -6,7 +6,6 @@ return {
       args = { "run", "./..." },
       name = "GolangCI",
       components = {
-        { "display_duration", detail_level = 2 },
         "on_exit_set_status",
         {
           "on_output_parse",

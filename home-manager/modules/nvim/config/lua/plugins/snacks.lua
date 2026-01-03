@@ -26,9 +26,9 @@ return {
             },
           })
         end, },
-      { "<C-/>", function() Snacks.terminal() end, desc = "Terminal", },
+      { "", function() Snacks.terminal()end,mode={"n","t"} ,desc = "Terminal", },
       -- Git
-      { "<leader>go", function() Snacks.gitbrowse.open() end, mode = {"n","v"},desc = "Open Git URL" },
+      { "<leader>go", function() Snacks.gitbrowse.open() end, mode = {"n","v"},desc = " Open Git URL" },
       { "<leader>gC", function()
           Snacks.gitbrowse({ open = function(url) vim.fn.setreg("+", url) end, notify = false })
       end, desc = "Copy Git URL" },
@@ -36,6 +36,14 @@ return {
       -- Scratch
       { "<leader>pS", function() Snacks.profiler.scratch() end, desc = "Profiler Scratch Buffer", },
       { "<leader>.", function() Snacks.scratch() end, desc = "Toggle Scratch Buffer", },
+      -- stylua: ignore start
+		{ "<leader>gb", function() require("snacks").picker.git_branches() end, desc = "󰗲 Branches" },
+		{ "<leader>gi", function() require("snacks").picker.gh_issue() end, desc = " GitHub Issues (open)" },
+		{ "<leader>gI", function() require("snacks").picker.gh_issue { state = "all" } end, desc = " GitHub Issues (all)" },
+		{ "<leader>gp", function() require("snacks").picker.gh_pr() end, desc = " GitHub PRs (open)" },
+		{ "<leader>gP", function() require("snacks").picker.gh_pr { state = "all" } end, desc = " GitHub PRs (all)" },
+    { "<leader>g?", function() require("snacks").git.blame_line() end, desc = "󰆽 Blame line" },
+		-- stylua: ignore end
     },
     ---@type snacks.Config
     opts = {
@@ -52,6 +60,15 @@ return {
       input = { enabled = true },
       scope = {
         enabled = true,
+      },
+      styles = {
+        blame_line = {
+          relative = "editor",
+          width = 0.65,
+          height = 0.8,
+          border = vim.o.winborder --[[@as "rounded"|"single"|"double"|"solid"]],
+          title = " 󰆽 Git blame ",
+        },
       },
       indent = {
         animate = {
@@ -85,7 +102,7 @@ return {
               icon = " ",
               key = "g",
               desc = "Find Text",
-              action = ":FzfLua live_grep_glob",
+              action = ":FzfLua live_grep",
               label = "[g]",
             },
             {

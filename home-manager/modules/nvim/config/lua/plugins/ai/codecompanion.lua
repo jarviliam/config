@@ -1,3 +1,54 @@
+local default_strategy = {
+  name = "copilot",
+  model = "claude-sonnet-4",
+}
+
+local function spinnerNotificationWhileRequest()
+  if not package.loaded["snacks"] then
+    return
+  end
+
+  -- CONFIG
+  local spinners = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" }
+  local updateIntervalMs = 250
+
+  local timer
+  vim.api.nvim_create_autocmd("User", {
+    desc = "User: CodeCompanion spinner (start)",
+    pattern = "CodeCompanionRequestStarted",
+    callback = function(ctx)
+      timer = assert(vim.uv.new_timer())
+      timer:start(
+        0,
+        updateIntervalMs,
+        vim.schedule_wrap(function()
+          local spinner = spinners[math.floor(vim.uv.now() / updateIntervalMs) % #spinners + 1]
+          vim.notify("Request running " .. spinner, vim.log.levels.DEBUG, {
+            title = "CodeCompanion",
+            icon = "",
+            timeout = false,
+            id = ctx.data.id, -- replaces existing notification
+          })
+        end)
+      )
+    end,
+  })
+  vim.api.nvim_create_autocmd("User", {
+    desc = "User: CodeCompanion spinner (stop)",
+    pattern = "CodeCompanionRequestFinished",
+    callback = function(ctx)
+      timer:stop()
+      timer:close()
+      vim.notify("Request finished ✅", nil, {
+        title = "CodeCompanion",
+        icon = "",
+        timeout = 2000,
+        id = ctx.data.id,
+      })
+    end,
+  })
+end
+
 return {
   {
     "olimorris/codecompanion.nvim",
@@ -45,6 +96,9 @@ return {
     },
     opts = {
       display = {
+        action_palette = {
+          provider = "fzf_lua",
+        },
         chat = {
           intro_message = "",
           window = {
@@ -67,21 +121,6 @@ return {
         ["Refactor"] = require("plugins.ai.prompts.refactor"),
         ["Documentation"] = require("plugins.ai.prompts.documentation"),
       },
-      adapters = {
-        http = {
-          copilot = function()
-            return require("codecompanion.adapters").extend("copilot", {
-              schema = {
-                ---@see https://github.com/copilot
-                -- model = {
-                --   default = "o3-mini-2025-01-31",
-                --   claude-sonnet-4-20250514
-                -- },
-              },
-            })
-          end,
-        },
-      },
       extensions = {
         history = {
           enabled = true,
@@ -103,15 +142,10 @@ return {
           picker = "fzf-lua",
           save_chat_keymap = "sc",
         },
-        vectorcode = {
-          opts = {
-            add_tool = true,
-          },
-        },
       },
-      strategies = {
+      interactions = {
         chat = {
-          adapter = "copilot",
+          adapter = default_strategy,
           slash_commands = {
             buffer = { opts = { provider = "fzf_lua" } },
             file = { opts = { provider = "fzf_lua" } },
@@ -120,24 +154,19 @@ return {
           },
         },
         inline = {
-          adapter = "copilot",
+          adapter = default_strategy,
         },
         agent = {
-          adapter = "copilot",
+          adapter = default_strategy,
         },
       },
     },
     config = function(_, opts)
+      spinnerNotificationWhileRequest()
       require("codecompanion").setup(opts)
     end,
   },
   {
     "ravitemer/codecompanion-history.nvim",
-  },
-  {
-    -- Index and search code in your repositories
-    "Davidyz/VectorCode",
-    build = "uv tool install --upgrade vectorcode",
-    version = "*",
   },
 }

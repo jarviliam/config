@@ -33,6 +33,7 @@ let
   ];
 
   cliUtils = with pkgs; [
+    harper
     coreutils
     wget
     ripgrep
@@ -63,6 +64,11 @@ let
     zine
     lazygit
     graphite-cli
+    typescript-go
+    uv
+    typos-lsp
+
+    tailscale-acl-combiner
   ];
 
   node = with pkgs; [

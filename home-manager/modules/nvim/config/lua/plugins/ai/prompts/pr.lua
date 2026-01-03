@@ -5,7 +5,7 @@ return {
     auto_submit = true,
     is_slash_cmd = true,
     modes = { "n" },
-    short_name = "pr",
+    alias = "pr",
   },
   prompts = {
     {

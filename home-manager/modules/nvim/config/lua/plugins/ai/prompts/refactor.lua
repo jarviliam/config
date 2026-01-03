@@ -5,7 +5,7 @@ return {
     auto_submit = true,
     is_slash_cmd = true,
     modes = { "v" },
-    short_name = "refactor",
+    alias = "refactor",
     stop_context_insertion = true,
     user_prompt = false,
   },

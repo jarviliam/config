@@ -18,6 +18,8 @@ if vim.env.PROF then
 end
 vim.g._useTsgo = 0
 
+_G.Config = {}
+
 require("core")
 require("gh")
 require("marks")

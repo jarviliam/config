@@ -29,7 +29,7 @@ return {
         "on_complete_dispose",
       },
     },
-    dap = false,
+    dap = true,
     form = {
       win_opts = { winblend = 0 },
     },

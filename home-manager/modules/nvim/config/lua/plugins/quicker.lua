@@ -11,4 +11,9 @@ return {
       desc = "Toggle quickfix",
     },
   },
+  opts = {
+    highlight = {
+      treesitter = true,
+    },
+  },
 }

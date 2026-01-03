@@ -72,6 +72,7 @@
           github-actions-languageserver = final.callPackage ./home-manager/gha.nix { };
           better-commits = final.callPackage ./home-manager/bettercommit.nix { };
           go-testfixtures = final.callPackage ./home-manager/testfixtures.nix { };
+          tailscale-acl-combiner = final.callPackage ./home-manager/tailscale-acl-combiner.nix { };
           bitwarden-cli = prev.bitwarden-cli.overrideAttrs (oldAttrs: {
             nativeBuildInputs = (oldAttrs.nativeBuildInputs or [ ]) ++ [ prev.llvmPackages_18.stdenv.cc ];
             stdenv = prev.llvmPackages_18.stdenv;

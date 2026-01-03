@@ -140,6 +140,7 @@
         fi
           export PYENV_ROOT="$HOME/.pyenv"
           [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+          export PATH=~/go/bin:~/.local/bin:$PATH
 
       sap() {
               unset AWS_ACCESS_KEY_ID

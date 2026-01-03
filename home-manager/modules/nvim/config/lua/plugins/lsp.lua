@@ -87,7 +87,7 @@ local function onAttach(client, bufnr)
     local op = function()
       fzf.lsp_implementations({ jump1 = true })
     end
-    keymap("<leader>gi", op, "Go to implementation")
+    keymap("gi", op, "Go to implementation")
   end
 
   if client:supports_method(methods.textDocument_codeAction) then
@@ -133,7 +133,7 @@ local function onAttach(client, bufnr)
     }):map("\\c")
   end
 
-  keymap("<leader>grn", vim.lsp.buf.rename, "Rename symbol")
+  keymap("grn", vim.lsp.buf.rename, "Rename symbol")
 
   if client:supports_method(methods.textDocument_documentHighlight) then
     local hl_group = vim.api.nvim_create_augroup("jarviliam/cursor_highlights", { clear = false })

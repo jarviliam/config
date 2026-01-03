@@ -5,4 +5,11 @@ return {
   init_options = {
     provideFormatter = true,
   },
+  settings = {
+    json = {
+      schemas = {
+        { fileMatch = { "*.hujson", "*.jsonc" }, schema = { allowTrailingCommas = true } },
+      },
+    },
+  },
 }

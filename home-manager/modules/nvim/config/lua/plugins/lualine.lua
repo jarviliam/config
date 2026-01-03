@@ -123,6 +123,6 @@ end
 return {
   "nvim-lualine/lualine.nvim",
   config = config,
-  event = { "UIEnter" },
+  enabled = true,
   opts = {},
 }

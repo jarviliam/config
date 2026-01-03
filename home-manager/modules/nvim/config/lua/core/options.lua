@@ -6,6 +6,8 @@ vim.g.ts_path = vim.fs.joinpath(tostring(vim.fn.stdpath("data")), "ts-install")
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
+vim.g.colorscheme = "everforest"
+
 vim.opt.cmdheight = 1
 vim.opt.mouse = nil
 
