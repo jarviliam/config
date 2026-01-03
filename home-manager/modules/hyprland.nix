@@ -1,6 +1,7 @@
 { ... }:
 {
   programs.waybar.enable = true;
+  services.swaync.enable = true;
   programs.wofi = {
     enable = true;
     settings = {

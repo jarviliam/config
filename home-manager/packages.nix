@@ -134,6 +134,7 @@ let
       [
         gcr
         ghostty
+        gcc
       ];
 in
 {

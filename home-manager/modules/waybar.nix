@@ -16,22 +16,16 @@
           passthrough = false;
 
           modules-left = [
-            "custom/l_end"
-            "cpu"
-            "memory"
-            "custom/r_end"
+            "custom/notification"
+            "clock"
           ];
           modules-center = [
-            "custom/l_end"
             "hyprland/workspaces"
-            "custom/r_end"
           ];
           modules-right = [
-            "custom/l_end"
+            "pulseaudio"
             "network"
-            "bluetooth"
-            "tray"
-            "custom/r_end"
+            "custom/power"
           ];
 
           "hyprland/workspaces" = {
@@ -39,26 +33,81 @@
             "all-outputs" = true;
             "active-only" = false;
             "on-click" = "activate";
+            "format" = "{icon}";
+            "format-icons" = {
+              "1" = "";
+              "2" = "";
+              "3" = "";
+              "4" = "";
+              "5" = "";
+            };
             "persistent-workspaces" = {
-              "1" = [ ];
-              "2" = [ ];
-              "3" = [ ];
-              "4" = [ ];
+              "*" = 5;
             };
           };
 
-          "network" = {
+          "clock" = {
+            "interval" = 60;
+            "format" = "  {:%I:%M %p}";
+            "max-length" = 25;
+          };
+          "pulseaudio" = {
+            "format" = "{icon}  {volume}%";
+            "format-bluetooth" = "{volume}% {icon}";
+            "format-bluetooth-muted" = " {icon}";
+            "format-muted" = "";
+            "format-source" = "{volume}% ";
+            "format-source-muted" = "";
+            "format-icons" = {
+              "headphone" = "";
+              "hands-free" = "";
+              "headset" = "";
+              "phone" = "";
+              "portable" = "";
+              "car" = "";
+              "default" = [
+                ""
+                ""
+                ""
+              ];
+            };
+            "on-click" = "pavucontrol";
+          };
+
+          "custom/notification" = {
             "tooltip" = true;
-            "format-wifi" =
-              "  <span foreground='#99ffdd'> {bandwidthDownBytes}</span> <span foreground='#ffcc66'> {bandwidthUpBytes}</span>";
-            "format-ethernet" =
-              "󰈀 <span foreground='#99ffdd'> {bandwidthDownBytes}</span> <span foreground='#ffcc66'> {bandwidthUpBytes}</span>";
-            "tooltip-format" =
-              "Network= <big><b>{essid}</b></big>\nSignal strength= <b>{signaldBm}dBm ({signalStrength}%)</b>\nFrequency= <b>{frequency}MHz</b>\nInterface= <b>{ifname}</b>\nIP= <b>{ipaddr}/{cidr}</b>\nGateway= <b>{gwaddr}</b>\nNetmask= <b>{netmask}</b>";
-            "format-linked" = "󰈀 {ifname} (No IP)";
-            "format-disconnected" = "󰖪 ";
-            "tooltip-format-disconnected" = "Disconnected";
-            "interval" = 2;
+            "format" = "{icon}";
+            "format-icons" = {
+              "notification" = "";
+              "none" = "";
+              "dnd-notification" = "";
+              "dnd-none" = "";
+              "inhibited-notification" = "";
+              "inhibited-none" = "";
+              "dnd-inhibited-notification" = "";
+              "dnd-inhibited-none" = "";
+            };
+            "return-type" = "json";
+            "exec-if" = "which swaync-client";
+            "exec" = "swaync-client -swb";
+            "on-click" = "swaync-client -t -sw";
+            "on-click-right" = "swaync-client -d -sw";
+            "escape" = true;
+          };
+
+          "network" = {
+            "format-wifi" = "  Network";
+            "format-ethernet" = "{ipaddr}/{cidr} ";
+            "tooltip-format" = "{ifname} via {gwaddr} ";
+            "format-linked" = "{ifname} (No IP) ";
+            "format-disconnected" = "Disconnected ⚠";
+            "format-alt" = "  Network";
+            "on-click" = "nm-connection-editor";
+          };
+          "custom/power" = {
+            "format" = "";
+            "tooltip" = false;
+            "on-click" = "wlogout";
           };
 
           "bluetooth" = {
@@ -88,265 +137,153 @@
             "tooltip-format-enumerate-connected-battery" =
               "{device_alias}\t{icon} {device_battery_percentage}%";
           };
-
-          "memory" = {
-            "states" = {
-              "c" = 90; # critical
-              "h" = 60; # high
-              "m" = 30; # medium
-            };
-            "interval" = 30;
-            "format" = "󰾆 {used}GB";
-            "format-m" = "󰾅 {used}GB";
-            "format-h" = "󰓅 {used}GB";
-            "format-c" = " {used}GB";
-            "format-alt" = "󰾆 {percentage}%";
-            "max-length" = 10;
-            "tooltip" = true;
-            "tooltip-format" = "󰾆 {percentage}%\n {used=0.1f}GB/{total=0.1f}GB";
-          };
-
-          "cpu" = {
-            "interval" = 10;
-            "format" = "󰍛 {usage}%";
-            "format-alt" = "{icon0}{icon1}{icon2}{icon3}";
-            "format-icons" = [
-              "▁"
-              "▂"
-              "▃"
-              "▄"
-              "▅"
-              "▆"
-              "▇"
-              "█"
-            ];
-          };
-
-          "tray" = {
-            "icon-size" = 14;
-            "spacing" = 5;
-          };
-
-          "custom/l_end" = {
-            "format" = " ";
-            "interval" = "once";
-            "tooltip" = false;
-          };
-
-          "custom/r_end" = {
-            "format" = " ";
-            "interval" = "once";
-            "tooltip" = false;
-          };
-
-          "custom/sl_end" = {
-            "format" = " ";
-            "interval" = "once";
-            "tooltip" = false;
-          };
-
-          "custom/sr_end" = {
-            "format" = " ";
-            "interval" = "once";
-            "tooltip" = false;
-          };
-
-          "custom/rl_end" = {
-            "format" = " ";
-            "interval" = "once";
-            "tooltip" = false;
-          };
-
-          "custom/rr_end" = {
-            "format" = " ";
-            "interval" = "once";
-            "tooltip" = false;
-          };
-
-          "custom/padd" = {
-            "format" = "  ";
-            "interval" = "once";
-            "tooltip" = false;
-          };
         };
       };
-      style =
-        let
-          bar_bg = "rgba(23, 28, 34, 0.95)";
-          main_bg = "#101419";
-          main_fg = "#93cee9";
+      style = ''
+        @define-color bg0 #1a1b26;
+        @define-color bg1 #16161e;
+        @define-color bg2 #2f334d;
+        @define-color bg3 #414868;
+        @define-color bg4 #565f89;
 
-          wb_act_bg = "#90ceaa";
-          wb_act_fg = "#1f2328";
+        @define-color red    #f7768e;
+        @define-color orange #ff9e64;
+        @define-color yellow #e0af68;
+        @define-color green  #9ece6a;
+        @define-color aqua   #0db9d7;
+        @define-color blue   #7aa2f7;
+        @define-color purple #bb9af7;
 
-          wb_hvr_bg = "#90ceaa";
-          wb_hvr_fg = "#1f2328";
-        in
-        ''
+        @define-color fg #a9b1d6;
+
+        @define-color grey0 #565f89;
+        @define-color grey1 #6c7a9c;
+        @define-color grey2 #7f8ebf;
+
           * {
-              border: none;
-              border-radius: 0px;
-              font-family: "JetBrainsMono Nerd Font";
-              font-weight: bold;
-              font-size: 20px;
-              min-height: 10px;
-          }
+                      /* `otf-font-awesome` is required to be installed for icons */
+                      font-family: "Adwaita Sans", "Font Awesome", sans-serif;
+                      font-size: 14px;
+                      font-weight: bold;
+                  }
 
-          window#waybar {
-              background: ${bar_bg};
-          }
+                  window#waybar {
+                      background-color: rgba(43, 48, 59, 0);
+                      color: #ffffff;
+                  }
 
-          tooltip {
-              background: ${main_bg};
-              color: ${main_fg};
-              border-radius: 7px;
-              border-width: 0px;
-          }
+                  #workspaces {
+                      padding: 10px 10px;
+                      background-color: @bg0;
+                      margin: 7 0;
+                      border-radius: 25px
+                  }
 
-          #workspaces button {
-              box-shadow: none;
-            text-shadow: none;
-              padding: 0px;
-              border-radius: 9px;
-              margin-top: 3px;
-              margin-bottom: 3px;
-              margin-left: 0px;
-              padding-left: 3px;
-              padding-right: 3px;
-              margin-right: 0px;
-              color: ${main_fg};
-              animation: ws_normal 20s ease-in-out 1;
-          }
+                  #workspaces button {
+                      transition: all 0.2s ease-in-out;
+                      padding: 0 8px;
+                      background-color: @bg2;
+                      border-radius: 20px;
+                      min-width: 50px;
+                      margin: 0 3px;
+                      color: transparent;
+                  }
 
-          #workspaces button.active {
-              background: ${wb_act_bg};
-              color: ${wb_act_fg};
-              margin-left: 3px;
-              padding-left: 12px;
-              padding-right: 12px;
-              margin-right: 3px;
-              animation: ws_active 20s ease-in-out 1;
-              transition: all 0.4s cubic-bezier(.55,-0.68,.48,1.682);
-          }
+                  #workspaces button:hover {
+                      background: @fg;
+                      color: @bg2
+                  }
 
-          #workspaces button:hover {
-              background: ${wb_hvr_bg};
-              color: ${wb_hvr_fg};
-              animation: ws_hover 20s ease-in-out 1;
-              transition: all 0.3s cubic-bezier(.55,-0.68,.48,1.682);
-          }
+                  #workspaces button.active {
+                      transition: all 0.3s ease-in-out;
+                      min-width: 80px;
+                      background-color: @blue;
+                      color: @bg2
+                  }
 
-          #taskbar button {
-              box-shadow: none;
-              text-shadow: none;
-              padding: 0px;
-              border-radius: 9px;
-              margin-top: 3px;
-              margin-bottom: 3px;
-              margin-left: 0px;
-              padding-left: 3px;
-              padding-right: 3px;
-              margin-right: 0px;
-              color: @wb-color;
-              animation: tb_normal 20s ease-in-out 1;
-          }
+                  #workspaces button.urgent {
+                      background-color: #eb4d4b;
+                  }
 
-          #taskbar button.active {
-              background: ${wb_act_bg};
-              color: @wb-act-color;
-              margin-left: 3px;
-              padding-left: 12px;
-              padding-right: 12px;
-              margin-right: 3px;
-              animation: tb_active 20s ease-in-out 1;
-              transition: all 0.4s cubic-bezier(.55,-0.68,.48,1.682);
-          }
+                  #clock,
+                  #custom-weather,
+                  #battery,
+                  #network,
+                  #custom-power,
+                  #custom-notification,
+                  #tray,
+                  #pulseaudio {
+                      padding: 0 14px;
+                      background-color: @bg0;
+                      border-radius: 50px;
+                      margin: 11 5
+                  }
 
-          #taskbar button:hover {
-              background: ${wb_hvr_bg};
-              color: @wb-hvr-color;
-              animation: tb_hover 20s ease-in-out 1;
-              transition: all 0.3s cubic-bezier(.55,-0.68,.48,1.682);
-          }
+                  #custom-weather {
+                      transition: all 0.2s ease-in-out;
+                      color: @grray
+                  }
 
-          #backlight,
-          #bluetooth,
-          #custom-cliphist,
-          #clock,
-          #custom-cpuinfo,
-          #cpu,
-          #custom-gpuinfo,
-          #idle_inhibitor,
-          #language,
-          #memory,
-          #custom-mode,
-          #mpris,
-          #network,
-          #custom-power,
-          #pulseaudio,
-          #custom-spotify,
-          #taskbar,
-          #tray,
-          #custom-updates,
-          #custom-wallchange,
-          #custom-wbar,
-          #window,
-          #workspaces,
-          #custom-l_end,
-          #custom-r_end,
-          #custom-sl_end,
-          #custom-sr_end,
-          #custom-rl_end,
-          #custom-rr_end {
-              color: ${main_fg};
-              background: ${main_bg};
-              opacity: 1;
-              margin: 4px 0px 4px 0px;
-              padding-left: 4px;
-              padding-right: 4px;
-          }
+                  #tray {
+                      transition: all 0.2s ease-in-out;
+                      color: @purple
+                  }
 
-          #workspaces,
-          #taskbar {
-              padding: 0px;
-          }
+                  #custom-notification {
+                      transition: all 0.2s ease-in-out;
+                      color: @blue
+                  }
 
-          #custom-r_end {
-              border-radius: 0px 21px 21px 0px;
-              margin-right: 9px;
-              padding-right: 3px;
-          }
+                  #custom-power {
+                      transition: all 0.2s ease-in-out;
+                      color: @red
+                  }
 
-          #custom-l_end {
-              border-radius: 21px 0px 0px 21px;
-              margin-left: 9px;
-              padding-left: 3px;
-          }
+                  #clock {
+                      transition: all 0.2s ease-in-out;
+                      color: @blue
+                  }
 
-          #custom-sr_end {
-              border-radius: 0px;
-              margin-right: 9px;
-              padding-right: 3px;
-          }
+                  #battery {
+                      transition: all 0.2s ease-in-out;
+                      color: @green
+                  }
 
-          #custom-sl_end {
-              border-radius: 0px;
-              margin-left: 9px;
-              padding-left: 3px;
-          }
+                  #battery.charging, #battery.plugged {
+                      transition: all 0.2s ease-in-out;
+                      color: @green
 
-          #custom-rr_end {
-              border-radius: 0px 7px 7px 0px;
-              margin-right: 9px;
-              padding-right: 3px;
-          }
+                  }
 
-          #custom-rl_end {
-              border-radius: 7px 0px 0px 7px;
-              margin-left: 9px;
-              padding-left: 3px;
-          }
-        '';
+                  #battery.critical:not(.charging) {
+                      transition: all 0.2s ease-in-out;
+                      animation-name: blink;
+                      animation-duration: 0.5s;
+                      animation-timing-function: steps(12);
+                      animation-iteration-count: infinite;
+                      animation-direction: alternate;
+                  }
+
+                  #network {
+                      transition: all 0.2s ease-in-out;
+                      color: @aqua
+                  }
+
+                  #network.disconnected {
+                      transition: all 0.2s ease-in-out;
+                      color: @grey0
+                  }
+
+                  #pulseaudio {
+                      transition: all 0.2s ease-in-out;
+                      color: @orange
+                  }
+
+                  #pulseaudio.muted {
+                      transition: all 0.2s ease-in-out;
+                      color: @grey11
+                  }
+      '';
     };
   };
 }

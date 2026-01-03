@@ -2,12 +2,19 @@
 {
   programs.git = {
     enable = true;
-    userName = "Liam Jarvis";
-    userEmail = "jarviliam@gmail.com";
+    settings = {
+      user = {
+        name = "Liam Jarvis";
+        email = "jarviliam@gmail.com";
+      };
+      gpg.ssh.allowedSignersFile = "~/.ssh/allowed_signers";
+      init.defaultBranch = "main";
+    };
 
     signing = {
       signByDefault = true;
-      key = "E33BEE679A565815";
+      key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA6dihydKY7KAgf4xHcDYrVl7xF3rXUeDVmxfryqTXzN";
+      format = "ssh";
     };
     aliases = {
       gone = ''
@@ -22,7 +29,6 @@
       advice = {
         statusHints = true;
       };
-      init.defaultBranch = "master";
       credential.helper = "store";
       core.editor = "nvim";
       push.gpgSign = "if-asked";

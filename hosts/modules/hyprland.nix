@@ -10,6 +10,7 @@
     gdm.enableGnomeKeyring = true;
   };
   environment.systemPackages = with pkgs; [
+    pavucontrol
     loupe
     hyprlock
     hypridle
