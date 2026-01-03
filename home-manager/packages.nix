@@ -135,6 +135,7 @@ let
         gcr
         ghostty
         gcc
+        todoist-electron
       ];
 in
 {
