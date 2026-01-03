@@ -24,7 +24,6 @@
   programs.rofi.enable = true;
   services.picom = {
     enable = true;
-    package = pkgs.picom-next;
     settings = {
       # Shadows
       shadow = true;

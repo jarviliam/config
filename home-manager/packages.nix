@@ -133,6 +133,7 @@ let
       with pkgs;
       [
         gcr
+        ghostty
       ];
 in
 {

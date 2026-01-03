@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    nix-master.url = "github:nixos/nixpkgs/master"; 
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -23,6 +24,7 @@
     {
       self,
       nixpkgs,
+      nix-master,
       flake-utils,
       darwin,
       home-manager,
@@ -62,6 +64,8 @@
         in
         {
           neovim = neovim-nightly-overlay.packages.${system}.default;
+	  udevil = nix-master.legacyPackages.${system}.udevil;
+	  polybar = nix-master.legacyPackages.${system}.polybar;
           nil-language-server = nil-language-server.packages.${system}.nil;
           vtsls = final.callPackage ./home-manager/vtsls.nix { };
           release-please = final.callPackage ./home-manager/release-please.nix { };

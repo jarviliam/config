@@ -60,6 +60,7 @@ rec {
           ./home-manager/modules/firefox
           ./home-manager/modules/linux/poly.nix
           ./home-manager/modules/hyprland.nix
+          ./home-manager/modules/waybar.nix
         ]
         ++ liam.home-manager.modules;
       };
