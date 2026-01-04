@@ -96,6 +96,7 @@ let
 
   nix = with pkgs; [
     nil-language-server
+    nixd
     nixfmt-rfc-style
     nixpkgs-fmt
     statix
