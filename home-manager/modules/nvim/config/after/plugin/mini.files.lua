@@ -37,6 +37,14 @@ minifiles.setup({
   },
 })
 
+vim.keymap.set("n", "<leader>e", function()
+  local bufname = vim.api.nvim_buf_get_name(0)
+  local path = vim.fn.fnamemodify(bufname, ":p")
+  if path and vim.uv.fs_stat(path) then
+    require("mini.files").open(bufname, false)
+  end
+end, { desc = "File explorer" })
+
 Config.new_autocmd("User", "MiniFilesWindowOpen", function(args)
   vim.api.nvim_win_set_config(args.data.win_id, { border = "rounded" })
 end, "Add rounded corners")

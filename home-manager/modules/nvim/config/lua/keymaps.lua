@@ -15,7 +15,7 @@ map("n", "<C-u>", "<C-u>zz", { desc = "Scroll upwards" })
 vim.keymap.set("n", "n", "nzzzv", { desc = "Next result" })
 vim.keymap.set("n", "N", "Nzzzv", { desc = "Previous result" })
 
--- Poweful <esc>.
+-- Powerful <esc>.
 vim.keymap.set({ "i", "s", "n" }, "<esc>", function()
   if require("luasnip").expand_or_jumpable() then
     require("luasnip").unlink_current()
