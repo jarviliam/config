@@ -75,7 +75,9 @@
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
+  services.openssh.settings.StreamLocalBindUnlink = "yes"; # Clean up old sockets automatically
   services.openssh.settings.PasswordAuthentication = true;
+  services.openssh.settings.AllowStreamLocalForwarding = "yes";
   services.openssh.settings.PermitRootLogin = "yes";
 
   programs.gnupg.agent = {

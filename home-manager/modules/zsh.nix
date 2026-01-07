@@ -141,12 +141,17 @@
           export PYENV_ROOT="$HOME/.pyenv"
           [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
           export PATH=~/go/bin:~/.local/bin:$PATH
+          export SSH_AUTH_SOCK=$HOME/.bitwarden-ssh-agent.sock
 
-      sap() {
-              unset AWS_ACCESS_KEY_ID
-              unset AWS_SECRET_ACCESS_KEY
-              export AWS_PROFILE=$(aws configure list-profiles | fzf -0 )
-              aws sts get-caller-identity > /dev/null 2>&1 || aws sso login
+      function awsctx {
+        profile=$1
+        if [[ -z "$profile" ]]; then
+            profile=$(aws configure list-profiles | fzf)
+        fi
+        echo "Switching to AWS profile $profile"
+        export AWS_PROFILE=$profile
+        # verify auth status and trigger sso step if not logged in
+        aws sts get-caller-identity || aws sso login --use-device-code
       }
     '';
     antidote = {

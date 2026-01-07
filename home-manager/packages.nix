@@ -37,7 +37,8 @@ let
     coreutils
     wget
     ripgrep
-    # awscli2
+    awscli2
+    ssm-session-manager-plugin
     # vectorcode
     prr
     htop
@@ -55,10 +56,6 @@ let
     better-commits
     dwt1-shell-color-scripts
     qbittorrent
-    # taskwarrior3
-    # taskwarrior-tui
-    # bugwarrior-dev
-    # tasksh
     neovim
     tree-sitter
     zine
