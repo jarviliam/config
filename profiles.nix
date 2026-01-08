@@ -29,6 +29,7 @@ rec {
           ./home-manager/modules/bitwarden.nix
           ./home-manager/modules/tmux.nix
           ./home-manager/modules/nvim
+          ./home-manager/modules/ghostty.nix
         ];
         extraConfig = {
           home.stateVersion = stateVersion;

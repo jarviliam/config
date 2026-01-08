@@ -138,7 +138,6 @@ let
       with pkgs;
       [
         gcr
-        ghostty
         gcc
         todoist-electron
       ];
