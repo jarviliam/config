@@ -2,7 +2,6 @@ require("core.global")
 require("core.options")
 require("keymaps")
 require("core.events")
-require("winbar")
 require("commands")
 require("core.lazyplug").setup()
 

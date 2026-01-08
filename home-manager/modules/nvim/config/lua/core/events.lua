@@ -1,30 +1,8 @@
 local autocmd = vim.api.nvim_create_autocmd
-local group = vim.api.nvim_create_augroup("JarviliamGroup", {})
 
 local function augroup(name)
   return vim.api.nvim_create_augroup("my_" .. name, { clear = true })
 end
-
-autocmd("TextYankPost", {
-  group = group,
-  callback = function()
-    vim.hl.on_yank({ higroup = "Visual", timeout = 450 })
-  end,
-})
-
-autocmd("WinEnter", {
-  group = group,
-  callback = function()
-    vim.wo.cursorline = true
-  end,
-})
-
-autocmd("WinLeave", {
-  group = group,
-  callback = function()
-    vim.wo.cursorline = false
-  end,
-})
 
 ---Clears cmdline after a few seconds
 ---@return function
@@ -42,7 +20,7 @@ local function clear_cmd()
   end
 end
 
-autocmd({ "CmdlineLeave", "CmdlineChanged" }, { group = group, pattern = ":", callback = clear_cmd() })
+_G.Config.new_autocmd({ "CmdlineLeave", "CmdlineChanged" }, ":", clear_cmd, "Clear command line")
 
 autocmd("FileType", {
   group = vim.api.nvim_create_augroup("QuickClose", { clear = true }),
@@ -71,14 +49,9 @@ autocmd("FileType", {
   end,
 })
 
--- make it easier to close man-files when opened inline
-vim.api.nvim_create_autocmd("FileType", {
-  group = augroup("man_unlisted"),
-  pattern = { "man" },
-  callback = function(event)
-    vim.bo[event.buf].buflisted = false
-  end,
-})
+_G.Config.new_autocmd("FileType", { "man" }, function(e)
+  vim.bo[e.buf].buflisted = false
+end, "Easier inline man-files closing")
 
 -- Fix conceallevel for json files
 vim.api.nvim_create_autocmd({ "FileType" }, {

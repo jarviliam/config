@@ -38,6 +38,7 @@ local highlighters = {
   todo = hi_todo({ "TODO" }, "MiniHipatternsTodo"),
   hack = hi_todo({ "HACK" }, "MiniHipatternsHack"),
   perf = hi_todo({ "PERF" }, "MiniHipatternsPerf"),
+  hex_color = mp.gen_highlighter.hex_color(),
 }
 
 mp.setup({

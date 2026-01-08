@@ -4,12 +4,6 @@ local map = vim.keymap.set
 map("v", "<", "<gv", { desc = "Indent Left" })
 map("v", ">", ">gv", { desc = "Indent Right" })
 
--- better up/down
-map({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { desc = "Down", expr = true, silent = true })
-map({ "n", "x" }, "<Down>", "v:count == 0 ? 'gj' : 'j'", { desc = "Down", expr = true, silent = true })
-map({ "n", "x" }, "k", "v:count == 0 ? 'gk' : 'k'", { desc = "Up", expr = true, silent = true })
-map({ "n", "x" }, "<Up>", "v:count == 0 ? 'gk' : 'k'", { desc = "Up", expr = true, silent = true })
-
 map("n", "<C-d>", "<C-d>zz", { desc = "Scroll downwards" })
 map("n", "<C-u>", "<C-u>zz", { desc = "Scroll upwards" })
 vim.keymap.set("n", "n", "nzzzv", { desc = "Next result" })
@@ -33,8 +27,6 @@ end
 map_toggle("b", '<Cmd>lua vim.o.bg = vim.o.bg == "dark" and "light" or "dark"<CR>', "Toggle 'background'")
 map_toggle("h", "<Cmd>let v:hlsearch = 1 - v:hlsearch<CR>", "Toggle search highlight")
 
-map({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save File" })
-
 -- Tab navigation.
 vim.keymap.set("n", "<leader>Tc", "<cmd>tabclose<cr>", { desc = "Close tab page" })
 vim.keymap.set("n", "<leader>Tn", "<cmd>tab split<cr>", { desc = "New tab page" })
@@ -45,3 +37,21 @@ map("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
 map("n", "ga", function()
   Snacks.terminal("gh dash")
 end, { desc = "GH Dash" })
+
+-- b is for 'Buffer'. Common usage:
+-- - `<Leader>bs` - create scratch (temporary) buffer
+-- - `<Leader>ba` - navigate to the alternative buffer
+-- - `<Leader>bw` - wipeout (fully delete) current buffer
+local new_scratch_buffer = function()
+  vim.api.nvim_win_set_buf(0, vim.api.nvim_create_buf(true, true))
+end
+
+local nmap_leader = function(suffix, rhs, desc)
+  vim.keymap.set("n", "<Leader>" .. suffix, rhs, { desc = desc })
+end
+nmap_leader("ba", "<Cmd>b#<CR>", "Alternate")
+nmap_leader("bd", "<Cmd>lua MiniBufremove.delete()<CR>", "Delete")
+nmap_leader("bD", "<Cmd>lua MiniBufremove.delete(0, true)<CR>", "Delete!")
+nmap_leader("bs", new_scratch_buffer, "Scratch")
+nmap_leader("bw", "<Cmd>lua MiniBufremove.wipeout()<CR>", "Wipeout")
+nmap_leader("bW", "<Cmd>lua MiniBufremove.wipeout(0, true)<CR>", "Wipeout!")

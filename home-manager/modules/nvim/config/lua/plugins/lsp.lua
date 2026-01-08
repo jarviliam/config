@@ -1,25 +1,22 @@
 local methods = vim.lsp.protocol.Methods
 
 local function setupDiagnostics()
-  for severity, icon in pairs(_G.ui.icons.diagnostics) do
-    local hl = "DiagnosticSign" .. severity:sub(1, 1):upper() .. severity:sub(2):lower()
-    vim.fn.sign_define(hl, { text = icon, texthl = hl })
-  end
-
   vim.diagnostic.config({
     jump = { float = true },
     signs = {
-      text = {
-        [vim.diagnostic.severity.ERROR] = _G.ui.icons.diagnostics.error,
-        [vim.diagnostic.severity.WARN] = _G.ui.icons.diagnostics.warn,
-        [vim.diagnostic.severity.HINT] = _G.ui.icons.diagnostics.hint,
-        [vim.diagnostic.severity.INFO] = _G.ui.icons.diagnostics.info,
-      },
+      priority = 9999,
+      severity = { min = "WARN", max = "ERROR" },
+      -- text = {
+      --   [vim.diagnostic.severity.ERROR] = _G.ui.icons.diagnostics.error,
+      --   [vim.diagnostic.severity.WARN] = _G.ui.icons.diagnostics.warn,
+      --   [vim.diagnostic.severity.HINT] = _G.ui.icons.diagnostics.hint,
+      --   [vim.diagnostic.severity.INFO] = _G.ui.icons.diagnostics.info,
+      -- },
     },
     virtual_lines = false,
-    underline = true,
+    underline = { severity = { min = "HINT", max = "ERROR" } },
+    virtual_text = { current_line = true, severity = { min = "ERROR", max = "ERROR" } },
     update_in_insert = false,
-    severity_sort = true,
     float = {
       focusable = true,
       source = "if_many",

@@ -1,5 +1,3 @@
-local o = vim.opt
-
 vim.o.winborder = "rounded"
 vim.g.ts_path = vim.fs.joinpath(tostring(vim.fn.stdpath("data")), "ts-install")
 
@@ -23,11 +21,18 @@ vim.opt.grepformat = "%f:%l:%c:%m"
 vim.opt.clipboard = "unnamedplus"
 
 vim.cmd("filetype plugin indent on") -- Enable all filetype plugins
+if vim.fn.exists("syntax_on") ~= 1 then
+  vim.cmd("syntax enable")
+end
 
+vim.o.fillchars = "eob: ,fold:╌"
+vim.o.listchars = "extends:…,nbsp:␣,precedes:…,tab:> "
 -- UI =========================================================================
 vim.o.breakindent = true -- Indent wrapped lines to match line start
+vim.o.breakindentopt = "list:-1"
 vim.o.colorcolumn = "+1" -- Draw colored column one step to the right of desired maximum width
 vim.o.cursorline = true -- Enable highlighting of the current line
+vim.o.cursorlineopt = "screenline,number"
 vim.o.laststatus = 2 -- Always show statusline
 vim.o.linebreak = true -- Wrap long lines at 'breakat' (if 'wrap' is set)
 vim.o.list = true -- Show helpful character indicators
@@ -48,6 +53,7 @@ vim.o.winblend = 10 -- Make floating windows slightly transparent
 vim.o.wrap = false -- Display long lines as just one line
 
 -- Editing ====================================================================
+local o = vim.opt
 vim.o.autoindent = true -- Use auto indent
 vim.o.expandtab = true -- Convert tabs to spaces
 vim.o.formatoptions = "rqnl1j" -- Improve comment editing
@@ -69,9 +75,9 @@ vim.opt.dictionary = {
   "~/.local/share/dict/words-insane",
 }
 
-o.foldcolumn = "1"
-o.foldlevelstart = 99
-vim.wo.foldtext = ""
+vim.o.foldcolumn = "0"
+vim.o.foldlevel = 10 -- Fold nothing by default; set to 0 or 1 to fold
+vim.o.foldtext = ""
 
 -- Disable Builtins
 local builtins = {
@@ -105,3 +111,5 @@ vim.g.loaded_node_provider = 0
 
 -- Work around: https://github.com/neovim/neovim/issues/31675
 vim.hl = vim.highlight
+
+_G.Config.leader_group_clues = {}

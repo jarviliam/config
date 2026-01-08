@@ -8,7 +8,6 @@ return {
     keys = {
       { "<leader>fu",function () Snacks.picker.undo() end, desc = "Undo"},
       { "<leader>gg", function() Snacks.lazygit() end, desc = "Lazygit", },
-      { "<leader>bd", function() Snacks.bufdelete() end, desc = "Delete Buffer", },
       { "<leader>z",  function() Snacks.zen() end, desc = "Toggle Zen Mode" },
       { "<leader>Z",  function() Snacks.zen.zoom() end, desc = "Toggle Zoom" },
 
@@ -42,7 +41,6 @@ return {
 		{ "<leader>gI", function() require("snacks").picker.gh_issue { state = "all" } end, desc = " GitHub Issues (all)" },
 		{ "<leader>gp", function() require("snacks").picker.gh_pr() end, desc = " GitHub PRs (open)" },
 		{ "<leader>gP", function() require("snacks").picker.gh_pr { state = "all" } end, desc = " GitHub PRs (all)" },
-    { "<leader>g?", function() require("snacks").git.blame_line() end, desc = "󰆽 Blame line" },
 		-- stylua: ignore end
     },
     ---@type snacks.Config
@@ -54,32 +52,21 @@ return {
       },
       notifier = { enabled = true },
       quickfile = { enabled = true },
-      explorer = {
-        replace_netrw = true,
-      },
       input = { enabled = true },
       scope = {
         enabled = true,
       },
-      styles = {
-        blame_line = {
-          relative = "editor",
-          width = 0.65,
-          height = 0.8,
-          border = vim.o.winborder --[[@as "rounded"|"single"|"double"|"solid"]],
-          title = " 󰆽 Git blame ",
-        },
-      },
       indent = {
+        enabled = false,
         animate = {
           enabled = false,
         },
         indent = {
-          enabled = true,
+          enabled = false,
         },
       },
       statuscolumn = {
-        enabled = true,
+        enabled = false,
         left = { "git" },
         right = { "sign" },
         git = { patterns = { "GitSign" } },
@@ -160,13 +147,7 @@ return {
             Snacks.debug.backtrace()
           end
           vim.print = _G.dd
-
-          Snacks.toggle.diagnostics():map("\\d")
-          Snacks.toggle.inlay_hints():map("\\i")
-          Snacks.toggle.line_number():map("\\n")
           Snacks.toggle.treesitter():map("\\t")
-          Snacks.toggle.option("spell", { name = "Spelling" }):map("\\s")
-          Snacks.toggle.option("wrap", { name = "Wrap" }):map("\\w")
           Snacks.toggle
             .option("conceallevel", { off = 0, on = vim.o.conceallevel > 0 and vim.o.conceallevel or 2 })
             :map("\\c")

@@ -17,38 +17,29 @@ clue.setup({
   },
   triggers = {
     -- Leader triggers
-    { mode = "n", keys = "<Leader>" },
-    { mode = "x", keys = "<Leader>" },
+    { mode = { "n", "x" }, keys = "<Leader>" },
     { mode = "n", keys = [[\]] }, -- mini.basics
 
     -- Built-in completion
     { mode = "i", keys = "<C-x>" },
 
     -- `g` key
-    { mode = "n", keys = "g" },
-    { mode = "x", keys = "g" },
+    { mode = { "n", "x" }, keys = "g" },
 
     -- Marks
-    { mode = "n", keys = "'" },
-    { mode = "n", keys = "`" },
-    { mode = "x", keys = "'" },
-    { mode = "x", keys = "`" },
+    { mode = { "n", "x" }, keys = "'" },
+    { mode = { "n", "x" }, keys = "`" },
 
     -- Registers
-    { mode = "n", keys = '"' },
-    { mode = "x", keys = '"' },
-    { mode = "i", keys = "<C-r>" },
-    { mode = "c", keys = "<C-r>" },
-
+    { mode = { "n", "x" }, keys = '"' },
+    { mode = { "i", "c" }, keys = "<C-r>" },
     -- Window commands
     { mode = "n", keys = "<C-w>" },
-
+    { mode = { "n", "x" }, keys = "s" }, -- mini.surround
     -- `z` key
-    { mode = "n", keys = "z" },
-    { mode = "x", keys = "z" },
-
-    { mode = "n", keys = "[" }, -- mini.bracketed
-    { mode = "n", keys = "]" },
+    { mode = { "n", "x" }, keys = "z" },
+    { mode = { "n", "x" }, keys = "[" }, -- mini.bracketed
+    { mode = { "n", "x" }, keys = "]" },
   },
   clues = {
     -- Leader/movement groups.

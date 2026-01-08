@@ -88,21 +88,6 @@ return {
   {
     "nvim-mini/mini.pairs",
     event = "InsertEnter",
-    config = function(_, opts)
-      local pairs = require("mini.pairs")
-      pairs.setup(opts)
-      require("snacks").toggle
-        .new({
-          name = "Mini Pairs",
-          get = function()
-            return not vim.g.minipairs_disable
-          end,
-          set = function(state)
-            vim.g.minipairs_disable = not state
-          end,
-        })
-        :map("\\p")
-    end,
     virtual = true,
   },
   {
