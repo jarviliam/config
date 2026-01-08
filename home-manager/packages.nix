@@ -140,6 +140,7 @@ let
         gcr
         gcc
         todoist-electron
+        flameshot
       ];
 in
 {
