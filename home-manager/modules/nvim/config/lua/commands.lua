@@ -1,8 +1,8 @@
-vim.api.nvim_create_user_command("Todos", function()
+_G.Config.new_cmd("Todos", function()
   require("fzf-lua").grep({ search = [[TODO:|todo!\(.*\)]], no_esc = true })
-end, { desc = "Grep TODOs", nargs = 0 })
+end, { desc = " TODOs", nargs = 0 })
 
-Config.new_cmd("Jq", function()
+_G.Config.new_cmd("Jq", function()
   local buf_lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
   local input = table.concat(buf_lines, "\n")
 

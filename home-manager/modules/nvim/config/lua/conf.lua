@@ -2,9 +2,6 @@ local M = {}
 
 -- Theme selector
 M.theme = "everforest"
--- M.theme = "zen"
--- Toggle Global Statusline
-M.global_statusline = false
 vim.g.colors_name = M.theme
 
 if M.theme == "sonokai" or M.theme == "edge" then

@@ -1,13 +1,22 @@
 local map = vim.keymap.set
+local nmap = function(lhs, rhs, desc)
+  vim.keymap.set("n", lhs, rhs, { desc = desc })
+end
+local nmap_leader = function(suffix, rhs, desc)
+  vim.keymap.set("n", "<Leader>" .. suffix, rhs, { desc = desc })
+end
+local xmap_leader = function(suffix, rhs, desc)
+  vim.keymap.set("x", "<Leader>" .. suffix, rhs, { desc = desc })
+end
 
 -- better indenting
 map("v", "<", "<gv", { desc = "Indent Left" })
 map("v", ">", ">gv", { desc = "Indent Right" })
 
-map("n", "<C-d>", "<C-d>zz", { desc = "Scroll downwards" })
-map("n", "<C-u>", "<C-u>zz", { desc = "Scroll upwards" })
-vim.keymap.set("n", "n", "nzzzv", { desc = "Next result" })
-vim.keymap.set("n", "N", "Nzzzv", { desc = "Previous result" })
+nmap("<C-d>", "<C-d>zz", "Scroll downwards")
+nmap("<C-u>", "<C-u>zz", "Scroll upwards")
+nmap("n", "nzzzv", "Next result")
+nmap("n", "Nzzzv", "Previous result")
 
 -- Powerful <esc>.
 vim.keymap.set({ "i", "s", "n" }, "<esc>", function()
@@ -18,14 +27,8 @@ vim.keymap.set({ "i", "s", "n" }, "<esc>", function()
   return "<esc>"
 end, { desc = "Escape, clear hlsearch, and stop snippet session", expr = true })
 
-map("n", "vv", "V")
-map("n", "V", "v$")
-
-local map_toggle = function(lhs, rhs, desc)
-  map("n", [[\]] .. lhs, rhs, { desc = desc })
-end
-map_toggle("b", '<Cmd>lua vim.o.bg = vim.o.bg == "dark" and "light" or "dark"<CR>', "Toggle 'background'")
-map_toggle("h", "<Cmd>let v:hlsearch = 1 - v:hlsearch<CR>", "Toggle search highlight")
+nmap("vv", "V")
+nmap("V", "v$")
 
 -- Tab navigation.
 vim.keymap.set("n", "<leader>Tc", "<cmd>tabclose<cr>", { desc = "Close tab page" })
@@ -46,9 +49,6 @@ local new_scratch_buffer = function()
   vim.api.nvim_win_set_buf(0, vim.api.nvim_create_buf(true, true))
 end
 
-local nmap_leader = function(suffix, rhs, desc)
-  vim.keymap.set("n", "<Leader>" .. suffix, rhs, { desc = desc })
-end
 nmap_leader("ba", "<Cmd>b#<CR>", "Alternate")
 nmap_leader("bd", "<Cmd>lua MiniBufremove.delete()<CR>", "Delete")
 nmap_leader("bD", "<Cmd>lua MiniBufremove.delete(0, true)<CR>", "Delete!")

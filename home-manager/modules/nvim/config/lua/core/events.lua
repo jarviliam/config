@@ -21,66 +21,41 @@ local function clear_cmd()
 end
 
 _G.Config.new_autocmd({ "CmdlineLeave", "CmdlineChanged" }, ":", clear_cmd, "Clear command line")
-
-autocmd("FileType", {
-  group = vim.api.nvim_create_augroup("QuickClose", { clear = true }),
-  desc = "Close with q",
-  pattern = {
-    "help",
-    "git",
-    "qf",
-    "man",
-    "Scratch",
-    "netrw",
-    "tsplayground",
-    "git-status",
-    "dap-float",
-    "codelldb",
-    "repl",
-    "tsplayground",
-    "neotest-output",
-    "checkhealth",
-    "neotest-summary",
-    "neotest-output-panel",
-  },
-  callback = function(args)
-    vim.bo[args.buf].buflisted = false
-    vim.keymap.set("n", "q", "<cmd>close<CR>", { buffer = args.buf, silent = true })
-  end,
-})
+_G.Config.new_autocmd("FileType", {
+  "help",
+  "git",
+  "qf",
+  "man",
+  "Scratch",
+  "netrw",
+  "tsplayground",
+  "git-status",
+  "dap-float",
+  "codelldb",
+  "repl",
+  "tsplayground",
+  "neotest-output",
+  "checkhealth",
+  "neotest-summary",
+  "neotest-output-panel",
+}, function(e)
+  vim.bo[e.buf].buflisted = false
+  vim.keymap.set("n", "q", "<cmd>close<CR>", { buffer = e.buf, silent = true })
+end, "Close with q.")
 
 _G.Config.new_autocmd("FileType", { "man" }, function(e)
   vim.bo[e.buf].buflisted = false
 end, "Easier inline man-files closing")
 
--- Fix conceallevel for json files
-vim.api.nvim_create_autocmd({ "FileType" }, {
-  group = augroup("json_conceal"),
-  pattern = { "json", "jsonc", "json5" },
-  callback = function()
-    vim.opt_local.conceallevel = 0
-  end,
-})
+_G.Config.new_autocmd("FileType", { "json", "jsonc", "json5" }, function()
+  vim.opt_local.conceallevel = 0
+end, "Conceal Json files")
 
 -- Enable spell checking for certain file types
 vim.api.nvim_create_autocmd(
   { "BufRead", "BufNewFile" },
   { pattern = { "*.txt", "*.md", "*.tex", "gitcommit" }, command = "setlocal spell" }
 )
--- @source: https://vim.fandom.com/wiki/Use_gf_to_open_a_file_via_its_URL
-vim.api.nvim_create_autocmd("BufReadCmd", {
-  group = augroup("utilities"),
-  pattern = "file:///*",
-  callback = function()
-    vim.cmd(string.format("bd!|edit %s", vim.uri_from_fname("<afile>")))
-  end,
-})
-
--- Check if we need to reload the file when it changed
-vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
-  group = augroup("focusing"),
-  command = "checktime",
-})
 
 -- resize splits if window got resized
 vim.api.nvim_create_autocmd({ "VimResized" }, {

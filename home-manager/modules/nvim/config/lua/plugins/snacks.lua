@@ -6,7 +6,6 @@ return {
     lazy = false,
     -- stylua: ignore
     keys = {
-      { "<leader>fu",function () Snacks.picker.undo() end, desc = "Undo"},
       { "<leader>gg", function() Snacks.lazygit() end, desc = "Lazygit", },
       { "<leader>z",  function() Snacks.zen() end, desc = "Toggle Zen Mode" },
       { "<leader>Z",  function() Snacks.zen.zoom() end, desc = "Toggle Zoom" },
@@ -33,7 +32,6 @@ return {
       end, desc = "Copy Git URL" },
 
       -- Scratch
-      { "<leader>pS", function() Snacks.profiler.scratch() end, desc = "Profiler Scratch Buffer", },
       { "<leader>.", function() Snacks.scratch() end, desc = "Toggle Scratch Buffer", },
       -- stylua: ignore start
 		{ "<leader>gb", function() require("snacks").picker.git_branches() end, desc = "󰗲 Branches" },
