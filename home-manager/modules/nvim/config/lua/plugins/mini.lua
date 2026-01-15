@@ -72,20 +72,6 @@ return {
     virtual = true,
   },
   {
-    "nvim-mini/mini.icons",
-    init = function()
-      package.preload["nvim-web-devicons"] = function()
-        require("mini.icons").mock_nvim_web_devicons()
-        return package.loaded["nvim-web-devicons"]
-      end
-    end,
-    lazy = false,
-    opts = {
-      glyph = true,
-    },
-    virtual = true,
-  },
-  {
     "nvim-mini/mini.pairs",
     event = "InsertEnter",
     virtual = true,
@@ -95,12 +81,6 @@ return {
     keys = {
       { "g=", desc = "mini.align: align", mode = { "n", "v" } },
       { "g+", desc = "mini.align: align with preview", mode = { "n", "" } },
-    },
-    opts = {
-      mappings = {
-        start = "g=",
-        start_with_preview = "g+",
-      },
     },
     virtual = true,
   },
@@ -114,19 +94,6 @@ return {
         { "]w", desc = "window next" },
         { "[x", desc = "conflict marker previous" },
         { "]x", desc = "conflict marker next" },
-      },
-      opts = {
-        buffer = { suffix = "" },
-        file = { suffix = "" },
-        diagnostic = { suffix = "" }, -- Built in.
-        indent = { suffix = "" },
-        jump = { suffix = "" },
-        location = { suffix = "" },
-        oldfile = { suffix = "" },
-        quickfix = { suffix = "" },
-        treesitter = { suffix = "" },
-        undo = { suffix = "" },
-        yank = { suffix = "" },
       },
       virtual = true,
     },

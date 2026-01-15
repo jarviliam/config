@@ -1,13 +1,6 @@
 ---@type LazySpec[]
 return {
   {
-    "rachartier/tiny-code-action.nvim",
-    event = "LspAttach",
-    opts = {
-      picker = { "buffer", opts = { hotkeys = true } },
-    },
-  },
-  {
     "cenk1cenk2/schema-companion.nvim",
     ft = { "helm", "yaml" },
     keys = {

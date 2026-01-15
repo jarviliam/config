@@ -7,19 +7,14 @@
 -- /___/
 --
 ----------------------------------------------------
-if vim.env.PROF then
-  local snacks = vim.fn.stdpath("data") .. "/lazy/snacks.nvim"
-  vim.opt.rtp:append(snacks)
-  require("snacks.profiler").startup({ ---@diagnostic disable-line: missing-fields
-    startup = {
-      event = "VimEnter",
-    },
-  })
-end
 vim.g._useTsgo = 0
+
+vim.pack.add({ "https://github.com/nvim-mini/mini.nvim" })
+require("mini.deps").setup()
 
 _G.Config = {}
 
-require("core")
-require("gh")
-require("marks")
+-- Define lazy helpers
+Config.now = MiniDeps.now
+Config.now_if_args = vim.fn.argc(-1) > 0 and MiniDeps.now or MiniDeps.later
+Config.later = MiniDeps.later
