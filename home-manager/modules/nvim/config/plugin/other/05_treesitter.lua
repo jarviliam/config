@@ -17,7 +17,6 @@ Config.now_if_args(function()
     "cmake",
     "dockerfile",
     "json5",
-    "norg",
     "comment",
     "go",
     "graphql",

@@ -1,10 +1,28 @@
-{ config, pkgs, lib, ... }: {
-  fonts.fontconfig.enable = true;
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
+{
+  fonts = {
+    fontconfig.enable = true;
+  };
   xsession.windowManager.bspwm = {
     enable = true;
     monitors = {
-      HDMI-1 = [ "1" "2" "3" "4" ];
-      edp-1 = [ "5" "6" "7" "8" ];
+      HDMI-1 = [
+        "1"
+        "2"
+        "3"
+        "4"
+      ];
+      edp-1 = [
+        "5"
+        "6"
+        "7"
+        "8"
+      ];
     };
     settings = {
       "remove_disabled_monitors" = true;
@@ -12,13 +30,18 @@
       "focus_follows_pointer" = true;
       "split_ratio" = 0.52;
     };
-    startupPrograms = [ "sxhkd" "systemctl --user restart polybar" ];
+    startupPrograms = [
+      "sxhkd"
+      "systemctl --user restart polybar"
+    ];
   };
 
   services.mpd = {
     enable = true;
     musicDirectory = "~/Music";
-    network = { startWhenNeeded = true; };
+    network = {
+      startWhenNeeded = true;
+    };
   };
   home.packages = with pkgs; [ nitrogen ];
   programs.rofi.enable = true;
@@ -59,8 +82,10 @@
         background = true;
       };
       blur-kern = "3x3box";
-      blur-background-exclude =
-        [ "window_type = 'desktop'" "class_g = 'firefox'" ];
+      blur-background-exclude = [
+        "window_type = 'desktop'"
+        "class_g = 'firefox'"
+      ];
       # Other
       daemon = true;
       backend = "glx";
@@ -73,11 +98,21 @@
       detect-client-opacity = true;
       detect-transient = true;
       wintypes = {
-        tooltip = { fade = true; };
-        dock = { shadow = true; };
-        dnd = { shadow = true; };
-        popup_menu = { opacity = 1; };
-        dropdown_menu = { opacity = 0.8; };
+        tooltip = {
+          fade = true;
+        };
+        dock = {
+          shadow = true;
+        };
+        dnd = {
+          shadow = true;
+        };
+        popup_menu = {
+          opacity = 1;
+        };
+        dropdown_menu = {
+          opacity = 0.8;
+        };
       };
     };
   };
