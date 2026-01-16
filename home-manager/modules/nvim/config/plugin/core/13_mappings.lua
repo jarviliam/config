@@ -21,16 +21,12 @@ end
 
 Config.leader_group_clues = {
   -- Leader/movement groups.
-  { mode = "n", keys = L("a"), desc = "+ai" },
-  { mode = "v", keys = L("a"), desc = "+ai" },
+  { mode = { "n", "v" }, keys = L("a"), desc = "+ai" },
   { mode = "n", keys = L("b"), desc = "+buffers" },
-  { mode = "n", keys = L("c"), desc = "+code" },
-  { mode = "x", keys = L("c"), desc = "+code" },
+  { mode = { "n", "x" }, keys = L("c"), desc = "+code" },
   { mode = "n", keys = L("d"), desc = "+debug" },
-  { mode = "n", keys = L("f"), desc = "+find" },
-  { mode = "x", keys = L("f"), desc = "+find" },
-  { mode = "n", keys = L("fd"), desc = "+find dap" },
-  { mode = "n", keys = L("g"), desc = "+git" },
+  { mode = { "n", "x" }, keys = L("f"), desc = "+find" },
+  { mode = { "n" }, keys = L("g"), desc = "+git" },
   { mode = "n", keys = "gc", desc = "+comment" },
   { mode = "n", keys = L("gd"), desc = "+diff" },
   { mode = "n", keys = L("o"), desc = "+overseer" },
@@ -76,8 +72,8 @@ end
 
 -- lsp
 nmap("grn", vim.lsp.buf.rename, "Rename symbol")
-nmap("gra", "lua Config.code_action()", "lsp: code actions")
-nmap(L("ci"), "lua Config.toggle_hints", "lsp: toggle hint")
+nmap("gra", C("lua Config.code_action()"), "lsp: code actions")
+nmap(L("ci"), C("lua Config.toggle_hints()"), "lsp: toggle hint")
 
 nmap("[d", function()
   vim.diagnostic.jump({ count = -1 })
@@ -93,12 +89,18 @@ nmap("]e", function()
 end, "Next error")
 -- lsp
 
+nmap(L("ed"), C("lua MiniFiles.open()"), "Directory (cwd)")
+nmap(L("ef"), C("lua Config.minifiles_open_bufdir()"), "Directory (file)")
+map("n", L("en"), C("lua MiniNotify.show_history()"), "Notifications")
+map("n", L("el"), C("lua require('quicker').toggle({ loclist = true })"), "Location list")
+map("n", L("eq"), C("lua require('quicker').toggle()"), "Quickfix")
+
 -- buffer
 nmap(L("ba"), C("b#"), "Alternate")
 nmap(L("bd"), C("lua MiniBufremove.delete()"), "Delete")
-nmap(L("bD"), C("lua MiniBufremove.delete(0, true)"), "Delete!")
+nmap(L("bD"), C("%bd|e#|bd#"), "Delete other buffers")
 nmap(L("bs"), new_scratch_buffer, "Scratch")
-nmap(L("bw"), C("lua MiniBufremove.wipeout()>"), "Wipeout")
+nmap(L("bw"), C("lua MiniBufremove.wipeout()"), "Wipeout")
 nmap(L("bW"), C("lua MiniBufremove.wipeout(0, true)"), "Wipeout!")
 -- buffer
 
@@ -120,30 +122,43 @@ nmap(L("fb"), C("FzfLua buffers sort_mru=true sort_lastused=true"), "Buffer Pick
 nmap(L("fC"), C("FzfLua git_bcommits"), "Buffer Commits")
 nmap(L("fg"), C("FzfLua git_files"), "Find Files (Git)")
 nmap(L("sb"), C("FzfLua blines"), "Buffer Lines")
-nmap(L("sB"), C("FzfLua lines"), "Grep Open Buffers")
+nmap(L("fB"), C("FzfLua lines"), "Grep Open Buffers")
 
-nmap(L("sw"), C("FzfLua grep_cword"), "grep <word> (project)")
-nmap(L("sW"), C("FzfLua grep_cWORD"), "grep <WORD> (project)")
-nmap(L('s"'), C("FzfLua registers"), "Registers")
-nmap(L("s/"), C("FzfLua search_history"), "Search History")
-nmap(L("sa"), C("FzfLua autocmds"), "Auto Commands")
-nmap(L("sc"), C("FzfLua command_history"), "Command History")
-nmap(L("sC"), C("FzfLua commands"), "Commands")
-nmap(L("sd"), C("FzfLua diagnostics_document"), "Document Diagnostics")
-nmap(L("sD"), C("FzfLua diagnostics_workspace"), "Workspace Diagnostics")
-nmap(L("sh"), C("FzfLua help_tags"), "Help Pages")
-nmap(L("sH"), C("FzfLua highlights"), "Search Highlight Groups")
-nmap(L("sj"), C("FzfLua jumps"), "Jumps")
-nmap(L("sm"), C("FzfLua marks"), "Marks")
-
+nmap(L("fw"), C("FzfLua grep_cword"), "grep <word> (project)")
+nmap(L("fW"), C("FzfLua grep_cWORD"), "grep <WORD> (project)")
+nmap(L('f"'), C("FzfLua registers"), "Registers")
+nmap(L("f/"), C("FzfLua search_history"), "Search History")
+nmap(L("fa"), C("FzfLua autocmds"), "Auto Commands")
+nmap(L("fc"), C("FzfLua command_history"), "Command History")
+nmap(L("fC"), C("FzfLua commands"), "Commands")
+nmap(L("fd"), C("FzfLua diagnostics_document"), "Document Diagnostics")
+nmap(L("fD"), C("FzfLua diagnostics_workspace"), "Workspace Diagnostics")
+nmap(L("fh"), C("FzfLua help_tags"), "Help Pages")
+nmap(L("fH"), C("FzfLua highlights"), "Search Highlight Groups")
 nmap(L("f?"), C("FzfLua builtin"), "builtin")
-nmap(L("sM"), C("FzfLua man_pages"), "Man Pages")
+nmap(L("fk"), C("FzfLua keymaps"), "Keymaps")
+nmap(L("fq"), C("FzfLua quickfix"), "Quickfix List")
 
 -- git
-nmap(L("gd"), C("FzfLua git_hunks"), "Git Diff (hunks)")
+nmap(L("ga"), C("Git diff --cached"), "Added diff")
+nmap(L("gA"), C("Git diff --cached -- %"), "Added diff (buf)")
+nmap(L("gb"), C("lua MiniGit.show_range_history()"), "Range history")
+nmap(L("gc"), C("Git commit"), "Commit")
+nmap(L("gC"), C("Git commit --amend"), "Commit amend")
+nmap(L("gd"), C("Git diff"), "Diff")
+nmap(L("gD"), C("Git diff -- %"), "Diff (buf)")
+nmap(L("gg"), C("lua Snacks.lazygit()"), "Lazygit")
+nmap(L("gl"), C("lua Config.minigit_log()"), "Log")
+nmap(L("gL"), C("lua Config.minigit_log_buf()"), "Log (buf)")
+nmap(L("go"), C("lua MiniDiff.toggle_overlay()"), "Toggle overlay")
+nmap(L("gq"), C("lua Config.minidiff_to_qf()"), "Quickfix diffs")
+nmap(L("gs"), C("lua MiniGit.show_at_cursor()"), "Show at cursor")
+--
 
-nmap(L("sk"), C("FzfLua keymaps"), "Keymaps")
-nmap(L("sq"), C("FzfLua quickfix"), "Quickfix List")
+map("n", L("sd"), C("lua MiniSessions.select('delete')"), "Delete session")
+map("n", L("sl"), C("lua MiniSessions.select('read')"), "Load session")
+map("n", L("sn"), C("lua MiniSessions.write(vim.fn.input('Name: '))"), "New session")
+map("n", L("ss"), C("lua MiniSessions.write()"), "Save session")
 -- fzf
 
 -- overseer
@@ -250,3 +265,10 @@ end, "Terminate")
 nmap(L("td"), function()
   require("neotest").run.run({ strategy = "dap" })
 end, "Debug Nearest")
+
+map({ "n", "v" }, L("s/"), C("lua Config.grug_search()"), "Search and replace")
+
+map("n", "<C-Left>", "<C-w>h", "Focus on left window")
+map("n", "<C-Down>", "<C-w>j", "Focus on below window")
+map("n", "<C-Up>", "<C-w>k", "Focus on above window")
+map("n", "<C-Right>", "<C-w>l", "Focus on right window")

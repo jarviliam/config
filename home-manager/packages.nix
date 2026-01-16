@@ -141,6 +141,7 @@ let
         gcc
         todoist-electron
         flameshot
+        zmx
       ];
 in
 {

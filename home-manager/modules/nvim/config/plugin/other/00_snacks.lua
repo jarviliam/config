@@ -7,20 +7,10 @@ Config.now(function()
       enabled = true,
       shell = "zsh",
     },
-    notifier = { enabled = false },
     quickfile = { enabled = true },
     input = { enabled = true },
     scope = {
       enabled = true,
-    },
-    indent = {
-      enabled = false,
-      animate = {
-        enabled = false,
-      },
-      indent = {
-        enabled = false,
-      },
     },
     statuscolumn = {
       enabled = false,

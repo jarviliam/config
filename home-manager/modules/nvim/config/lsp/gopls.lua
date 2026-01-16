@@ -1,9 +1,5 @@
 ---@type vim.lsp.Config
 return {
-  cmd = { "gopls" },
-  filetypes = { "go", "gomod", "gowork" }, -- Don't attach for gotmpl.
-  root_markers = { "go.mod", "go.work", ".git" },
-  single_file_support = true,
   settings = {
     gopls = {
       analyses = {

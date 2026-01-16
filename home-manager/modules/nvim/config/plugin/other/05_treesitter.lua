@@ -36,7 +36,7 @@ Config.now_if_args(function()
     "markdown_inline",
     "nix",
     "po",
-    "prr",
+    -- "prr",
     "python",
     "query",
     "regex",

@@ -1,7 +1,5 @@
 ---@type vim.lsp.Config
 return {
-  cmd = { "lua-language-server" },
-  filetypes = { "lua" },
   ---@param client vim.lsp.Client
   on_init = function(client)
     -- Rely on conform
