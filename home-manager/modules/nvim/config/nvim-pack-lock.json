@@ -37,7 +37,7 @@
       "src": "https://github.com/ravitemer/codecompanion-history.nvim"
     },
     "codecompanion.nvim": {
-      "rev": "1ae6d55cf5222272ffbf11e87358bf68fef3e938",
+      "rev": "8ebbcc27d20e9ac6e7491de6ef9aac1fbf6277a2",
       "src": "https://github.com/olimorris/codecompanion.nvim"
     },
     "colorful-menu.nvim": {
@@ -77,7 +77,7 @@
       "src": "https://github.com/folke/lazydev.nvim"
     },
     "mini.nvim": {
-      "rev": "8dccba88fc4dce006ca0ad668067c9e0d5ce7702",
+      "rev": "19973fa2c13399d68bf8d2cd98b0cb7367a8a72a",
       "src": "https://github.com/nvim-mini/mini.nvim"
     },
     "neogen": {
@@ -117,7 +117,7 @@
       "src": "https://github.com/mfussenegger/nvim-dap-python"
     },
     "nvim-dap-view": {
-      "rev": "663f985900074363be6b3d1e15117313ce3d4496",
+      "rev": "b1eadfadf7f161a707a3ebc100fb3989d06eaa29",
       "src": "https://github.com/igorlfs/nvim-dap-view"
     },
     "nvim-dap-virtual-text": {
@@ -155,7 +155,7 @@
       "src": "https://github.com/jbyuki/one-small-step-for-vimkind"
     },
     "overseer.nvim": {
-      "rev": "95b1099c043e4231a1204abd9a394d379e69f029",
+      "rev": "5828bdbd86677497613033c142f0a8624489216f",
       "src": "https://github.com/stevearc/overseer.nvim"
     },
     "plenary.nvim": {

@@ -75,6 +75,8 @@ nmap("grn", vim.lsp.buf.rename, "Rename symbol")
 nmap("gra", C("lua Config.code_action()"), "lsp: code actions")
 nmap(L("ci"), C("lua Config.toggle_hints()"), "lsp: toggle hint")
 
+map({ "n", "t" }, "<C-/>", C("lua Snacks.terminal.toggle()"), "Terminal")
+
 nmap("[d", function()
   vim.diagnostic.jump({ count = -1 })
 end, "Previous diagnostic")

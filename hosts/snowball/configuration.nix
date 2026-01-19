@@ -41,8 +41,10 @@
   # Enable touchpad support (enabled default in most desktopManager).
   # services.libinput.enable = true;
 
+  programs.zsh.enable = true;
   users.users.liam = {
     isNormalUser = true;
+    shell = pkgs.zsh;
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBUHLke8RZ9M9aToilmZwlIwkZ9G5MTqSbipqndhOb9F jarviliam@gmail.com"
     ];
