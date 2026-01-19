@@ -171,6 +171,9 @@
           "SUPER, 4, workspace, 4"
           "SUPER, 5, workspace, 5"
 
+          "SUPER, tab, workspace, -1"
+          "SUPER_SHIFT, tab, workspace, +1"
+
           # send to workspaces
           "SUPER_SHIFT, 1, movetoworkspacesilent, 1"
           "SUPER_SHIFT, 2, movetoworkspacesilent, 2"
@@ -209,7 +212,6 @@
         ];
 
         "exec-once" = [
-          "hyprpaper"
           "waybar"
         ];
       };
@@ -261,19 +263,51 @@
     };
   };
 
-  xdg.configFile = {
-    # "hypr/hyperland.conf" = {
-    #   source = "${cfg}";
-    # };
-    "hypr/hyprpaper.conf".text = ''
-      splash = false
-    '';
-    "hypr/hypridle.conf".text = ''
-      general {
-        lock_cmd = pidof hyprlock || hyprlock
-        before_sleep_cmd = loginctl lock-session
-        after_sleep_cmd = hyprctl dispatch dpms on
-      }
-    '';
+  services.hyprpaper = {
+    enable = true;
+    settings = {
+      preload = [
+        "~/Wallpapers/house.png"
+      ];
+
+      wallpaper = [
+        ",~/Wallpapers/house.png"
+      ];
+    };
+  };
+
+  services.hypridle = {
+    enable = true;
+    settings = {
+      general = {
+        lock_cmd = "pidof hyprlock || hyprlock";
+        before_sleep_cmd = "loginctl lock-session";
+        after_sleep_cmd = "hyprctl dispatch dpms on";
+      };
+
+      listener = [
+        {
+          timeout = 150;
+          on-timeout = "brightnessctl -s set 10";
+          on-resume = "brightnessctl -r";
+        }
+
+        {
+          timeout = 300;
+          on-timeout = "loginctl lock-session";
+        }
+
+        {
+          timeout = 330;
+          on-timeout = "hyprctl dispatch dpms off";
+          on-resume = "hyprctl dispatch dpms on";
+        }
+
+        {
+          timeout = 1800;
+          on-timeout = "systemctl suspend";
+        }
+      ];
+    };
   };
 }

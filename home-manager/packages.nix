@@ -142,6 +142,7 @@ let
         todoist-electron
         flameshot
         zmx
+        obsidian
       ];
 in
 {

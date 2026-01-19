@@ -46,17 +46,16 @@
 
           "NixOS Wiki" = {
             urls = [ { template = "https://nixos.wiki/index.php?search={searchTerms}"; } ];
-            iconUpdateURL = "https://nixos.wiki/favicon.png";
+            icon = "https://nixos.wiki/favicon.png";
             updateInterval = 24 * 60 * 60 * 1000; # every day
             definedAliases = [ "@nw" ];
           };
 
-          "Bing".metaData.hidden = true;
-          "Google".metaData.alias = "@g"; # builtin engines only support specifying one additional alias
+          "google".metaData.alias = "@g"; # builtin engines only support specifying one additional alias
         };
         order = [
-          "DuckDuckGo"
-          "Google"
+          "ddg"
+          "google"
         ];
       };
       settings = {

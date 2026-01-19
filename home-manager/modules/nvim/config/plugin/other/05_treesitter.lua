@@ -45,7 +45,13 @@ Config.now_if_args(function()
     "typescript",
     "vim",
     "yaml",
+    "ziggy",
+    "ziggy-schema",
+    "superhtml",
+    "supermd",
+    "supermd_inline",
   }
+
   require("nvim-treesitter").install(ensure_languages)
 
   local filetypes = vim.iter(ensure_languages):map(vim.treesitter.language.get_filetypes):flatten():totable()
