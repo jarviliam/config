@@ -76,6 +76,10 @@
       "rev": "5231c62aa83c2f8dc8e7ba957aa77098cda1257d",
       "src": "https://github.com/folke/lazydev.nvim"
     },
+    "leap.nvim": {
+      "rev": "819388c5546548016b0dab9a72a42aa5a40bf35d",
+      "src": "https://codeberg.org/andyg/leap.nvim"
+    },
     "mini.nvim": {
       "rev": "19973fa2c13399d68bf8d2cd98b0cb7367a8a72a",
       "src": "https://github.com/nvim-mini/mini.nvim"

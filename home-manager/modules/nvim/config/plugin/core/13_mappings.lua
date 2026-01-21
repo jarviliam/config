@@ -41,17 +41,16 @@ Config.leader_group_clues = {
   { mode = "n", keys = L("z"), desc = "+fold" },
 }
 
+-- Basic
 nmap("vv", "V")
 nmap("V", "v$")
-
--- better indenting
 map("v", "<", "<gv", "Indent Left")
 map("v", ">", ">gv", "Indent Right")
-
 nmap("<C-d>", "<C-d>zz", "Scroll downwards")
 nmap("<C-u>", "<C-u>zz", "Scroll upwards")
 nmap("n", "nzzzv", "Next result")
 nmap("n", "Nzzzv", "Previous result")
+map({ "n", "x", "o" }, "s", "<Plug>(leap)", "Leap")
 
 -- Powerful <esc>.
 map({ "i", "s", "n" }, "<esc>", function()
