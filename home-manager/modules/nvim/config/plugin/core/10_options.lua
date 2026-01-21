@@ -2,7 +2,6 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
 vim.o.winborder = "rounded"
-
 vim.opt.cmdheight = 1
 vim.opt.mouse = nil
 
@@ -16,6 +15,8 @@ vim.opt.wildignorecase = true
 vim.opt.grepprg = "rg --engine auto --vimgrep --smart-case --hidden"
 vim.opt.grepformat = "%f:%l:%c:%m"
 vim.opt.clipboard = "unnamedplus"
+-- Ghostty
+vim.g.clipboard = "osc52"
 
 vim.cmd("filetype plugin indent on") -- Enable all filetype plugins
 if vim.fn.exists("syntax_on") ~= 1 then
