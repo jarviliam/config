@@ -52,15 +52,6 @@ nmap("n", "nzzzv", "Next result")
 nmap("n", "Nzzzv", "Previous result")
 map({ "n", "x", "o" }, "s", "<Plug>(leap)", "Leap")
 
--- Powerful <esc>.
-map({ "i", "s", "n" }, "<esc>", function()
-  if require("luasnip").expand_or_jumpable() then
-    require("luasnip").unlink_current()
-  end
-  vim.cmd("noh")
-  return "<esc>"
-end, "Escape, clear hlsearch, and stop snippet session", { expr = true })
-
 -- b is for 'Buffer'. Common usage:
 -- - `<Leader>bs` - create scratch (temporary) buffer
 -- - `<Leader>ba` - navigate to the alternative buffer

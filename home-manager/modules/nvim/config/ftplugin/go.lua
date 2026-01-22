@@ -11,6 +11,15 @@ local function get_arguments()
   end)
 end
 
+local function is_git_root()
+  local path = vim.uv.cwd()
+  local root = Snacks.git.get_root()
+  if vim.g._debug_root then
+    vim.print(path, root)
+  end
+  return path == root
+end
+
 if not dap.adapters.go then
   dapgo.setup({
     dap_configurations = {
@@ -20,6 +29,18 @@ if not dap.adapters.go then
         request = "launch",
         program = "${fileDirname}",
         args = get_arguments,
+      },
+      {
+        type = "go",
+        name = "Debug run",
+        request = "launch",
+        program = function()
+          if is_git_root() then
+            return "${workspaceFolder}/service/octopus-api/internal/test/debugrun"
+          end
+          return "${workspaceFolder}/internal/test/debugrun"
+        end,
+        cwd = "${workspaceFolder}",
       },
     },
   })
