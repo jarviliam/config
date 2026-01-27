@@ -12,10 +12,9 @@ Config.later(function()
   local nt = require("neotest")
 
   nt.setup({
+    log_level = vim.log.levels.DEBUG,
     adapters = {
-      ["neotest-golang"] = {
-        dap_go_enabled = true,
-      },
+      require("neotest-golang")({ dap_go_enabled = true }),
       ["neotest-vitest"] = {},
       ["neotest-jest"] = {
         jestCommand = "yarn test",
