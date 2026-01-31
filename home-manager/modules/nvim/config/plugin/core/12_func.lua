@@ -11,3 +11,7 @@ Config.on_packchanged = function(plugin_name, kinds, callback, desc)
   end
   Config.new_autocmd("PackChanged", { pattern = "*", callback = f, desc = desc })
 end
+
+Config.new_scratch_buffer = function()
+  vim.api.nvim_win_set_buf(0, vim.api.nvim_create_buf(true, true))
+end

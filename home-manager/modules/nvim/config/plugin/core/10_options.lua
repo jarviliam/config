@@ -25,6 +25,8 @@ end
 
 vim.o.fillchars = "eob: ,fold:╌"
 vim.o.listchars = "extends:…,nbsp:␣,precedes:…,tab:> "
+vim.opt.pumborder = "rounded"
+vim.opt.winborder = "rounded"
 -- UI =========================================================================
 vim.o.breakindent = true -- Indent wrapped lines to match line start
 vim.o.breakindentopt = "list:-1"

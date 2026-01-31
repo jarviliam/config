@@ -63,6 +63,12 @@ Config.now(function()
 
   fzf.register_ui_select()
 
+  Config.find_todo = function()
+    fzf.grep({
+      search = "(TODO|HACK|WARNING|NOTE|FIX|BUG|PERF):",
+    })
+  end
+
   ---@param lhs string
   ---@param rhs string|function
   ---@param opts string|table
