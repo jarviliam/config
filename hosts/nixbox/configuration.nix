@@ -16,5 +16,8 @@
   hardware.nvidia = {
     modesetting.enable = true;
     open = true;
+    # Power management is nearly always required to get nvidia GPUs to
+    # behave on suspend, due to firmware bugs.
+    powerManagement.enable = true;
   };
 }
