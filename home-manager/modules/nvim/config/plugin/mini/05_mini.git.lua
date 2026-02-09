@@ -1,4 +1,6 @@
-Config.later(function()
+Config.now(function()
+  vim.pack.add({ "https://github.com/tpope/vim-fugitive" })
+
   require("mini.git").setup({ command = { split = "vertical" } })
   vim.api.nvim_set_hl(0, "GitBlameHashRoot", { link = "Tag" })
   vim.api.nvim_set_hl(0, "GitBlameHash", { link = "Identifier" })

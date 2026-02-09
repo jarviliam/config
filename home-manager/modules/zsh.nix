@@ -67,7 +67,7 @@
       hmr = "home-manager remove-generations";
     };
 
-    initExtraBeforeCompInit = '''';
+    initExtraBeforeCompInit = "";
     initContent = ''
         export XDG_CONFIG_HOME="$HOME/.config"
         # Fixes FZF shell integration
@@ -142,6 +142,25 @@
           [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
           export PATH=~/go/bin:~/.local/bin:$PATH
           export SSH_AUTH_SOCK=$HOME/.bitwarden-ssh-agent.sock
+
+      # Custom completion for git-review
+      _git-review() {
+        # _arguments defines how the command handles positions
+        # '1: :__git_ignore_line_arguments' is a trick to use git's internal ref completion
+        _arguments \
+          '1:branch:__git_remote_branch_names' \
+          '2:base:__git_remote_branch_names'
+      }
+
+      # Helper to fetch remote branch names specifically
+      __git_remote_branch_names() {
+        local expl
+        declare -a branches
+        branches=(''${(f)"$(git branch -r --format='%(refname:short)' | sed 's|^origin/||')"})
+        _wanted branches expl 'remote branch' compadd -a branches
+      }
+      # Register the completion
+      compdef _git-review git-review
 
       function awsctx {
         profile=$1
