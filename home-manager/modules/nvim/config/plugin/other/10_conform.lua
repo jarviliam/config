@@ -16,6 +16,8 @@ Config.later(function()
       terraform = { "terraform_fmt" },
       markdown = { "prettierd" },
       html = { "prettierd" },
+      cpp = { "clang_format" },
+      c = { "clang_format" },
       ["_"] = { "trim_whitespace", "trim_newlines" },
     },
     default_format_opts = {

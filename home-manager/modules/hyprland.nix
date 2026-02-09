@@ -33,6 +33,11 @@
             clickfinger_behavior = false;
           };
         };
+
+        cursor = {
+          no_hardware_cursors = true;
+        };
+
         device = {
           name = "epic-mouse-v1";
           sensitivity = -0.5;
@@ -269,9 +274,11 @@
       preload = [
         "~/Wallpapers/house.png"
       ];
-
       wallpaper = [
-        ",~/Wallpapers/house.png"
+        {
+          monitor = "HDMI-A-2";
+          path = "~/Wallpapers/house.png";
+        }
       ];
     };
   };

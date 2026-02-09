@@ -1,7 +1,6 @@
 Config.later(function()
   vim.pack.add({
     "https://github.com/olimorris/codecompanion.nvim",
-    "https://github.com/ravitemer/codecompanion-history.nvim",
   }, { load = true })
 
   local default_strategy = {
@@ -37,31 +36,9 @@ Config.later(function()
       ["Refactor"] = require("plugins.ai.prompts.refactor"),
       ["Documentation"] = require("plugins.ai.prompts.documentation"),
     },
-    extensions = {
-      history = {
-        enabled = true,
-        auto_generate_title = true,
-        auto_save = false,
-        title_generation_opts = {
-          adapter = "copilot",
-          model = "gpt-4.1",
-          refresh_every_n_prompts = 0, -- e.g., 3 to refresh after every 3rd user prompt
-          max_refreshes = 3,
-        },
-        chat_filter = function(chat_data)
-          local seven_days_ago = os.time() - (7 * 24 * 60 * 60)
-          return (chat_data.updated_at >= seven_days_ago) and (chat_data.cwd == vim.fn.getcwd())
-        end,
-        continue_last_chat = false,
-        delete_on_clearing_chat = false,
-        keymap = "gh",
-        picker = "fzf-lua",
-        save_chat_keymap = "sc",
-      },
-    },
     interactions = {
       chat = {
-        adapter = default_strategy,
+        adapter = "opencode",
         slash_commands = {
           buffer = { opts = { provider = "fzf_lua" } },
           file = { opts = { provider = "fzf_lua" } },
@@ -73,7 +50,7 @@ Config.later(function()
         adapter = default_strategy,
       },
       agent = {
-        adapter = default_strategy,
+        adapter = "opencode",
       },
     },
   })
