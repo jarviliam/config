@@ -154,6 +154,10 @@
       "src": "https://github.com/nvim-treesitter/nvim-treesitter-textobjects",
       "version": "'main'"
     },
+    "obsidian.nvim": {
+      "rev": "69ee90aa912f84f4aaa043c69bed48b3f6b0ecce",
+      "src": "https://github.com/obsidian-nvim/obsidian.nvim"
+    },
     "one-small-step-for-vimkind": {
       "rev": "1af6ffb9b5229a856e8090fa2f690e0931a5aace",
       "src": "https://github.com/jbyuki/one-small-step-for-vimkind"

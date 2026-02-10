@@ -30,7 +30,7 @@
     signing = {
       signByDefault = true;
       key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA6dihydKY7KAgf4xHcDYrVl7xF3rXUeDVmxfryqTXzN";
-      format = "ssh";
+      # format = "ssh";
     };
     ignores = [
       ".DS_Store"
