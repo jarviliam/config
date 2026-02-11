@@ -97,7 +97,6 @@ let
     k9s
     awscli2
     ssm-session-manager-plugin
-    # vectorcode
     prr
     htop
     unar
@@ -111,7 +110,6 @@ let
     comma
     manix
     github-cli
-    better-commits
     dwt1-shell-color-scripts
     qbittorrent
     neovim
@@ -122,6 +120,7 @@ let
     typescript-go
     uv
     typos-lsp
+    markdownlint-cli2
 
     tailscale-acl-combiner
   ];
