@@ -57,9 +57,7 @@ rec {
         inherit username;
         enable = true;
         modules = [
-          ./home-manager/modules/linux/x.nix
           ./home-manager/modules/firefox
-          ./home-manager/modules/linux/poly.nix
           ./home-manager/modules/hyprland.nix
           ./home-manager/modules/waybar.nix
         ]

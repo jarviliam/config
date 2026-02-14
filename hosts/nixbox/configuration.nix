@@ -12,17 +12,13 @@
       nerd-fonts.blex-mono
     ];
   };
-  systemd = {
-    services = {
-      systemd-suspend.environment.SYSTEMD_SLEEP_FREEZE_USER_SESSIONS = "false";
-    };
-  };
 
   hardware.nvidia = {
     modesetting.enable = true;
-    open = true;
+    open = false;
     # Power management is nearly always required to get nvidia GPUs to
     # behave on suspend, due to firmware bugs.
     powerManagement.enable = true;
+    nvidiaSettings = true;
   };
 }

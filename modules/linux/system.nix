@@ -45,7 +45,6 @@
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
-    # jack.enable = true;
   };
 
   # Set your time zone.

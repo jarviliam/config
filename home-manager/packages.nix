@@ -121,6 +121,7 @@ let
     uv
     typos-lsp
     markdownlint-cli2
+    imhex
 
     tailscale-acl-combiner
   ];
@@ -151,7 +152,7 @@ let
   nix = with pkgs; [
     nil-language-server
     nixd
-    nixfmt-rfc-style
+    nixfmt
     nixpkgs-fmt
     statix
   ];

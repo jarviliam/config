@@ -114,7 +114,7 @@
             ./hosts/nixbox/configuration.nix
             ./modules/linux/system.nix
             (
-              { pkgs, lib, ... }:
+              { pkgs, ... }:
               {
                 environment.systemPackages = [
                   pkgs.sbctl
