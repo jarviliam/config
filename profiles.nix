@@ -30,6 +30,7 @@ rec {
           ./home-manager/modules/tmux.nix
           ./home-manager/modules/nvim
           ./home-manager/modules/ghostty.nix
+          ./home-manager/modules/nix-index.nix
         ];
         extraConfig = {
           home.stateVersion = stateVersion;
