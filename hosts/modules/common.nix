@@ -37,5 +37,4 @@
 
     optimise.automatic = true;
   };
-  programs.nix-index.enable = true;
 }
