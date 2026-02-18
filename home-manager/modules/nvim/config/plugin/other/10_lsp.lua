@@ -22,6 +22,8 @@ Config.later(function()
     "typos-lsp",
     "zls",
     "terraformls",
+    "superhtml",
+    "tailwindcss",
   }
 
   vim.lsp.enable(servers)

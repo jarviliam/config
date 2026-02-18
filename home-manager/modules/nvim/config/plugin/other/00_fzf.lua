@@ -93,7 +93,7 @@ Config.now(function()
         local op = function()
           fzf.lsp_implementations({ jump1 = true })
         end
-        keymap("gi", op, "Go to implementation")
+        keymap("<leader>gi", op, "Go to implementation")
       end
 
       if client:supports_method(methods.textDocument_definition) then
