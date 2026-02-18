@@ -81,7 +81,17 @@ nmap(L("bW"), C("lua MiniBufremove.wipeout(0, true)"), "Wipeout!")
 -- buffer
 
 nmap(L("co"), C("AerialToggle"), "Symbols Outline")
-nmap(L("cd"), vim.diagnostic.open_float, "Line Diagnostics")
+map({ "n", "x" }, L("ca"), C("lua vim.lsp.buf.code_action()"), "Actions")
+map("n", L("cd"), C("lua vim.diagnostic.open_float()"), "Diagnostic popup")
+map({ "n", "x" }, L("cf"), C("lua require('conform').format({lsp_fallback=true})"), "Format")
+map("n", L("ci"), C("lua vim.lsp.buf.implementation()"), "Implementation")
+map("n", L("cI"), C("LspInfo"), "LSP info")
+map("n", L("ch"), C("lua vim.lsp.buf.hover()"), "Hover")
+map("n", L("cl"), C("lua vim.lsp.codelens.run()"), "Run codelens")
+map("n", L("cL"), C("lua vim.lsp.codelens.refresh()"), "Refresh & display codelens")
+map("n", L("cr"), C("lua vim.lsp.buf.references()"), "References")
+map("n", L("cs"), C("lua vim.lsp.buf.definition()"), "Source definition")
+map("n", L("ct"), C("lua vim.lsp.buf.type_definition()"), "Type definition")
 
 -- explore
 nmap(L("ed"), C("lua MiniFiles.open()"), "Directory (cwd)")
