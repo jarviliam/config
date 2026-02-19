@@ -1,0 +1,7 @@
+/result
+/result-dev
+/result-man
+/.direnv
+/.envrc
+
+.DS_Store
