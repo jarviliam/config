@@ -139,23 +139,15 @@
           "SUPER, Return, exec, ${terminal}"
           "SUPER, F, exec, ${filemanager}"
           "SUPER, B, exec, ${browser}"
-          "SUPER, V, exec, copyq show"
           "SUPER, R, exec, wofi --show drun"
 
-          # "SUPER_SHIFT, Return, exec, ${floating_terminal}"
           "SUPER_SHIFT, S, exec, flameshot gui"
-
-          # tpanel
-          # "SUPER, A, exec, ags toggle launcher"
-          # "SUPER_SHIFT, B, exec, ags toggle bar"
-          # "SUPER_SHIFT, C, exec, ags toggle control-center"
-          # "SUPER_SHIFT, W, exec, ags toggle wallpaper-manager"
-          # "SUPER_SHIFT, R, exec, ags quit; ${pkgs.tpanel}/bin/tpanel"
 
           # hyprland
           "SUPER, Q, killactive"
-          # "SUPER, grave, hyprexpo:expo, toggle"
+          "SUPER, V, togglefloating"
           "SUPER_SHIFT, Q, forcekillactive"
+          "SUPER_SHIFT, F, fullscreen, 0"
           "SUPER_SHIFT, F, fullscreen, 0"
           "SUPER_SHIFT, Space, exec, hyprctl dispatch togglefloating; hyprctl dispatch resizeactive exact 1200 800; hyprctl dispatch centerwindow;"
 

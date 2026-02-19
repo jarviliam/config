@@ -2,8 +2,8 @@ Config.now_if_args(function()
   vim.pack.add({ "https://github.com/MeanderingProgrammer/render-markdown.nvim" }, { load = true })
 
   local md = require("render-markdown")
-
   md.setup({
+    file_types = { "markdown", "vimwiki", "codecompanion" },
     checkbox = {
       enabled = false,
     },

@@ -31,10 +31,15 @@ Config.later(function()
       },
     },
     prompt_library = {
-      ["Optimize"] = require("plugins.ai.prompts.optimize"),
-      ["Pull Request"] = require("plugins.ai.prompts.pr"),
-      ["Refactor"] = require("plugins.ai.prompts.refactor"),
-      ["Documentation"] = require("plugins.ai.prompts.documentation"),
+      markdown = {
+        dirs = {
+          "~/.config/nvim/lua/prompts",
+        },
+      },
+      ["Optimize"] = require("prompts.optimize"),
+      ["Pull Request"] = require("prompts.pr"),
+      ["Refactor"] = require("prompts.refactor"),
+      ["Documentation"] = require("prompts.documentation"),
     },
     interactions = {
       chat = {
