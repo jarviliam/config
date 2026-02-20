@@ -3,7 +3,6 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
-    nix-master.url = "github:nixos/nixpkgs/master";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -18,19 +17,22 @@
     };
     nil-language-server.url = "github:oxalica/nil";
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
+    ghostty = {
+      url = "github:ghostty-org/ghostty";
+    };
   };
 
   outputs =
     {
       self,
       nixpkgs,
-      nix-master,
       flake-utils,
       darwin,
       home-manager,
       nix-index-database,
       nil-language-server,
       neovim-nightly-overlay,
+      ghostty,
       ...
     }:
     let
@@ -54,7 +56,9 @@
     rec {
       packages = lib.packagesFromOverlay self.overlays.default;
       inherit lib;
-      overlays.default = import ./pkgs/import.nix { inherit neovim-nightly-overlay nil-language-server; };
+      overlays.default = import ./pkgs/import.nix {
+        inherit neovim-nightly-overlay nil-language-server ghostty;
+      };
 
       nixosConfigurations = {
         nixtop = lib.createSystem profiles.liam-linux {

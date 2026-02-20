@@ -1,11 +1,13 @@
 {
+  pkgs,
   ...
 }:
 {
   programs.ghostty = {
+    package = pkgs.ghostty-nightly;
     enable = true;
     settings = {
-      theme = "Everforest Dark Hard";
+      theme = "dark:Everforest Dark Hard,light:Everforest Light Med";
       font-size = 11;
 
       font-family = "Blex Mono";

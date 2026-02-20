@@ -1,4 +1,9 @@
-{ neovim-nightly-overlay, nil-language-server, ... }:
+{
+  neovim-nightly-overlay,
+  nil-language-server,
+  ghostty,
+  ...
+}:
 final: prev:
 let
   pkgs = final;
@@ -6,6 +11,8 @@ in
 with pkgs;
 {
   neovim = neovim-nightly-overlay.packages.${system}.default;
+
+  ghostty-nightly = ghostty.packages.${system}.default;
 
   zmx = final.callPackage ./zmx.nix { };
 
