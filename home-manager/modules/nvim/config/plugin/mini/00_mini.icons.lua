@@ -3,4 +3,5 @@ Config.now(function()
 
   MiniIcons.mock_nvim_web_devicons()
   MiniIcons.tweak_lsp_kind()
+  Config.populate_symbol_map()
 end)

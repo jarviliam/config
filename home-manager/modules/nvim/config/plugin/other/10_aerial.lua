@@ -1,7 +1,8 @@
 Config.later(function()
-  vim.pack.add({ "https://github.com/stevearc/aerial.nvim" }, {
+  vim.pack.add({ "https://github.com/jarviliam/aerial.nvim" }, {
     load = true,
   })
+
   require("aerial").setup({
     attach_mode = "global",
     backends = { "lsp", "treesitter", "markdown", "man" },
@@ -27,6 +28,30 @@ Config.later(function()
       ["[["] = false,
       ["]]"] = false,
     },
+
+    get_highlight = function(symbol, is_icon, is_collapsed)
+      local kind_map = Config._cachedSymbols
+      if kind_map == nil then
+        return nil
+      end
+      local kind = kind_map[symbol.kind]
+      -- If the symbol has a non-public scope, use that as the highlight group (e.g. AerialPrivate)
+      if symbol.scope and not is_icon and symbol.scope ~= "public" then
+        return string.format("Aerial%s", symbol.scope:gsub("^%l", string.upper))
+      end
+
+      local out = string.format("Aerial%s%s", kind, is_icon and "Icon" or "")
+      return out
+    end,
+    custom_icon_provider = function(kind)
+      local kind_map = Config._cachedSymbols
+      if kind_map == nil then
+        return ""
+      end
+      if kind_map[kind] ~= nil then
+        return MiniIcons.get("lsp", kind_map[kind])
+      end
+    end,
     on_attach = function(bufnr)
       vim.keymap.set("n", "]y", function()
         require("aerial").next(vim.v.count1)

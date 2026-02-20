@@ -45,11 +45,11 @@ Config.now_if_args(function()
     "typescript",
     "vim",
     "yaml",
-    "ziggy",
-    "ziggy-schema",
+    -- "ziggy",
+    -- "ziggy-schema",
     "superhtml",
-    "supermd",
-    "supermd_inline",
+    -- "supermd",
+    -- "supermd_inline",
   }
 
   require("nvim-treesitter").install(ensure_languages)
