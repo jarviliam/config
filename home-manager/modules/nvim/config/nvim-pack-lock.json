@@ -4,45 +4,17 @@
       "rev": "1900f89dc17c603eec29960f57c00bd9ae696495",
       "src": "https://github.com/antoinemadec/FixCursorHold.nvim"
     },
-    "LuaSnip": {
-      "rev": "dae4f5aaa3574bd0c2b9dd20fb9542a02c10471c",
-      "src": "https://github.com/L3MON4D3/LuaSnip"
-    },
     "SchemaStore.nvim": {
-      "rev": "55ca969ceed5209d62cbf4c20cef023ff188b6c5",
+      "rev": "187cd24e8714221679ab8ea3ea02da80e05e8513",
       "src": "https://github.com/b0o/SchemaStore.nvim"
     },
     "aerial.nvim": {
       "rev": "7a6a42791eb2b54a7115c7db4488981f93471770",
       "src": "https://github.com/jarviliam/aerial.nvim"
     },
-    "blink-cmp-conventional-commits": {
-      "rev": "faa45344aab97aa33ece53938c4c3379760e61bd",
-      "src": "https://github.com/disrupted/blink-cmp-conventional-commits"
-    },
-    "blink-cmp-dictionary": {
-      "rev": "a39c05e1f535ecf89b95777e471d0bf2569acb8b",
-      "src": "https://github.com/Kaiser-Yang/blink-cmp-dictionary"
-    },
-    "blink-cmp-git": {
-      "rev": "e3ad0ffaaa3b3b7e2158cc72cd6dad2d19842c46",
-      "src": "https://github.com/Kaiser-Yang/blink-cmp-git"
-    },
-    "blink.cmp": {
-      "rev": "cd79f572971c58784ca72551af29af3a63da9168",
-      "src": "https://github.com/saghen/blink.cmp"
-    },
-    "codecompanion-history.nvim": {
-      "rev": "bc1b4fe06eaaf0aa2399be742e843c22f7f1652a",
-      "src": "https://github.com/ravitemer/codecompanion-history.nvim"
-    },
     "codecompanion.nvim": {
       "rev": "558518f8d78a44198cd428f6bf8bf48bfa38d76d",
       "src": "https://github.com/olimorris/codecompanion.nvim"
-    },
-    "colorful-menu.nvim": {
-      "rev": "b51a659459df8d078201aefc995db8175ed55e84",
-      "src": "https://github.com/xzbdmw/colorful-menu.nvim"
     },
     "conform.nvim": {
       "rev": "c2526f1cde528a66e086ab1668e996d162c75f4f",
@@ -51,10 +23,6 @@
     "everforest-nvim": {
       "rev": "557bce922401e247a596583679bc181d4d688554",
       "src": "https://github.com/neanias/everforest-nvim"
-    },
-    "flash.nvim": {
-      "rev": "fcea7ff883235d9024dc41e638f164a450c14ca2",
-      "src": "https://github.com/folke/flash.nvim"
     },
     "friendly-snippets": {
       "rev": "6cd7280adead7f586db6fccbd15d2cac7e2188b9",
@@ -141,7 +109,7 @@
       "src": "https://github.com/nvim-neotest/nvim-nio"
     },
     "nvim-treesitter": {
-      "rev": "3edb01f912867603c2aef9079f208f0244c0885b",
+      "rev": "fcd51bbe9245aa9b79a3930ed9ac42e16e1cf33f",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter",
       "version": "'main'"
     },
