@@ -48,7 +48,7 @@ Config.later(function()
       if kind_map == nil then
         return ""
       end
-      return MiniIcons.get("lsp", kind_map[kind])
+      return MiniIcons.get("lsp", kind_map[kind] or kind)
     end,
     on_attach = function(bufnr)
       vim.keymap.set("n", "]y", function()
