@@ -93,6 +93,20 @@ rec {
     extraConfig = liam.extraConfig;
   };
 
+  lab =
+    let
+      username = "admin";
+    in
+    {
+      inherit username;
+      modules = [ ];
+      home-manager = {
+        inherit username;
+      };
+      extraConfig = liam.extraConfig // {
+        # system.stateVersion = stateVersion;
+      };
+    };
   vm =
     let
       username = "liam";

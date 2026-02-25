@@ -100,6 +100,12 @@
             ];
           };
         };
+        lab = lib.createSystem profiles.lab {
+          system = "x86_64-linux";
+          modules = [
+            ./hosts/lab/configuration.nix
+          ];
+        };
       };
 
       darwinConfigurations = {
