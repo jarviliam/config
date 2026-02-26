@@ -1,7 +1,3 @@
-# Edit this configuration file to define what should be installed on
-# your system. Help is available in the configuration.nix(5) man page, on
-# https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
-
 {
   config,
   lib,
@@ -12,12 +8,14 @@
 {
   imports = [
     ./hardware-configuration.nix
+    ./modules/adguard.nix
   ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
+
   services.homepage-dashboard = {
     enable = true;
     listenPort = 8082;
@@ -58,6 +56,17 @@
                 url = "http://localhost:8123";
                 key = "{{HOMEPAGE_VAR_HASS_TOKEN}}";
               };
+            };
+          }
+        ];
+      }
+      {
+        "Network" = [
+          {
+            "AdGuard Home" = {
+              href = "http://10.32.1.100:3000";
+              ping = "http://10.32.1.100:3000";
+              icon = "adguard-home";
             };
           }
         ];

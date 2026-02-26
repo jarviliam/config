@@ -276,7 +276,7 @@
       ];
       wallpaper = [
         {
-          monitor = "HDMI-A-2";
+          monitor = "HDMI-A-1";
           path = "~/Wallpapers/house.png";
         }
       ];
