@@ -1,11 +1,10 @@
 {
-  config,
   pkgs,
   lib,
+  roles,
   ...
 }:
 let
-  roles = config.my.meta.roles or [ ];
   hasRole = role: lib.elem role roles;
 in
 {

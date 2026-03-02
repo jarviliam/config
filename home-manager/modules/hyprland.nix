@@ -8,7 +8,6 @@
       xdg-desktop-portal-gtk
     ];
   };
-  services.swaync.enable = true;
   programs.wofi = {
     enable = true;
     settings = {
@@ -144,7 +143,7 @@
         bind = [
           # apps
           "SUPER, Return, exec, ${terminal}"
-          "SUPER, F, exec, ${filemanager}"
+          "SUPER, E, exec, ${filemanager}"
           "SUPER, B, exec, ${browser}"
           "SUPER, R, exec, wofi --show drun"
 
@@ -159,7 +158,7 @@
           "SUPER_SHIFT, Space, exec, hyprctl dispatch togglefloating; hyprctl dispatch resizeactive exact 1200 800; hyprctl dispatch centerwindow;"
 
           # shutdown
-          "SUPER_SHIFT, P, exec, poweroff"
+          "SUPER_SHIFT, P, exec, dms ipc call powermenu toggle"
 
           # lock
           "SUPER_SHIFT, L, exec, hyprlock"
@@ -185,6 +184,9 @@
 
           "SUPER, tab, workspace, -1"
           "SUPER_SHIFT, tab, workspace, +1"
+
+          # Show Notifications
+          "SUPER_SHIFT, n, exec, dms ipc call notifications toggle"
 
           # send to workspaces
           "SUPER_SHIFT, 1, movetoworkspacesilent, 1"

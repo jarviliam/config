@@ -85,6 +85,10 @@ rec {
         inherit username;
         flakePath = "/home/liam/.setup";
         homeDirectory = "/home/liam/";
+        roles = [
+          "dev"
+          "graphical"
+        ];
       };
       extraConfig = liam.extraConfig // {
         system.stateVersion = stateVersion;
@@ -106,6 +110,10 @@ rec {
       username = "liam.jarvis";
       flakePath = "/Users/liam.jarvis/.setup";
       homeDirectory = "/Users/liam.jarvis";
+      roles = [
+        "dev"
+        "work"
+      ];
     };
     extraConfig = liam.extraConfig;
   };
@@ -142,6 +150,10 @@ rec {
         inherit username;
         flakePath = "/home/liam/.setup";
         homeDirectory = "/home/liam";
+        roles = [
+          "dev"
+          "work"
+        ];
       };
       extraConfig = liam.extraConfig;
     };

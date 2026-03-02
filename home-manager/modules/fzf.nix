@@ -2,14 +2,14 @@
   config,
   lib,
   pkgs,
+  roles,
   ...
 }:
 let
-  roles = config.my.meta.roles or [ ];
   hasRole = role: lib.elem role roles;
 in
 {
-  config = lib.mkIf hasRole "dev" {
+  config = lib.mkIf (hasRole "dev") {
     programs.fzf = {
       enable = true;
       fileWidgetCommand = "${pkgs.fd}/bin/fd --type f";

@@ -4,6 +4,12 @@
     ./hardware-configuration.nix
     ../modules/hyprland.nix
   ];
+
+  my.meta.roles = [
+    "dev"
+    "graphical"
+  ];
+
   fonts = {
     packages = with pkgs; [
       noto-fonts-cjk-sans
@@ -21,4 +27,5 @@
     powerManagement.enable = true;
     nvidiaSettings = true;
   };
+
 }
