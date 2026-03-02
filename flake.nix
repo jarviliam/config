@@ -116,11 +116,6 @@
           modules = [
             ./hosts/snowball/configuration.nix
           ];
-          home-manager = {
-            modules = [
-              ./home-manager/modules/bug-warrior.nix
-            ];
-          };
         };
         lab = lib.createSystem profiles.lab {
           system = "x86_64-linux";
