@@ -271,21 +271,6 @@
     };
   };
 
-  services.hyprpaper = {
-    enable = true;
-    settings = {
-      preload = [
-        "~/Wallpapers/house.png"
-      ];
-      wallpaper = [
-        {
-          monitor = "HDMI-A-1";
-          path = "~/Wallpapers/house.png";
-        }
-      ];
-    };
-  };
-
   services.hypridle = {
     enable = true;
     settings = {

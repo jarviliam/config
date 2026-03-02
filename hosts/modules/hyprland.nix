@@ -15,7 +15,6 @@
     loupe
     hyprlock
     hypridle
-    hyprpaper
     hyprpicker
     libnotify
     wl-clipboard
