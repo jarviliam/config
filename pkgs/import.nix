@@ -2,6 +2,7 @@
   neovim-nightly-overlay,
   nil-language-server,
   ghostty,
+  llm-agents,
   ...
 }:
 final: prev:
@@ -11,6 +12,7 @@ in
 with pkgs;
 {
   neovim = neovim-nightly-overlay.packages.${system}.default;
+  llm-agents = llm-agents.overlays.default;
 
   ghostty-nightly = ghostty.packages.${system}.default;
 

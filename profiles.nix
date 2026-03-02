@@ -1,7 +1,7 @@
 {
   self,
   nixpkgs,
-  lib,
+  sops-nix,
   nix-index-database,
 }:
 rec {
@@ -13,9 +13,17 @@ rec {
     {
       inherit username;
       commonSpecialArgs = {
-        inherit username nixpkgs nix-index-database;
+        inherit
+          username
+          nixpkgs
+          nix-index-database
+          sops-nix
+          ;
       };
-      modules = [ ./modules/nix.nix ];
+      modules = [
+        ./secrets/default.nix
+        ./modules/nix.nix
+      ];
       home-manager = {
         enable = true;
         inherit username;
@@ -31,6 +39,16 @@ rec {
           ./home-manager/modules/nvim
           ./home-manager/modules/ghostty.nix
           ./home-manager/modules/nix-index.nix
+          sops-nix.homeManagerModules.sops
+          (
+            { config, ... }:
+            {
+              sops = {
+                age.keyFile = "${config.xdg.configHome}/sops/age/keys.txt";
+                defaultSopsFile = ./secrets/shared.yaml;
+              };
+            }
+          )
         ];
         extraConfig = {
           home.stateVersion = stateVersion;
@@ -49,6 +67,7 @@ rec {
     // {
       inherit username;
       modules = [
+        sops-nix.nixosModules.sops
         ./hosts/modules/common.nix
         ./modules/linux/network.nix
         ./modules/linux/window.nix
@@ -99,7 +118,10 @@ rec {
     in
     {
       inherit username;
-      modules = [ ];
+      modules = [
+        sops-nix.nixosModules.sops
+        ./secrets/default.nix
+      ];
       home-manager = {
         inherit username;
       };

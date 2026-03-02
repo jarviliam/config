@@ -10,6 +10,9 @@ Config.later(function()
 
   local code = require("codecompanion")
   code.setup({
+    opts = {
+      log_level = "TRACE",
+    },
     display = {
       action_palette = {
         provider = "fzf_lua",

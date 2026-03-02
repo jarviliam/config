@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    llm-agents.url = "github:numtide/llm-agents.nix";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -13,6 +14,10 @@
     };
     nix-index-database = {
       url = "github:Mic92/nix-index-database";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nil-language-server.url = "github:oxalica/nil";
@@ -33,6 +38,8 @@
       nil-language-server,
       neovim-nightly-overlay,
       ghostty,
+      sops-nix,
+      llm-agents,
       ...
     }:
     let
@@ -48,8 +55,8 @@
         inherit
           self
           nixpkgs
-          lib
           nix-index-database
+          sops-nix
           ;
       };
     in
@@ -57,7 +64,12 @@
       packages = lib.packagesFromOverlay self.overlays.default;
       inherit lib;
       overlays.default = import ./pkgs/import.nix {
-        inherit neovim-nightly-overlay nil-language-server ghostty;
+        inherit
+          neovim-nightly-overlay
+          nil-language-server
+          ghostty
+          llm-agents
+          ;
       };
 
       nixosConfigurations = {

@@ -124,6 +124,7 @@ let
     imhex
 
     tailscale-acl-combiner
+    # llm-agents.amp
   ];
 
   node = with pkgs; [

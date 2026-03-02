@@ -9,12 +9,52 @@
   imports = [
     ./hardware-configuration.nix
     ./modules/adguard.nix
+    ./modules/paperless.nix
+    ./modules/mealie.nix
   ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
+
+  services.zigbee2mqtt = {
+    enable = true;
+    settings = {
+      homeassistant.enabled = true;
+      permit_join = true;
+      frontend = {
+        enabled = true;
+        port = 9666;
+        host = "0.0.0.0";
+      };
+      mqtt = {
+        user = "zigbee";
+        password = "zigbee";
+      };
+      serial = {
+        port = "/dev/serial/by-id/usb-1a86_USB_Serial-if00-port0";
+        adapter = "zstack";
+      };
+    };
+  };
+  sops.secrets."mosquitto/ha_password" = { };
+  services.mosquitto = {
+    enable = true;
+    listeners = [
+      {
+        acl = [ ];
+        users.zigbee = {
+          acl = [ "readwrite #" ];
+          password = "zigbee";
+        };
+        users.ha = {
+          acl = [ "readwrite #" ];
+          passwordFile = config.sops.secrets."mosquitto/ha_password".path;
+        };
+      }
+    ];
+  };
 
   services.homepage-dashboard = {
     enable = true;
@@ -158,6 +198,7 @@
       "wheel"
       "incus-admin"
       "libvirtd"
+      "paperless"
     ]; # Enable ‘sudo’ for the user.
     packages = with pkgs; [
       tree
@@ -166,6 +207,13 @@
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID6sJ9Oj3PnVYqgWraA+uW5MCrESyWD8Grizj3C9Yfrb"
     ];
   };
+
+  # users.users.paperless = {
+  #   uid = 315;
+  #   gid = 315;
+  #   description = "Paperless-ngx document management - NixOS default";
+  #   extraGroups = [ ];
+  # };
 
   environment.systemPackages = with pkgs; [
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
@@ -194,6 +242,8 @@
       PermitRootLogin = "no";
     };
   };
+  sops.age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
+
   nix.settings.experimental-features = "nix-command flakes";
 
   networking = {
