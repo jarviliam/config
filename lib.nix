@@ -67,7 +67,11 @@ rec {
     in
     systemFunc {
       inherit system;
-      specialArgs = { inherit system; } // _commonSpecialArgs // _specialArgs;
+      specialArgs = {
+        inherit system;
+      }
+      // _commonSpecialArgs
+      // _specialArgs;
       modules =
         lib.optionals _home-manager.enable [
           homeFunc
@@ -77,8 +81,10 @@ rec {
             home-manager.useUserPackages = true;
             home-manager.extraSpecialArgs = {
               inherit system;
-            } // _commonSpecialArgs;
-            home-manager.sharedModules = _home-manager.modules;
+            }
+            // _commonSpecialArgs;
+            # Import Home Manager modules only once per user to avoid
+            # duplicate option declarations (e.g. programs.dank-material-shell.*).
             home-manager.users.${_username}.imports = _home-manager.modules;
           }
         ]

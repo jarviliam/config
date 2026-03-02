@@ -8,7 +8,6 @@
       xdg-desktop-portal-gtk
     ];
   };
-  programs.waybar.enable = true;
   services.swaync.enable = true;
   programs.wofi = {
     enable = true;
@@ -17,6 +16,14 @@
       width = "50%";
       height = "40%";
     };
+  };
+  programs.dank-material-shell = {
+    enable = true;
+    systemd.enable = true;
+    enableSystemMonitoring = true;
+    enableDynamicTheming = true;
+    enableAudioWavelength = true;
+    enableCalendarEvents = true;
   };
   wayland.windowManager.hyprland = {
     enable = true;
@@ -214,10 +221,6 @@
 
           # performance
           " , XF86Launch4, exec, asusctl profile -n"
-        ];
-
-        "exec-once" = [
-          "waybar"
         ];
       };
 

@@ -17,7 +17,6 @@
     hypridle
     hyprpaper
     hyprpicker
-    waybar
     libnotify
     wl-clipboard
   ];

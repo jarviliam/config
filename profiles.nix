@@ -79,7 +79,6 @@ rec {
         modules = [
           ./home-manager/modules/firefox
           ./home-manager/modules/hyprland.nix
-          ./home-manager/modules/waybar.nix
         ]
         ++ liam.home-manager.modules;
       };

@@ -25,6 +25,10 @@
     ghostty = {
       url = "github:ghostty-org/ghostty";
     };
+    dms = {
+      url = "github:AvengeMedia/DankMaterialShell/stable";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -40,6 +44,7 @@
       ghostty,
       sops-nix,
       llm-agents,
+      dms,
       ...
     }:
     let
@@ -97,6 +102,11 @@
               }
             )
           ];
+          home-manager = {
+            modules = [
+              dms.homeModules.dank-material-shell
+            ];
+          };
           commonSpecialArgs = {
             hostname = "nixos";
           };
