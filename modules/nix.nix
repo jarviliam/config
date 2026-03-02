@@ -1,8 +1,30 @@
 {
+  lib,
+  config,
   pkgs,
   ...
 }:
+let
+  cfg = config.my.meta;
+in
 {
+  options.my.meta.roles = lib.mkOption {
+    type =
+      with lib.types;
+      listOf (
+        lib.types.enum [
+          "dev"
+          "graphical"
+          "work"
+        ]
+      );
+    default = [
+      "dev"
+      "graphical"
+      "work"
+    ];
+    description = "High-level Home Manager roles: dev, graphical, work.";
+  };
   nixpkgs.config.allowUnfree = true;
   nix = {
     package = pkgs.nixVersions.latest;
