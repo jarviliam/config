@@ -35,7 +35,6 @@ rec {
           ./home-manager/modules/bat.nix
           ./home-manager/modules/fzf.nix
           ./home-manager/modules/bitwarden.nix
-          ./home-manager/modules/tmux.nix
           ./home-manager/modules/nvim
           ./home-manager/modules/ghostty.nix
           ./home-manager/modules/nix-index.nix
