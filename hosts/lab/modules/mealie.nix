@@ -13,6 +13,7 @@
     enable = true;
     port = 9000;
     listenAddress = "0.0.0.0";
+
     database.createLocally = true;
     credentialsFile = config.sops.templates."mealie.env".path;
     settings = {

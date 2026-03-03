@@ -23,14 +23,14 @@
     settings = {
       homeassistant.enabled = true;
       permit_join = true;
+      mqtt = {
+        user = "zigbee";
+        password = "zigbee";
+      };
       frontend = {
         enabled = true;
         port = 9666;
         host = "0.0.0.0";
-      };
-      mqtt = {
-        user = "zigbee";
-        password = "zigbee";
       };
       serial = {
         port = "/dev/serial/by-id/usb-1a86_USB_Serial-if00-port0";
@@ -41,6 +41,7 @@
   sops.secrets."mosquitto/ha_password" = { };
   services.mosquitto = {
     enable = true;
+    logType = [ "all" ];
     listeners = [
       {
         acl = [ ];
@@ -251,7 +252,11 @@
     useNetworkd = true;
     hostId = "799fcb65";
     nftables.enable = true;
-    firewall.enable = false;
+    firewall = {
+      allowedTCPPorts = [ 22 ];
+      allowedUDPPorts = [ ];
+      enable = false;
+    };
   };
 
   systemd.network = {

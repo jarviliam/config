@@ -65,22 +65,19 @@
     nettools
   ];
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
-  services.openssh.settings.StreamLocalBindUnlink = "yes"; # Clean up old sockets automatically
-  services.openssh.settings.PasswordAuthentication = true;
-  services.openssh.settings.AllowStreamLocalForwarding = "yes";
-  services.openssh.settings.PermitRootLogin = "yes";
+  services.openssh = {
+    enable = true;
+    settings = {
+      StreamLocalBindUnlink = "yes"; # Clean up old sockets automatically
+      PasswordAuthentication = false;
+      AllowStreamLocalForwarding = "yes";
+      KbdInteractiveAuthentication = false;
+      PermitRootLogin = "no";
+    };
+  };
 
   programs.gnupg.agent = {
     enable = true;

@@ -5,7 +5,7 @@
   services.paperless = {
     enable = true;
     port = 2891;
-    address = "0.0.0.0";
+    address = "10.32.1.100";
 
     mediaDir = "/var/lib/paperless/media";
     consumptionDir = "/var/lib/paperless/consume";
