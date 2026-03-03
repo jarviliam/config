@@ -84,10 +84,6 @@
       # send window to monitor and follow focus
           shift + alt - n : yabai -m window --display next && yabai -m display --focus next
           shift + alt - p : yabai -m window --display previous && yabai -m display --focus previous
-
-          # cmd - return : ${pkgs.wezterm}/bin/wezterm connect unix
-          cmd - return : ${pkgs.wezterm}/bin/wezterm
-          # cmd - return : /etc/profiles/per-user/liam.jarvis/bin/wezterm
     '';
   };
   launchd.user.agents.skhd.serviceConfig = {
