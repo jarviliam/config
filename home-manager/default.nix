@@ -3,11 +3,11 @@
   flakePath,
   pkgs,
   lib,
+  roles,
   ...
 }:
 let
   isLinux = pkgs.stdenvNoCC.isLinux;
-  roles = config.my.meta.roles or [ ];
   hasRole = role: lib.elem role roles;
 in
 {
