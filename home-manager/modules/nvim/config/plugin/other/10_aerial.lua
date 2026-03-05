@@ -1,7 +1,5 @@
 Config.later(function()
-  vim.pack.add({ "https://github.com/jarviliam/aerial.nvim" }, {
-    load = true,
-  })
+  vim.pack.add({ "https://github.com/jarviliam/aerial.nvim" })
 
   require("aerial").setup({
     attach_mode = "global",
@@ -29,7 +27,7 @@ Config.later(function()
       ["]]"] = false,
     },
 
-    get_highlight = function(symbol, is_icon, is_collapsed)
+    get_highlight = function(symbol, is_icon, _)
       local kind_map = Config._cachedSymbols
       if kind_map == nil then
         return nil

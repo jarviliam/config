@@ -25,6 +25,7 @@ return {
         },
         globals = {
           "LazyVim",
+          "Config",
           "Snacks",
           "bit",
           "colors",

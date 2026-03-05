@@ -2,7 +2,7 @@ Config.later(function()
   vim.pack.add({ "https://github.com/mfussenegger/nvim-lint" }, { load = true })
 
   local lint = require("lint")
-  lint.linters.luacheck.args = { "--globals", "vim", "--formatter", "plain", "--codes", "--ranges", "-" }
+  lint.linters.luacheck.args = { "--globals", "vim", "Config", "--formatter", "plain", "--codes", "--ranges", "-" }
   lint.linters.yamllint.args = {
     "--config",
     "~/.config/yamllint.yml",
