@@ -1,9 +1,5 @@
 { pkgs, lib, ... }:
 {
-  programs.taskwarrior = {
-    enable = true;
-    package = pkgs.taskwarrior3;
-  };
   programs.zsh = {
     enable = true;
     autocd = true;
@@ -67,7 +63,9 @@
       hmr = "home-manager remove-generations";
     };
 
-    initExtraBeforeCompInit = "";
+    initExtraBeforeCompInit = "
+      fpath+=(~/Coding/prr/completions)
+    ";
     initContent = ''
         export XDG_CONFIG_HOME="$HOME/.config"
         # Fixes FZF shell integration
@@ -161,6 +159,8 @@
       }
       # Register the completion
       compdef _git-review git-review
+
+
 
       function awsctx {
         profile=$1

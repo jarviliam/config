@@ -30,6 +30,8 @@ with pkgs;
 
   tailscale-acl-combiner = final.callPackage ./tailscale-acl-combiner.nix { };
 
+  ob-hd = final.callPackage ./ob-hd.nix { };
+
   bitwarden-cli = prev.bitwarden-cli.overrideAttrs (oldAttrs: {
     nativeBuildInputs = (oldAttrs.nativeBuildInputs or [ ]) ++ [ prev.llvmPackages_18.stdenv.cc ];
     stdenv = prev.llvmPackages_18.stdenv;

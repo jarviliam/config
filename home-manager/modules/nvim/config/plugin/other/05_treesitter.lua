@@ -10,6 +10,25 @@ Config.now_if_args(function()
   end
   Config.on_packchanged("tree-sitter", { "update" }, ts_update, "Update tree-sitter parsers")
 
+  local function register_ts()
+    require("nvim-treesitter.parsers").prr = {
+      install_info = {
+        path = "/home/liam/Coding/prr-nvim",
+        files = { "src/parser.c" },
+        queries = "queries",
+      },
+      filetype = "prr",
+      tier = 3,
+    }
+  end
+
+  Config.new_autocmd("User", {
+    pattern = "TSUpdate",
+    callback = register_ts,
+  })
+
+  register_ts()
+
   local ensure_languages = {
     "bash",
     "c",
@@ -35,7 +54,6 @@ Config.now_if_args(function()
     "markdown_inline",
     "nix",
     "po",
-    -- "prr",
     "python",
     "query",
     "regex",
@@ -45,14 +63,17 @@ Config.now_if_args(function()
     "typescript",
     "vim",
     "yaml",
+    "prr",
     -- "ziggy",
     -- "ziggy-schema",
     "superhtml",
     -- "supermd",
     -- "supermd_inline",
   }
+  vim.treesitter.language.register("prr", "prr")
 
-  require("nvim-treesitter").install(ensure_languages)
+  local ts = require("nvim-treesitter")
+  ts.install(ensure_languages)
 
   local filetypes = vim.iter(ensure_languages):map(vim.treesitter.language.get_filetypes):flatten():totable()
 

@@ -24,6 +24,7 @@ Config.later(function()
     "terraformls",
     "superhtml",
     "tailwindcss",
+    "rust-analyzer",
   }
 
   vim.lsp.enable(servers)

@@ -99,8 +99,6 @@ rec {
     username = "liam.jarvis";
     modules = [
       ./modules/darwin
-      ./modules/darwin/yabai
-      ./modules/darwin/skhd
     ]
     ++ liam.modules;
     home-manager = liam.home-manager // {
@@ -141,7 +139,10 @@ rec {
     in
     {
       inherit username;
-      modules = [ ] ++ liam.modules;
+      modules = [
+        sops-nix.nixosModules.sops
+      ]
+      ++ liam.modules;
       home-manager = liam.home-manager // {
         inherit username;
         modules = liam.home-manager.modules;

@@ -109,6 +109,7 @@ let
     nix-prefetch-git
     comma
     manix
+    ob-hd
     github-cli
     dwt1-shell-color-scripts
     qbittorrent
