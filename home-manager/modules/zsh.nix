@@ -160,8 +160,6 @@
       # Register the completion
       compdef _git-review git-review
 
-
-
       function awsctx {
         profile=$1
         if [[ -z "$profile" ]]; then
