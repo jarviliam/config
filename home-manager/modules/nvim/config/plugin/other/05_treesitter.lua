@@ -13,7 +13,7 @@ Config.now_if_args(function()
   local function register_ts()
     require("nvim-treesitter.parsers").prr = {
       install_info = {
-        path = "/home/liam/Coding/prr-nvim",
+        path = "/home/liam/Coding/tree-sitter-prr",
         files = { "src/parser.c" },
         queries = "queries",
       },

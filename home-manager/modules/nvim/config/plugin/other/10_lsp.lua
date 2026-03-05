@@ -1,5 +1,5 @@
 Config.later(function()
-  vim.pack.add({ "https://github.com/neovim/nvim-lspconfig" }, { load = true })
+  vim.pack.add({ "https://github.com/neovim/nvim-lspconfig" })
 
   vim.uv.fs_unlink(vim.lsp.log.get_filename())
   vim.lsp.log.set_level(vim.lsp.log.levels.WARN)
@@ -24,7 +24,7 @@ Config.later(function()
     "terraformls",
     "superhtml",
     "tailwindcss",
-    "rust-analyzer",
+    "rust_analyzer",
   }
 
   vim.lsp.enable(servers)

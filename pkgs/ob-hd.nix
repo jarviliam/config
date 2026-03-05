@@ -1,10 +1,12 @@
 {
   lib,
+  pkgs,
   stdenv,
   fetchFromGitHub,
   nodejs,
-  pnpm,
   makeWrapper,
+  fetchPnpmDeps,
+  pnpmConfigHook,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -20,12 +22,13 @@ stdenv.mkDerivation (finalAttrs: {
 
   nativeBuildInputs = [
     nodejs
-    pnpm.configHook
+    pkgs.pnpm
+    pnpmConfigHook
     makeWrapper
   ];
 
   # This is the "magic" part that replaces npmDepsHash
-  pnpmDeps = pnpm.fetchDeps {
+  pnpmDeps = fetchPnpmDeps {
     inherit (finalAttrs) pname version src;
     hash = "sha256-6ir0GHlub+iPxfanMvWNOCafdN654OIqwDjli+hLSLM=";
     fetcherVersion = 1;

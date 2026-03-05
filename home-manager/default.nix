@@ -32,7 +32,7 @@ in
       };
     };
     services.gpg-agent = {
-      enable = isLinux;
+      enable = false;
       pinentry.package = pkgs.pinentry-tty;
       enableSshSupport = true;
       enableZshIntegration = true;

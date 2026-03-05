@@ -1,4 +1,113 @@
 { pkgs, lib, ... }:
+let
+
+  constants = ''
+    [[ -f "~/.zshrc.local" ]] && source ~/.zshrc.local
+    export SSH_AUTH_SOCK=$HOME/.bitwarden-ssh-agent.sock
+    fpath+=(~/Coding/prr/completions)
+  '';
+
+  fzf = ''
+    # https://github.com/junegunn/fzf?tab=readme-ov-file#settings
+    FZF_COMPLETION_TRIGGER='..'
+
+    # Use fd (https://github.com/sharkdp/fd) for listing path candidates.
+    _fzf_compgen_path() { fd --hidden --follow --exclude ".git" . "$1" }
+
+    # Use fd to generate the list for directory completion
+    _fzf_compgen_dir() { fd --type d --hidden --follow --exclude ".git" . "$1" }
+  '';
+
+  fzfTab = ''
+    # switch group using `<` and `>`
+    zstyle ':fzf-tab:*' switch-group '<' '>'
+
+    # trigger continuous trigger with space key
+    zstyle ':fzf-tab:*' continuous-trigger 'space'
+
+    # bind tab key to accept event
+    zstyle ':fzf-tab:*' fzf-bindings 'tab:accept'
+
+    # accept and run suggestion with enter key
+    zstyle ':fzf-tab:*' accept-line enter
+
+    #### FZF-TAB SUGGESTION ADDITIONS ####
+    # give a preview of commandline arguments when completing `kill`
+    zstyle ':completion:*:*:*:*:processes' command "ps -u $USER -o pid,user,comm -w -w"
+    zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-preview \
+      '[[ $group == "[process ID]" ]] && ps --pid=$word -o cmd --no-headers -w -w'
+    zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-flags --preview-window=down:3:wrap
+
+     # preview environment variable
+    zstyle ':fzf-tab:complete:(-command-|-parameter-|-brace-parameter-|export|unset|expand):*' \
+      fzf-preview 'echo ''${(P)word}'
+
+    # Show systemd unit status
+    zstyle ':fzf-tab:complete:systemctl-*:*' fzf-preview 'SYSTEMD_COLORS=1 systemctl status $word'
+
+    # Show git
+    zstyle ':fzf-tab:complete:git-(add|diff|restore):*' fzf-preview \
+      'git diff $word | delta'
+    zstyle ':fzf-tab:complete:git-log:*' fzf-preview \
+      'git log --color=always $word'
+    zstyle ':fzf-tab:complete:git-help:*' fzf-preview \
+      'git help $word | bat -plman --color=always'
+    zstyle ':fzf-tab:complete:git-show:*' fzf-preview \
+      'case "$group" in
+      "commit tag") git show --color=always $word ;;
+      *) git show --color=always $word | delta ;;
+      esac'
+    zstyle ':fzf-tab:complete:git-checkout:*' fzf-preview \
+      'case "$group" in
+      "modified file") git diff $word | delta ;;
+      "recent commit object name") git show --color=always $word | delta ;;
+      *) git log --color=always $word ;;
+      esac'
+
+    # Show command preview
+    zstyle ':fzf-tab:complete:-command-:*' fzf-preview \
+      '(out=$(tldr --color always "$word") 2>/dev/null && echo $out) || (out=$(MANWIDTH=$FZF_PREVIEW_COLUMNS man "$word") 2>/dev/null && echo $out) || (out=$(which "$word") && echo $out) || echo "''${(P)word}"'
+
+    # Exa
+    zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
+    zstyle ':fzf-tab:complete:*:*' fzf-preview 'eza -1 --color=always ''${(Q)realpath}'
+  '';
+
+  zshCompletion = ''
+    # disable sorting when completing any command
+    zstyle ':completion:complete:*:options' sort false
+
+    export SSH_AUTH_SOCK=$HOME/.bitwarden-ssh-agent.sock
+  '';
+
+  functions = ''
+    function awsctx {
+      profile=$1
+      if [[ -z "$profile" ]]; then
+          profile=$(aws configure list-profiles | fzf)
+      fi
+      echo "Switching to AWS profile $profile"
+      export AWS_PROFILE=$profile
+      aws sts get-caller-identity || aws sso login --use-device-code
+    }
+
+    # Fixes FZF shell integration
+    zvm_after_init(){
+         source <(${pkgs.fzf}/bin/fzf --zsh)
+      }
+  '';
+
+  beforeCompInit = lib.mkOrder 550 ''
+    ${constants}
+    ${functions}
+    ${fzf}
+  '';
+
+  afterCompInit = lib.mkOrder 1000 ''
+    ${fzfTab}
+    ${zshCompletion}
+  '';
+in
 {
   programs.zsh = {
     enable = true;
@@ -63,114 +172,11 @@
       hmr = "home-manager remove-generations";
     };
 
-    initExtraBeforeCompInit = "
-      fpath+=(~/Coding/prr/completions)
-    ";
-    initContent = ''
-        export XDG_CONFIG_HOME="$HOME/.config"
-        # Fixes FZF shell integration
-        zvm_after_init(){
-             source <(${pkgs.fzf}/bin/fzf --zsh)
-          }
-        # disable sorting when completing any command
-        zstyle ':completion:complete:*:options' sort false
+    initContent = lib.mkMerge [
+      beforeCompInit
+      afterCompInit
+    ];
 
-        # switch group using `<` and `>`
-        zstyle ':fzf-tab:*' switch-group '<' '>'
-
-        # trigger continuous trigger with space key
-        zstyle ':fzf-tab:*' continuous-trigger 'space'
-
-        # bind tab key to accept event
-        zstyle ':fzf-tab:*' fzf-bindings 'tab:accept'
-
-        # accept and run suggestion with enter key
-        zstyle ':fzf-tab:*' accept-line enter
-
-        #### FZF-TAB SUGGESTION ADDITIONS ####
-        # give a preview of commandline arguments when completing `kill`
-        zstyle ':completion:*:*:*:*:processes' command "ps -u $USER -o pid,user,comm -w -w"
-        zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-preview \
-          '[[ $group == "[process ID]" ]] && ps --pid=$word -o cmd --no-headers -w -w'
-        zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-flags --preview-window=down:3:wrap
-
-         # preview environment variable
-        zstyle ':fzf-tab:complete:(-command-|-parameter-|-brace-parameter-|export|unset|expand):*' \
-          fzf-preview 'echo ''${(P)word}'
-
-        # Show systemd unit status
-        zstyle ':fzf-tab:complete:systemctl-*:*' fzf-preview 'SYSTEMD_COLORS=1 systemctl status $word'
-
-        # Show git
-        # it is an example. you can change it
-        zstyle ':fzf-tab:complete:git-(add|diff|restore):*' fzf-preview \
-          'git diff $word | delta'
-        zstyle ':fzf-tab:complete:git-log:*' fzf-preview \
-          'git log --color=always $word'
-        zstyle ':fzf-tab:complete:git-help:*' fzf-preview \
-          'git help $word | bat -plman --color=always'
-        zstyle ':fzf-tab:complete:git-show:*' fzf-preview \
-          'case "$group" in
-          "commit tag") git show --color=always $word ;;
-          *) git show --color=always $word | delta ;;
-          esac'
-        zstyle ':fzf-tab:complete:git-checkout:*' fzf-preview \
-          'case "$group" in
-          "modified file") git diff $word | delta ;;
-          "recent commit object name") git show --color=always $word | delta ;;
-          *) git log --color=always $word ;;
-          esac'
-
-        # Preview tldr
-        zstyle ':fzf-tab:complete:tldr:argument-1' fzf-preview 'tldr --color always $word'
-
-        # Show command preview
-        zstyle ':fzf-tab:complete:-command-:*' fzf-preview \
-          '(out=$(tldr --color always "$word") 2>/dev/null && echo $out) || (out=$(MANWIDTH=$FZF_PREVIEW_COLUMNS man "$word") 2>/dev/null && echo $out) || (out=$(which "$word") && echo $out) || echo "''${(P)word}"'
-
-          # Exa
-          zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
-          zstyle ':fzf-tab:complete:*:*' fzf-preview 'eza -1 --color=always ''${(Q)realpath}'
-
-           # Initialize homebrew
-        if [[ -d "/opt/homebrew" ]]; then
-          eval "$(/opt/homebrew/bin/brew shellenv)"
-        fi
-          export PYENV_ROOT="$HOME/.pyenv"
-          [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-          export PATH=~/go/bin:~/.local/bin:$PATH
-          export SSH_AUTH_SOCK=$HOME/.bitwarden-ssh-agent.sock
-
-      # Custom completion for git-review
-      _git-review() {
-        # _arguments defines how the command handles positions
-        # '1: :__git_ignore_line_arguments' is a trick to use git's internal ref completion
-        _arguments \
-          '1:branch:__git_remote_branch_names' \
-          '2:base:__git_remote_branch_names'
-      }
-
-      # Helper to fetch remote branch names specifically
-      __git_remote_branch_names() {
-        local expl
-        declare -a branches
-        branches=(''${(f)"$(git branch -r --format='%(refname:short)' | sed 's|^origin/||')"})
-        _wanted branches expl 'remote branch' compadd -a branches
-      }
-      # Register the completion
-      compdef _git-review git-review
-
-      function awsctx {
-        profile=$1
-        if [[ -z "$profile" ]]; then
-            profile=$(aws configure list-profiles | fzf)
-        fi
-        echo "Switching to AWS profile $profile"
-        export AWS_PROFILE=$profile
-        # verify auth status and trigger sso step if not logged in
-        aws sts get-caller-identity || aws sso login --use-device-code
-      }
-    '';
     antidote = {
       enable = true;
       useFriendlyNames = true;
@@ -185,7 +191,6 @@
         "ohmyzsh/ohmyzsh path:lib" # load OMZ's library
         "ohmyzsh/ohmyzsh path:plugins/fancy-ctrl-z"
         "ohmyzsh/ohmyzsh path:plugins/kubectl"
-        "ohmyzsh/ohmyzsh path:plugins/taskwarrior"
         "ohmyzsh/ohmyzsh path:plugins/ssh-agent"
 
         "zdharma-continuum/fast-syntax-highlighting kind:defer"
@@ -197,6 +202,7 @@
       HOMEBREW_NO_ANALYTICS = 1;
       EDITOR = "nvim";
       VISUAL = "nvim";
+      SSH_AUTH_SOCK = "$HOME/.bitwarden-ssh-agent.sock";
     };
   };
   programs.zoxide = {
