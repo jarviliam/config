@@ -77,6 +77,12 @@
           ;
       };
 
+      templates = {
+        cpp = {
+          path = ./templates/cpp;
+        };
+      };
+
       nixosConfigurations = {
         nixtop = lib.createSystem profiles.liam-linux {
           system = "x86_64-linux";
