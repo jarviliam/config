@@ -35,7 +35,7 @@ Config.later(function()
 
   Config.new_autocmd("LspAttach", {
     callback = function(ev)
-      vim.lsp.document_color.enable(true, ev.buf)
+      vim.lsp.document_color.enable(true, { bufnr = ev.buf })
       Snacks.toggle({
         name = "Color",
         get = function()

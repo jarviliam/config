@@ -1,66 +1,41 @@
 {
   lib,
-  pkgs,
-  stdenv,
-  fetchFromGitHub,
-  nodejs,
+  buildNpmPackage,
+  fetchurl,
+  nodejs_22,
   makeWrapper,
-  fetchPnpmDeps,
-  pnpmConfigHook,
 }:
 
-stdenv.mkDerivation (finalAttrs: {
+buildNpmPackage rec {
   pname = "obsidian-headless";
-  version = "0.0.5";
+  version = "0.0.7";
 
-  src = fetchFromGitHub {
-    owner = "obsidianmd";
-    repo = "obsidian-headless";
-    rev = "46e3d163a54fba39f3b8864045d02a58a3d4161a";
-    hash = "sha256-4YwaWQu/257jBN4NsM3QObOp/e3AUcdrpCuGOo70EBk=";
+  src = fetchurl {
+    url = "https://registry.npmjs.org/${pname}/-/${pname}-${version}.tgz";
+    hash = "sha256-jVmvWREgc3ulEMYR6pdhzjn0E3C56TzwgSKdZGZ4TPg=";
   };
 
-  nativeBuildInputs = [
-    nodejs
-    pkgs.pnpm
-    pnpmConfigHook
-    makeWrapper
-  ];
+  sourceRoot = "package";
 
-  # This is the "magic" part that replaces npmDepsHash
-  pnpmDeps = fetchPnpmDeps {
-    inherit (finalAttrs) pname version src;
-    hash = "sha256-6ir0GHlub+iPxfanMvWNOCafdN654OIqwDjli+hLSLM=";
-    fetcherVersion = 1;
-  };
-
-  dontBuild = true;
-
-  installPhase = ''
-    runHook preInstall
-
-    # 1. Create the destination directory
-    mkdir -p $out/lib/node_modules/obsidian-headless
-
-    # 2. Copy everything (including the linked node_modules)
-    cp -r . $out/lib/node_modules/obsidian-headless
-
-    # 3. Create the executable bin directory
-    mkdir -p $out/bin
-
-    # 4. Wrap cli.js (Assuming it's in the root of the repo based on your comment)
-    # If cli.js is inside a subfolder, adjust the path accordingly (e.g., /dist/cli.js)
-    makeWrapper ${nodejs}/bin/node $out/bin/ob \
-      --add-flags "$out/lib/node_modules/obsidian-headless/cli.js"
-
-    runHook postInstall
+  postPatch = ''
+    cp ${./ob-hd-package-lock.json} package-lock.json
   '';
 
-  meta = with lib; {
-    description = "Headless Obsidian";
+  npmDepsHash = "sha256-65i4eMcY312JsxYIbEvDGMMI7rdTfyPKU4fUyZTtpUg=";
+
+  nativeBuildInputs = [ makeWrapper ];
+  dontNpmBuild = true;
+
+  postInstall = ''
+    rm $out/bin/ob
+    makeWrapper ${nodejs_22}/bin/node $out/bin/ob \
+      --add-flags "$out/lib/node_modules/obsidian-headless/cli.js"
+  '';
+
+  meta = {
+    description = "Headless client for Obsidian Sync";
     homepage = "https://github.com/obsidianmd/obsidian-headless";
-    license = licenses.mit;
+    license = lib.licenses.unfree;
     mainProgram = "ob";
-    platforms = platforms.all;
   };
-})
+}

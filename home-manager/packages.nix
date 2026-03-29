@@ -88,6 +88,7 @@ let
   ];
 
   cliUtils = with pkgs; [
+    gitspice
     opencode
     gitReview
     harper

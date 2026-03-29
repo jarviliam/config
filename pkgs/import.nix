@@ -36,4 +36,5 @@ with pkgs;
     nativeBuildInputs = (oldAttrs.nativeBuildInputs or [ ]) ++ [ prev.llvmPackages_18.stdenv.cc ];
     stdenv = prev.llvmPackages_18.stdenv;
   });
+  gitspice = final.callPackage ./gitspice.nix { };
 }
