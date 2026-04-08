@@ -1,5 +1,6 @@
 Config.now(function()
-  require("mini.starter").setup({
+  local starter = require("mini.starter")
+  starter.setup({
     -- Whether to open starter buffer on VimEnter. Not opened if Neovim was
     -- started with intent to show something else.
     autoopen = true,
@@ -12,12 +13,26 @@ Config.now(function()
     -- - Function: should return one of these three categories.
     -- - Array: elements of these three types (i.e. item, array, function).
     -- If `nil` (default), default items will be used (see |mini.starter|).
-    items = nil,
+    items = {
+      starter.sections.sessions(5, true),
+      starter.sections.recent_files(3, false, false),
+      {
+        { name = "Update plugins", action = "lua vim.pack.update()", section = "Updaters" },
+        { name = "Quit Neovim", action = "qall", section = "Actions" },
+      },
+    },
 
     -- Header to be displayed before items. Converted to single string via
     -- `tostring` (use `\n` to display several lines). If function, it is
     -- evaluated first. If `nil` (default), polite greeting will be used.
-    header = nil,
+    header = function()
+      local banner = [[
+      │ ╲ ││ ╲    ╱ ││ │ ╲  ╱ │
+      ││╲╲││  ╲╲╱╱  ││ ││╲╲╱╱││
+      ││ ╲ │   ╲╱   ││ ││ ╲╱ ││
+      ]]
+      return banner
+    end,
 
     -- Footer to be displayed after items. Converted to single string via
     -- `tostring` (use `\n` to display several lines). If function, it is

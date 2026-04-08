@@ -6,6 +6,9 @@ return {
     client.server_capabilities.documentFormattingProvider = nil
     client.server_capabilities.documentRangeFormattingProvider = nil
   end,
+  on_attach = function(client, buf_id)
+    client.server_capabilities.completionProvider.triggerCharacters = { ".", ":", "#", "(" }
+  end,
   settings = {
     Lua = {
       codeLens = {
@@ -62,8 +65,15 @@ return {
       hover = {
         expandAlias = false,
       },
+      workspace = {
+        -- Don't analyze code from submodules
+        ignoreSubmodules = true,
+        -- Add Neovim's methods for easier code writing
+        library = { vim.env.VIMRUNTIME },
+      },
       runtime = {
         version = "LuaJIT",
+        path = vim.split(package.path, ";"),
       },
       telemetry = {
         enable = false,
