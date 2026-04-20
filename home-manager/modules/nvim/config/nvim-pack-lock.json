@@ -138,6 +138,10 @@
       "rev": "74b06c6c75e4eeb3108ec01852001636d85a932b",
       "src": "https://github.com/nvim-lua/plenary.nvim"
     },
+    "prlsp": {
+      "rev": "c9a3a7daf2d5b9a7cefc5d8f9044ac7bf29f82fb",
+      "src": "https://github.com/toziegler/prlsp"
+    },
     "quicker.nvim": {
       "rev": "063cc44da1eef8681bbd653b29d3bc961780886a",
       "src": "https://github.com/stevearc/quicker.nvim"

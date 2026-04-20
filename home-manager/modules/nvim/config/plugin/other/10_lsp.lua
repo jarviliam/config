@@ -1,5 +1,5 @@
 Config.later(function()
-  vim.pack.add({ "https://github.com/neovim/nvim-lspconfig" })
+  vim.pack.add({ "https://github.com/neovim/nvim-lspconfig", "https://github.com/toziegler/prlsp" })
 
   vim.uv.fs_unlink(vim.lsp.log.get_filename())
   vim.lsp.log.set_level(vim.lsp.log.levels.WARN)

@@ -37,4 +37,5 @@ with pkgs;
     stdenv = prev.llvmPackages_18.stdenv;
   });
   gitspice = final.callPackage ./gitspice.nix { };
+  prlsp = final.callPackage ./prlsp.nix { };
 }
