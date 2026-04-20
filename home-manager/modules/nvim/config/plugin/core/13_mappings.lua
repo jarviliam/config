@@ -48,7 +48,10 @@ nmap("n", "Nzzzv", "Previous result")
 nmap("<S-Left>", C("lua MiniBracketed.buffer('backward')"), "Prev buffer")
 nmap("<S-Right>", C("lua MiniBracketed.buffer('forward')"), "Prev buffer")
 map({ "n", "x", "o" }, "s", "<Plug>(leap)", "Leap")
-map({ "n", "x", "o" }, "S", "lua require('leap.treesitter').select()", "Treesitter select")
+map({ "n", "x", "o" }, "S", C("lua Config.leap.treesitter_select()"), "Treesitter select")
+map({ "n", "x", "o" }, "gs", C("lua Config.leap.remote()"), "Leap Remote")
+map({ "n", "o" }, "g/", C("lua require('leap.remote').action({jumper = '/'})"), "Leap Search")
+map({ "n", "o" }, "g?", C("lua require('leap.remote').action({jumper = '?'})"), "Leap Search")
 
 -- lsp
 nmap("grn", vim.lsp.buf.rename, "Rename symbol")

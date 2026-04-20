@@ -25,6 +25,7 @@ Config.later(function()
     "superhtml",
     "tailwindcss",
     "rust_analyzer",
+    "prlsp",
   }
 
   vim.lsp.enable(servers)

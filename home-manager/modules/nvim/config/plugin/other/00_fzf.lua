@@ -1,12 +1,12 @@
 local methods = vim.lsp.protocol.Methods
 Config.now(function()
-  vim.pack.add({ "https://github.com/ibhagwan/fzf-lua" }, { load = true })
+  vim.pack.add({ "https://github.com/ibhagwan/fzf-lua" })
 
   local fzf = require("fzf-lua")
   local actions = require("fzf-lua.actions")
 
   fzf.setup({
-    { "border-fused", "hide" },
+    { "fzf-vim", "hide" },
     fzf_colors = true,
     defaults = {
       cwd_header = true,
@@ -74,8 +74,7 @@ Config.now(function()
   ---@param opts string|table
   ---@param mode? string|string[]
   local function keymap(lhs, rhs, opts, mode)
-    opts = type(opts) == "string" and { desc = opts }
-      or vim.tbl_extend("error", opts --[[@as table]], { buffer = bufnr })
+    opts = type(opts) == "string" and { desc = opts } or vim.tbl_extend("error", opts --[[@as table]], {})
     vim.keymap.set(mode or "n", lhs, rhs, opts)
   end
 
