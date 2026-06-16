@@ -133,16 +133,17 @@ let
     # nodePackages.npm causes node build
     yarn
     pnpm
-    nodePackages.typescript-language-server
-    nodePackages.vscode-langservers-extracted
+    typescript-language-server
+    vscode-langservers-extracted
     actionlint
     yamllint
     eslint_d
     marksman
     github-actions-languageserver
     prettierd
-    nodePackages.bash-language-server
+    bash-language-server
     yaml-language-server
+    commitlint
   ];
 
   goPkg = with pkgs; [

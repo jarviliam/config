@@ -1,5 +1,5 @@
 Config.now(function()
-  vim.pack.add({ "https://github.com/folke/snacks.nvim" }, { load = true })
+  vim.pack.add({ "https://github.com/folke/snacks.nvim" })
 
   require("snacks").setup({
     bigfile = { enabled = true, notify = true },

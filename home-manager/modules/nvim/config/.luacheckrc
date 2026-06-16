@@ -47,6 +47,7 @@ read_globals = {
   "notify",
   "package",
   "vim",
+  "Snacks",
 }
 
 -- Don't report unused self arguments of methods.

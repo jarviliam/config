@@ -17,6 +17,7 @@ Config.now(function()
       winopts = {
         preview = {
           default = "bat_native",
+          hidden = false,
         },
       },
     },
@@ -40,9 +41,7 @@ Config.now(function()
     },
     files = {
       cwd_prompt = false,
-      winopts = {
-        preview = { hidden = true },
-      },
+      winopts = {},
     },
     lsp = {
       document_symbols = {
