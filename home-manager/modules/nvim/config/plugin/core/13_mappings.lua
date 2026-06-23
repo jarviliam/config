@@ -19,6 +19,10 @@ local C = function(cmd)
   return "<Cmd>" .. cmd .. "<CR>"
 end
 
+local P = function(cmd)
+  return "<Cmd> lua Config.picker." .. cmd .. "()<CR>"
+end
+
 Config.leader_group_clues = {
   -- Leader/movement groups.
   { mode = { "n", "v" }, keys = L("a"), desc = "+ai" },
@@ -109,31 +113,31 @@ nmap(L("of"), C("Neogen func"), "Generate definition (F)")
 nmap(L("oc"), C("Neogen class"), "Generate definition (C)")
 
 -- Find
-nmap(L(":"), C("FzfLua command_history"), "Command History")
-nmap(L("/"), C("FzfLua live_grep"), "Grep (Root Dir)")
-nmap(L("<space>"), C("FzfLua files"), "Find Files (Root Dir)")
-nmap(L("f;"), C("FzfLua resume"), "Resume Picker")
-nmap(L("ff"), C("FzfLua files"), "Find File")
-nmap(L("fb"), C("FzfLua buffers sort_mru=true sort_lastused=true"), "Buffer Picker")
-nmap(L("fC"), C("FzfLua git_bcommits"), "Buffer Commits")
-nmap(L("fg"), C("FzfLua git_files"), "Find Files (Git)")
-nmap(L("fl"), C("FzfLua blines"), "Buffer Lines")
-nmap(L("fL"), C("FzfLua lines"), "Grep Open Buffers")
-nmap(L("fw"), C("FzfLua grep_cword"), "grep <word> (project)")
-nmap(L("fW"), C("FzfLua grep_cWORD"), "grep <WORD> (project)")
+nmap(L(":"), P("command_history"), "Command History")
+nmap(L("/"), P("live_grep"), "Grep (Root Dir)")
+nmap(L("<space>"), P("files"), "Find Files (Root Dir)")
+nmap(L("f;"), P("resume"), "Resume Picker")
+nmap(L("ff"), P("files"), "Find File")
+nmap(L("fb"), P("buffers"), "Buffer Picker")
+nmap(L("fC"), P("git.buffer_commits"), "Buffer Commits")
+nmap(L("fg"), P("git.files"), "Find Files (Git)")
+nmap(L("fl"), P("buffer_lines"), "Buffer Lines")
+nmap(L("fL"), P("grep.lines"), "Grep Open Buffers")
+nmap(L("fw"), P("grep.cword"), "grep <word> (project)")
+nmap(L("fW"), P("grep.cWORD"), "grep <WORD> (project)")
 nmap(L("ft"), C("lua Config.find_todo()"), "Find todos")
-nmap(L('f"'), C("FzfLua registers"), "Registers")
-nmap(L("f/"), C("FzfLua search_history"), "Search History")
-nmap(L("fa"), C("FzfLua autocmds"), "Auto Commands")
-nmap(L("fc"), C("FzfLua command_history"), "Command History")
-nmap(L("fC"), C("FzfLua commands"), "Commands")
-nmap(L("fd"), C("FzfLua diagnostics_document"), "Document Diagnostics")
-nmap(L("fD"), C("FzfLua diagnostics_workspace"), "Workspace Diagnostics")
-nmap(L("fh"), C("FzfLua help_tags"), "Help Pages")
-nmap(L("fH"), C("FzfLua highlights"), "Search Highlight Groups")
-nmap(L("f?"), C("FzfLua builtin"), "builtin")
-nmap(L("fk"), C("FzfLua keymaps"), "Keymaps")
-nmap(L("fq"), C("FzfLua quickfix"), "Quickfix List")
+nmap(L('f"'), P("registers"), "Registers")
+nmap(L("f/"), P("search_history"), "Search History")
+nmap(L("fa"), P("autocmds"), "Auto Commands")
+nmap(L("fc"), P("command_history"), "Command History")
+nmap(L("fC"), P("commands"), "Commands")
+nmap(L("fd"), P("diagnostics.document"), "Document Diagnostics")
+nmap(L("fD"), P("diagnostics.workspace"), "Workspace Diagnostics")
+nmap(L("fh"), P("help.tags"), "Help Pages")
+nmap(L("fH"), P("highlights"), "Search Highlight Groups")
+nmap(L("f?"), P("builtin"), "builtin")
+nmap(L("fk"), P("keymaps"), "Keymaps")
+nmap(L("fq"), P("quickfix"), "Quickfix List")
 --
 
 -- git

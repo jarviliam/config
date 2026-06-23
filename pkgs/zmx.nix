@@ -6,16 +6,16 @@
 }:
 
 let
-  version = "0.2.0";
+  version = "0.6.0";
 
   sources = {
     x86_64-linux = {
-      url = "https://zmx.sh/a/zmx-${version}-linux-x86_64.tar.gz";
-      hash = "sha256-PaclWOgQYQmxz1tH+wUiVJr8DkvhyrUxhXqORZB97uo=";
+      url = "https://github.com/neurosnap/zmx/releases/download/v${version}/zmx-${version}-linux-x86_64.tar.gz";
+      hash = "";
     };
     aarch64-linux = {
-      url = "https://zmx.sh/a/zmx-${version}-linux-aarch64.tar.gz";
-      hash = "sha256-IhEP7/Wl4/HET0xVsr6u+PUgC/q8TZRqncg2vCEOEec=";
+      url = "https://github.com/neurosnap/zmx/releases/download/v${version}/zmx-${version}-linux-aarch64.tar.gz";
+      hash = "sha256-wj9LTKgOFE4ynQQrkarkhZ0jIXqwcHazg69BNNl/qsU=";
     };
   };
 

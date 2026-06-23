@@ -80,7 +80,15 @@ vim.o.foldlevel = 10 -- Fold nothing by default; set to 0 or 1 to fold
 vim.o.foldtext = ""
 
 local diagnostic_cfg = {
-  jump = { float = true },
+  jump = {
+    on_jump = function(_, bufnr)
+      vim.diagnostic.open_float({
+        bufnr = bufnr,
+        scope = "cursor",
+        focus = false,
+      })
+    end,
+  },
   signs = {
     priority = 9999,
     severity = { min = "WARN", max = "ERROR" },

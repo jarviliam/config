@@ -28,6 +28,9 @@ in
 
   config = {
     nixpkgs.config.allowUnfree = true;
+    nixpkgs.config.permittedInsecurePackages = [
+      "electron-39.8.10"
+    ];
     nix = {
       package = pkgs.nixVersions.latest;
       gc.automatic = true;

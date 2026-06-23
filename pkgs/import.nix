@@ -32,6 +32,10 @@ with pkgs;
 
   ob-hd = final.callPackage ./ob-hd.nix { };
 
+  # bitwarden-desktop = prev.bitwarden-desktop.override {
+  #   electron_39 = final.electron_40;
+  # };
+
   bitwarden-cli = prev.bitwarden-cli.overrideAttrs (oldAttrs: {
     nativeBuildInputs = (oldAttrs.nativeBuildInputs or [ ]) ++ [ prev.llvmPackages_18.stdenv.cc ];
     stdenv = prev.llvmPackages_18.stdenv;
