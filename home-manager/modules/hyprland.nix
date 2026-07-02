@@ -1,4 +1,50 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
+let
+  lua = lib.generators.mkLuaInline;
+  dsp = {
+    exec = cmd: lua ''hl.dsp.exec_cmd("${cmd}")'';
+    close = lua "hl.dsp.window.close()";
+    exit = lua "hl.dsp.exit()";
+    float = lua ''hl.dsp.window.float({ action = "toggle" })'';
+    fullscreen = lua "hl.dsp.window.fullscreen()";
+    pseudo = lua "hl.dsp.window.pseudo()";
+    layout = msg: lua ''hl.dsp.layout("${msg}")'';
+    focus = dir: lua ''hl.dsp.focus({ direction = "${dir}" })'';
+    swap = dir: lua ''hl.dsp.window.swap({ direction = "${dir}" })'';
+    toggleSpecial = name: lua ''hl.dsp.workspace.toggle_special("${name}")'';
+    moveToSpecial = name: lua ''hl.dsp.window.move({ workspace = "special:${name}" })'';
+    focusWorkspace = ws: lua ''hl.dsp.focus({ workspace = "${toString ws}" })'';
+    moveToWorkspace = ws: lua ''hl.dsp.window.move({ workspace = "${toString ws}" })'';
+    drag = lua "hl.dsp.window.drag()";
+    resize = lua "hl.dsp.window.resize()";
+    sendshortcut = mod: key: lua ''hl.dsp.send_shortcut({ mods = "${mod}", key = "${key}" })'';
+  };
+  bind = keys: dispatcher: {
+    _args = [
+      keys
+      dispatcher
+    ];
+  };
+
+  bindOpts = keys: dispatcher: opts: {
+    _args = [
+      keys
+      dispatcher
+      opts
+    ];
+  };
+
+  workspaceBinds = lib.concatMap (
+    i:
+    let
+      key = toString (lib.mod i 10);
+    in
+    [
+      (bind "SUPER + ${key}" (dsp.focusWorkspace i))
+      (bind "SUPER + SHIFT + ${key}" (dsp.moveToWorkspace i))
+    ]
+  ) (lib.range 1 5);
+in
 {
   xdg.portal = {
     enable = true;
@@ -8,6 +54,7 @@
       xdg-desktop-portal-gtk
     ];
   };
+
   programs.wofi = {
     enable = true;
     settings = {
@@ -16,6 +63,7 @@
       height = "40%";
     };
   };
+
   programs.dank-material-shell = {
     enable = true;
     systemd.enable = true;
@@ -24,206 +72,195 @@
     enableAudioWavelength = true;
     enableCalendarEvents = true;
   };
+
   wayland.windowManager.hyprland = {
     enable = true;
+    configType = "lua";
     settings =
       let
-        border_size = 0;
-        gaps_in = 5;
-        gaps_out = 10;
-        gaps_ws = -10;
-        rounding = 8;
         terminal = "ghostty";
         browser = "firefox";
         filemanager = "thunar";
       in
       {
-        monitor = ",preferred,auto,auto";
-        input = {
-          sensitivity = -0.7;
-          scroll_method = "2 fg";
-          touchpad = {
-            natural_scroll = true;
-            clickfinger_behavior = false;
+        monitor = [
+          {
+            output = "HDMI-A-2";
+            mode = "3840x2160";
+            position = "0x0";
+            scale = 1.50;
+          }
+        ];
+        config = {
+          general = {
+            layout = "master";
+            border_size = 1;
+            gaps_in = 5;
+            gaps_out = 5;
           };
-        };
+          decoration = {
+            rounding = 5;
+            active_opacity = 0.95;
+            inactive_opacity = 0.95;
+            fullscreen_opacity = 1.0;
 
-        cursor = {
-          no_hardware_cursors = true;
-        };
+            blur = {
+              enabled = true;
+              size = 6;
+              passes = 3;
+              new_optimizations = true;
+              xray = true;
+              special = true;
+              brightness = 1;
+              noise = 0.01;
+              contrast = 1;
+              popups = true;
+              popups_ignorealpha = 0.6;
+            };
 
-        device = {
-          name = "epic-mouse-v1";
-          sensitivity = -0.5;
-        };
-        general = {
-          border_size = border_size;
-          gaps_in = gaps_in;
-          gaps_out = gaps_out;
-          gaps_workspaces = gaps_ws;
-          layout = "master";
-          resize_on_border = true;
-        };
-        ecosystem = {
-          no_update_news = true;
-          no_donation_nag = true;
-        };
+            shadow = {
+              enabled = false;
+            };
+          };
 
-        decoration = {
-          rounding = rounding;
-          active_opacity = 0.95;
-          inactive_opacity = 0.95;
-          fullscreen_opacity = 1.0;
-
-          blur = {
+          animations = {
             enabled = true;
-            size = 6;
-            passes = 3;
-            new_optimizations = true;
-            xray = true;
-            special = true;
-            brightness = 1;
-            noise = 0.01;
-            contrast = 1;
-            popups = true;
-            popups_ignorealpha = 0.6;
           };
 
-          shadow = {
-            enabled = false;
+          input = {
+            sensitivity = -0.7;
+            scroll_method = "2 fg";
+            touchpad = {
+              natural_scroll = true;
+              clickfinger_behavior = false;
+            };
           };
-        };
-        animations = {
-          enabled = true;
 
-          bezier = [
-            "linear, 0, 0, 1, 1"
-            "md3_standard, 0.2, 0, 0, 1"
-            "md3_decel, 0.05, 0.7, 0.1, 1"
-            "md3_accel, 0.3, 0, 0.8, 0.15"
-            "overshot, 0.05, 0.9, 0.1, 1.1"
-            "crazyshot, 0.1, 1.5, 0.76, 0.92"
-            "hyprnostretch, 0.05, 0.9, 0.1, 1.0"
-            "menu_decel, 0.1, 1, 0, 1"
-            "menu_accel, 0.38, 0.04, 1, 0.07"
-            "easeInOutCirc, 0.85, 0, 0.15, 1"
-            "easeOutCirc, 0, 0.55, 0.45, 1"
-            "easeOutExpo, 0.16, 1, 0.3, 1"
-            "softAcDecel, 0.26, 0.26, 0.15, 1"
-            "md2, 0.4, 0, 0.2, 1" # use with .2s duration
-          ];
+          cursor = {
+            no_hardware_cursors = true;
+          };
 
-          animation = [
-            "windows, 1, 3, md3_decel, popin 60%"
-            "windowsIn, 1, 3, md3_decel, popin 60%"
-            "windowsOut, 1, 3, md3_accel, popin 60%"
-            "border, 1, 10, default"
-            "fade, 1, 3, md3_decel"
-            "layersIn, 1, 3, menu_decel, slide"
-            "layersOut, 1, 1.6, menu_accel"
-            "fadeLayersIn, 1, 3, menu_decel"
-            "fadeLayersOut, 1, 1.6, menu_accel"
-            "workspaces, 1, 3, menu_decel, slide"
-            "specialWorkspace, 1, 3, md3_decel, slidevert"
-          ];
+          ecosystem = {
+            no_update_news = true;
+            no_donation_nag = true;
+          };
+
         };
 
-        #-- Layout : Master
-        # See https://wiki.hyprland.org/Configuring/Master-Layout
-        master = {
-          allow_small_split = false;
-          special_scale_factor = 0.8;
-          mfact = 0.5;
-          new_on_top = false;
-          orientation = "left";
-          smart_resizing = true;
-          drop_at_cursor = true;
-        };
+        animation = [
+          {
+            leaf = "windows";
+            enabled = true;
+            speed = 7;
+            bezier = "default";
+          }
+          {
+            leaf = "windowsOut";
+            enabled = true;
+            speed = 7;
+            bezier = "default";
+            style = "popin 80%";
+          }
+          {
+            leaf = "border";
+            enabled = true;
+            speed = 10;
+            bezier = "default";
+          }
+          {
+            leaf = "borderangle";
+            enabled = true;
+            speed = 8;
+            bezier = "default";
+          }
+          {
+            leaf = "fade";
+            enabled = true;
+            speed = 7;
+            bezier = "default";
+          }
+          {
+            leaf = "workspaces";
+            enabled = true;
+            speed = 6;
+            bezier = "default";
+          }
+        ];
 
         bind = [
-          # apps
-          "SUPER, Return, exec, ${terminal}"
-          "SUPER, E, exec, ${filemanager}"
-          "SUPER, B, exec, ${browser}"
-          "SUPER, R, exec, wofi --show drun"
-
-          "SUPER_SHIFT, S, exec, flameshot gui"
+          (bind "SUPER + RETURN" (dsp.exec terminal))
+          (bind "SUPER + B" (dsp.exec browser))
+          (bind "SUPER + E" (dsp.exec filemanager))
+          (bind "SUPER + R" (dsp.exec "wofi --show drun"))
+          (bind "SUPER + SHIFT + S" (dsp.exec "flameshot gui"))
 
           # hyprland
-          "SUPER, Q, killactive"
-          "SUPER, V, togglefloating"
-          "SUPER_SHIFT, Q, forcekillactive"
-          "SUPER_SHIFT, F, fullscreen, 0"
-          "SUPER_SHIFT, F, fullscreen, 0"
-          "SUPER_SHIFT, Space, exec, hyprctl dispatch togglefloating; hyprctl dispatch resizeactive exact 1200 800; hyprctl dispatch centerwindow;"
+          (bind "SUPER + Q" (dsp.close))
+          (bind "SUPER + SHIFT + Q" dsp.exit)
+          (bind "SUPER + V" dsp.float)
+          (bind "SUPER + F" dsp.fullscreen)
+          (bind "SUPER + P" dsp.pseudo)
+          (bind "SUPER + J" (dsp.layout "swapwithmaster"))
 
           # shutdown
-          "SUPER_SHIFT, P, exec, dms ipc call powermenu toggle"
+          (bind "SUPER + SHIFT + P" (dsp.exec "dms ipc call powermenu toggle"))
 
           # lock
-          "SUPER_SHIFT, L, exec, hyprlock"
+          (bind "SUPER + SHIFT + L" (dsp.exec "hyprlock"))
 
           # change focus
-          "SUPER, left,  movefocus, l"
-          "SUPER, right, movefocus, r"
-          "SUPER, up,    movefocus, u"
-          "SUPER, down,  movefocus, d"
+          (bind "SUPER + left" (dsp.focus "left"))
+          (bind "SUPER + right" (dsp.focus "right"))
+          (bind "SUPER + up" (dsp.focus "up"))
+          (bind "SUPER + down" (dsp.focus "down"))
 
-          # move active
-          "SUPER_SHIFT, left,  movewindow, l"
-          "SUPER_SHIFT, right, movewindow, r"
-          "SUPER_SHIFT, up,    movewindow, u"
-          "SUPER_SHIFT, down,  movewindow, d"
+          # Swap windows
+          (bind "SUPER + SHIFT + left" (dsp.swap "left"))
+          (bind "SUPER + SHIFT + right" (dsp.swap "right"))
+          (bind "SUPER + SHIFT + up" (dsp.swap "up"))
+          (bind "SUPER + SHIFT + down" (dsp.swap "down"))
 
-          # workspaces
-          "SUPER, 1, workspace, 1"
-          "SUPER, 2, workspace, 2"
-          "SUPER, 3, workspace, 3"
-          "SUPER, 4, workspace, 4"
-          "SUPER, 5, workspace, 5"
-
-          "SUPER, tab, workspace, -1"
-          "SUPER_SHIFT, tab, workspace, +1"
+          # Scroll through workspaces
+          (bind "SUPER + mouse_down" (dsp.focusWorkspace "e+1"))
+          (bind "SUPER + mouse_up" (dsp.focusWorkspace "e-1"))
+          (bind "SUPER + tab" (dsp.focusWorkspace "e-1"))
+          (bind "SUPER + SHIFT + tab" (dsp.focusWorkspace "e+1"))
 
           # Show Notifications
-          "SUPER_SHIFT, n, exec, dms ipc call notifications toggle"
+          (bind "SUPER + SHIFT + n" (dsp.exec "dms ipc call notifications toggle"))
 
-          # send to workspaces
-          "SUPER_SHIFT, 1, movetoworkspacesilent, 1"
-          "SUPER_SHIFT, 2, movetoworkspacesilent, 2"
-          "SUPER_SHIFT, 3, movetoworkspacesilent, 3"
-          "SUPER_SHIFT, 4, movetoworkspacesilent, 4"
-          "SUPER_SHIFT, 5, movetoworkspacesilent, 5"
-        ];
-        binde = [
           # resize active
-          "SUPER_CTRL, left,  resizeactive, -20 0"
-          "SUPER_CTRL, right, resizeactive, 20 0"
-          "SUPER_CTRL, up,    resizeactive, 0 -20"
-          "SUPER_CTRL, down,  resizeactive, 0 20"
+          (bindOpts "SUPER + CTRL + left" dsp.resize {
+            x = -20;
+            y = 0;
+          })
+          (bindOpts "SUPER + CTRL + right" dsp.resize {
+            x = 20;
+            y = 0;
+          })
+          (bindOpts "SUPER + CTRL + up" dsp.resize {
+            x = 0;
+            y = -20;
+          })
+          (bindOpts "SUPER + CTRL + down" dsp.resize {
+            x = 0;
+            y = 20;
+          })
 
-          # move active (Floating Only)
-          "SUPER_ALT, left,  moveactive, -20 0"
-          "SUPER_ALT, right, moveactive, 20 0"
-          "SUPER_ALT, up,    moveactive, 0 -20"
-          "SUPER_ALT, down,  moveactive, 0 20"
-          "SUPER_ALT, equal, exec, hyprctl dispatch centerwindow;"
-
-          # speaker and mic volume control
-          " , XF86AudioRaiseVolume, exec, wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 10%+"
-          " , XF86AudioLowerVolume, exec, wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 10%-"
-          " , XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
-          " , XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
-
-          # display and keyboard brightness control
-          " , XF86MonBrightnessUp, exec, brightnessctl s +20%"
-          " , XF86MonBrightnessDown, exec, brightnessctl s 20%-"
-          " , XF86KbdBrightnessUp, exec, asusctl -n"
-          " , XF86KbdBrightnessDown, exec, asusctl -p"
-
-          # performance
-          " , XF86Launch4, exec, asusctl profile -n"
-        ];
+          (bindOpts "XF86AudioRaiseVolume" (dsp.exec "wpctl set-volume @ 5%+") {
+            locked = true;
+            repeating = true;
+          })
+          (bindOpts "XF86AudioLowerVolume" (dsp.exec "wpctl set-volume @ 5%-") {
+            locked = true;
+            repeating = true;
+          })
+          (bindOpts "XF86AudioMute" (dsp.exec "wpctl set-mute @ toggle") { locked = true; })
+          (bindOpts "XF86AudioMicMute" (dsp.exec "wpctl set-mute u/DEFAULT_AUDIO_SOURCE@ toggle") {
+            locked = true;
+          })
+        ]
+        ++ workspaceBinds;
       };
 
   };

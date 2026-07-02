@@ -20,6 +20,13 @@
   };
 
   hardware.keyboard.qmk.enable = true;
+  boot.kernelParams = [
+    "usbcore.quirks=4653:0004:g"
+    "usbcore.autosuspend=-1"
+  ];
+  services.udev.extraRules = ''
+    SUBSYSTEMS=="usb", ATTRS{idVendor}=="4653", ATTRS{idProduct}=="0004", MODE="0666", TAG+="uaccess", TAG+="seat"
+  '';
 
   hardware.nvidia = {
     modesetting.enable = true;

@@ -1,9 +1,13 @@
 {
-  pkgs,
   ...
 }:
 {
-  services.displayManager.gdm.enable = true;
+  services.displayManager.gdm.enable = false;
+  services.displayManager.dms-greeter = {
+    enable = true;
+    compositor.name = "hyprland";
+  };
+
   services = {
     xserver = {
       videoDrivers = [ "nvidia" ];
