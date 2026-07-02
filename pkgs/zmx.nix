@@ -11,7 +11,7 @@ let
   sources = {
     x86_64-linux = {
       url = "https://github.com/neurosnap/zmx/releases/download/v${version}/zmx-${version}-linux-x86_64.tar.gz";
-      hash = "";
+      hash = "sha256-MJ2RO5gq4W6sKoVPQR3kDszAtkr+2JKqAqC+NR8CccE=";
     };
     aarch64-linux = {
       url = "https://github.com/neurosnap/zmx/releases/download/v${version}/zmx-${version}-linux-aarch64.tar.gz";

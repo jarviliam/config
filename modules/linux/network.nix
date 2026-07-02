@@ -15,7 +15,7 @@
   services.resolved = {
     enable = true;
     settings.Resolve = {
-      DNS = "10.32.1.100";
+      DNS = "8.8.8.8";
       Domains = [ "~." ];
     };
   };

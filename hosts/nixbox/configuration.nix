@@ -19,6 +19,8 @@
     ];
   };
 
+  hardware.keyboard.qmk.enable = true;
+
   hardware.nvidia = {
     modesetting.enable = true;
     open = false;
