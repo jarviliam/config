@@ -1,7 +1,8 @@
 Config.now(function()
-  vim.pack.add({ "https://codeberg.org/comfysage/artio.nvim" })
-
-  require("artio").setup({
+  -- vim.pack.add({ "https://codeberg.org/comfysage/artio.nvim" })
+  vim.cmd.packadd("artio.nvim")
+  local artio = require("artio")
+  artio.setup({
     opts = {
       preselect = true, -- whether to preselect the first match
       bottom = true, -- whether to draw the prompt at the bottom
@@ -30,4 +31,62 @@ Config.now(function()
       ["<m-q>"] = "setqflistmark",
     },
   })
+
+  if Config.picker_name == "artio" then
+    local builtins = require("artio.builtins")
+    Config.picker = {
+      commands = builtins.commands,
+      command_history = nil,
+      live_grep = nil,
+      files = builtins.files,
+      files_root = nil,
+      resume = artio.resume,
+      buffers = function()
+        -- fzf.buffers({
+        --   sort_lastused = true,
+        --   sort_mru = true,
+        -- })
+      end,
+      buffer_lines = nil,
+
+      git = {
+        files = nil,
+        buffer_commits = nil,
+      },
+
+      grep = {
+        cword = nil,
+        cWORD = nil,
+        lines = nil,
+      },
+
+      lsp = {},
+
+      registers = nil,
+      search_history = nil,
+
+      autocmds = nil,
+
+      diagnostics = {
+        document = nil,
+        workspace = nil,
+      },
+
+      help = {
+        tags = builtins.helptags,
+        man = nil,
+      },
+
+      highlights = builtins.highlights,
+      builtin = builtins.builtins,
+
+      keymaps = builtins.keymaps,
+      quickfix = builtins.quickfix,
+
+      visit_paths = {
+        cwd = nil,
+        all = nil,
+      },
+    }
+  end
 end)

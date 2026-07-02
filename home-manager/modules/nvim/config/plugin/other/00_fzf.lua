@@ -132,7 +132,7 @@ Config.now(function()
     vim.keymap.set(mode or "n", lhs, rhs, opts)
   end
 
-  if Config.picker == "fzf" then
+  if Config.picker_name == "fzf" then
     Config.new_autocmd("LspAttach", {
       callback = function(ev)
         local client = vim.lsp.get_client_by_id(ev.data.client_id)
