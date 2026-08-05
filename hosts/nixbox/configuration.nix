@@ -21,12 +21,27 @@
 
   hardware.keyboard.qmk.enable = true;
   boot.kernelParams = [
-    "usbcore.quirks=4653:0004:g"
+    # Forces old-style enumeration sequence (gives QMK time to answer ep0)
+    "usbcore.old_scheme_first=y"
+    # Ignores initial descriptor fetch timeouts
+    "usbcore.initial_descriptor_timeout=30"
+    # Disables runtime power management on the USB subsystem
     "usbcore.autosuspend=-1"
   ];
-  services.udev.extraRules = ''
-    SUBSYSTEMS=="usb", ATTRS{idVendor}=="4653", ATTRS{idProduct}=="0004", MODE="0666", TAG+="uaccess", TAG+="seat"
-  '';
+  networking.nameservers = [
+    "1.1.1.1"
+    "8.8.8.8"
+  ];
+
+  services.udev.packages = with pkgs; [
+    qmk-udev-rules
+  ];
+  # # Disable autosuspend for all USB keyboards
+  # ACTION=="add", SUBSYSTEM=="usb", ATTR{bInterfaceClass}=="03", ATTR{bInterfaceSubClass}=="01", ATTR{bInterfaceProtocol}=="01", ATTR{power/control}="on"
+  #
+  # # Disable autosuspend for USB hubs to prevent hub suspension issues
+  # ACTION=="add", SUBSYSTEM=="usb", ATTR{bDeviceClass}=="09", ATTR{power/control}="on"
+  # SUBSYSTEMS=="usb", ATTRS{idVendor}=="4653", ATTRS{idProduct}=="0004", ATTR{power/control}="on"
 
   hardware.nvidia = {
     modesetting.enable = true;

@@ -42,4 +42,5 @@ with pkgs;
   });
   gitspice = final.callPackage ./gitspice.nix { };
   prlsp = final.callPackage ./prlsp.nix { };
+  qmk-udev-rules = final.callPackage ./qmk-udev.nix { };
 }
