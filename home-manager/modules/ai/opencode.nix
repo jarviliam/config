@@ -33,6 +33,18 @@ let
 
   skillBody = content: lib.removePrefix "\n" (lib.elemAt (skillParts content) 1);
 
+  muxWrap =
+    server:
+    let
+      stateless = server.stateless or false;
+      base = builtins.removeAttrs server [ "stateless" ];
+    in
+    base
+    // {
+      command = lib.getExe pkgs.mcp-mux;
+      args = lib.optional stateless "-stateless" ++ [ base.command ] ++ (base.args or [ ]);
+    };
+
   commandName =
     groupName: g: id:
     lib.replaceStrings [ "/" ] [ "-" ] (
@@ -59,6 +71,70 @@ let
       ) enabledSkills
     )
   );
+
+  mcpServers = {
+    git = muxWrap {
+      command = lib.getExe pkgs.mcp-srv-git-rs;
+      args = [
+        "--features"
+        "inspection,remotes,worktrees,notes"
+      ];
+      enabled = false;
+    };
+    nixos = muxWrap {
+      command = lib.getExe pkgs.mcp-nixos;
+      enabled = false;
+    };
+  };
+
+  lspServers = {
+    bash = {
+      command = lib.getExe pkgs.bash-language-server;
+      args = [ "start" ];
+    };
+    go = {
+      command = lib.getExe pkgs.gopls;
+    };
+    lua = {
+      command = lib.getExe pkgs.emmylua-ls;
+    };
+    nix = {
+      command = lib.getExe pkgs.nil;
+    };
+    rust = {
+      command = lib.getExe pkgs.rust-analyzer;
+      args = [ "--disable-build-scripts" ];
+    };
+    toml = {
+      command = lib.getExe pkgs.tombi;
+      args = [ "lsp" ];
+    };
+    typescript = {
+      command = lib.getExe pkgs.typescript;
+      args = [
+        "--lsp"
+        "--stdio"
+      ];
+    };
+  };
+  lspExtensions = {
+    lua = [ ".lua" ];
+    nix = [ ".nix" ];
+    rust = [ ".rs" ];
+    toml = [ ".toml" ];
+    typescript = [
+      ".ts"
+      ".tsx"
+      ".js"
+      ".jsx"
+    ];
+  };
+
+  opencodeLsp = lib.mapAttrs (name: v: {
+    command = [ v.command ] ++ (v.args or [ ]);
+    extensions = lspExtensions.${name};
+  }) (lib.filterAttrs (n: _: lspExtensions ? ${n}) lspServers);
+
 in
 {
   options.programs.opencode.extraPlugins = lib.mkOption {
@@ -71,7 +147,12 @@ in
     programs.agent-skills.targets.opencode.enable = true;
 
     home = {
-      packages = [ pkgs.llm-agents.opencode2 ];
+      packages = [
+        pkgs.llm-agents.opencode2
+        pkgs.mcp-srv-git-rs
+        pkgs.mcp-nixos
+        pkgs.mcp-mux
+      ];
 
       sessionVariables = {
         # https://opencode.ai/docs/cli/#environment-variables
@@ -90,9 +171,17 @@ in
         OPENCODE_EXPERIMENTAL_PLAN_MODE = 1;
       };
     };
+
+    programs.mcp = {
+      enable = true;
+      servers = mcpServers;
+    };
+
     programs.opencode = {
       package = pkgs.llm-agents.opencode;
       enableMcpIntegration = true;
+
+      settings.lsp = opencodeLsp;
 
       extraPlugins = [
         "@tianhuil/opencode-hashlines@0.1.0"
@@ -103,6 +192,13 @@ in
       # opencode-hashlines replaces the built-in edit tool with hash-anchored
       # hashread/hashedit. Disable the native edit tool so the model uses it.
       commands = commands;
+
+      tui = {
+        scroll_acceleration = {
+          enabled = true;
+        };
+      };
+
       settings = {
         autoupdate = lib.mkDefault true;
         compaction = {
@@ -111,12 +207,6 @@ in
           reserved = 32000;
         };
         tools.edit = false;
-
-        tui = {
-          scroll_acceleration = {
-            enabled = true;
-          };
-        };
 
         plugins = config.programs.opencode.extraPlugins;
 

@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "nixos": {
+      "command": "mcp-nixos",
+      "env": {
+        "PYTHON_GIL": "1"
+      }
+    }
+  }
+}

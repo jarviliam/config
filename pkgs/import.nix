@@ -31,6 +31,8 @@ with pkgs;
   tailscale-acl-combiner = final.callPackage ./tailscale-acl-combiner.nix { };
 
   ob-hd = final.callPackage ./ob-hd.nix { };
+  mcp-mux = final.callPackage ./mcp-mux.nix { };
+  mcp-srv-git-rs = final.callPackage ./mcp-server-git-rs.nix { };
 
   # bitwarden-desktop = prev.bitwarden-desktop.override {
   #   electron_39 = final.electron_40;
