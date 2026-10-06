@@ -37,7 +37,7 @@ let
     server:
     let
       stateless = server.stateless or false;
-      base = builtins.removeAttrs server [ "stateless" ];
+      base = removeAttrs server [ "stateless" ];
     in
     base
     // {
