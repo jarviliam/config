@@ -12,7 +12,7 @@ in
 with pkgs;
 {
   neovim = neovim-nightly-overlay.packages.${system}.default;
-  llm-agents = llm-agents.overlays.default;
+  llm-agents = llm-agents.packages.${system};
 
   ghostty-nightly = ghostty.packages.${system}.default;
 
@@ -31,6 +31,7 @@ with pkgs;
   tailscale-acl-combiner = final.callPackage ./tailscale-acl-combiner.nix { };
 
   ob-hd = final.callPackage ./ob-hd.nix { };
+  td-cli = final.callPackage ./todoist-cli.nix { };
 
   # bitwarden-desktop = prev.bitwarden-desktop.override {
   #   electron_39 = final.electron_40;

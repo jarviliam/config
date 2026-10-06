@@ -12,8 +12,8 @@ in
   config = lib.mkIf (hasRole "dev") {
     programs.fzf = {
       enable = true;
-      fileWidgetCommand = "${pkgs.fd}/bin/fd --type f";
-      changeDirWidgetCommand = "${pkgs.fd}/bin/fd --type d";
+      fileWidget.command = "${pkgs.fd}/bin/fd --type f";
+      changeDirWidget.command = "${pkgs.fd}/bin/fd --type d";
       colors = {
         "fg" = "#fbf1c7"; # light foreground
         "bg" = "#3c3836"; # dark background

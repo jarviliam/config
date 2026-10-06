@@ -1,7 +1,7 @@
 { pkgs, ... }:
 let
-  isDarwin = pkgs.stdenvNoCC.isDarwin;
-  isLinux = pkgs.stdenvNoCC.isLinux;
+  isDarwin = pkgs.stdenvNoCC.hostPlatform.isDarwin;
+  isLinux = pkgs.stdenvNoCC.hostPlatform.isLinux;
 
   gitReview = pkgs.writeShellScriptBin "git-review" ''
     #!/usr/bin/env bash
@@ -89,7 +89,6 @@ let
 
   cliUtils = with pkgs; [
     gitspice
-    opencode
     gitReview
     harper
     coreutils
@@ -118,8 +117,7 @@ let
     tree-sitter
     zine
     lazygit
-    graphite-cli
-    typescript-go
+    typescript
     uv
     typos-lsp
     markdownlint-cli2
@@ -200,7 +198,7 @@ let
     else
       with pkgs;
       [
-        gcr
+        # gcr
         gcc
         todoist-electron
         flameshot

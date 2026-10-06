@@ -46,7 +46,7 @@ in
           "flakes"
         ];
         warn-dirty = false; # Gets pretty annoying while working on a flake
-        auto-optimise-store = !pkgs.stdenvNoCC.isDarwin;
+        auto-optimise-store = !pkgs.stdenvNoCC.hostPlatform.isDarwin;
       };
     };
   };

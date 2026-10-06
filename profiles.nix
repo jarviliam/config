@@ -3,6 +3,7 @@
   nixpkgs,
   sops-nix,
   nix-index-database,
+  agent-skills,
 }:
 rec {
   stateVersion = "24.11";

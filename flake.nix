@@ -29,6 +29,12 @@
       url = "github:AvengeMedia/DankMaterialShell/stable";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    mattpocock-skills = {
+      url = "github:mattpocock/skills";
+      flake = false;
+    };
+    agent-skills.url = "github:Kyure-A/agent-skills-nix";
+    agent-skills.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
@@ -45,23 +51,38 @@
       sops-nix,
       llm-agents,
       dms,
+      agent-skills,
+      mattpocock-skills,
       ...
     }:
     let
-      lib = import ./lib.nix {
+      inputs = {
         inherit
+          self
           nixpkgs
-          home-manager
-          darwin
           flake-utils
+          darwin
+          home-manager
+          nix-index-database
+          nil-language-server
+          neovim-nightly-overlay
+          ghostty
+          sops-nix
+          llm-agents
+          dms
+          agent-skills
+          mattpocock-skills
           ;
       };
+
+      lib = import ./lib.nix inputs;
       profiles = import ./profiles.nix {
         inherit
           self
           nixpkgs
           nix-index-database
           sops-nix
+          agent-skills
           ;
       };
     in

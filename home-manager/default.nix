@@ -5,15 +5,18 @@
   ...
 }:
 let
-  isLinux = pkgs.stdenvNoCC.isLinux;
   hasRole = role: lib.elem role roles;
+  enableAi = hasRole "dev" || hasRole "work";
 in
 {
+  imports = lib.optionals enableAi [ ./modules/ai ];
+
   config = lib.mkIf (hasRole "dev" || hasRole "work") {
     home.sessionVariables = {
       EDITOR = "nvim";
       PAGER = "bat";
     };
+
     programs = {
       direnv = {
         enable = true;
@@ -31,6 +34,7 @@ in
         };
       };
     };
+
     services.gpg-agent = {
       enable = false;
       pinentry.package = pkgs.pinentry-tty;

@@ -153,6 +153,7 @@ nmap(L("gl"), C("lua Config.minigit_log()"), "Log")
 nmap(L("gL"), C("lua Config.minigit_log_buf()"), "Log (buf)")
 nmap(L("go"), C("lua MiniDiff.toggle_overlay()"), "Toggle overlay")
 nmap(L("gq"), C("lua Config.minidiff_to_qf()"), "Quickfix diffs")
+nmap(L("gr"), C("lua Config.tuicr()"), "TuiCR")
 map({ "n", "x" }, L("gs"), C("lua MiniGit.show_at_cursor()"), "Show at cursor")
 --
 

@@ -2,6 +2,7 @@
   nixpkgs,
   darwin,
   flake-utils,
+  agent-skills,
   ...
 }@inputs:
 let
@@ -80,7 +81,9 @@ rec {
             home-manager.backupFileExtension = ".bak";
             home-manager.useUserPackages = true;
             home-manager.extraSpecialArgs = {
+              inherit inputs;
               inherit system;
+              inherit agent-skills;
             }
             // _commonSpecialArgs;
             # Import Home Manager modules only once per user to avoid

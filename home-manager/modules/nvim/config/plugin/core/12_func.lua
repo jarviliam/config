@@ -38,4 +38,8 @@ Config.set_launch_args = function(lang, args)
   end
 end
 
+Config.tuicr = function()
+  Snacks.terminal({ "tuicr" })
+end
+
 Config.picker_name = "fzf"
