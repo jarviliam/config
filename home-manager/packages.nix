@@ -150,7 +150,6 @@ let
     delve
     go-testfixtures
     golangci-lint
-    prlsp
   ];
 
   nix = with pkgs; [

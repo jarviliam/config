@@ -31,7 +31,6 @@ with pkgs;
   tailscale-acl-combiner = final.callPackage ./tailscale-acl-combiner.nix { };
 
   ob-hd = final.callPackage ./ob-hd.nix { };
-  td-cli = final.callPackage ./todoist-cli.nix { };
 
   # bitwarden-desktop = prev.bitwarden-desktop.override {
   #   electron_39 = final.electron_40;
@@ -42,6 +41,5 @@ with pkgs;
     stdenv = prev.llvmPackages_18.stdenv;
   });
   gitspice = final.callPackage ./gitspice.nix { };
-  prlsp = final.callPackage ./prlsp.nix { };
   qmk-udev-rules = final.callPackage ./qmk-udev.nix { };
 }
