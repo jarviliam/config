@@ -14,7 +14,6 @@ in
   config = lib.mkIf (hasRole "dev" || hasRole "work") {
     home.sessionVariables = {
       EDITOR = "nvim";
-      PAGER = "bat";
     };
 
     programs = {

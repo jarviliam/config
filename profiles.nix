@@ -36,7 +36,7 @@ rec {
           ./home-manager/modules/dev/gh.nix
           ./home-manager/modules/zsh.nix
           ./home-manager/modules/zoxide.nix
-          ./home-manager/modules/bat.nix
+          ./home-manager/modules/cli/pager.nix
           ./home-manager/modules/fzf.nix
           ./home-manager/modules/bitwarden.nix
           ./home-manager/modules/nvim
