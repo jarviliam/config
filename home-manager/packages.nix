@@ -41,7 +41,6 @@ let
     unar
     file
     openssh
-    fd
     comma
     ob-hd
     dwt1-shell-color-scripts

@@ -34,12 +34,14 @@ rec {
           ./home-manager/packages.nix
           ./home-manager/modules/dev/git.nix
           ./home-manager/modules/dev/gh.nix
-          ./home-manager/modules/zsh.nix
-          ./home-manager/modules/zoxide.nix
+          ./home-manager/modules/cli/zsh.nix
+          ./home-manager/modules/cli/direnv.nix
+          ./home-manager/modules/cli/zoxide.nix
           ./home-manager/modules/cli/btop.nix
           ./home-manager/modules/cli/pager.nix
           ./home-manager/modules/cli/ripgrep.nix
-          ./home-manager/modules/fzf.nix
+          ./home-manager/modules/cli/fzf.nix
+          ./home-manager/modules/cli/fd.nix
           ./home-manager/modules/bitwarden.nix
           ./home-manager/modules/nvim
           ./home-manager/modules/terminal/ghostty.nix
