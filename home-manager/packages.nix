@@ -43,9 +43,7 @@ let
     file
     openssh
     fd
-    nix-prefetch-git
     comma
-    manix
     ob-hd
     dwt1-shell-color-scripts
     qbittorrent
@@ -73,14 +71,6 @@ let
     bash-language-server
     yaml-language-server
     commitlint
-  ];
-
-  nix = with pkgs; [
-    nil-language-server
-    nixd
-    nixfmt
-    nixpkgs-fmt
-    statix
   ];
 
   rust = with pkgs; [
@@ -123,5 +113,5 @@ let
       ];
 in
 {
-  home.packages = fonts ++ cliUtils ++ python ++ lua ++ node ++ nix ++ rust ++ cloud ++ osSpecific;
+  home.packages = fonts ++ cliUtils ++ python ++ lua ++ node ++ rust ++ cloud ++ osSpecific;
 }

@@ -45,6 +45,8 @@ rec {
           ./home-manager/modules/dev/delta.nix
           ./home-manager/modules/dev/go.nix
           ./home-manager/modules/dev/dev-tools.nix
+          ./home-manager/modules/dev/nix-init.nix
+          ./home-manager/modules/dev/nix-tools.nix
           sops-nix.homeManagerModules.sops
           (
             { config, ... }:
