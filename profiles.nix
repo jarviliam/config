@@ -4,6 +4,7 @@
   sops-nix,
   nix-index-database,
   agent-skills,
+  flakeLib,
 }:
 rec {
   stateVersion = "24.11";
@@ -132,6 +133,9 @@ rec {
       };
       extraConfig = liam.extraConfig // {
         # system.stateVersion = stateVersion;
+      };
+      commonSpecialArgs = {
+        inherit flakeLib;
       };
     };
   vm =

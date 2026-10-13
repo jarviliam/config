@@ -8,9 +8,7 @@
 {
   imports = [
     ./hardware-configuration.nix
-    ./modules/adguard.nix
-    ./modules/paperless.nix
-    ./modules/mealie.nix
+    ./modules
   ];
 
   # Use the systemd-boot EFI boot loader.

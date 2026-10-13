@@ -84,6 +84,7 @@
           sops-nix
           agent-skills
           ;
+        flakeLib = lib;
       };
     in
     rec {

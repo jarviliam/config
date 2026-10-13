@@ -239,6 +239,14 @@ These are focused feature modules:
 - `firefox/` — browser config for Linux
 - `nvim/` — symlink to the out-of-tree editor config
 
+### `lib/`
+
+Small flake-local helpers live here.
+
+- `default.nix` — exports the main library functions used by `flake.nix`
+- `discoverPackages.nix` — turns a directory into an importable attrset by
+  keeping `.nix` files and subdirectories
+
 ### AI tooling
 
 `home-manager/modules/ai/` wires in agent-related tooling:

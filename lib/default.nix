@@ -11,6 +11,7 @@ in
 rec {
   inherit (lib) optional optionals optionalAttrs;
   isDarwin = system: lib.hasSuffix "darwin" system;
+  discoverPackages = import ./discoverPackages.nix { inherit lib; };
 
   pkgsWithOverlay =
     system: overlay:
