@@ -32,26 +32,26 @@ rec {
         modules = [
           ./home-manager/default.nix
           ./home-manager/packages.nix
-          ./home-manager/modules/dev/git.nix
-          ./home-manager/modules/dev/gitui.nix
-          ./home-manager/modules/dev/gh.nix
-          ./home-manager/modules/editor/neovim.nix
-          ./home-manager/modules/cli/zsh.nix
-          ./home-manager/modules/cli/direnv.nix
-          ./home-manager/modules/cli/zoxide.nix
-          ./home-manager/modules/cli/btop.nix
-          ./home-manager/modules/cli/pager.nix
-          ./home-manager/modules/cli/ripgrep.nix
-          ./home-manager/modules/cli/fzf.nix
-          ./home-manager/modules/cli/fd.nix
+          ./modules/dev/git.nix
+          ./modules/dev/gitui.nix
+          ./modules/dev/gh.nix
+          ./modules/editor/neovim.nix
+          ./modules/cli/zsh.nix
+          ./modules/cli/direnv.nix
+          ./modules/cli/zoxide.nix
+          ./modules/cli/btop.nix
+          ./modules/cli/pager.nix
+          ./modules/cli/ripgrep.nix
+          ./modules/cli/fzf.nix
+          ./modules/cli/fd.nix
           ./home-manager/modules/bitwarden.nix
-          ./home-manager/modules/terminal/ghostty.nix
+          ./modules/terminal/ghostty.nix
           ./home-manager/modules/nix-index.nix
-          ./home-manager/modules/dev/delta.nix
-          ./home-manager/modules/dev/go.nix
-          ./home-manager/modules/dev/dev-tools.nix
-          ./home-manager/modules/dev/nix-init.nix
-          ./home-manager/modules/dev/nix-tools.nix
+          ./modules/dev/delta.nix
+          ./modules/dev/go.nix
+          ./modules/dev/dev-tools.nix
+          ./modules/dev/nix-init.nix
+          ./modules/dev/nix-tools.nix
           sops-nix.homeManagerModules.sops
           (
             { config, ... }:
@@ -113,7 +113,7 @@ rec {
     username = "liam.jarvis";
     modules = [
       ./modules/darwin
-      ./home-manager/modules/darwin/homebrew.nix
+      ./modules/darwin/homebrew.nix
     ]
     ++ liam.modules;
     home-manager = liam.home-manager // {

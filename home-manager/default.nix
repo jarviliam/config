@@ -9,7 +9,7 @@ let
   enableAi = hasRole "dev" || hasRole "work";
 in
 {
-  imports = lib.optionals enableAi [ ./modules/ai ];
+  imports = lib.optionals enableAi [ ../modules/ai ];
 
   config = lib.mkIf (hasRole "dev" || hasRole "work") {
     programs = {
