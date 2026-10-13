@@ -26,7 +26,6 @@
       ibm-plex
     ];
   };
-  programs.zsh.enable = true;
   users.users."${username}" = {
     name = username;
     home = "/Users/${username}";

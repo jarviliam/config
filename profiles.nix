@@ -46,7 +46,7 @@ rec {
           ./modules/cli/fd.nix
           ./home-manager/modules/bitwarden.nix
           ./modules/terminal/ghostty.nix
-          ./home-manager/modules/nix-index.nix
+          ./modules/system/home.nix
           ./modules/dev/delta.nix
           ./modules/dev/go.nix
           ./modules/dev/dev-tools.nix
