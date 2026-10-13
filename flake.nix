@@ -75,7 +75,7 @@
           ;
       };
 
-      lib = import ./lib.nix inputs;
+      lib = import ./lib inputs;
       profiles = import ./profiles.nix {
         inherit
           self
