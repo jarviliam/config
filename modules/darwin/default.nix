@@ -9,13 +9,6 @@
   security.pam.services.sudo_local.touchIdAuth = true;
 
   system.primaryUser = "liam.jarvis";
-  homebrew = {
-    enable = true;
-    brews = [
-      "llvm"
-      "clamav"
-    ];
-  };
   nix.settings.allowed-users = [
     "root"
     "liam.jarvis"

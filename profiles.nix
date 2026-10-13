@@ -40,7 +40,7 @@ rec {
           ./home-manager/modules/fzf.nix
           ./home-manager/modules/bitwarden.nix
           ./home-manager/modules/nvim
-          ./home-manager/modules/ghostty.nix
+          ./home-manager/modules/terminal/ghostty.nix
           ./home-manager/modules/nix-index.nix
           ./home-manager/modules/dev/delta.nix
           ./home-manager/modules/dev/go.nix
@@ -108,6 +108,7 @@ rec {
     username = "liam.jarvis";
     modules = [
       ./modules/darwin
+      ./home-manager/modules/darwin/homebrew.nix
     ]
     ++ liam.modules;
     home-manager = liam.home-manager // {
