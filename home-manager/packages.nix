@@ -34,7 +34,6 @@ let
   cliUtils = with pkgs; [
     coreutils
     wget
-    ripgrep
     k9s
     awscli2
     ssm-session-manager-plugin
