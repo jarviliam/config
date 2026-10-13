@@ -187,6 +187,7 @@ in
         "@tianhuil/opencode-hashlines@0.1.0"
         "@capybearista/opencode-output-styles@1.0.1"
         "cc-safety-net@2.3.2" # https://ccsafetynet.com/
+        "context-mode@1.0.169"
       ];
 
       # opencode-hashlines replaces the built-in edit tool with hash-anchored
