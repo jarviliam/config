@@ -32,41 +32,29 @@ let
   ];
 
   cliUtils = with pkgs; [
-    gitspice
-    harper
     coreutils
     wget
     ripgrep
     k9s
     awscli2
     ssm-session-manager-plugin
-    prr
     htop
     unar
     file
     openssh
-    jq
-    yq
-    jwt-cli
     fd
     nix-prefetch-git
     comma
     manix
     ob-hd
-    github-cli
     dwt1-shell-color-scripts
     qbittorrent
     neovim
     tree-sitter
-    zine
-    lazygit
     typescript
     uv
-    typos-lsp
     markdownlint-cli2
     imhex
-
-    tailscale-acl-combiner
     # llm-agents.amp
   ];
 
@@ -85,14 +73,6 @@ let
     bash-language-server
     yaml-language-server
     commitlint
-  ];
-
-  goPkg = with pkgs; [
-    go
-    gopls
-    delve
-    go-testfixtures
-    golangci-lint
   ];
 
   nix = with pkgs; [
@@ -125,11 +105,6 @@ let
     cmake-language-server
   ];
 
-  db = with pkgs; [
-    redis
-    pgcli
-  ];
-
   osSpecific =
     if isDarwin then
       with pkgs;
@@ -140,7 +115,6 @@ let
     else
       with pkgs;
       [
-        # gcr
         gcc
         todoist-electron
         flameshot
@@ -149,6 +123,5 @@ let
       ];
 in
 {
-  home.packages =
-    fonts ++ cliUtils ++ python ++ lua ++ node ++ goPkg ++ nix ++ rust ++ cloud ++ db ++ osSpecific;
+  home.packages = fonts ++ cliUtils ++ python ++ lua ++ node ++ nix ++ rust ++ cloud ++ osSpecific;
 }

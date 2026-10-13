@@ -43,6 +43,8 @@ rec {
           ./home-manager/modules/ghostty.nix
           ./home-manager/modules/nix-index.nix
           ./home-manager/modules/dev/delta.nix
+          ./home-manager/modules/dev/go.nix
+          ./home-manager/modules/dev/dev-tools.nix
           sops-nix.homeManagerModules.sops
           (
             { config, ... }:
