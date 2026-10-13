@@ -12,10 +12,6 @@ in
   imports = lib.optionals enableAi [ ./modules/ai ];
 
   config = lib.mkIf (hasRole "dev" || hasRole "work") {
-    home.sessionVariables = {
-      EDITOR = "nvim";
-    };
-
     programs = {
       gpg = {
         enable = true;

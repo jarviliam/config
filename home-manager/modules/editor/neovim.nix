@@ -12,6 +12,10 @@ in
     source = config.lib.file.mkOutOfStoreSymlink "${flakePath}/home-manager/modules/nvim/config";
   };
 
+  home.sessionVariables = {
+    EDITOR = "nvim";
+  };
+
   home.packages =
     with pkgs;
     [
