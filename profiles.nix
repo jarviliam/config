@@ -32,14 +32,17 @@ rec {
         modules = [
           ./home-manager/default.nix
           ./home-manager/packages.nix
-          ./home-manager/modules/git.nix
+          ./home-manager/modules/dev/git.nix
+          ./home-manager/modules/dev/gh.nix
           ./home-manager/modules/zsh.nix
+          ./home-manager/modules/zoxide.nix
           ./home-manager/modules/bat.nix
           ./home-manager/modules/fzf.nix
           ./home-manager/modules/bitwarden.nix
           ./home-manager/modules/nvim
           ./home-manager/modules/ghostty.nix
           ./home-manager/modules/nix-index.nix
+          ./home-manager/modules/dev/delta.nix
           sops-nix.homeManagerModules.sops
           (
             { config, ... }:
