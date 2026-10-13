@@ -20,6 +20,27 @@ rec {
       inherit system;
     };
 
+  mkCapabilityModule =
+    {
+      lib,
+      name,
+      default ? true,
+    }:
+    moduleBody:
+    { config, ... }:
+    let
+      cfg = config.my.capabilities.${name};
+    in
+    {
+      options.my.capabilities.${name}.enable = lib.mkOption {
+        type = lib.types.bool;
+        default = default;
+        description = "Enable the ${name} capability.";
+      };
+
+      config = lib.mkIf cfg.enable moduleBody;
+    };
+
   packagesFromOverlay =
     overlay:
     {

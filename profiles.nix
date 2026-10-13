@@ -33,7 +33,9 @@ rec {
           ./home-manager/default.nix
           ./home-manager/packages.nix
           ./home-manager/modules/dev/git.nix
+          ./home-manager/modules/dev/gitui.nix
           ./home-manager/modules/dev/gh.nix
+          ./home-manager/modules/editor/neovim.nix
           ./home-manager/modules/cli/zsh.nix
           ./home-manager/modules/cli/direnv.nix
           ./home-manager/modules/cli/zoxide.nix
@@ -43,7 +45,6 @@ rec {
           ./home-manager/modules/cli/fzf.nix
           ./home-manager/modules/cli/fd.nix
           ./home-manager/modules/bitwarden.nix
-          ./home-manager/modules/nvim
           ./home-manager/modules/terminal/ghostty.nix
           ./home-manager/modules/nix-index.nix
           ./home-manager/modules/dev/delta.nix

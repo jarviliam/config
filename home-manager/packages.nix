@@ -21,16 +21,6 @@ let
     vtsls
   ];
 
-  lua = with pkgs; [
-    lua51Packages.lua
-    lua51Packages.luarocks
-    lua51Packages.tiktoken_core
-    lua51Packages.busted
-    lua53Packages.luacheck
-    lua-language-server
-    stylua
-  ];
-
   cliUtils = with pkgs; [
     coreutils
     wget
@@ -45,7 +35,6 @@ let
     ob-hd
     dwt1-shell-color-scripts
     qbittorrent
-    neovim
     tree-sitter
     typescript
     uv
@@ -58,17 +47,6 @@ let
     # nodePackages.npm causes node build
     yarn
     pnpm
-    typescript-language-server
-    vscode-langservers-extracted
-    actionlint
-    yamllint
-    eslint_d
-    marksman
-    github-actions-languageserver
-    prettierd
-    bash-language-server
-    yaml-language-server
-    commitlint
   ];
 
   rust = with pkgs; [
@@ -84,13 +62,10 @@ let
     kubectx
     docker
     docker-compose
-    terraform-ls
-    tflint
   ];
 
   cmake = with pkgs; [
     cmake
-    cmake-language-server
   ];
 
   osSpecific =
@@ -111,5 +86,5 @@ let
       ];
 in
 {
-  home.packages = fonts ++ cliUtils ++ python ++ lua ++ node ++ rust ++ cloud ++ osSpecific;
+  home.packages = fonts ++ cliUtils ++ python ++ node ++ rust ++ cloud ++ osSpecific;
 }
