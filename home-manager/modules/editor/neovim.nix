@@ -4,6 +4,9 @@
   pkgs,
   ...
 }:
+let
+  yamlFormat = pkgs.formats.yaml { };
+in
 {
   xdg.configFile.nvim = {
     source = config.lib.file.mkOutOfStoreSymlink "${flakePath}/home-manager/modules/nvim/config";
@@ -46,4 +49,48 @@
       luajitPackages.luarocks
       luajitPackages.nlua
     ];
+
+  xdg.configFile = {
+    "clangd/config.yaml".source = yamlFormat.generate "clangd-config" {
+      CompileFlags = {
+        Add = [
+          "-xc++"
+          "-Wall"
+        ];
+        Remove = [ ];
+        Compiler = "clang++";
+      };
+
+      Diagnostics = {
+        ClangTidy = {
+          Add = [
+            "bugprone-*"
+            "performance-*"
+            "portability-*"
+            "readability-*"
+            "google-*"
+            "misc-*"
+            "modernize-*"
+          ];
+          Remove = "modernize-use-trailing-return-type";
+          CheckOptions = {
+            "readability-identifier-naming.VariableCase" = "CamelCase";
+          };
+        };
+        UnusedIncludes = "Strict";
+      };
+
+      Completion.AllScopes = true;
+      Hover.ShowAKA = true;
+
+      InlayHints = {
+        Designators = true;
+        Enabled = true;
+        ParameterNames = true;
+        DeducedTypes = true;
+      };
+
+      Index.StandardLibrary = "Yes";
+    };
+  };
 }
