@@ -10,7 +10,6 @@ Config.later(function()
 
   lint.linters_by_ft = {
     -- python = { "ruff" },
-    lua = { "luacheck" },
     terraform = { "tflint" },
     javascript = { "eslint_d" },
     javascriptreact = { "eslint_d" },
