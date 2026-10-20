@@ -36,6 +36,7 @@ rec {
           ./modules/dev/gitui.nix
           ./modules/dev/gh.nix
           ./modules/editor/neovim.nix
+          ./modules/editor/emacs.nix
           ./modules/cli/zsh.nix
           ./modules/cli/direnv.nix
           ./modules/cli/zoxide.nix

@@ -87,54 +87,7 @@ let
     };
   };
 
-  lspServers = {
-    bash = {
-      command = lib.getExe pkgs.bash-language-server;
-      args = [ "start" ];
-    };
-    go = {
-      command = lib.getExe pkgs.gopls;
-    };
-    lua = {
-      command = lib.getExe pkgs.emmylua-ls;
-    };
-    nix = {
-      command = lib.getExe pkgs.nil;
-    };
-    rust = {
-      command = lib.getExe pkgs.rust-analyzer;
-      args = [ "--disable-build-scripts" ];
-    };
-    toml = {
-      command = lib.getExe pkgs.tombi;
-      args = [ "lsp" ];
-    };
-    typescript = {
-      command = lib.getExe pkgs.typescript;
-      args = [
-        "--lsp"
-        "--stdio"
-      ];
-    };
-  };
-  lspExtensions = {
-    lua = [ ".lua" ];
-    nix = [ ".nix" ];
-    rust = [ ".rs" ];
-    toml = [ ".toml" ];
-    typescript = [
-      ".ts"
-      ".tsx"
-      ".js"
-      ".jsx"
-    ];
-  };
-
-  opencodeLsp = lib.mapAttrs (name: v: {
-    command = [ v.command ] ++ (v.args or [ ]);
-    extensions = lspExtensions.${name};
-  }) (lib.filterAttrs (n: _: lspExtensions ? ${n}) lspServers);
-
+  opencodeLsp = import ./lsp.nix { inherit lib pkgs; };
 in
 {
   options.programs.opencode.extraPlugins = lib.mkOption {

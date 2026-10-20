@@ -39,6 +39,10 @@
       url = "github:obra/superpowers";
       flake = false;
     };
+    nix-doom-emacs = {
+      url = "github:marienz/nix-doom-emacs-unstraightened";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -58,6 +62,7 @@
       agent-skills,
       mattpocock-skills,
       superpowers,
+      nix-doom-emacs,
       ...
     }:
     let
@@ -78,6 +83,7 @@
           agent-skills
           mattpocock-skills
           superpowers
+          nix-doom-emacs
           ;
       };
 

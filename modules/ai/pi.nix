@@ -33,6 +33,7 @@ let
   superpowersSkills = lib.optionals piSuperpowers [ "${inputs.superpowers}/skills" ];
 
   jsonFormat = pkgs.formats.json { };
+  piLspServers = import ./lsp.nix { inherit lib pkgs; };
 
   mcpServers = {
     git = {
@@ -82,6 +83,7 @@ let
     "npm:@tifan/pi-recap"
     "npm:@vanillagreen/pi-skills-manager"
     "npm:pi-powerline-footer"
+    "npm:@narumitw/pi-lsp"
   ]
   ++ lib.optionals piSuperpowers [
     "npm:@teelicht/pi-superagents"
@@ -165,6 +167,10 @@ in
 
     home.file."${cfg.configDir}/mcp.json".source = jsonFormat.generate "pi-mcp.json" {
       mcpServers = mcpServers;
+    };
+
+    home.file."${cfg.configDir}/pi-lsp.json".source = jsonFormat.generate "pi-lsp.json" {
+      servers = piLspServers;
     };
   };
 }
