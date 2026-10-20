@@ -471,7 +471,8 @@
         "nil-language-server": "nil-language-server",
         "nix-index-database": "nix-index-database",
         "nixpkgs": "nixpkgs_5",
-        "sops-nix": "sops-nix"
+        "sops-nix": "sops-nix",
+        "superpowers": "superpowers"
       }
     },
     "sops-nix": {
@@ -491,6 +492,22 @@
       "original": {
         "owner": "Mic92",
         "repo": "sops-nix",
+        "type": "github"
+      }
+    },
+    "superpowers": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1791592084,
+        "narHash": "sha256-UCVI+T7j1Xh1LDkrvnJduis7eHFqrizCyGTWAGW5d6U=",
+        "owner": "obra",
+        "repo": "superpowers",
+        "rev": "bb92a77741419a4ab5f06e711a283343f1ada0c3",
+        "type": "github"
+      },
+      "original": {
+        "owner": "obra",
+        "repo": "superpowers",
         "type": "github"
       }
     },

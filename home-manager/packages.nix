@@ -44,6 +44,7 @@ let
   ];
 
   node = with pkgs; [
+    nodejs
     # nodePackages.npm causes node build
     yarn
     pnpm

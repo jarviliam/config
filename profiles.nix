@@ -112,7 +112,9 @@ rec {
   liam-work = liam // {
     username = "liam.jarvis";
     modules = [
+      sops-nix.darwinModules.sops
       ./modules/darwin
+      ./modules/darwin/aerospace.nix
       ./modules/darwin/homebrew.nix
     ]
     ++ liam.modules;

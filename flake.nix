@@ -35,6 +35,10 @@
     };
     agent-skills.url = "github:Kyure-A/agent-skills-nix";
     agent-skills.inputs.nixpkgs.follows = "nixpkgs";
+    superpowers = {
+      url = "github:obra/superpowers";
+      flake = false;
+    };
   };
 
   outputs =
@@ -53,6 +57,7 @@
       dms,
       agent-skills,
       mattpocock-skills,
+      superpowers,
       ...
     }:
     let
@@ -72,6 +77,7 @@
           dms
           agent-skills
           mattpocock-skills
+          superpowers
           ;
       };
 
