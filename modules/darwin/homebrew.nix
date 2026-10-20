@@ -7,6 +7,10 @@
     ];
     brews = [
       "llvm"
+      {
+        name = "neurosnap/tap/zmx";
+        trusted = true;
+      }
     ];
   };
 }
