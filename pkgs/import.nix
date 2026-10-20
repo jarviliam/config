@@ -14,7 +14,7 @@ with pkgs;
   neovim = neovim-nightly-overlay.packages.${system}.default;
   llm-agents = llm-agents.packages.${system};
 
-  ghostty-nightly = ghostty.packages.${system}.default;
+  ghostty-nightly = if stdenv.hostPlatform.isDarwin then null else ghostty.packages.${system}.default;
 
   zmx = final.callPackage ./zmx.nix { };
 
