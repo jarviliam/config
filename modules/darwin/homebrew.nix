@@ -2,6 +2,12 @@
   homebrew = {
     enable = true;
     global.autoUpdate = false;
+    taps = [
+      {
+        name = "neurosnap/tap";
+        trusted = true;
+      }
+    ];
     casks = [
       "ghostty"
     ];
