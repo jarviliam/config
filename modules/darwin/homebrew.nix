@@ -9,7 +9,7 @@
       }
     ];
     casks = [
-      "ghostty"
+      "ghostty@tip"
     ];
     brews = [
       "llvm"
