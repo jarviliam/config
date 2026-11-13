@@ -17,7 +17,6 @@ in
       git-who
       git-trim
       lazyworktree
-      worktrunk
     ];
     programs.git = {
       enable = true;
@@ -102,6 +101,7 @@ in
         "*.swo"
         "*.swp"
         "*.vscode"
+        ".worktrees/"
 
         # Language servers
         "buildServer.json"
@@ -113,6 +113,11 @@ in
         "/.pkl-lsp/"
       ];
     };
-
+    programs.worktrunk = {
+      enable = true;
+      settings = {
+        worktree-path = "{{ repo_path }}/.worktrees/{{ branch | sanitize }}";
+      };
+    };
   };
 }

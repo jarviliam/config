@@ -34,6 +34,19 @@ let
 
   jsonFormat = pkgs.formats.json { };
   piLspServers = import ./lsp.nix { inherit lib pkgs; };
+  piSuperagentsConfig = jsonFormat.generate "pi-superagents.json" {
+    superagents.modelTiers = {
+      cheap.model = "claude-sonnet-5-5";
+      balanced = {
+        model = "gpt-6-luna";
+        thinking = "high";
+      };
+      max = {
+        model = "gpt-6-astra";
+        thinking = "high";
+      };
+    };
+  };
 
   mcpServers = {
     git = {
@@ -64,14 +77,18 @@ let
       source = "npm:@dietrichgebert/ponytail";
       skills = [ "./skills/ponytail" ];
     }
-    "npm:@injaneity/pi-computer-use"
-    "npm:@optomatica/pi-auto-session-name"
+    "npm:pi-away"
+    # Broke on rex
+    # "npm:pi-background"
+    "npm:pi-checkpoints"
     "npm:pi-codemode-toggle"
     "npm:pi-compact-tools"
     "npm:pi-context-view"
     "npm:pi-hashline-edit-pro-lean"
     "npm:pi-inspector"
-    "npm:@pi-unipi/background-tasks@alpha"
+    "npm:pi-next-prompt"
+    "npm:@injaneity/pi-computer-use"
+    "npm:@optomatica/pi-auto-session-name"
     "npm:@pi-unipi/compactor@alpha"
     "npm:@pi-unipi/memory@alpha"
     "npm:@pi-unipi/notify@alpha"
@@ -79,14 +96,14 @@ let
     "npm:@ssk_dev/rpiv-ask-user-question-lean"
     "npm:@ssk_dev/rpiv-todo-lean"
     "npm:@tifan/pi-copy-response"
-    "npm:@tifan/pi-handoff"
-    "npm:@tifan/pi-recap"
     "npm:@vanillagreen/pi-skills-manager"
     "npm:pi-powerline-footer"
     "npm:@narumitw/pi-lsp"
+    "npm:@vanillagreen/pi-session-manager"
+    # "npm:pi-rex-adapter"
+    "npm:@ssk_dev/pi-subagents-lean"
   ]
   ++ lib.optionals piSuperpowers [
-    "npm:@teelicht/pi-superagents"
     {
       source = inputs.superpowers;
     }
@@ -119,6 +136,8 @@ in
         reserveTokens = 16384;
         keepRecentTokens = 20000;
       };
+      defaultModel = "gpt-6-luna";
+      defaultProvider = "github-copilot";
 
       defaultTools = [
         "+codemode"
@@ -159,6 +178,14 @@ in
 
       skills = piSkills ++ superpowersSkills;
     };
+
+    home.activation.piSuperagentsConfig = lib.mkIf piSuperpowers (
+      lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+        config_path="${config.home.homeDirectory}/${cfg.configDir}/extensions/subagent/config.json"
+        rm -f "$config_path"
+        install -Dm644 ${piSuperagentsConfig} "$config_path"
+      ''
+    );
 
     home.packages = [
       pkgs.mcp-srv-git-rs

@@ -78,6 +78,7 @@ let
     zstyle ':completion:complete:*:options' sort false
 
     export SSH_AUTH_SOCK=$HOME/.bitwarden-ssh-agent.sock
+    eval "$(wt config shell init zsh)"
   '';
 
   functions = ''

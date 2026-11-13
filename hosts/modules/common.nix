@@ -25,8 +25,14 @@
       options = "--delete-older-than 7d";
     };
     settings = rec {
-      substituters = [ "https://hyprland.cachix.org" ];
-      trusted-public-keys = [ "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" ];
+      substituters = [
+        "https://hyprland.cachix.org"
+        "https://app.cachix.org/cache/doom-emacs-unstraightened"
+      ];
+      trusted-public-keys = [
+        "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
+        "doom-emacs-unstraightened.cachix.org-1:O5oOlRPnmQEvVaFyuMTmthCEooHbrg54WgSLR07tmg4="
+      ];
       warn-dirty = false;
       experimental-features = [
         "nix-command"

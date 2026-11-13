@@ -43,6 +43,7 @@
       url = "github:marienz/nix-doom-emacs-unstraightened";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    rex.url = "https://pkgs.superlogical.com/rex/nix/snapshot.tar.gz";
   };
 
   outputs =
@@ -63,6 +64,7 @@
       mattpocock-skills,
       superpowers,
       nix-doom-emacs,
+      rex,
       ...
     }:
     let
@@ -84,6 +86,7 @@
           mattpocock-skills
           superpowers
           nix-doom-emacs
+          rex
           ;
       };
 
@@ -108,6 +111,7 @@
           nil-language-server
           ghostty
           llm-agents
+          rex
           ;
       };
 

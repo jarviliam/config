@@ -166,7 +166,7 @@ rec {
       ++ liam.modules;
       home-manager = liam.home-manager // {
         inherit username;
-        modules = liam.home-manager.modules;
+        modules = liam.home-manager.modules ++ [ ./home-manager/modules/rex-server.nix ];
       };
       commonSpecialArgs = liam.commonSpecialArgs // {
         inherit username;

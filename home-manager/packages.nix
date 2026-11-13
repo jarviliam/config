@@ -40,6 +40,7 @@ let
     uv
     markdownlint-cli2
     imhex
+    mise
     # llm-agents.amp
   ];
 
